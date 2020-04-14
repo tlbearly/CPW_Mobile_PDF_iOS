@@ -7,14 +7,17 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		608103AC24460EEE0097BA8B /* PDFMapTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 608103AB24460EEE0097BA8B /* PDFMapTableViewCell.swift */; };
 		609CA8C12440C353006C0283 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 609CA8C02440C353006C0283 /* AppDelegate.swift */; };
 		609CA8C32440C353006C0283 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 609CA8C22440C353006C0283 /* SceneDelegate.swift */; };
-		609CA8C52440C353006C0283 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 609CA8C42440C353006C0283 /* ViewController.swift */; };
+		609CA8C52440C353006C0283 /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 609CA8C42440C353006C0283 /* SplashViewController.swift */; };
 		609CA8C82440C353006C0283 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 609CA8C62440C353006C0283 /* Main.storyboard */; };
 		609CA8CA2440C355006C0283 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 609CA8C92440C355006C0283 /* Assets.xcassets */; };
 		609CA8CD2440C355006C0283 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 609CA8CB2440C355006C0283 /* LaunchScreen.storyboard */; };
 		609CA8D82440C355006C0283 /* MapViewerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 609CA8D72440C355006C0283 /* MapViewerTests.swift */; };
 		609CA8E32440C355006C0283 /* MapViewerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 609CA8E22440C355006C0283 /* MapViewerUITests.swift */; };
+		609CA8F124412034006C0283 /* PrimaryUIButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 609CA8F024412034006C0283 /* PrimaryUIButton.swift */; };
+		609CA8F6244132AC006C0283 /* MapListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 609CA8F5244132AC006C0283 /* MapListViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -35,10 +38,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		608103AB24460EEE0097BA8B /* PDFMapTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFMapTableViewCell.swift; sourceTree = "<group>"; };
 		609CA8BD2440C353006C0283 /* MapViewer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MapViewer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		609CA8C02440C353006C0283 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		609CA8C22440C353006C0283 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		609CA8C42440C353006C0283 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		609CA8C42440C353006C0283 /* SplashViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
 		609CA8C72440C353006C0283 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		609CA8C92440C355006C0283 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		609CA8CC2440C355006C0283 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -49,6 +53,8 @@
 		609CA8DE2440C355006C0283 /* MapViewerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MapViewerUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		609CA8E22440C355006C0283 /* MapViewerUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewerUITests.swift; sourceTree = "<group>"; };
 		609CA8E42440C355006C0283 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		609CA8F024412034006C0283 /* PrimaryUIButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimaryUIButton.swift; sourceTree = "<group>"; };
+		609CA8F5244132AC006C0283 /* MapListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapListViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,10 +105,11 @@
 		609CA8BF2440C353006C0283 /* MapViewer */ = {
 			isa = PBXGroup;
 			children = (
+				609CA8F42441327B006C0283 /* Controllers */,
+				609CA8F324412E0C006C0283 /* Models */,
+				609CA8F224412E01006C0283 /* Views */,
 				609CA8C02440C353006C0283 /* AppDelegate.swift */,
 				609CA8C22440C353006C0283 /* SceneDelegate.swift */,
-				609CA8C42440C353006C0283 /* ViewController.swift */,
-				609CA8C62440C353006C0283 /* Main.storyboard */,
 				609CA8C92440C355006C0283 /* Assets.xcassets */,
 				609CA8CB2440C355006C0283 /* LaunchScreen.storyboard */,
 				609CA8CE2440C355006C0283 /* Info.plist */,
@@ -126,6 +133,32 @@
 				609CA8E42440C355006C0283 /* Info.plist */,
 			);
 			path = MapViewerUITests;
+			sourceTree = "<group>";
+		};
+		609CA8F224412E01006C0283 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				609CA8C62440C353006C0283 /* Main.storyboard */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		609CA8F324412E0C006C0283 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				609CA8F024412034006C0283 /* PrimaryUIButton.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		609CA8F42441327B006C0283 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				609CA8C42440C353006C0283 /* SplashViewController.swift */,
+				609CA8F5244132AC006C0283 /* MapListViewController.swift */,
+				608103AB24460EEE0097BA8B /* PDFMapTableViewCell.swift */,
+			);
+			path = Controllers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -259,9 +292,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				609CA8C52440C353006C0283 /* ViewController.swift in Sources */,
+				609CA8F6244132AC006C0283 /* MapListViewController.swift in Sources */,
+				609CA8C52440C353006C0283 /* SplashViewController.swift in Sources */,
 				609CA8C12440C353006C0283 /* AppDelegate.swift in Sources */,
+				609CA8F124412034006C0283 /* PrimaryUIButton.swift in Sources */,
 				609CA8C32440C353006C0283 /* SceneDelegate.swift in Sources */,
+				608103AC24460EEE0097BA8B /* PDFMapTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

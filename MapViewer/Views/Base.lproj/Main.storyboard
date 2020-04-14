@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Splash View Controller-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController id="BYZ-38-t0r" customClass="SplashViewController" customModule="MapViewer" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" clipsSubviews="YES" contentMode="center" axis="vertical" alignment="center" spacing="32" translatesAutoresizingMaskIntoConstraints="NO" id="V9l-iY-Xsw">
+                                <rect key="frame" x="20" y="231" width="374" height="434.5"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Colorado Parks and Wildlife" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0fH-pf-Edh">
+                                        <rect key="frame" x="45.5" y="0.0" width="283" height="29"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" placeholderIntrinsicWidth="108" placeholderIntrinsicHeight="108" image="cpw_sitelogo" adjustsImageSizeForAccessibilityContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ykG-Ej-bL7">
+                                        <rect key="frame" x="133" y="61" width="108" height="108"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="ykG-Ej-bL7" secondAttribute="height" multiplier="1:1" id="38S-go-RVn"/>
+                                            <constraint firstAttribute="height" constant="108" id="7w8-NY-yEr"/>
+                                            <constraint firstAttribute="width" constant="108" id="9fs-1w-Kch"/>
+                                        </constraints>
+                                    </imageView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mj3-5M-a2g">
+                                        <rect key="frame" x="0.0" y="201" width="374" height="167.5"/>
+                                        <viewLayoutGuide key="safeArea" id="lAT-Z4-0b5"/>
+                                        <string key="text">Take this app out in the field to display your current location on PDFs from the HuntingAtlas, FishingAtlas, CPW Maps Library, or any geo-referenced PDF. No need for internet or data connection! Plus use this app to download PDF maps (requires data connection)</string>
+                                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button autoresizesSubviews="NO" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Gt5-18-aO6" customClass="PrimaryUIButton" customModule="MapViewer" customModuleProvider="target">
+                                        <rect key="frame" x="141.5" y="400.5" width="91" height="34"/>
+                                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <viewLayoutGuide key="safeArea" id="WjY-E8-3gK"/>
+                                        <state key="normal" title="CONTINUE"/>
+                                        <connections>
+                                            <action selector="continueClicked:" destination="BYZ-38-t0r" eventType="touchUpInside" id="suq-mT-3U6"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                            </stackView>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="V9l-iY-Xsw" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="20" symbolic="YES" id="SLq-6A-J0K"/>
+                            <constraint firstItem="V9l-iY-Xsw" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="UUm-ES-1Ab"/>
+                            <constraint firstItem="V9l-iY-Xsw" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="WFE-nR-TFq"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                    </view>
+                    <connections>
+                        <segue destination="Rk3-2j-9u0" kind="presentation" identifier="goToMapList" id="W47-Bp-0EO"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="96" y="-544"/>
+        </scene>
+        <!--Map List View Controller-->
+        <scene sceneID="sSk-I7-8Hw">
+            <objects>
+                <tableViewController id="Rk3-2j-9u0" customClass="MapListViewController" customModule="MapViewer" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="dQn-IY-pJt">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="PDFMapTableViewCell" rowHeight="90" id="fzz-cP-97s">
+                                <rect key="frame" x="0.0" y="28" width="414" height="90"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="fzz-cP-97s" id="G3V-XX-9kL">
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="90"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" image="pdf_icon" translatesAutoresizingMaskIntoConstraints="NO" id="YrY-aO-y4i">
+                                            <rect key="frame" x="0.0" y="0.0" width="90" height="90"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="90" id="1mw-5q-khQ"/>
+                                                <constraint firstAttribute="width" constant="90" id="c9h-tg-Vp1"/>
+                                            </constraints>
+                                        </imageView>
+                                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="30" translatesAutoresizingMaskIntoConstraints="NO" id="iEB-gE-UEm">
+                                            <rect key="frame" x="100" y="0.0" width="294" height="90"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="PDF Map Filename" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IGx-nl-nVb">
+                                                    <rect key="frame" x="0.0" y="0.0" width="294" height="40"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progressViewStyle="bar" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="S1e-e4-Ap3">
+                                                    <rect key="frame" x="0.0" y="70" width="294" height="21"/>
+                                                    <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <color key="tintColor" systemColor="systemTealColor" red="0.35294117650000001" green="0.7843137255" blue="0.98039215690000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="20" id="x9F-Df-bX7"/>
+                                                    </constraints>
+                                                    <viewLayoutGuide key="safeArea" id="0SM-EI-byh"/>
+                                                </progressView>
+                                            </subviews>
+                                        </stackView>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="iEB-gE-UEm" firstAttribute="top" secondItem="G3V-XX-9kL" secondAttribute="top" id="3Er-XJ-c91"/>
+                                        <constraint firstAttribute="trailing" secondItem="iEB-gE-UEm" secondAttribute="trailing" constant="20" id="C29-1U-d20"/>
+                                        <constraint firstAttribute="bottom" secondItem="iEB-gE-UEm" secondAttribute="bottom" id="bmA-Yr-6Bs"/>
+                                        <constraint firstItem="iEB-gE-UEm" firstAttribute="leading" secondItem="YrY-aO-y4i" secondAttribute="trailing" constant="10" id="egk-Eh-QmA"/>
+                                        <constraint firstItem="YrY-aO-y4i" firstAttribute="leading" secondItem="G3V-XX-9kL" secondAttribute="leading" id="fgo-ta-Jgk"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="Rk3-2j-9u0" id="EXj-wx-GJY"/>
+                            <outlet property="delegate" destination="Rk3-2j-9u0" id="o71-t4-cJO"/>
+                        </connections>
+                    </tableView>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="mQE-xu-i6k" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="978" y="-544"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="cpw_sitelogo" width="32" height="32"/>
+        <image name="pdf_icon" width="27" height="37"/>
+    </resources>
+</document>
