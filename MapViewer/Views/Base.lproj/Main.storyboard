@@ -4,6 +4,7 @@
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="Stack View standard spacing" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -68,58 +69,66 @@
             </objects>
             <point key="canvasLocation" x="96" y="-544"/>
         </scene>
-        <!--Map List View Controller-->
+        <!--Map List Table View Controller-->
         <scene sceneID="sSk-I7-8Hw">
             <objects>
-                <tableViewController id="Rk3-2j-9u0" customClass="MapListViewController" customModule="MapViewer" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="dQn-IY-pJt">
+                <tableViewController id="Rk3-2j-9u0" customClass="MapListTableViewController" customModule="MapViewer" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="90" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" contentViewInsetsToSafeArea="NO" id="dQn-IY-pJt">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="PDFMapTableViewCell" rowHeight="90" id="fzz-cP-97s">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="MapListTableViewCell" rowHeight="90" id="fzz-cP-97s" customClass="MapListTableViewCell" customModule="MapViewer" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="28" width="414" height="90"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="fzz-cP-97s" id="G3V-XX-9kL">
                                     <rect key="frame" x="0.0" y="0.0" width="414" height="90"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" image="pdf_icon" translatesAutoresizingMaskIntoConstraints="NO" id="YrY-aO-y4i">
-                                            <rect key="frame" x="0.0" y="0.0" width="90" height="90"/>
+                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="pdf_icon" translatesAutoresizingMaskIntoConstraints="NO" id="YrY-aO-y4i">
+                                            <rect key="frame" x="10" y="0.0" width="90" height="90"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="90" id="1mw-5q-khQ"/>
                                                 <constraint firstAttribute="width" constant="90" id="c9h-tg-Vp1"/>
                                             </constraints>
                                         </imageView>
-                                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="30" translatesAutoresizingMaskIntoConstraints="NO" id="iEB-gE-UEm">
-                                            <rect key="frame" x="100" y="0.0" width="294" height="90"/>
+                                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="iEB-gE-UEm">
+                                            <rect key="frame" x="110" y="0.0" width="284" height="90"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="PDF Map Filename" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IGx-nl-nVb">
-                                                    <rect key="frame" x="0.0" y="0.0" width="294" height="40"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" layoutMarginsFollowReadableWidth="YES" text="PDF Map Filename" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IGx-nl-nVb">
+                                                    <rect key="frame" x="0.0" y="0.0" width="284" height="77"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="24"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progressViewStyle="bar" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="S1e-e4-Ap3">
-                                                    <rect key="frame" x="0.0" y="70" width="294" height="21"/>
+                                                <progressView opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progressViewStyle="bar" progress="0.25" translatesAutoresizingMaskIntoConstraints="NO" id="S1e-e4-Ap3" customClass="RoundedCornerProgressBar" customModule="MapViewer" customModuleProvider="target">
+                                                    <rect key="frame" x="0.0" y="85" width="284" height="6"/>
                                                     <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <color key="tintColor" systemColor="systemTealColor" red="0.35294117650000001" green="0.7843137255" blue="0.98039215690000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="height" constant="20" id="x9F-Df-bX7"/>
+                                                        <constraint firstAttribute="height" constant="5" id="9aY-yw-Cav"/>
                                                     </constraints>
                                                     <viewLayoutGuide key="safeArea" id="0SM-EI-byh"/>
                                                 </progressView>
                                             </subviews>
+                                            <viewLayoutGuide key="safeArea" id="DQq-k2-naf"/>
                                         </stackView>
                                     </subviews>
                                     <constraints>
                                         <constraint firstItem="iEB-gE-UEm" firstAttribute="top" secondItem="G3V-XX-9kL" secondAttribute="top" id="3Er-XJ-c91"/>
                                         <constraint firstAttribute="trailing" secondItem="iEB-gE-UEm" secondAttribute="trailing" constant="20" id="C29-1U-d20"/>
+                                        <constraint firstAttribute="bottom" secondItem="YrY-aO-y4i" secondAttribute="bottom" id="L4Y-md-5WC"/>
+                                        <constraint firstItem="YrY-aO-y4i" firstAttribute="leading" secondItem="G3V-XX-9kL" secondAttribute="leading" constant="10" id="PTH-l6-NGA"/>
                                         <constraint firstAttribute="bottom" secondItem="iEB-gE-UEm" secondAttribute="bottom" id="bmA-Yr-6Bs"/>
                                         <constraint firstItem="iEB-gE-UEm" firstAttribute="leading" secondItem="YrY-aO-y4i" secondAttribute="trailing" constant="10" id="egk-Eh-QmA"/>
-                                        <constraint firstItem="YrY-aO-y4i" firstAttribute="leading" secondItem="G3V-XX-9kL" secondAttribute="leading" id="fgo-ta-Jgk"/>
+                                        <constraint firstItem="YrY-aO-y4i" firstAttribute="top" secondItem="G3V-XX-9kL" secondAttribute="top" id="m8O-Ff-LN2"/>
                                     </constraints>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="loadingProgress" destination="S1e-e4-Ap3" id="QEl-9C-e7c"/>
+                                    <outlet property="nameLabel" destination="IGx-nl-nVb" id="zay-9G-8fU"/>
+                                    <outlet property="pdfImage" destination="YrY-aO-y4i" id="1WS-0e-qtI"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>

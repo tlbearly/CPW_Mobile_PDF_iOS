@@ -15,22 +15,30 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Colorado Parks and Wildlife" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pVC-OD-UoT">
-                                <rect key="frame" x="65.5" y="70" width="283" height="29"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="24"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" image="cpw_sitelogo" translatesAutoresizingMaskIntoConstraints="NO" id="Jwf-3S-FHy">
-                                <rect key="frame" x="125" y="152" width="164" height="128"/>
-                            </imageView>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="2Tb-g9-G3P">
+                                <rect key="frame" x="65.5" y="370" width="283" height="157"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Colorado Parks and Wildlife" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pVC-OD-UoT">
+                                        <rect key="frame" x="0.0" y="0.0" width="283" height="29"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="cpw_sitelogo" translatesAutoresizingMaskIntoConstraints="NO" id="Jwf-3S-FHy">
+                                        <rect key="frame" x="87.5" y="49" width="108" height="108"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="108" id="wHd-Zq-82j"/>
+                                            <constraint firstAttribute="width" constant="108" id="zI7-LC-hLI"/>
+                                        </constraints>
+                                    </imageView>
+                                </subviews>
+                            </stackView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <color key="tintColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
-                            <constraint firstItem="Jwf-3S-FHy" firstAttribute="top" secondItem="pVC-OD-UoT" secondAttribute="bottom" constant="30" id="0Wp-Y8-bSi"/>
-                            <constraint firstItem="Jwf-3S-FHy" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="Go1-Ye-i1t"/>
-                            <constraint firstItem="pVC-OD-UoT" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="gsm-2t-xVT"/>
+                            <constraint firstItem="2Tb-g9-G3P" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="OWB-0p-h3q"/>
+                            <constraint firstItem="2Tb-g9-G3P" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="zSq-7m-nAL"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>

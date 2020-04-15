@@ -7,6 +7,8 @@
 //
 // From: https://developer.apple.com/library/archive/referencelibrary/GettingStarted/DevelopiOSAppsSwift/CreateATableView.html
 
+
+// NOT USED
 import UIKit
 
 class MapListViewController: UITableViewController {

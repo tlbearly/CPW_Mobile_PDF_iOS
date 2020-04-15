@@ -11,7 +11,25 @@ import XCTest
 
 class MapViewerTests: XCTestCase {
 
-    override func setUp() {
+    // MARK: PDFMap Class Tests
+    
+    // Confirm that the PDFMap initializer return a Map object when passed valid parameters.
+    func testPDFMapInitSucceeds(){
+        let map = PDFMap.init(name: "Wellington.pdf", thumbnail: nil)
+        XCTAssertNotNil(map)
+        //(name: "Wellington.pdf", thumbnail: nil, bounds: [1.0,1.0,1.0,1.0])
+    }
+
+    func testPDFMapInitFaled(){
+        // Empty String
+        let emptyName = PDFMap.init(name: "", thumbnail: nil)
+        XCTAssertNil(emptyName)
+    }
+    
+    
+    
+    
+/*    override func setUp() {
         // Put setup code here. This method is called before the invocation of each test method in the class.
     }
 
@@ -29,6 +47,6 @@ class MapViewerTests: XCTestCase {
         self.measure {
             // Put the code you want to measure the time of here.
         }
-    }
+    }*/
 
 }

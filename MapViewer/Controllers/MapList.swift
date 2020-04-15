@@ -1,21 +1,15 @@
 //
-//  MapRowTableViewCell.swift
+//  MapList.swift
 //  MapViewer
 //
-//  Purpose: displays one row in the PDF imported maps list
-//
-//  Created by Tammy Bearly on 4/14/20.
+//  Created by Brittney Bearly on 4/15/20.
 //  Copyright © 2020 Colorado Parks and Wildlife. All rights reserved.
 //
 
 import UIKit
 
-class MapListTableViewCell: UITableViewCell {
+class MapList: UITableViewCell {
 
-    @IBOutlet weak var pdfImage: UIImageView!
-    @IBOutlet weak var nameTxt: UILabel!
-    @IBOutlet weak var loadingProgress: UIProgressView!
-    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
