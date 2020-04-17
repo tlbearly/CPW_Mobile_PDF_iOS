@@ -22,7 +22,8 @@ class SplashViewController: UIViewController {
         // example to pass variables
         //   let mapListVC:MapListViewController = MapListViewController()
         // mapListVC.myValue = someValue
-        self.performSegue(withIdentifier: "goToMapList", sender: self)
+        self.dismiss(animated: true, completion: nil)
+        //self.performSegue(withIdentifier: "goToMapList", sender: self)
         
     }
 }

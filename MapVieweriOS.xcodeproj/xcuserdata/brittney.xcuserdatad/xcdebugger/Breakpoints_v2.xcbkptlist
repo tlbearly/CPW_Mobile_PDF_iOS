@@ -20,5 +20,129 @@
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "088A5A0C-1D2F-4572-91B9-8283E0B725B4"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "MapVieweriOS/Controllers/MapViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "33"
+            endingLineNumber = "33"
+            landmarkName = "MapViewController"
+            landmarkType = "3">
+            <Locations>
+               <Location
+                  uuid = "088A5A0C-1D2F-4572-91B9-8283E0B725B4 - 450393b47f405592"
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "MapVieweriOS.MapViewController.pdfView.getter : __C.PDFView"
+                  moduleName = "MapVieweriOS"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/brittney/Documents/Tammy/MapViewer/MapVieweriOS/Controllers/MapViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "33"
+                  endingLineNumber = "33"
+                  offsetFromSymbolStart = "126">
+               </Location>
+               <Location
+                  uuid = "088A5A0C-1D2F-4572-91B9-8283E0B725B4 - 57637766834771ee"
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "MapVieweriOS.MapViewController.pdfView.setter : __C.PDFView"
+                  moduleName = "MapVieweriOS"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/brittney/Documents/Tammy/MapViewer/MapVieweriOS/Controllers/MapViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "33"
+                  endingLineNumber = "33"
+                  offsetFromSymbolStart = "160">
+               </Location>
+               <Location
+                  uuid = "088A5A0C-1D2F-4572-91B9-8283E0B725B4 - 6c303e9ad70a7e91"
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "MapVieweriOS.MapViewController.pdfView.modify : __C.PDFView"
+                  moduleName = "MapVieweriOS"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/brittney/Documents/Tammy/MapViewer/MapVieweriOS/Controllers/MapViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "0"
+                  endingLineNumber = "0"
+                  offsetFromSymbolStart = "18">
+               </Location>
+               <Location
+                  uuid = "088A5A0C-1D2F-4572-91B9-8283E0B725B4 - 9868d6fb905c24ee"
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "MapVieweriOS.MapViewController.pdfView.modify : __C.PDFView with unmangled suffix &quot;.resume.0&quot;"
+                  moduleName = "MapVieweriOS"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/brittney/Documents/Tammy/MapViewer/MapVieweriOS/Controllers/MapViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "33"
+                  endingLineNumber = "33"
+                  offsetFromSymbolStart = "4">
+               </Location>
+               <Location
+                  uuid = "088A5A0C-1D2F-4572-91B9-8283E0B725B4 - e74a50b2fbb14d0e"
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "MapVieweriOS.MapViewController.init(nibName: Swift.Optional&lt;Swift.String&gt;, bundle: Swift.Optional&lt;__C.NSBundle&gt;) -&gt; MapVieweriOS.MapViewController"
+                  moduleName = "MapVieweriOS"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/brittney/Documents/Tammy/MapViewer/MapVieweriOS/Controllers/MapViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "33"
+                  endingLineNumber = "33"
+                  offsetFromSymbolStart = "189">
+               </Location>
+               <Location
+                  uuid = "088A5A0C-1D2F-4572-91B9-8283E0B725B4 - 51a5ab22a67b7805"
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "MapVieweriOS.MapViewController.init(coder: __C.NSCoder) -&gt; Swift.Optional&lt;MapVieweriOS.MapViewController&gt;"
+                  moduleName = "MapVieweriOS"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/brittney/Documents/Tammy/MapViewer/MapVieweriOS/Controllers/MapViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "33"
+                  endingLineNumber = "33"
+                  offsetFromSymbolStart = "126">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "5E70A883-A713-45EF-BFCD-54DCF4A5DE94"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "MapVieweriOS/Controllers/MapListViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "31"
+            endingLineNumber = "31"
+            landmarkName = "prepare(for:sender:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
    </Breakpoints>
 </Bucket>

@@ -11,7 +11,7 @@
 
 import UIKit
 
-var showSplashView:Bool = true
+//var showSplashView:Bool = true
 
 class MapListTableViewController: UITableViewController {
     
@@ -31,14 +31,17 @@ class MapListTableViewController: UITableViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        // show splash screen the first time
+        /*// show splash screen the first time
         if (showSplashView == true) {
             print("show splash screen now")
             showSplashView = false
             self.performSegue(withIdentifier: "goToSplash", sender: self.superclass)
-        }
+        }*/
     }
+    
+    
 
+   
     // MARK: - Table view data source
 
     

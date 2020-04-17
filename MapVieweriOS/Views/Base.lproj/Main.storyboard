@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Rk3-2j-9u0">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="crJ-s1-QnB">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
+        <deployment version="4352" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="Stack View standard spacing" minToolsVersion="9.0"/>
@@ -11,7 +12,7 @@
         <!--Splash View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="SplashViewController" customModule="MapViewer" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="SplashViewController" customModule="MapVieweriOS" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -41,7 +42,7 @@
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <button autoresizesSubviews="NO" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Gt5-18-aO6" customClass="PrimaryUIButton" customModule="MapViewer" customModuleProvider="target">
+                                    <button autoresizesSubviews="NO" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Gt5-18-aO6" customClass="PrimaryUIButton" customModule="MapVieweriOS" customModuleProvider="target">
                                         <rect key="frame" x="141.5" y="400.5" width="91" height="34"/>
                                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <viewLayoutGuide key="safeArea" id="WjY-E8-3gK"/>
@@ -62,23 +63,23 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
-                        <segue destination="Rk3-2j-9u0" kind="presentation" identifier="goToMapList" id="W47-Bp-0EO"/>
+                        <segue destination="crJ-s1-QnB" kind="presentation" identifier="goToMapList" id="W47-Bp-0EO"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="96" y="-544"/>
+            <point key="canvasLocation" x="210" y="104"/>
         </scene>
-        <!--Map List Table View Controller-->
+        <!--Imported Maps-->
         <scene sceneID="sSk-I7-8Hw">
             <objects>
-                <tableViewController id="Rk3-2j-9u0" customClass="MapListTableViewController" customModule="MapViewer" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="Rk3-2j-9u0" customClass="MapListTableViewController" customModule="MapVieweriOS" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="90" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" contentViewInsetsToSafeArea="NO" id="dQn-IY-pJt">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="MapListTableViewCell" rowHeight="90" id="fzz-cP-97s" customClass="MapListTableViewCell" customModule="MapViewer" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="MapListTableViewCell" rowHeight="90" id="fzz-cP-97s" customClass="MapListTableViewCell" customModule="MapVieweriOS" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="28" width="414" height="90"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="fzz-cP-97s" id="G3V-XX-9kL">
@@ -101,7 +102,7 @@
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <progressView opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" verticalHuggingPriority="750" insetsLayoutMarginsFromSafeArea="NO" progressViewStyle="bar" progress="0.25" translatesAutoresizingMaskIntoConstraints="NO" id="S1e-e4-Ap3" customClass="RoundedCornerProgressBar" customModule="MapViewer" customModuleProvider="target">
+                                                <progressView opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" verticalHuggingPriority="750" insetsLayoutMarginsFromSafeArea="NO" progressViewStyle="bar" progress="0.25" translatesAutoresizingMaskIntoConstraints="NO" id="S1e-e4-Ap3" customClass="RoundedCornerProgressBar" customModule="MapVieweriOS" customModuleProvider="target">
                                                     <rect key="frame" x="0.0" y="65" width="284" height="6"/>
                                                     <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <color key="tintColor" systemColor="systemTealColor" red="0.35294117650000001" green="0.7843137255" blue="0.98039215690000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -130,6 +131,7 @@
                                     <outlet property="loadingProgress" destination="S1e-e4-Ap3" id="QEl-9C-e7c"/>
                                     <outlet property="nameLabel" destination="IGx-nl-nVb" id="zay-9G-8fU"/>
                                     <outlet property="pdfImage" destination="YrY-aO-y4i" id="1WS-0e-qtI"/>
+                                    <segue destination="XwV-qs-rbI" kind="show" id="pG9-G0-hre"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -138,13 +140,48 @@
                             <outlet property="delegate" destination="Rk3-2j-9u0" id="o71-t4-cJO"/>
                         </connections>
                     </tableView>
-                    <connections>
-                        <segue destination="BYZ-38-t0r" kind="presentation" identifier="goToSplash" id="CJ4-AO-hD7"/>
-                    </connections>
+                    <navigationItem key="navigationItem" title="Imported Maps" id="dTa-Rf-f7v">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="uD9-GZ-GZn"/>
+                    </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mQE-xu-i6k" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="978" y="-544"/>
+            <point key="canvasLocation" x="1886.9565217391305" y="-544.41964285714278"/>
+        </scene>
+        <!--Map View Controller-->
+        <scene sceneID="HXy-Bf-9xL">
+            <objects>
+                <viewController id="XwV-qs-rbI" customClass="MapViewController" customModule="MapVieweriOS" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="1Sn-FH-aig">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <viewLayoutGuide key="safeArea" id="n7v-S6-kn7"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="Hi4-w7-zVY"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="lhT-zc-Ejh" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2790" y="-579"/>
+        </scene>
+        <!--Map List View Controller-->
+        <scene sceneID="T2R-45-Tv9">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="crJ-s1-QnB" customClass="MapListViewController" customModule="MapVieweriOS" customModuleProvider="target" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="Gaz-PV-ZNm">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="56"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="Rk3-2j-9u0" kind="relationship" relationship="rootViewController" id="bCf-Ho-lTD"/>
+                        <segue destination="BYZ-38-t0r" kind="presentation" identifier="goToSplash" id="w7Q-54-D0p"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="i4n-LL-FFi" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="976.81159420289862" y="-544.41964285714278"/>
         </scene>
     </scenes>
     <resources>

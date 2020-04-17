@@ -10,14 +10,26 @@
 
 // NOT USED
 import UIKit
+var showSplashView:Bool = true
 
-class MapListViewController: UITableViewController {
+class MapListViewController: UINavigationController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        // show splash screen the first time
+        if (showSplashView == true) {
+            print("show splash screen now")
+            showSplashView = false
+            self.performSegue(withIdentifier: "goToSplash", sender: self.superclass)
+        }
+    }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?){
+        super.prepare(for: segue, sender: sender) // does not catch goToMap segue???????? Just goToSplash
+    }
 
 
     
