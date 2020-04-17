@@ -112,8 +112,8 @@
 			isa = PBXGroup;
 			children = (
 				609CA8F42441327B006C0283 /* Controllers */,
-				609CA8F324412E0C006C0283 /* Models */,
 				609CA8F224412E01006C0283 /* Views */,
+				609CA8F324412E0C006C0283 /* Models */,
 				609CA8C02440C353006C0283 /* AppDelegate.swift */,
 				609CA8C22440C353006C0283 /* SceneDelegate.swift */,
 				609CA8C92440C355006C0283 /* Assets.xcassets */,
@@ -164,8 +164,8 @@
 			children = (
 				609CA8C42440C353006C0283 /* SplashViewController.swift */,
 				609CA8F5244132AC006C0283 /* MapListViewController.swift */,
-				60146FFD24477260003D3BAF /* MapListTableViewCell.swift */,
 				60146FFF244773BD003D3BAF /* MapListTableViewController.swift */,
+				60146FFD24477260003D3BAF /* MapListTableViewCell.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -249,7 +249,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 609CA8B82440C353006C0283 /* Build configuration list for PBXProject "MapViewer" */;
+			buildConfigurationList = 609CA8B82440C353006C0283 /* Build configuration list for PBXProject "MapVieweriOS" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -595,7 +595,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		609CA8B82440C353006C0283 /* Build configuration list for PBXProject "MapViewer" */ = {
+		609CA8B82440C353006C0283 /* Build configuration list for PBXProject "MapVieweriOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				609CA8E52440C355006C0283 /* Debug */,

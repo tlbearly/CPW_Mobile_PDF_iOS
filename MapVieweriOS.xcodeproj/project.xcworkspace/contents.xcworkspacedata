@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:MapViewer.xcodeproj">
+      location = "self:/Users/brittney/Documents/Tammy/MapViewer/MapVieweriOS.xcodeproj">
    </FileRef>
 </Workspace>

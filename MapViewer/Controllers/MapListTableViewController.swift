@@ -11,11 +11,13 @@
 
 import UIKit
 
-class MapListTableViewController: UITableViewController {
+var showSplashView:Bool = true
 
+class MapListTableViewController: UITableViewController {
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         // load maps
         loadMaps()
         
@@ -24,6 +26,17 @@ class MapListTableViewController: UITableViewController {
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        // show splash screen the first time
+        if (showSplashView == true) {
+            print("show splash screen now")
+            showSplashView = false
+            self.performSegue(withIdentifier: "goToSplash", sender: self.superclass)
+        }
     }
 
     // MARK: - Table view data source

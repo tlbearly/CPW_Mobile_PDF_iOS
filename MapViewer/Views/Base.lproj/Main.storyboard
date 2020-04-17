@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Rk3-2j-9u0">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
@@ -13,11 +13,11 @@
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="SplashViewController" customModule="MapViewer" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" clipsSubviews="YES" contentMode="center" axis="vertical" alignment="center" spacing="32" translatesAutoresizingMaskIntoConstraints="NO" id="V9l-iY-Xsw">
-                                <rect key="frame" x="20" y="231" width="374" height="434.5"/>
+                                <rect key="frame" x="20" y="204" width="374" height="434.5"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Colorado Parks and Wildlife" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0fH-pf-Edh">
                                         <rect key="frame" x="45.5" y="0.0" width="283" height="29"/>
@@ -81,7 +81,7 @@
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="MapListTableViewCell" rowHeight="90" id="fzz-cP-97s" customClass="MapListTableViewCell" customModule="MapViewer" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="28" width="414" height="90"/>
                                 <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="fzz-cP-97s" id="G3V-XX-9kL">
+                                <tableViewCellContentView key="contentView" opaque="NO" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="fzz-cP-97s" id="G3V-XX-9kL">
                                     <rect key="frame" x="0.0" y="0.0" width="414" height="90"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
@@ -92,26 +92,27 @@
                                                 <constraint firstAttribute="width" constant="90" id="c9h-tg-Vp1"/>
                                             </constraints>
                                         </imageView>
-                                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="iEB-gE-UEm">
-                                            <rect key="frame" x="110" y="0.0" width="284" height="90"/>
+                                        <stackView autoresizesSubviews="NO" opaque="NO" contentMode="scaleAspectFill" axis="vertical" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="iEB-gE-UEm">
+                                            <rect key="frame" x="110" y="0.0" width="284" height="70"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" layoutMarginsFollowReadableWidth="YES" text="PDF Map Filename" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IGx-nl-nVb">
-                                                    <rect key="frame" x="0.0" y="0.0" width="284" height="77"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="284" height="57"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <progressView opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progressViewStyle="bar" progress="0.25" translatesAutoresizingMaskIntoConstraints="NO" id="S1e-e4-Ap3" customClass="RoundedCornerProgressBar" customModule="MapViewer" customModuleProvider="target">
-                                                    <rect key="frame" x="0.0" y="85" width="284" height="6"/>
+                                                <progressView opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" verticalHuggingPriority="750" insetsLayoutMarginsFromSafeArea="NO" progressViewStyle="bar" progress="0.25" translatesAutoresizingMaskIntoConstraints="NO" id="S1e-e4-Ap3" customClass="RoundedCornerProgressBar" customModule="MapViewer" customModuleProvider="target">
+                                                    <rect key="frame" x="0.0" y="65" width="284" height="6"/>
                                                     <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <color key="tintColor" systemColor="systemTealColor" red="0.35294117650000001" green="0.7843137255" blue="0.98039215690000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <accessibility key="accessibilityConfiguration">
+                                                        <accessibilityTraits key="traits" notEnabled="YES" updatesFrequently="YES"/>
+                                                    </accessibility>
                                                     <constraints>
-                                                        <constraint firstAttribute="height" constant="5" id="9aY-yw-Cav"/>
+                                                        <constraint firstAttribute="height" constant="5" id="1Ur-4F-ClN"/>
                                                     </constraints>
-                                                    <viewLayoutGuide key="safeArea" id="0SM-EI-byh"/>
                                                 </progressView>
                                             </subviews>
-                                            <viewLayoutGuide key="safeArea" id="DQq-k2-naf"/>
                                         </stackView>
                                     </subviews>
                                     <constraints>
@@ -119,9 +120,10 @@
                                         <constraint firstAttribute="trailing" secondItem="iEB-gE-UEm" secondAttribute="trailing" constant="20" id="C29-1U-d20"/>
                                         <constraint firstAttribute="bottom" secondItem="YrY-aO-y4i" secondAttribute="bottom" id="L4Y-md-5WC"/>
                                         <constraint firstItem="YrY-aO-y4i" firstAttribute="leading" secondItem="G3V-XX-9kL" secondAttribute="leading" constant="10" id="PTH-l6-NGA"/>
-                                        <constraint firstAttribute="bottom" secondItem="iEB-gE-UEm" secondAttribute="bottom" id="bmA-Yr-6Bs"/>
+                                        <constraint firstAttribute="bottom" secondItem="iEB-gE-UEm" secondAttribute="bottom" constant="20" id="bmA-Yr-6Bs"/>
                                         <constraint firstItem="iEB-gE-UEm" firstAttribute="leading" secondItem="YrY-aO-y4i" secondAttribute="trailing" constant="10" id="egk-Eh-QmA"/>
                                         <constraint firstItem="YrY-aO-y4i" firstAttribute="top" secondItem="G3V-XX-9kL" secondAttribute="top" id="m8O-Ff-LN2"/>
+                                        <constraint firstItem="YrY-aO-y4i" firstAttribute="centerY" secondItem="G3V-XX-9kL" secondAttribute="centerY" id="v23-k5-sPf"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
@@ -136,6 +138,9 @@
                             <outlet property="delegate" destination="Rk3-2j-9u0" id="o71-t4-cJO"/>
                         </connections>
                     </tableView>
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="presentation" identifier="goToSplash" id="CJ4-AO-hD7"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mQE-xu-i6k" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
