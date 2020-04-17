@@ -45,7 +45,7 @@
 		60146FFF244773BD003D3BAF /* MapListTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapListTableViewController.swift; sourceTree = "<group>"; };
 		60147001244775EC003D3BAF /* PDFMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFMap.swift; sourceTree = "<group>"; };
 		6014700324479156003D3BAF /* RoundedCorderProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedCorderProgressBar.swift; sourceTree = "<group>"; };
-		609CA8BD2440C353006C0283 /* MapViewer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MapViewer.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		609CA8BD2440C353006C0283 /* MapVieweriOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MapVieweriOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		609CA8C02440C353006C0283 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		609CA8C22440C353006C0283 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		609CA8C42440C353006C0283 /* SplashViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
@@ -91,7 +91,7 @@
 		609CA8B42440C353006C0283 = {
 			isa = PBXGroup;
 			children = (
-				609CA8BF2440C353006C0283 /* MapViewer */,
+				609CA8BF2440C353006C0283 /* MapVieweriOS */,
 				609CA8D62440C355006C0283 /* MapViewerTests */,
 				609CA8E12440C355006C0283 /* MapViewerUITests */,
 				609CA8BE2440C353006C0283 /* Products */,
@@ -101,14 +101,14 @@
 		609CA8BE2440C353006C0283 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				609CA8BD2440C353006C0283 /* MapViewer.app */,
+				609CA8BD2440C353006C0283 /* MapVieweriOS.app */,
 				609CA8D32440C355006C0283 /* MapViewerTests.xctest */,
 				609CA8DE2440C355006C0283 /* MapViewerUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		609CA8BF2440C353006C0283 /* MapViewer */ = {
+		609CA8BF2440C353006C0283 /* MapVieweriOS */ = {
 			isa = PBXGroup;
 			children = (
 				609CA8F42441327B006C0283 /* Controllers */,
@@ -120,7 +120,7 @@
 				609CA8CB2440C355006C0283 /* LaunchScreen.storyboard */,
 				609CA8CE2440C355006C0283 /* Info.plist */,
 			);
-			path = MapViewer;
+			path = MapVieweriOS;
 			sourceTree = "<group>";
 		};
 		609CA8D62440C355006C0283 /* MapViewerTests */ = {
@@ -173,9 +173,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		609CA8BC2440C353006C0283 /* MapViewer */ = {
+		609CA8BC2440C353006C0283 /* MapVieweriOS */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 609CA8E72440C355006C0283 /* Build configuration list for PBXNativeTarget "MapViewer" */;
+			buildConfigurationList = 609CA8E72440C355006C0283 /* Build configuration list for PBXNativeTarget "MapVieweriOS" */;
 			buildPhases = (
 				609CA8B92440C353006C0283 /* Sources */,
 				609CA8BA2440C353006C0283 /* Frameworks */,
@@ -185,9 +185,9 @@
 			);
 			dependencies = (
 			);
-			name = MapViewer;
+			name = MapVieweriOS;
 			productName = MapViewer;
-			productReference = 609CA8BD2440C353006C0283 /* MapViewer.app */;
+			productReference = 609CA8BD2440C353006C0283 /* MapVieweriOS.app */;
 			productType = "com.apple.product-type.application";
 		};
 		609CA8D22440C355006C0283 /* MapViewerTests */ = {
@@ -262,7 +262,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				609CA8BC2440C353006C0283 /* MapViewer */,
+				609CA8BC2440C353006C0283 /* MapVieweriOS */,
 				609CA8D22440C355006C0283 /* MapViewerTests */,
 				609CA8DD2440C355006C0283 /* MapViewerUITests */,
 			);
@@ -334,12 +334,12 @@
 /* Begin PBXTargetDependency section */
 		609CA8D52440C355006C0283 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 609CA8BC2440C353006C0283 /* MapViewer */;
+			target = 609CA8BC2440C353006C0283 /* MapVieweriOS */;
 			targetProxy = 609CA8D42440C355006C0283 /* PBXContainerItemProxy */;
 		};
 		609CA8E02440C355006C0283 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 609CA8BC2440C353006C0283 /* MapViewer */;
+			target = 609CA8BC2440C353006C0283 /* MapVieweriOS */;
 			targetProxy = 609CA8DF2440C355006C0283 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -483,13 +483,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				INFOPLIST_FILE = MapViewer/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/MapVieweriOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.cpw.MapViewer;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.cpw.MapVieweriOS;
+				PRODUCT_NAME = MapVieweriOS;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -500,13 +500,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				INFOPLIST_FILE = MapViewer/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/MapVieweriOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.cpw.MapViewer;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.cpw.MapVieweriOS;
+				PRODUCT_NAME = MapVieweriOS;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -604,7 +604,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		609CA8E72440C355006C0283 /* Build configuration list for PBXNativeTarget "MapViewer" */ = {
+		609CA8E72440C355006C0283 /* Build configuration list for PBXNativeTarget "MapVieweriOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				609CA8E82440C355006C0283 /* Debug */,
