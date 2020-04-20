@@ -131,7 +131,7 @@
                                     <outlet property="loadingProgress" destination="S1e-e4-Ap3" id="QEl-9C-e7c"/>
                                     <outlet property="nameLabel" destination="IGx-nl-nVb" id="zay-9G-8fU"/>
                                     <outlet property="pdfImage" destination="YrY-aO-y4i" id="1WS-0e-qtI"/>
-                                    <segue destination="XwV-qs-rbI" kind="show" id="pG9-G0-hre"/>
+                                    <segue destination="XwV-qs-rbI" kind="show" identifier="goToMap" id="pG9-G0-hre"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>

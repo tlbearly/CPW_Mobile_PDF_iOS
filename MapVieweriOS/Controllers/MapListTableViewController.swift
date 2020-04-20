@@ -11,9 +11,9 @@
 
 import UIKit
 
-//var showSplashView:Bool = true
-
 class MapListTableViewController: UITableViewController {
+    var currentMapName:String?
+    var mapVC:MapViewController?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,19 +27,6 @@ class MapListTableViewController: UITableViewController {
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        
-        /*// show splash screen the first time
-        if (showSplashView == true) {
-            print("show splash screen now")
-            showSplashView = false
-            self.performSegue(withIdentifier: "goToSplash", sender: self.superclass)
-        }*/
-    }
-    
-    
 
    
     // MARK: - Table view data source
@@ -60,7 +47,7 @@ class MapListTableViewController: UITableViewController {
         guard let map2 = PDFMap(name: "Wellington1.pdf", thumbnail: thumbnail2) else {
             fatalError("Unable to instantiate map2")
         }
-        guard let map3 = PDFMap(name: "Wellington.pdf", thumbnail: thumbnail3) else {
+        guard let map3 = PDFMap(name: "Wellington3.pdf", thumbnail: thumbnail3) else {
             fatalError("Unable to instantiate map3")
         }
         maps += [map1, map2, map3]
@@ -88,7 +75,23 @@ class MapListTableViewController: UITableViewController {
         cell.nameLabel.text = map.name
         cell.pdfImage.image = map.thumbnail
         
+        print(map.name)
         return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let cell = tableView.cellForRow(at: indexPath) as! MapListTableViewCell
+        if mapVC != nil && cell.nameLabel.text != nil {
+            var fileName:String = cell.nameLabel.text!
+            let index = fileName.firstIndex(of: ".") ?? fileName.endIndex
+            fileName = String(fileName[..<index])
+            
+            mapVC!.pdfFileName = fileName
+            print(fileName)
+        }
+        else {
+            print("Failed to get filename from selected row!!!")
+        }
     }
 
     /*
@@ -126,14 +129,17 @@ class MapListTableViewController: UITableViewController {
     }
     */
 
-    /*
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destination.
         // Pass the selected object to the new view controller.
+        if segue.identifier == "goToMap" {
+            mapVC = segue.destination as? MapViewController
+        }
     }
-    */
+    
 
 }

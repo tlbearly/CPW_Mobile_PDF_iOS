@@ -71,7 +71,7 @@ class MapViewController: UIViewController {
         // Add pdfView
         // OPEN PDF
         //guard let pdfFileURL = Bundle.main.url(forResource: "Wellington1", withExtension: "pdf", subdirectory: "myMaps") else {
-        guard let pdfFileURL = Bundle.main.url(forResource: "Wellington",withExtension: "pdf") else {
+        guard let pdfFileURL = Bundle.main.url(forResource: pdfFileName, withExtension: "pdf") else {
             print ("PDF file not found.")
             return
         }
@@ -215,7 +215,7 @@ class MapViewController: UIViewController {
         pdfView.backgroundColor = UIColor.lightGray // must be set after pdfView.document
 
         // how far can we zoom in?
-        pdfView.maxScaleFactor = 4.0
+        pdfView.maxScaleFactor = 8.0
         pdfView.minScaleFactor = pdfView.scaleFactorForSizeToFit
         pdfView.scaleFactor = pdfView.scaleFactorForSizeToFit // fit in window
         
@@ -325,10 +325,10 @@ class MapViewController: UIViewController {
         let halfCirSize:Double = 15.0
 
         // Add current location dot
-        var x:Double = (((longNow + 180) - (long1 + 180)) / longDiff) * pdfWidth
+        var x:Double = (((longNow + 180.0) - (long1 + 180.0)) / longDiff) * pdfWidth
         x = x + marginLeft - halfCirSize
         var y:Double = (((90.0 - latNow) - (90.0 - lat2)) / latDiff) * pdfHeight
-        y = y + marginBottom - halfCirSize + 90 // Y is too low add 90???
+        y = (pdfHeight + marginTop - halfCirSize)  - (y) // Y is too low add 90???
 
         currentLocation = PDFAnnotation(bounds: CGRect(x:x, y:y, width:cirSize,height:cirSize), forType: .circle, withProperties: nil)
         // fill color
@@ -352,7 +352,7 @@ class MapViewController: UIViewController {
         page.addAnnotation(marginBRAnnotation)
         
         // map lat long boundaries long1,lat1 and long2,lat2 in yellow
-        x = (((long1 + 180) - (long1 + 180)) / longDiff) * pdfWidth
+        x = (((long1 + 180.0) - (long1 + 180.0)) / longDiff) * pdfWidth
         x = x + marginLeft - 5
         y = (((90.0 - lat1) - (90.0 - lat2)) / latDiff) * pdfHeight
         y = y + marginBottom - 5

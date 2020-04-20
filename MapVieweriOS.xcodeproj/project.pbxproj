@@ -21,6 +21,7 @@
 		609CA8E32440C355006C0283 /* MapViewerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 609CA8E22440C355006C0283 /* MapViewerUITests.swift */; };
 		609CA8F124412034006C0283 /* PrimaryUIButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 609CA8F024412034006C0283 /* PrimaryUIButton.swift */; };
 		609CA8F6244132AC006C0283 /* MapListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 609CA8F5244132AC006C0283 /* MapListViewController.swift */; };
+		60B05F61244DE22B00A92950 /* Wellington3.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 60B05F60244DE22B00A92950 /* Wellington3.pdf */; };
 		60DBB8CF244A539600F84F4A /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60DBB8CE244A539600F84F4A /* MapViewController.swift */; };
 		60DBB8D1244A53E400F84F4A /* PDFParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60DBB8D0244A53E400F84F4A /* PDFParser.swift */; };
 		60DBB8D3244A54E900F84F4A /* PushPin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60DBB8D2244A54E900F84F4A /* PushPin.swift */; };
@@ -66,6 +67,7 @@
 		609CA8E42440C355006C0283 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		609CA8F024412034006C0283 /* PrimaryUIButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimaryUIButton.swift; sourceTree = "<group>"; };
 		609CA8F5244132AC006C0283 /* MapListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapListViewController.swift; sourceTree = "<group>"; };
+		60B05F60244DE22B00A92950 /* Wellington3.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = Wellington3.pdf; sourceTree = "<group>"; };
 		60DBB8CE244A539600F84F4A /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		60DBB8D0244A53E400F84F4A /* PDFParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFParser.swift; sourceTree = "<group>"; };
 		60DBB8D2244A54E900F84F4A /* PushPin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushPin.swift; sourceTree = "<group>"; };
@@ -121,6 +123,7 @@
 		609CA8BF2440C353006C0283 /* MapVieweriOS */ = {
 			isa = PBXGroup;
 			children = (
+				60B05F60244DE22B00A92950 /* Wellington3.pdf */,
 				60DBB8E3244A606200F84F4A /* Wellington1.pdf */,
 				60DBB8E1244A605200F84F4A /* Wellington.pdf */,
 				609CA8F42441327B006C0283 /* Controllers */,
@@ -294,6 +297,7 @@
 				609CA8CA2440C355006C0283 /* Assets.xcassets in Resources */,
 				60DBB8E4244A606200F84F4A /* Wellington1.pdf in Resources */,
 				609CA8C82440C353006C0283 /* Main.storyboard in Resources */,
+				60B05F61244DE22B00A92950 /* Wellington3.pdf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

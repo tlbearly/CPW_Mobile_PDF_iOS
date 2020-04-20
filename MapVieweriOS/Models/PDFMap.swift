@@ -1,8 +1,10 @@
 //
-//  Map.swift
+//  PDFMap.swift
 //  MapViewer
 //
-//  Created by Brittney Bearly on 4/15/20.
+//  Purpose: hold all the necessary info for a geo pdf map
+//
+//  Created by Tammy Bearly on 4/15/20.
 //  Copyright © 2020 Colorado Parks and Wildlife. All rights reserved.
 //
 
