@@ -159,7 +159,7 @@ class MapListTableViewController: UITableViewController {
         switch(segue.identifier ?? "") {
         case "AddMap":
             print("Adding a map.")
-        case "goToMap":    //goToMap":
+        case "ShowMap":
             guard let mapViewController = segue.destination as? MapViewController else {
                 fatalError("Unexpected destination: \(segue.destination)")
             }

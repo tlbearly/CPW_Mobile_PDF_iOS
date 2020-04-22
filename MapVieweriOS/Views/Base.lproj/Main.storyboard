@@ -70,12 +70,12 @@
             </objects>
             <point key="canvasLocation" x="210" y="104"/>
         </scene>
-        <!--Imported Maps-->
+        <!--Maps-->
         <scene sceneID="sSk-I7-8Hw">
             <objects>
                 <tableViewController id="Rk3-2j-9u0" customClass="MapListTableViewController" customModule="MapVieweriOS" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="90" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" contentViewInsetsToSafeArea="NO" id="dQn-IY-pJt">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <prototypes>
@@ -131,7 +131,7 @@
                                     <outlet property="loadingProgress" destination="S1e-e4-Ap3" id="QEl-9C-e7c"/>
                                     <outlet property="nameLabel" destination="IGx-nl-nVb" id="zay-9G-8fU"/>
                                     <outlet property="pdfImage" destination="YrY-aO-y4i" id="1WS-0e-qtI"/>
-                                    <segue destination="XwV-qs-rbI" kind="show" identifier="goToMap" id="pG9-G0-hre"/>
+                                    <segue destination="XwV-qs-rbI" kind="show" identifier="ShowMap" id="pG9-G0-hre"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -140,29 +140,84 @@
                             <outlet property="delegate" destination="Rk3-2j-9u0" id="o71-t4-cJO"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Imported Maps" id="dTa-Rf-f7v">
-                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="uD9-GZ-GZn"/>
+                    <navigationItem key="navigationItem" title="Maps" id="dTa-Rf-f7v">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="uD9-GZ-GZn">
+                            <connections>
+                                <segue destination="33z-Sm-ZcB" kind="show" identifier="AddMap" id="9Eb-Fz-6eQ"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mQE-xu-i6k" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1886.9565217391305" y="-544.41964285714278"/>
         </scene>
-        <!--Map View Controller-->
+        <!--Add Maps-->
+        <scene sceneID="9Qi-aW-aOy">
+            <objects>
+                <viewController title="Add Maps" id="33z-Sm-ZcB" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="uSc-zw-HM8">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Select PDF files that you downloaded." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SaC-3b-U8V">
+                                <rect key="frame" x="20" y="154" width="290" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="From a Website" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zml-oh-ZAx">
+                                <rect key="frame" x="20" y="240" width="161" height="29"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <accessibility key="accessibilityConfiguration">
+                                    <accessibilityTraits key="traits" staticText="YES" header="YES"/>
+                                </accessibility>
+                                <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NQ8-59-Wkm" customClass="PrimaryUIButton" customModule="MapVieweriOS" customModuleProvider="target">
+                                <rect key="frame" x="117" y="181" width="97" height="39"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="22"/>
+                                <state key="normal" title="File Picker"/>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="From a Folder" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mFv-EX-6cZ">
+                                <rect key="frame" x="20" y="92" width="141" height="29"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <accessibility key="accessibilityConfiguration">
+                                    <accessibilityTraits key="traits" staticText="YES" header="YES"/>
+                                </accessibility>
+                                <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <viewLayoutGuide key="safeArea" id="Rah-e8-mMc"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="864-pM-HQY"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="DcZ-Q4-AIj" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2464" y="-1230"/>
+        </scene>
+        <!--PDF Map-->
         <scene sceneID="HXy-Bf-9xL">
             <objects>
                 <viewController id="XwV-qs-rbI" customClass="MapViewController" customModule="MapVieweriOS" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="1Sn-FH-aig">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <viewLayoutGuide key="safeArea" id="n7v-S6-kn7"/>
                     </view>
-                    <navigationItem key="navigationItem" id="Hi4-w7-zVY"/>
+                    <navigationItem key="navigationItem" title="PDF Map" id="Hi4-w7-zVY"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lhT-zc-Ejh" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2790" y="-579"/>
+            <point key="canvasLocation" x="2787" y="-544"/>
         </scene>
         <!--Map List View Controller-->
         <scene sceneID="T2R-45-Tv9">

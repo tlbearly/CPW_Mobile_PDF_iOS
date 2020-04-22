@@ -66,8 +66,11 @@ class MapViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
-        // Add pdfView
-        // OPEN PDF
+        //
+        // OPEN PDF & Add pdfView
+        //
+        
+        // Get pdf filename
         //guard let pdfFileURL = Bundle.main.url(forResource: "Wellington1", withExtension: "pdf", subdirectory: "myMaps") else {
         guard var pdfFileName = map?.name else {
             fatalError("Filename not readable from selected table row.")
@@ -75,11 +78,12 @@ class MapViewController: UIViewController {
         // Strip off .pdf if it exists
         let index = pdfFileName.firstIndex(of: ".") ?? pdfFileName.endIndex
         pdfFileName = String(pdfFileName[..<index])
+        self.title = pdfFileName
+        
         guard let pdfFileURL = Bundle.main.url(forResource: pdfFileName, withExtension: "pdf") else {
             print ("PDF file not found.")
             return
         }
-        //let pdfView = PDFView(frame: self.view.bounds);
         guard  let pdfView = setupPDFView(url: pdfFileURL) else {
             print("Error: PDF not found!");
             return;
