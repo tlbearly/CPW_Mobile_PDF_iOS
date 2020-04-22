@@ -3,13 +3,13 @@
 <plist version="1.0">
 <dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>This app displays your current location on the map.</string>
+	<string>This is necessary to display your current location on the map.</string>
 	<key>NSLocationUsageDescription</key>
-	<string>This app displays your current location on the map.</string>
+	<string>This is necessary to display your current location on the map.</string>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>This app displays your current location on the map.</string>
+	<string>This is necessary to display your current location on the map.</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>This app displays your current location on the map.</string>
+	<string>This is necessary to display your current location on the map.</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleExecutable</key>

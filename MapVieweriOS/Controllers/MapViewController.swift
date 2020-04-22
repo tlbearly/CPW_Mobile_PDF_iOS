@@ -23,7 +23,7 @@
 // anotation, thumbnail
 
 import UIKit
-import PDFKit // requires iOS 11+
+import PDFKit // requires iOS 11+ iPhone 6+
 import CoreLocation // current location
 
 //var pdfView = PDFView()
@@ -31,7 +31,7 @@ import CoreLocation // current location
 
 class MapViewController: UIViewController {
     var pdfView = PDFView()
-    var pdfFileName:String?
+    var map:PDFMap?
     var locationManager = CLLocationManager()
     // make a dummy location dot because displayLocation deletes it first
     var currentLocation: PDFAnnotation = PDFAnnotation(bounds: CGRect(x:0, y:0, width:1,height:1), forType: .circle, withProperties: nil)
@@ -61,8 +61,6 @@ class MapViewController: UIViewController {
     
     //(frame:  CGRect(x:0,y:50,width:200,height:30))
     
-    //let pdfView = PDFView()//
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -71,6 +69,12 @@ class MapViewController: UIViewController {
         // Add pdfView
         // OPEN PDF
         //guard let pdfFileURL = Bundle.main.url(forResource: "Wellington1", withExtension: "pdf", subdirectory: "myMaps") else {
+        guard var pdfFileName = map?.name else {
+            fatalError("Filename not readable from selected table row.")
+        }
+        // Strip off .pdf if it exists
+        let index = pdfFileName.firstIndex(of: ".") ?? pdfFileName.endIndex
+        pdfFileName = String(pdfFileName[..<index])
         guard let pdfFileURL = Bundle.main.url(forResource: pdfFileName, withExtension: "pdf") else {
             print ("PDF file not found.")
             return
@@ -84,7 +88,7 @@ class MapViewController: UIViewController {
         
         // text fields at top to display current lat long & debug info
         addCurrentLatLongTextbox()
-        addDebugTextbox()
+    //    addDebugTextbox()
   
 
         
@@ -172,7 +176,8 @@ class MapViewController: UIViewController {
         //var lat = 40.69847
         //var long = -105.01303195
         //displayLocation(page: page, pdfView: pdfView, latNow: lat, longNow: long)
-        let locTimer = Timer.scheduledTimer(withTimeInterval: 2, repeats: true) { timer in
+        //let locTimer =
+        Timer.scheduledTimer(withTimeInterval: 2, repeats: true) { timer in
             self.displayLocation(page: page, pdfView: pdfView)
             /*self.displayLocation(page: page, pdfView: pdfView, latNow: lat, longNow: long)
             lat += 0.001

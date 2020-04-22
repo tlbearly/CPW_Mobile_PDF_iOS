@@ -11,6 +11,7 @@
 		60147000244773BD003D3BAF /* MapListTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60146FFF244773BD003D3BAF /* MapListTableViewController.swift */; };
 		60147002244775EC003D3BAF /* PDFMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60147001244775EC003D3BAF /* PDFMap.swift */; };
 		6014700424479156003D3BAF /* RoundedCorderProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6014700324479156003D3BAF /* RoundedCorderProgressBar.swift */; };
+		6048D42B2450D7C100A14EBA /* aWellington3.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 6048D42A2450D7C100A14EBA /* aWellington3.pdf */; };
 		609CA8C12440C353006C0283 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 609CA8C02440C353006C0283 /* AppDelegate.swift */; };
 		609CA8C32440C353006C0283 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 609CA8C22440C353006C0283 /* SceneDelegate.swift */; };
 		609CA8C52440C353006C0283 /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 609CA8C42440C353006C0283 /* SplashViewController.swift */; };
@@ -51,6 +52,7 @@
 		60146FFF244773BD003D3BAF /* MapListTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapListTableViewController.swift; sourceTree = "<group>"; };
 		60147001244775EC003D3BAF /* PDFMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFMap.swift; sourceTree = "<group>"; };
 		6014700324479156003D3BAF /* RoundedCorderProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedCorderProgressBar.swift; sourceTree = "<group>"; };
+		6048D42A2450D7C100A14EBA /* aWellington3.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = aWellington3.pdf; sourceTree = "<group>"; };
 		609CA8BD2440C353006C0283 /* MapVieweriOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MapVieweriOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		609CA8C02440C353006C0283 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		609CA8C22440C353006C0283 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -123,6 +125,7 @@
 		609CA8BF2440C353006C0283 /* MapVieweriOS */ = {
 			isa = PBXGroup;
 			children = (
+				6048D42A2450D7C100A14EBA /* aWellington3.pdf */,
 				60B05F60244DE22B00A92950 /* Wellington3.pdf */,
 				60DBB8E3244A606200F84F4A /* Wellington1.pdf */,
 				60DBB8E1244A605200F84F4A /* Wellington.pdf */,
@@ -297,6 +300,7 @@
 				609CA8CA2440C355006C0283 /* Assets.xcassets in Resources */,
 				60DBB8E4244A606200F84F4A /* Wellington1.pdf in Resources */,
 				609CA8C82440C353006C0283 /* Main.storyboard in Resources */,
+				6048D42B2450D7C100A14EBA /* aWellington3.pdf in Resources */,
 				60B05F61244DE22B00A92950 /* Wellington3.pdf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -508,6 +512,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = "$(SRCROOT)/MapVieweriOS/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -525,6 +530,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = "$(SRCROOT)/MapVieweriOS/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
