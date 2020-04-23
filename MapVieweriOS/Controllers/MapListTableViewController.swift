@@ -43,17 +43,16 @@ class MapListTableViewController: UITableViewController {
     // MARK: Private Methods
     
     private func loadMaps() {
-        let defaultThumb = UIImage(imageLiteralResourceName: "pdf_icon")
-        let thumbnail1 = defaultThumb
-        let thumbnail2 = defaultThumb
-        let thumbnail3 = defaultThumb
-        guard let map1 = PDFMap(name: "aWellington3.pdf", thumbnail: thumbnail1) else {
-            fatalError("Unable to instantiate map1")
+        // Load all PDF files found in the local directory. PDFMap gets the file modification
+        // date and parses the file for thumbnail. When the map is loaded in MapViewController,
+        // it calls PDFParser to get lat/long bounds, mediabox, and viewport
+        guard let map1 = PDFMap(fileName: "aWellington3.pdf") else {
+            fatalError("File not found: aWellington3.pdf")
         }
-        guard let map2 = PDFMap(name: "Wellington1.pdf", thumbnail: thumbnail2) else {
+        guard let map2 = PDFMap(fileName: "Wellington1.pdf") else {
             fatalError("Unable to instantiate map2")
         }
-        guard let map3 = PDFMap(name: "Wellington.pdf", thumbnail: thumbnail3) else {
+        guard let map3 = PDFMap(fileName: "Wellington.pdf") else {
             fatalError("Unable to instantiate map3")
         }
         maps += [map1, map2, map3]
@@ -70,12 +69,12 @@ class MapListTableViewController: UITableViewController {
         // by filename z-a
         case "reverse":
             maps = maps.sorted(by:{
-                $0.name.lowercased() > $1.name.lowercased()
+                $0.fileName.lowercased() > $1.fileName.lowercased()
             })
         // by file name a-z
         default:
             maps = maps.sorted(by:{
-                $0.name.lowercased() < $1.name.lowercased()
+                $0.fileName.lowercased() < $1.fileName.lowercased()
             })
         }
     }
@@ -96,7 +95,7 @@ class MapListTableViewController: UITableViewController {
         
         // Fetches the appropriate map for the data source layout.
         let map = maps[indexPath.row]
-        cell.nameLabel.text = map.name
+        cell.nameLabel.text = map.displayName
         cell.pdfImage.image = map.thumbnail
         return cell
     }

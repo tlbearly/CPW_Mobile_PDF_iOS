@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="crJ-s1-QnB">
-    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <device id="retina5_5" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment version="4352" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
@@ -14,28 +14,28 @@
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="SplashViewController" customModule="MapVieweriOS" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="716"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <stackView opaque="NO" clipsSubviews="YES" contentMode="center" axis="vertical" alignment="center" spacing="32" translatesAutoresizingMaskIntoConstraints="NO" id="V9l-iY-Xsw">
-                                <rect key="frame" x="20" y="204" width="374" height="434.5"/>
+                            <stackView opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="32" translatesAutoresizingMaskIntoConstraints="NO" id="V9l-iY-Xsw">
+                                <rect key="frame" x="20" y="141" width="374" height="434"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Colorado Parks and Wildlife" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0fH-pf-Edh">
-                                        <rect key="frame" x="45.5" y="0.0" width="283" height="29"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Colorado Parks and Wildlife" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0fH-pf-Edh">
+                                        <rect key="frame" x="45.666666666666686" y="0.0" width="283" height="28.666666666666668"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="24"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" placeholderIntrinsicWidth="108" placeholderIntrinsicHeight="108" image="cpw_sitelogo" adjustsImageSizeForAccessibilityContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ykG-Ej-bL7">
-                                        <rect key="frame" x="133" y="61" width="108" height="108"/>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" placeholderIntrinsicWidth="108" placeholderIntrinsicHeight="108" image="cpw_sitelogo" adjustsImageSizeForAccessibilityContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ykG-Ej-bL7">
+                                        <rect key="frame" x="133" y="60.666666666666657" width="108" height="108"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="ykG-Ej-bL7" secondAttribute="height" multiplier="1:1" id="38S-go-RVn"/>
                                             <constraint firstAttribute="height" constant="108" id="7w8-NY-yEr"/>
                                             <constraint firstAttribute="width" constant="108" id="9fs-1w-Kch"/>
                                         </constraints>
                                     </imageView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mj3-5M-a2g">
-                                        <rect key="frame" x="0.0" y="201" width="374" height="167.5"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mj3-5M-a2g">
+                                        <rect key="frame" x="0.0" y="200.66666666666669" width="374" height="167.33333333333331"/>
                                         <viewLayoutGuide key="safeArea" id="lAT-Z4-0b5"/>
                                         <string key="text">Take this app out in the field to display your current location on PDFs from the HuntingAtlas, FishingAtlas, CPW Maps Library, or any geo-referenced PDF. No need for internet or data connection! Plus use this app to download PDF maps (requires data connection)</string>
                                         <fontDescription key="fontDescription" type="system" pointSize="20"/>
@@ -43,7 +43,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button autoresizesSubviews="NO" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Gt5-18-aO6" customClass="PrimaryUIButton" customModule="MapVieweriOS" customModuleProvider="target">
-                                        <rect key="frame" x="141.5" y="400.5" width="91" height="34"/>
+                                        <rect key="frame" x="141.66666666666666" y="400" width="91" height="34"/>
                                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <viewLayoutGuide key="safeArea" id="WjY-E8-3gK"/>
                                         <state key="normal" title="CONTINUE"/>
@@ -56,7 +56,8 @@
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
-                            <constraint firstItem="V9l-iY-Xsw" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="20" symbolic="YES" id="SLq-6A-J0K"/>
+                            <constraint firstItem="V9l-iY-Xsw" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" constant="-20" id="AMc-by-yxX" userLabel="Stack View.trailing = trailing"/>
+                            <constraint firstItem="V9l-iY-Xsw" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="SLq-6A-J0K"/>
                             <constraint firstItem="V9l-iY-Xsw" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="UUm-ES-1Ab"/>
                             <constraint firstItem="V9l-iY-Xsw" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="WFE-nR-TFq"/>
                         </constraints>
@@ -74,8 +75,8 @@
         <scene sceneID="sSk-I7-8Hw">
             <objects>
                 <tableViewController id="Rk3-2j-9u0" customClass="MapListTableViewController" customModule="MapVieweriOS" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="90" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" contentViewInsetsToSafeArea="NO" id="dQn-IY-pJt">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="110" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" contentViewInsetsToSafeArea="NO" id="dQn-IY-pJt">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <prototypes>
@@ -87,13 +88,13 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="pdf_icon" translatesAutoresizingMaskIntoConstraints="NO" id="YrY-aO-y4i">
-                                            <rect key="frame" x="10" y="0.0" width="90" height="90"/>
+                                            <rect key="frame" x="10" y="10" width="90" height="70"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="90" id="1mw-5q-khQ"/>
                                                 <constraint firstAttribute="width" constant="90" id="c9h-tg-Vp1"/>
                                             </constraints>
                                         </imageView>
-                                        <stackView autoresizesSubviews="NO" opaque="NO" contentMode="scaleAspectFill" axis="vertical" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="iEB-gE-UEm">
+                                        <stackView autoresizesSubviews="NO" opaque="NO" contentMode="scaleToFill" axis="vertical" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="iEB-gE-UEm">
                                             <rect key="frame" x="110" y="0.0" width="284" height="70"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" layoutMarginsFollowReadableWidth="YES" text="PDF Map Filename" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IGx-nl-nVb">
@@ -119,11 +120,10 @@
                                     <constraints>
                                         <constraint firstItem="iEB-gE-UEm" firstAttribute="top" secondItem="G3V-XX-9kL" secondAttribute="top" id="3Er-XJ-c91"/>
                                         <constraint firstAttribute="trailing" secondItem="iEB-gE-UEm" secondAttribute="trailing" constant="20" id="C29-1U-d20"/>
-                                        <constraint firstAttribute="bottom" secondItem="YrY-aO-y4i" secondAttribute="bottom" id="L4Y-md-5WC"/>
                                         <constraint firstItem="YrY-aO-y4i" firstAttribute="leading" secondItem="G3V-XX-9kL" secondAttribute="leading" constant="10" id="PTH-l6-NGA"/>
+                                        <constraint firstItem="YrY-aO-y4i" firstAttribute="top" secondItem="G3V-XX-9kL" secondAttribute="top" constant="10" id="aok-rM-5hb"/>
                                         <constraint firstAttribute="bottom" secondItem="iEB-gE-UEm" secondAttribute="bottom" constant="20" id="bmA-Yr-6Bs"/>
                                         <constraint firstItem="iEB-gE-UEm" firstAttribute="leading" secondItem="YrY-aO-y4i" secondAttribute="trailing" constant="10" id="egk-Eh-QmA"/>
-                                        <constraint firstItem="YrY-aO-y4i" firstAttribute="top" secondItem="G3V-XX-9kL" secondAttribute="top" id="m8O-Ff-LN2"/>
                                         <constraint firstItem="YrY-aO-y4i" firstAttribute="centerY" secondItem="G3V-XX-9kL" secondAttribute="centerY" id="v23-k5-sPf"/>
                                     </constraints>
                                 </tableViewCellContentView>
@@ -155,21 +155,19 @@
         <!--Add Maps-->
         <scene sceneID="9Qi-aW-aOy">
             <objects>
-                <viewController title="Add Maps" id="33z-Sm-ZcB" sceneMemberID="viewController">
+                <viewController title="Add Maps" id="33z-Sm-ZcB" customClass="AddMapsViewController" customModule="MapVieweriOS" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="uSc-zw-HM8">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Select PDF files that you downloaded." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SaC-3b-U8V">
-                                <rect key="frame" x="20" y="154" width="290" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Select PDF files that you downloaded." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SaC-3b-U8V">
+                                <rect key="frame" x="20" y="112.66666666666667" width="374" height="20.333333333333329"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="From a Website" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zml-oh-ZAx">
-                                <rect key="frame" x="20" y="240" width="161" height="29"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="From a Website" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zml-oh-ZAx">
+                                <rect key="frame" x="20" y="232" width="374" height="28.666666666666686"/>
                                 <accessibility key="accessibilityConfiguration">
                                     <accessibilityTraits key="traits" staticText="YES" header="YES"/>
                                 </accessibility>
@@ -177,15 +175,13 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NQ8-59-Wkm" customClass="PrimaryUIButton" customModule="MapVieweriOS" customModuleProvider="target">
-                                <rect key="frame" x="117" y="181" width="97" height="39"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NQ8-59-Wkm" customClass="PrimaryUIButton" customModule="MapVieweriOS" customModuleProvider="target">
+                                <rect key="frame" x="146.66666666666666" y="153" width="120.99999999999997" height="39"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="22"/>
-                                <state key="normal" title="File Picker"/>
+                                <state key="normal" title="FILE PICKER"/>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="From a Folder" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mFv-EX-6cZ">
-                                <rect key="frame" x="20" y="92" width="141" height="29"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="From a Folder" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mFv-EX-6cZ">
+                                <rect key="frame" x="20" y="63.999999999999993" width="374" height="28.666666666666664"/>
                                 <accessibility key="accessibilityConfiguration">
                                     <accessibilityTraits key="traits" staticText="YES" header="YES"/>
                                 </accessibility>
@@ -193,8 +189,100 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Download Ready Made Maps" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YMD-Cg-1qy">
+                                <rect key="frame" x="20" y="280.66666666666669" width="374" height="24"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="For CPW Maps: Select the GeoPDF file format." textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mus-Ud-6zr">
+                                <rect key="frame" x="20" y="324.66666666666669" width="374" height="20.333333333333314"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="For USGS Topo: Select 'US Topo' for the Dataset." textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SVj-4t-jT4">
+                                <rect key="frame" x="20" y="365" width="374" height="40.666666666666686"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <stackView opaque="NO" contentMode="scaleToFill" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="VPF-MB-Z6o">
+                                <rect key="frame" x="79" y="425.66666666666669" width="256" height="39"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ciB-e1-VH9" customClass="PrimaryUIButton" customModule="MapVieweriOS" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="0.0" width="114" height="39"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="22"/>
+                                        <state key="normal" title="CPW MAPS"/>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2HW-uK-DLz" customClass="PrimaryUIButton" customModule="MapVieweriOS" customModuleProvider="target">
+                                        <rect key="frame" x="134" y="0.0" width="122" height="39"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="22"/>
+                                        <state key="normal" title="USGS TOPO"/>
+                                    </button>
+                                </subviews>
+                            </stackView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Download Custom Maps" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ULd-Ja-rCx">
+                                <rect key="frame" x="20" y="504.66666666666674" width="374" height="24"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Create a custom map then press the download icon." textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="P6T-dD-R8K">
+                                <rect key="frame" x="20" y="548.66666666666663" width="374" height="40.666666666666629"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <stackView opaque="NO" contentMode="scaleToFill" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="7CK-Dg-csW">
+                                <rect key="frame" x="37" y="609.33333333333337" width="340" height="39"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PlA-h7-rkn" customClass="PrimaryUIButton" customModule="MapVieweriOS" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="0.0" width="167" height="39"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="22"/>
+                                        <state key="normal" title="HUNTING ATLAS"/>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ydy-yT-F9m" customClass="PrimaryUIButton" customModule="MapVieweriOS" customModuleProvider="target">
+                                        <rect key="frame" x="187" y="0.0" width="153" height="39"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="22"/>
+                                        <state key="normal" title="FISHING ATLAS"/>
+                                    </button>
+                                </subviews>
+                            </stackView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="Rah-e8-mMc" firstAttribute="trailing" secondItem="SVj-4t-jT4" secondAttribute="trailing" constant="20" id="7fp-Vp-dK1"/>
+                            <constraint firstItem="VPF-MB-Z6o" firstAttribute="centerX" secondItem="uSc-zw-HM8" secondAttribute="centerX" id="8IJ-1l-FKx"/>
+                            <constraint firstItem="NQ8-59-Wkm" firstAttribute="centerX" secondItem="uSc-zw-HM8" secondAttribute="centerX" id="F0L-h1-RaF"/>
+                            <constraint firstItem="Rah-e8-mMc" firstAttribute="trailing" secondItem="mus-Ud-6zr" secondAttribute="trailing" constant="20" id="HU5-cf-JjD"/>
+                            <constraint firstItem="VPF-MB-Z6o" firstAttribute="top" secondItem="SVj-4t-jT4" secondAttribute="bottom" constant="20" id="IcU-zZ-sCX"/>
+                            <constraint firstItem="Rah-e8-mMc" firstAttribute="trailing" secondItem="Zml-oh-ZAx" secondAttribute="trailing" constant="20" id="Ifb-eF-9DZ"/>
+                            <constraint firstItem="Rah-e8-mMc" firstAttribute="trailing" secondItem="SaC-3b-U8V" secondAttribute="trailing" constant="20" id="K9k-Vo-xj0"/>
+                            <constraint firstItem="7CK-Dg-csW" firstAttribute="top" secondItem="P6T-dD-R8K" secondAttribute="bottom" constant="20" id="KAY-Na-qwv"/>
+                            <constraint firstAttribute="trailing" secondItem="P6T-dD-R8K" secondAttribute="trailing" constant="20" id="KeM-s5-gCz"/>
+                            <constraint firstItem="mus-Ud-6zr" firstAttribute="top" secondItem="YMD-Cg-1qy" secondAttribute="bottom" constant="20" id="PC4-pn-VBw"/>
+                            <constraint firstItem="mFv-EX-6cZ" firstAttribute="top" secondItem="Rah-e8-mMc" secondAttribute="top" constant="20" id="S6W-Wb-neS"/>
+                            <constraint firstItem="Rah-e8-mMc" firstAttribute="trailing" secondItem="mFv-EX-6cZ" secondAttribute="trailing" constant="20" id="Thh-d2-QYc"/>
+                            <constraint firstItem="YMD-Cg-1qy" firstAttribute="leading" secondItem="Rah-e8-mMc" secondAttribute="leading" constant="20" id="U6i-KI-nw2"/>
+                            <constraint firstItem="Zml-oh-ZAx" firstAttribute="leading" secondItem="Rah-e8-mMc" secondAttribute="leading" constant="20" id="VhK-eo-V8T"/>
+                            <constraint firstItem="YMD-Cg-1qy" firstAttribute="top" secondItem="Zml-oh-ZAx" secondAttribute="bottom" constant="20" id="dRD-rz-fqh"/>
+                            <constraint firstItem="P6T-dD-R8K" firstAttribute="top" secondItem="ULd-Ja-rCx" secondAttribute="bottom" constant="20" id="dzD-TL-ops"/>
+                            <constraint firstItem="SVj-4t-jT4" firstAttribute="leading" secondItem="Rah-e8-mMc" secondAttribute="leading" constant="20" id="fMP-g5-o1k"/>
+                            <constraint firstItem="SaC-3b-U8V" firstAttribute="top" secondItem="mFv-EX-6cZ" secondAttribute="bottom" constant="20" id="ggB-bF-9ZN"/>
+                            <constraint firstItem="7CK-Dg-csW" firstAttribute="centerX" secondItem="uSc-zw-HM8" secondAttribute="centerX" id="hlj-RY-Fm5"/>
+                            <constraint firstItem="Rah-e8-mMc" firstAttribute="trailing" secondItem="YMD-Cg-1qy" secondAttribute="trailing" constant="20" id="hvr-lk-wvr"/>
+                            <constraint firstItem="mFv-EX-6cZ" firstAttribute="leading" secondItem="Rah-e8-mMc" secondAttribute="leading" constant="20" id="jpX-0m-7AU"/>
+                            <constraint firstItem="NQ8-59-Wkm" firstAttribute="top" secondItem="SaC-3b-U8V" secondAttribute="bottom" constant="20" id="kM7-fF-fJf"/>
+                            <constraint firstItem="P6T-dD-R8K" firstAttribute="leading" secondItem="Rah-e8-mMc" secondAttribute="leading" constant="20" id="kMB-aJ-vQn"/>
+                            <constraint firstItem="mus-Ud-6zr" firstAttribute="leading" secondItem="Rah-e8-mMc" secondAttribute="leading" constant="20" id="mGL-eu-i0z"/>
+                            <constraint firstItem="ULd-Ja-rCx" firstAttribute="top" secondItem="VPF-MB-Z6o" secondAttribute="bottom" constant="40" id="mf5-3r-F0J"/>
+                            <constraint firstItem="Rah-e8-mMc" firstAttribute="trailing" secondItem="ULd-Ja-rCx" secondAttribute="trailing" constant="20" id="mw4-Ic-X3k"/>
+                            <constraint firstItem="SaC-3b-U8V" firstAttribute="leading" secondItem="Rah-e8-mMc" secondAttribute="leading" constant="20" id="nGL-fG-GJD"/>
+                            <constraint firstItem="Zml-oh-ZAx" firstAttribute="top" secondItem="NQ8-59-Wkm" secondAttribute="bottom" constant="40" id="ooc-NQ-QvJ"/>
+                            <constraint firstItem="SVj-4t-jT4" firstAttribute="top" secondItem="mus-Ud-6zr" secondAttribute="bottom" constant="20" id="tL1-rO-PtC"/>
+                            <constraint firstItem="ULd-Ja-rCx" firstAttribute="leading" secondItem="Rah-e8-mMc" secondAttribute="leading" constant="20" id="xES-sy-YjX"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="Rah-e8-mMc"/>
                     </view>
                     <navigationItem key="navigationItem" id="864-pM-HQY"/>
@@ -208,7 +296,7 @@
             <objects>
                 <viewController id="XwV-qs-rbI" customClass="MapViewController" customModule="MapVieweriOS" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="1Sn-FH-aig">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <viewLayoutGuide key="safeArea" id="n7v-S6-kn7"/>
@@ -241,6 +329,6 @@
     </scenes>
     <resources>
         <image name="cpw_sitelogo" width="32" height="32"/>
-        <image name="pdf_icon" width="27" height="37"/>
+        <image name="pdf_icon" width="27.333333969116211" height="37.333332061767578"/>
     </resources>
 </document>

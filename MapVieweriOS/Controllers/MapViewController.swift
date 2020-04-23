@@ -26,8 +26,6 @@ import UIKit
 import PDFKit // requires iOS 11+ iPhone 6+
 import CoreLocation // current location
 
-//var pdfView = PDFView()
-
 
 class MapViewController: UIViewController {
     var pdfView = PDFView()
@@ -55,11 +53,8 @@ class MapViewController: UIViewController {
     var pdfHeight:Double = 0.0
     var currentLatLong:UITextField = UITextField()
     var debugTxtBox:UITextField = UITextField()
-    //private let pdfDrawer = PDFDrawer()
     private var popup:UITextField = UITextField(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
     private var selectedWayPt:PDFAnnotation = PDFAnnotation()
-    
-    //(frame:  CGRect(x:0,y:50,width:200,height:30))
     
     
     override func viewDidLoad() {
@@ -72,13 +67,13 @@ class MapViewController: UIViewController {
         
         // Get pdf filename
         //guard let pdfFileURL = Bundle.main.url(forResource: "Wellington1", withExtension: "pdf", subdirectory: "myMaps") else {
-        guard var pdfFileName = map?.name else {
+        guard var pdfFileName = map?.fileName else {
             fatalError("Filename not readable from selected table row.")
         }
         // Strip off .pdf if it exists
         let index = pdfFileName.firstIndex(of: ".") ?? pdfFileName.endIndex
         pdfFileName = String(pdfFileName[..<index])
-        self.title = pdfFileName
+        self.title = map?.displayName
         
         guard let pdfFileURL = Bundle.main.url(forResource: pdfFileName, withExtension: "pdf") else {
             print ("PDF file not found.")
