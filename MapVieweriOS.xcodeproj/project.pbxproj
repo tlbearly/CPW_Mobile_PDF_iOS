@@ -72,6 +72,7 @@
 		609CA8F024412034006C0283 /* PrimaryUIButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimaryUIButton.swift; sourceTree = "<group>"; };
 		609CA8F5244132AC006C0283 /* MapListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapListViewController.swift; sourceTree = "<group>"; };
 		60B05F60244DE22B00A92950 /* Wellington3.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = Wellington3.pdf; sourceTree = "<group>"; };
+		60BBA1152453A53E0057A53D /* MapVieweriOSDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MapVieweriOSDebug.entitlements; sourceTree = "<group>"; };
 		60DBB8CE244A539600F84F4A /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		60DBB8D0244A53E400F84F4A /* PDFParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFParser.swift; sourceTree = "<group>"; };
 		60DBB8D2244A54E900F84F4A /* PushPin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushPin.swift; sourceTree = "<group>"; };
@@ -127,6 +128,7 @@
 		609CA8BF2440C353006C0283 /* MapVieweriOS */ = {
 			isa = PBXGroup;
 			children = (
+				60BBA1152453A53E0057A53D /* MapVieweriOSDebug.entitlements */,
 				6048D42A2450D7C100A14EBA /* aWellington3.pdf */,
 				60B05F60244DE22B00A92950 /* Wellington3.pdf */,
 				60DBB8E3244A606200F84F4A /* Wellington1.pdf */,
@@ -137,7 +139,6 @@
 				609CA8C02440C353006C0283 /* AppDelegate.swift */,
 				609CA8C22440C353006C0283 /* SceneDelegate.swift */,
 				609CA8C92440C355006C0283 /* Assets.xcassets */,
-				609CA8CB2440C355006C0283 /* LaunchScreen.storyboard */,
 				609CA8CE2440C355006C0283 /* Info.plist */,
 			);
 			path = MapVieweriOS;
@@ -165,6 +166,7 @@
 			isa = PBXGroup;
 			children = (
 				609CA8C62440C353006C0283 /* Main.storyboard */,
+				609CA8CB2440C355006C0283 /* LaunchScreen.storyboard */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -514,6 +516,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = MapVieweriOS/MapVieweriOSDebug.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = "$(SRCROOT)/MapVieweriOS/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;

@@ -17,16 +17,16 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="2Tb-g9-G3P">
-                                <rect key="frame" x="65.5" y="369.5" width="283" height="157"/>
+                                <rect key="frame" x="20" y="369.5" width="374" height="157"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Colorado Parks and Wildlife" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pVC-OD-UoT">
-                                        <rect key="frame" x="0.0" y="0.0" width="283" height="29"/>
+                                        <rect key="frame" x="45.5" y="0.0" width="283" height="29"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="24"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="cpw_sitelogo" translatesAutoresizingMaskIntoConstraints="NO" id="Jwf-3S-FHy">
-                                        <rect key="frame" x="87.5" y="49" width="108" height="108"/>
+                                        <rect key="frame" x="133" y="49" width="108" height="108"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="108" id="wHd-Zq-82j"/>
                                             <constraint firstAttribute="width" constant="108" id="zI7-LC-hLI"/>
@@ -38,6 +38,8 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <color key="tintColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="2Tb-g9-G3P" secondAttribute="trailing" constant="20" id="3eL-cZ-UWE"/>
+                            <constraint firstItem="2Tb-g9-G3P" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="ArF-Vc-UjR"/>
                             <constraint firstItem="2Tb-g9-G3P" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="OWB-0p-h3q"/>
                             <constraint firstItem="2Tb-g9-G3P" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="zSq-7m-nAL"/>
                         </constraints>
