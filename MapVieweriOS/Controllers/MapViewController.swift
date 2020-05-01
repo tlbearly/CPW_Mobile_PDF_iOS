@@ -28,7 +28,7 @@ import CoreLocation // current location
 
 
 class MapViewController: UIViewController {
-    var pdfView = PDFView()
+    var pdfView:PDFView = PDFView()
     var map:PDFMap?
     var locationManager = CLLocationManager()
     // make a dummy location dot because displayLocation deletes it first
@@ -56,7 +56,6 @@ class MapViewController: UIViewController {
     private var popup:UITextField = UITextField(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
     private var selectedWayPt:PDFAnnotation = PDFAnnotation()
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -79,10 +78,11 @@ class MapViewController: UIViewController {
             print ("PDF file not found.")
             return
         }
-        guard  let pdfView = setupPDFView(url: pdfFileURL) else {
+        setupPDFView(url: pdfFileURL)
+        /*guard let pdfView = setupPDFView(url: pdfFileURL) else {
             print("Error: PDF not found!");
             return;
-        }
+        }*/
         
         
         // text fields at top to display current lat long & debug info
@@ -96,7 +96,7 @@ class MapViewController: UIViewController {
         
         
         
-        
+
         // try to zoom in
        /* if let page = document.page(at: 0) {
             pdfView.scaleFactor = pdfView.scaleFactorForSizeToFit * 2
@@ -165,26 +165,58 @@ class MapViewController: UIViewController {
         }
         //locationManager.delegate=self
         locationManager.desiredAccuracy=kCLLocationAccuracyBest
-        locationManager.requestWhenInUseAuthorization()
+        let status = CLLocationManager.authorizationStatus()
+        print("location status ",status)
+        switch status {
+        case .notDetermined:
+            // display button, when click on it display permissions request
+            currentLatLong.text = " Current location: Needs location permission"
+            let allowBtn = PrimaryUIButton()
+            allowBtn.setTitle("Allow Location Permission", for: .normal)
+            allowBtn.addTarget(self, action: #selector(self.allowBtnPressed), for: .touchUpInside)
+            allowBtn.backgroundColor = UIColor.cyan
+            allowBtn.setTitleColor(.black, for: .normal)
+            view.addSubview(allowBtn)
+            allowBtn.translatesAutoresizingMaskIntoConstraints = false
+            allowBtn.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 30).isActive = true
+            allowBtn.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -30).isActive = true
+            allowBtn.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 80).isActive = true
+            allowBtn.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 140).isActive = true
+            
+            
+        case .denied, .restricted:
+            let alert = UIAlertController(title: "Location Services disabled", message: "Please enable Location Services in Settings", preferredStyle: .alert)
+            let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+            alert.addAction(okAction)
+
+            present(alert, animated: true, completion: nil)
+            return
+        case .authorizedAlways, .authorizedWhenInUse:
+            locationManager.startUpdatingLocation()
+            locationManager.startUpdatingHeading() // get azimuth
+            self.displayLocation(page: page, pdfView: self.pdfView) // initial location
+            // update location every 3 seconds
+            Timer.scheduledTimer(withTimeInterval: 2, repeats: true) { timer in
+                self.displayLocation(page: page, pdfView: self.pdfView)
+            }
+        default:
+            locationManager.requestWhenInUseAuthorization()
+            locationManager.startUpdatingLocation()
+            locationManager.startUpdatingHeading() // get azimuth
+            self.displayLocation(page: page, pdfView: self.pdfView) // initial location
+            // update location every 3 seconds
+            Timer.scheduledTimer(withTimeInterval: 2, repeats: true) { timer in
+                self.displayLocation(page: page, pdfView: self.pdfView)
+            }
+        }
+        /*locationManager.requestWhenInUseAuthorization()
         locationManager.startUpdatingLocation()
         locationManager.startUpdatingHeading() // get azimuth
         self.displayLocation(page: page, pdfView: pdfView) // initial location
+        */
         
-        // update location every 3 seconds
-        //var locTimer: Timer?
-        //var lat = 40.69847
-        //var long = -105.01303195
-        //displayLocation(page: page, pdfView: pdfView, latNow: lat, longNow: long)
-        //let locTimer =
-        Timer.scheduledTimer(withTimeInterval: 2, repeats: true) { timer in
-            self.displayLocation(page: page, pdfView: pdfView)
-            /*self.displayLocation(page: page, pdfView: pdfView, latNow: lat, longNow: long)
-            lat += 0.001
-            long += 0.001
-            if lat > 41 {
-                locTimer?.invalidate() // stop the timer
-            }*/
-        }
+        
+
         
         // register touch events
         //let singleScreenTap = UITapGestureRecognizer(target: pdfView, action: #selector(zoomIn(_:)))
@@ -195,10 +227,15 @@ class MapViewController: UIViewController {
     }
     
     
-    func setupPDFView(url: URL) -> PDFView? {
-        let pdfView = PDFView(frame: self.view.bounds);
+    //func setupPDFView(url: URL) -> PDFView? {
+        func setupPDFView(url: URL) {
+        //let pdfView = PDFView(frame: self.view.bounds);
+        pdfView.frame = self.view.bounds
+        //pdfView = PDFView(frame: self.view.bounds);
         guard let document:PDFDocument = PDFDocument(url: url) else{
-            return nil
+            print("File not found: ",url)
+            return
+            //return nil
         }
         // Must set this to false!
         pdfView.translatesAutoresizingMaskIntoConstraints = false
@@ -246,7 +283,7 @@ class MapViewController: UIViewController {
         pdfView.addGestureRecognizer(pdfDrawingGestureRecognizer)
         pdfDrawingGestureRecognizer.drawingDelegate = pdfDrawer
         pdfDrawer.pdfView = pdfView*/
-        return pdfView
+   //     return pdfView
     }
     
     
@@ -313,7 +350,7 @@ class MapViewController: UIViewController {
             }
         }
         else {
-            currentLatLong.text = "  Current location: Not available"
+            currentLatLong.text = "  Current location: Needs location permission"
             return
         }
         // See if current location is on the map
@@ -397,6 +434,25 @@ class MapViewController: UIViewController {
     func savePDF(fileName:String){
        let path = Bundle.main.url(forResource: fileName, withExtension: "pdf")
        pdfView.document?.write(to:path!)
+    }
+    
+    @objc func allowBtnPressed(){
+        // User pressed allowBtn display permissions dialog
+        print("button pressed")
+        // hide button
+        //self.allowBtn.hidden();
+        locationManager.requestWhenInUseAuthorization()
+        locationManager.startUpdatingLocation()
+        locationManager.startUpdatingHeading() // get azimuth
+        guard let page = self.pdfView.document?.page(at: 0) else {
+            print("Problem reading the PDF. Can't get page 1.")
+            return
+        }
+        self.displayLocation(page: page, pdfView: self.pdfView) // initial location
+        // update location every 3 seconds
+        Timer.scheduledTimer(withTimeInterval: 2, repeats: true) { timer in
+            self.displayLocation(page: page, pdfView: self.pdfView)
+        }
     }
     
     

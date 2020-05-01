@@ -19,7 +19,9 @@ class AddMapsViewController: UIViewController {
         
         self.title = "Add Map"
         // For debugging write a test file to the documents dir
-        //writeDebugPDF(self)
+        writeDebugPDF(self, newFile: "Wellington")
+        writeDebugPDF(self, newFile: "Wellington1")
+        writeDebugPDF(self, newFile: "Wellington3")
     }
     
 
@@ -33,9 +35,10 @@ class AddMapsViewController: UIViewController {
     }
     */
     
-    func writeDebugPDF(_ sender: Any){
+    func writeDebugPDF(_ sender: Any, newFile: String){
         // use in simulater to write Wellington.pdf to the Simulator documents directory.
-        guard let pdfFileURL = Bundle.main.url(forResource: "Wellington", withExtension: "pdf") else {
+        
+        guard let pdfFileURL = Bundle.main.url(forResource: newFile, withExtension: "pdf") else {
             print ("Can't write file: PDF file not found.")
             return
         }
@@ -45,13 +48,13 @@ class AddMapsViewController: UIViewController {
             return
         }
 
-        let fileName = "Wellington.pdf"
+        let fileName = newFile+".pdf"
         let destURL = documentsURL.appendingPathComponent(fileName)
         do {
             try FileManager.default.copyItem(at:pdfFileURL, to: destURL)
         }
         catch{
-            print("can't copy file")
+            print("can't copy file: ",error.localizedDescription)
         }
     }
     
@@ -71,7 +74,10 @@ class AddMapsViewController: UIViewController {
 extension AddMapsViewController: UIDocumentPickerDelegate {
     func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
        // called when user selects a pdf to import
-        print("selected a pdf. File is in urls[0]")
+        print("selected a pdf. File is in urls[0]",urls[0].lastPathComponent)
+        // copy file to documents directory, warn if it already imported
         
+        // load Maps List and call loadMaps to update list, then display the map MapViewContainer
+        super.dismiss(animated: true, completion: nil) // does nothing!!!!!!
     }
 }

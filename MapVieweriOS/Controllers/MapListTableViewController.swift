@@ -25,7 +25,7 @@ class MapListTableViewController: UITableViewController {
         loadMaps()
         
         // sort by name
-        sortList(type: "reverse")
+        sortList(type: "date")
         
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
@@ -43,10 +43,40 @@ class MapListTableViewController: UITableViewController {
     // MARK: Private Methods
     
     private func loadMaps() {
-        // Load all PDF files found in the local directory. PDFMap gets the file modification
+        // Load all PDF files found in the local documents directory. PDFMap gets the file modification
         // date and parses the file for thumbnail. When the map is loaded in MapViewController,
         // it calls PDFParser to get lat/long bounds, mediabox, and viewport
-        guard let map1 = PDFMap(fileName: "aWellington3.pdf") else {
+        
+        // get documents directory
+        guard let documentsUrl = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else {
+            print("documents directory does not exist!")
+            return
+        }
+
+        // get pdf files in documents directory
+        var dirContents: [URL]? = nil
+        do {
+            dirContents = try FileManager.default.contentsOfDirectory(at: documentsUrl, includingPropertiesForKeys: nil, options: .skipsHiddenFiles)
+        }catch {
+            print(error)
+            return
+        }
+          
+        if dirContents != nil {
+            let pdfFiles = dirContents!.filter{ $0.pathExtension == "pdf" }
+            
+            // load pdf files into maps array
+                for pdf in pdfFiles.enumerated() {
+                    let map = PDFMap(fileName: pdf.element.lastPathComponent)
+                    if map != nil {
+                        maps += [map!]
+                    }
+                }
+            
+        }
+        
+        
+        /*guard let map1 = PDFMap(fileName: "aWellington3.pdf") else {
             fatalError("File not found: aWellington3.pdf")
         }
         guard let map2 = PDFMap(fileName: "Wellington1.pdf") else {
@@ -56,6 +86,7 @@ class MapListTableViewController: UITableViewController {
             fatalError("Unable to instantiate map3")
         }
         maps += [map1, map2, map3]
+        */
     }
 
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -66,6 +97,10 @@ class MapListTableViewController: UITableViewController {
     func sortList(type: String = "name"){
         switch type {
         // by file last modified date
+        case "date":
+            maps = maps.sorted(by: {
+                $0.modDate > $1.modDate
+            })
         // by filename z-a
         case "reverse":
             maps = maps.sorted(by:{

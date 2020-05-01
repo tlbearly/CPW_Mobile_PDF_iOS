@@ -32,9 +32,18 @@ class PDFMap {
         let pdfFileName = String(fileName[..<index]) // without .pdf
         
         // Get URL
-        guard let pdfFileURL = Bundle.main.url(forResource: pdfFileName, withExtension: "pdf") else {
+        // To enable “Open in place” add “Application supports iTunes file sharing” or “UIFileSharingEnabled” key with value “YES” in Info.plist and to enable “File sharing” add “LSSupportsOpeningDocumentsInPlace” or “Supports opening documents in place” key with value “YES” in Info.plist.
+        // PDF Maps stored in Documents directory. User can access, copy, share, and delete. Gets backed up.
+        guard let pdfFileURL = pathForDocumentDirectoryAsURL()?.appendingPathComponent(fileName) else {
             return nil
         }
+        
+        
+        
+        // DEBUGGING Stored in main bundle. App cannot write to this directory!!!
+   /*     guard let pdfFileURL = Bundle.main.url(forResource: pdfFileName, withExtension: "pdf") else {
+            return nil
+        }*/
         
         // Get thumbnail
         self.thumbnail = pdfThumbnail(url: pdfFileURL, width: 90, height: 90) ??  UIImage(imageLiteralResourceName: "pdf_icon")
@@ -66,15 +75,38 @@ class PDFMap {
         return nil
       }
 
-      //let pageSize = page.bounds(for: .mediaBox)
-      //let pdfScale = width / pageSize.width
-
-      // Apply if you're displaying the thumbnail on screen
-      //let scale = UIScreen.main.scale * pdfScale
-      //let screenSize = CGSize(width: pageSize.width * scale,
-      //                        height: pageSize.height * scale)
-
       let screenSize = CGSize(width: width, height: height)
       return page.thumbnail(of: screenSize, for: .mediaBox)
     }
+    
+    func pathForDocumentDirectoryAsURL() -> URL? {
+        FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first
+    }
+    
+    func pathForDocumentDirectoryAsString() -> [String]? {
+        NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
+    }
+    
+    func pathForAppSupportDirectoryAsUrl() -> URL? {
+        var appSupportDirectory: URL?
+        do {
+            appSupportDirectory = try FileManager.default.url(for: .applicationSupportDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
+        }catch {
+            // failed to read directory - bad permissions, perhaps?
+            return nil
+        }
+        return appSupportDirectory
+    }
+    
+    func volumeCapacityForImportantUsage() -> Int64? {
+        let documentDirectoryPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first
+        var results: URLResourceValues?
+        do {
+            results = try documentDirectoryPath?.resourceValues(forKeys: [.volumeAvailableCapacityForImportantUsageKey])
+        } catch {
+            return 0
+        }
+        return results?.volumeAvailableCapacityForImportantUsage
+    }
+    
 }
