@@ -31,6 +31,7 @@ class MapViewController: UIViewController {
     var pdfView:PDFView = PDFView()
     var map:PDFMap?
     var locationManager = CLLocationManager()
+    let allowBtn = PrimaryUIButton() // turn on location services button
     // make a dummy location dot because displayLocation deletes it first
     var currentLocation: PDFAnnotation = PDFAnnotation(bounds: CGRect(x:0, y:0, width:1,height:1), forType: .circle, withProperties: nil)
     var lat1:Double = 0.0
@@ -45,8 +46,6 @@ class MapViewController: UIViewController {
     var marginRight:Double = 0.0
     var mediaBoxWidth:Double = 0.0
     var mediaBoxHeight:Double = 0.0
-    var marginXworld:Double = 0.0
-    var marginYworld:Double = 0.0
     var latDiff:Double = 0.0
     var longDiff:Double = 0.0
     var pdfWidth:Double = 0.0
@@ -64,30 +63,21 @@ class MapViewController: UIViewController {
         // OPEN PDF & Add pdfView
         //
         
-        // Get pdf filename
-        //guard let pdfFileURL = Bundle.main.url(forResource: "Wellington1", withExtension: "pdf", subdirectory: "myMaps") else {
-        guard var pdfFileName = map?.fileName else {
-            fatalError("Filename not readable from selected table row.")
+        guard let url = map?.fileURL else {
+            fatalError("PDF file not found.")
         }
-        // Strip off .pdf if it exists
-        let index = pdfFileName.firstIndex(of: ".") ?? pdfFileName.endIndex
-        pdfFileName = String(pdfFileName[..<index])
-        self.title = map?.displayName
-        
-        guard let pdfFileURL = Bundle.main.url(forResource: pdfFileName, withExtension: "pdf") else {
-            print ("PDF file not found.")
-            return
+        // check if file exists
+        if !UIApplication.shared.canOpenURL(url){
+            fatalError("PDF file not found.")
         }
-        setupPDFView(url: pdfFileURL)
-        /*guard let pdfView = setupPDFView(url: pdfFileURL) else {
-            print("Error: PDF not found!");
-            return;
-        }*/
+        setupPDFView(url: url)
         
         
-        // text fields at top to display current lat long & debug info
+        // Current location: lat long
         addCurrentLatLongTextbox()
-    //    addDebugTextbox()
+        
+        // Debug text box
+      //addDebugTextbox()
   
 
         
@@ -117,53 +107,35 @@ class MapViewController: UIViewController {
         
     
         
+        // page margins
+        marginTop = map!.marginTop
+        marginBottom = map!.marginBottom
+        marginLeft = map!.marginLeft
+        marginRight = map!.marginRight
         
+        // page boundary with margins
+        mediaBoxWidth = map!.mediaBoxWidth
+        mediaBoxHeight = map!.mediaBoxHeight
         
+        // lat/long boundary in decimal degrees
+        lat1 = map!.lat1
+        long1 = map!.long1
+        lat2 = map!.lat2
+        long2 = map!.long2
+        latDiff = map!.latDiff
+        longDiff = map!.longDiff
         
-        // Parse PDF return bounds (lat, long), viewport (margins), mediabox (page size).
-        let pdf: [String:Any?] = PDFParser.parse(pdfUrl: pdfFileURL)
-        print ("-- RETURNED VALUES --")
-        guard let bounds = pdf["bounds"]!! as? [Double] else {
-            print("Error: cannot convert bounds to float array")
-            return
-        }
-        print ("lat/long bounds: \(bounds)")
-        guard let viewport = pdf["viewport"]!! as? [Float] else{
-            print("Error: cannot convert viewport to float array")
-            return
-        }
-        print ("viewport margins: \(viewport)")
-        guard let mediabox = pdf["mediabox"]!! as? [Float] else {
-            print("Error: cannot convert mediabox to float array")
-            return
-        }
-        print ("mediabox page size: \(mediabox)")
-        marginTop = Double(mediabox[3] - viewport[1])
-        marginBottom = Double(viewport[3])
-        marginLeft = Double(viewport[0])
-        marginRight = Double(mediabox[2] - viewport[2])
-        mediaBoxWidth = Double(mediabox[2] - mediabox[0])
-        mediaBoxHeight = Double(mediabox[3] - mediabox[1])
-        marginXworld = Double(marginLeft + marginRight)
-        marginYworld = Double(marginTop + marginBottom)
-        lat1 = bounds[0]
-        long1 = bounds[1]
-        lat2 = bounds[2]
-        long2 = bounds[5]
-        latDiff = (90.0 - lat1) - (90.0 - lat2)
-        longDiff = (long2 + 180.0) - (long1 + 180.0)
-        // mediaBox is page boundary
-        pdfWidth = (mediaBoxWidth - (marginLeft + marginRight)) // don't need * zoom
-        pdfHeight = (mediaBoxHeight - (marginTop + marginBottom))
+        // pdf boundary without margins
+        pdfWidth = map!.pdfWidth
+        pdfHeight = map!.pdfHeight
         
         
         // Call location manager
-        // Add annotation push pin
         guard let page = pdfView.document?.page(at: 0) else {
             print("Problem reading the PDF. Can't get page 1.")
             return
         }
-        //locationManager.delegate=self
+        
         locationManager.desiredAccuracy=kCLLocationAccuracyBest
         let status = CLLocationManager.authorizationStatus()
         print("location status ",status)
@@ -171,26 +143,26 @@ class MapViewController: UIViewController {
         case .notDetermined:
             // display button, when click on it display permissions request
             currentLatLong.text = " Current location: Needs location permission"
-            let allowBtn = PrimaryUIButton()
+            allowBtn.isHidden = false
             allowBtn.setTitle("Allow Location Permission", for: .normal)
             allowBtn.addTarget(self, action: #selector(self.allowBtnPressed), for: .touchUpInside)
             allowBtn.backgroundColor = UIColor.cyan
             allowBtn.setTitleColor(.black, for: .normal)
             view.addSubview(allowBtn)
             allowBtn.translatesAutoresizingMaskIntoConstraints = false
-            allowBtn.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 30).isActive = true
-            allowBtn.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -30).isActive = true
-            allowBtn.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 80).isActive = true
-            allowBtn.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 140).isActive = true
-            
+            allowBtn.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 50).isActive = true
+            allowBtn.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -50).isActive = true
+            allowBtn.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -130).isActive = true
+            allowBtn.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -80).isActive = true
             
         case .denied, .restricted:
-            let alert = UIAlertController(title: "Location Services disabled", message: "Please enable Location Services in Settings", preferredStyle: .alert)
+            currentLatLong.text = " Current location: Needs location permission"
+            let alert = UIAlertController(title: "Location Services Disabled", message: "Please enable Location Services in Settings, Privacy, Location Services.", preferredStyle: .alert)
             let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
             alert.addAction(okAction)
-
             present(alert, animated: true, completion: nil)
             return
+            
         case .authorizedAlways, .authorizedWhenInUse:
             locationManager.startUpdatingLocation()
             locationManager.startUpdatingHeading() // get azimuth
@@ -199,6 +171,7 @@ class MapViewController: UIViewController {
             Timer.scheduledTimer(withTimeInterval: 2, repeats: true) { timer in
                 self.displayLocation(page: page, pdfView: self.pdfView)
             }
+            
         default:
             locationManager.requestWhenInUseAuthorization()
             locationManager.startUpdatingLocation()
@@ -278,12 +251,6 @@ class MapViewController: UIViewController {
         singleScreenTap.require(toFail: doubleScreenTap)
         pdfView.addGestureRecognizer(singleScreenTap)
         pdfView.addGestureRecognizer(doubleScreenTap)
-        
-        /*let pdfDrawingGestureRecognizer = DrawingGestureRecognizer()
-        pdfView.addGestureRecognizer(pdfDrawingGestureRecognizer)
-        pdfDrawingGestureRecognizer.drawingDelegate = pdfDrawer
-        pdfDrawer.pdfView = pdfView*/
-   //     return pdfView
     }
     
     
@@ -438,9 +405,8 @@ class MapViewController: UIViewController {
     
     @objc func allowBtnPressed(){
         // User pressed allowBtn display permissions dialog
-        print("button pressed")
         // hide button
-        //self.allowBtn.hidden();
+        allowBtn.isHidden = true;
         locationManager.requestWhenInUseAuthorization()
         locationManager.startUpdatingLocation()
         locationManager.startUpdatingHeading() // get azimuth

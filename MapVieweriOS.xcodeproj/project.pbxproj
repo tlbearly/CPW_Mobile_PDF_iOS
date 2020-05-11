@@ -29,6 +29,7 @@
 		60DBB8D3244A54E900F84F4A /* PushPin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60DBB8D2244A54E900F84F4A /* PushPin.swift */; };
 		60DBB8E2244A605200F84F4A /* Wellington.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 60DBB8E1244A605200F84F4A /* Wellington.pdf */; };
 		60DBB8E4244A606200F84F4A /* Wellington1.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 60DBB8E3244A606200F84F4A /* Wellington1.pdf */; };
+		A4535D6E2469BE4D000E945B /* 63RanchSTL_geo.pdf in Resources */ = {isa = PBXBuildFile; fileRef = A4535D6D2469BE4D000E945B /* 63RanchSTL_geo.pdf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -78,6 +79,7 @@
 		60DBB8D2244A54E900F84F4A /* PushPin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushPin.swift; sourceTree = "<group>"; };
 		60DBB8E1244A605200F84F4A /* Wellington.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = Wellington.pdf; sourceTree = "<group>"; };
 		60DBB8E3244A606200F84F4A /* Wellington1.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = Wellington1.pdf; sourceTree = "<group>"; };
+		A4535D6D2469BE4D000E945B /* 63RanchSTL_geo.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = 63RanchSTL_geo.pdf; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -128,6 +130,7 @@
 		609CA8BF2440C353006C0283 /* MapVieweriOS */ = {
 			isa = PBXGroup;
 			children = (
+				A4535D6D2469BE4D000E945B /* 63RanchSTL_geo.pdf */,
 				60BBA1152453A53E0057A53D /* MapVieweriOSDebug.entitlements */,
 				6048D42A2450D7C100A14EBA /* aWellington3.pdf */,
 				60B05F60244DE22B00A92950 /* Wellington3.pdf */,
@@ -304,6 +307,7 @@
 				60DBB8E2244A605200F84F4A /* Wellington.pdf in Resources */,
 				609CA8CA2440C355006C0283 /* Assets.xcassets in Resources */,
 				60DBB8E4244A606200F84F4A /* Wellington1.pdf in Resources */,
+				A4535D6E2469BE4D000E945B /* 63RanchSTL_geo.pdf in Resources */,
 				609CA8C82440C353006C0283 /* Main.storyboard in Resources */,
 				6048D42B2450D7C100A14EBA /* aWellington3.pdf in Resources */,
 				60B05F61244DE22B00A92950 /* Wellington3.pdf in Resources */,

@@ -80,7 +80,6 @@ class PDFParser
         
         // get media box
         var mediaBox: [CGFloat] = [0.0, 0.0, 0.0, 0.0]
-        //var str: String = page.getBoxRect(CGPDFBox.mediaBox)
         mediaBox[0] =  page.getBoxRect(CGPDFBox.mediaBox).minX
         mediaBox[1] =  page.getBoxRect(CGPDFBox.mediaBox).minY
         mediaBox[2] =  page.getBoxRect(CGPDFBox.mediaBox).width
@@ -103,7 +102,6 @@ class PDFParser
         var vp: CGPDFArrayRef?
         if CGPDFDictionaryGetArray(dictionary,"VP",&vp), let vpArray = vp {
             var maxBBoxHt: Float = 0.0
-            //var bboxValues = ""
             var bboxValues: [Float] = []
             var gptsValues: [Double] = []   //String = ""
             var measureDicts: [Int : CGPDFDictionaryRef] = [:]
@@ -177,13 +175,10 @@ class PDFParser
                 print ("bounds = \(gptsValues)")
             }
             
-            // TODO:  return values here... add thumbnail filename
+            // TODO:  return values here...
             return ["bounds": gptsValues,
                     "mediabox": mediabox,
-                    "viewport": bboxValues,
-                    "thumbnail": nil]
-            
-            
+                    "viewport": bboxValues]
         }
         // no VP, This is the GeoPDF format
         else {

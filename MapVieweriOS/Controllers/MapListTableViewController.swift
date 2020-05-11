@@ -14,6 +14,7 @@ import UIKit
 
 class MapListTableViewController: UITableViewController {
     var currentMapName:String?
+    private var sortBy = "name" // user selected sort method
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,8 +25,8 @@ class MapListTableViewController: UITableViewController {
         // load maps
         loadMaps()
         
-        // sort by name
-        sortList(type: "date")
+        // sort list
+        sortList(type: sortBy)
         
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
@@ -33,12 +34,32 @@ class MapListTableViewController: UITableViewController {
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        sortList(type: sortBy)
+        self.tableView.reloadData()
+    }
 
    
     // MARK: - Table view data source
 
     
     var maps = [PDFMap]()
+    
+    // MARK: Actions
+    
+    @IBAction func unwindToMapsList(sender: UIStoryboardSegue){
+        // Called from AddMapsViewController when user selects a file from file picker or downloads from a website.
+        if let sourceViewController = sender.source as? AddMapsViewController, let map = sourceViewController.map {
+            // Import map
+            let newIndexPath = IndexPath(row: maps.count, section: 0)
+            
+            maps.append(map)
+            tableView.insertRows(at: [newIndexPath], with: .automatic)
+            print("count = \(maps.count)")
+        }
+    }
     
     // MARK: Private Methods
     
@@ -100,6 +121,11 @@ class MapListTableViewController: UITableViewController {
         case "date":
             maps = maps.sorted(by: {
                 $0.modDate > $1.modDate
+            })
+        // by filename a-z
+        case "name":
+            maps = maps.sorted(by: {
+                $0.fileName.lowercased() < $1.fileName.lowercased()
             })
         // by filename z-a
         case "reverse":

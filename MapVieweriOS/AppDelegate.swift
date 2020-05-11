@@ -2,7 +2,7 @@
 //  AppDelegate.swift
 //  MapViewer
 //
-//  Created by Brittney Bearly on 4/10/20.
+//  Created by Tammy Bearly on 4/10/20.
 //  Copyright © 2020 Colorado Parks and Wildlife. All rights reserved.
 //
 

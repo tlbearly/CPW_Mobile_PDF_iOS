@@ -13,7 +13,6 @@ import UIKit
 var showSplashView:Bool = true
 
 class MapListViewController: UINavigationController {
-    
     override func viewDidLoad() {
         super.viewDidLoad()
     }
@@ -26,6 +25,8 @@ class MapListViewController: UINavigationController {
             self.performSegue(withIdentifier: "goToSplash", sender: self.superclass)
         }
     }
+    
+    // MARK: Navigation
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?){
         super.prepare(for: segue, sender: sender) // does not catch goToMap segue???????? Just goToSplash
