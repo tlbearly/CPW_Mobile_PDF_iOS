@@ -11,8 +11,11 @@ import UIKit
 class MapListTableViewCell: UITableViewCell {
 
     @IBOutlet weak var pdfImage: UIImageView!
-    @IBOutlet weak var nameLabel: UILabel!
+    @IBOutlet weak var mapName: UITextField!
+    @IBOutlet weak var nameLabel: UILabel! // file size
+    @IBOutlet weak var distToMap: UILabel! // distance to map
     @IBOutlet weak var loadingProgress: UIProgressView!
+    @IBOutlet weak var fileName: UILabel! // pdf file name
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -24,5 +27,11 @@ class MapListTableViewCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
+    /*@IBAction func editMapName(_ sender: Any) {
+        let name = (sender as! UITextField).text
+        if (name != nil && name != ""){
+            print ("edit map name \(name)")
+        }
+    }*/
     
 }

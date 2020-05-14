@@ -14,13 +14,20 @@ import UIKit
 import PDFKit
 
 class PDFMap {
-    var displayName: String = "" // PDF display name, user can modify this
+    // PDF display name, user can modify this
+    var displayName: String = "" {didSet {
+            print("Map Name changed to \(displayName).")
+        }}
+    var tableIndex: Int = 0
+    
     var fileName: String = "" // PDF filename
     var fileURL: URL? // PDF filename and URL
     var thumbnail: UIImage?
     var bounds:[Double] = [0.0, 0.0, 0.0, 0.0]
     var modDate:Double = 0.0 // modification date
     var fileSize:String = "0 KB" // PDF file size
+    var mapDist:String = "" // 10 mi or icon
+    var locationIcon:Bool = false // show location icon if on map
     
     // margins
     var marginTop: Double = 0.0
@@ -51,7 +58,6 @@ class PDFMap {
             return nil
         }
         
-        //self.displayName = fileName
         self.fileName = fileName
         
         // strip off .pdf

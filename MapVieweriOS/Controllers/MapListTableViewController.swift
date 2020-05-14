@@ -13,7 +13,7 @@
 import UIKit
 
 class MapListTableViewController: UITableViewController {
-    var currentMapName:String?
+    //var currentMapName:String?
     private var sortBy = "name" // user selected sort method
     
     override func viewDidLoad() {
@@ -32,7 +32,7 @@ class MapListTableViewController: UITableViewController {
         // self.clearsSelectionOnViewWillAppear = false
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
+         self.navigationItem.leftBarButtonItem = self.editButtonItem
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -74,6 +74,9 @@ class MapListTableViewController: UITableViewController {
             return
         }
 
+        //
+        // MARK: TODO: ***** replace this with reading from library  *****
+        //
         // get pdf files in documents directory
         var dirContents: [URL]? = nil
         do {
@@ -87,27 +90,14 @@ class MapListTableViewController: UITableViewController {
             let pdfFiles = dirContents!.filter{ $0.pathExtension == "pdf" }
             
             // load pdf files into maps array
-                for pdf in pdfFiles.enumerated() {
-                    let map = PDFMap(fileName: pdf.element.lastPathComponent)
-                    if map != nil {
-                        maps += [map!]
-                    }
+            for pdf in pdfFiles.enumerated() {
+                let map = PDFMap(fileName:
+                    pdf.element.lastPathComponent)
+                if map != nil {
+                    maps += [map!]
                 }
-            
+            }
         }
-        
-        
-        /*guard let map1 = PDFMap(fileName: "aWellington3.pdf") else {
-            fatalError("File not found: aWellington3.pdf")
-        }
-        guard let map2 = PDFMap(fileName: "Wellington1.pdf") else {
-            fatalError("Unable to instantiate map2")
-        }
-        guard let map3 = PDFMap(fileName: "Wellington.pdf") else {
-            fatalError("Unable to instantiate map3")
-        }
-        maps += [map1, map2, map3]
-        */
     }
 
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -141,6 +131,35 @@ class MapListTableViewController: UITableViewController {
     }
     
     
+    // Set visible cells to enable editing of map name and allow deleting
+    override func setEditing(_ editing: Bool, animated: Bool) {
+        super.setEditing(editing, animated: animated)
+        let cells = self.tableView.visibleCells as! Array<MapListTableViewCell>
+        if (editing) {
+            // Edit button pushed. Highlight map name text box and make editable.
+            for cell in cells {
+                cell.mapName.isEnabled = true // editable
+                cell.mapName.backgroundColor = .init(red: 0.95, green: 0.95, blue: 0.95, alpha: 1)
+                cell.mapName.borderStyle = UITextField.BorderStyle.roundedRect
+            }
+        }
+        else {
+            // Done button pushed. Update all map names. Set map name text boxes to un-editable
+            for cell in cells {
+                cell.mapName.isEnabled = false
+                cell.mapName.backgroundColor = .white
+                cell.mapName.borderStyle = UITextField.BorderStyle.none
+                // search for cell where filenames match. Filename must be unique.
+                for i in 0...maps.count-1 {
+                    if maps[i].fileName == cell.fileName.text {
+                        maps[i].displayName = cell.mapName.text ?? "Map Name"
+                    }
+                }
+            }
+             self.tableView.reloadData()
+        }
+    }
+    
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // return the number of rows
@@ -156,26 +175,43 @@ class MapListTableViewController: UITableViewController {
         
         // Fetches the appropriate map for the data source layout.
         let map = maps[indexPath.row]
-        cell.nameLabel.text = map.displayName
+        cell.nameLabel.text = map.fileName // change to file size!!!!!!
+        cell.distToMap.text = "10 mi"
+        cell.mapName.text = map.displayName
+        cell.fileName.text = map.fileName
+        cell.mapName.placeholder = "Map Name"
         cell.pdfImage.image = map.thumbnail
         return cell
     }
     
     /*
+    // Not called while in edit mode
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         // Cell clicked on
         let cell = tableView.cellForRow(at: indexPath) as! MapListTableViewCell
     }
     */
 
-    /*
+    
     // Override to support conditional editing of the table view.
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         // Return false if you do not want the specified item to be editable.
         return true
     }
-    */
-
+    
+    /*
+    override func tableView(_ tableView: UITableView,
+                            willBeginEditingRowAt indexPath: IndexPath) {
+        super.tableView(tableView, willBeginEditingRowAt: indexPath)
+        print ("willBeginEditingRowAt")
+    }
+    
+    override func tableView(_ tableView: UITableView, didEndEditingRowAt indexPath: IndexPath?) {
+        super.tableView(tableView, didEndEditingRowAt: indexPath)
+        // Call when user presses delete button??????????
+        print("ddidEndEditingRowAt")
+    }
+ */
     
     // Swipe left to delete
     // Override to support editing the table view.

@@ -70,6 +70,8 @@ class MapViewController: UIViewController {
         if !UIApplication.shared.canOpenURL(url){
             fatalError("PDF file not found.")
         }
+        self.title = map?.displayName
+        
         setupPDFView(url: url)
         
         
