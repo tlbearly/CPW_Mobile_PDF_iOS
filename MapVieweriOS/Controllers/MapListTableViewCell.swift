@@ -12,7 +12,7 @@ class MapListTableViewCell: UITableViewCell {
 
     @IBOutlet weak var pdfImage: UIImageView!
     @IBOutlet weak var mapName: UITextField!
-    @IBOutlet weak var nameLabel: UILabel! // file size
+    @IBOutlet weak var fileSize: UILabel! // file size
     @IBOutlet weak var distToMap: UILabel! // distance to map
     @IBOutlet weak var loadingProgress: UIProgressView!
     @IBOutlet weak var fileName: UILabel! // pdf file name

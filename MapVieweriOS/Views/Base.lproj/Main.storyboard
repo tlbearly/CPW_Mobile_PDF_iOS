@@ -152,9 +152,9 @@
                                 <connections>
                                     <outlet property="distToMap" destination="DlV-Yt-wPo" id="CeM-vr-LyB"/>
                                     <outlet property="fileName" destination="Qbs-jU-Yx4" id="aYb-0w-Rsc"/>
+                                    <outlet property="fileSize" destination="IGx-nl-nVb" id="zay-9G-8fU"/>
                                     <outlet property="loadingProgress" destination="S1e-e4-Ap3" id="QEl-9C-e7c"/>
                                     <outlet property="mapName" destination="e3O-LR-362" id="qkG-ry-ALL"/>
-                                    <outlet property="nameLabel" destination="IGx-nl-nVb" id="zay-9G-8fU"/>
                                     <outlet property="pdfImage" destination="YrY-aO-y4i" id="1WS-0e-qtI"/>
                                     <segue destination="XwV-qs-rbI" kind="show" identifier="ShowMap" id="pG9-G0-hre"/>
                                 </connections>

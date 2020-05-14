@@ -175,7 +175,7 @@ class MapListTableViewController: UITableViewController {
         
         // Fetches the appropriate map for the data source layout.
         let map = maps[indexPath.row]
-        cell.nameLabel.text = map.fileName // change to file size!!!!!!
+        cell.fileSize.text = map.fileSize
         cell.distToMap.text = "10 mi"
         cell.mapName.text = map.displayName
         cell.fileName.text = map.fileName
