@@ -29,7 +29,7 @@ class MapListViewController: UINavigationController {
     // MARK: Navigation
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?){
-        super.prepare(for: segue, sender: sender) // does not catch goToMap segue???????? Just goToSplash
+        super.prepare(for: segue, sender: sender) // gotoSplash
     }
 
 

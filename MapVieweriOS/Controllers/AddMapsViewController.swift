@@ -16,7 +16,7 @@ import MobileCoreServices
 
 class AddMapsViewController: UIViewController {
     var map: PDFMap? = nil
-    var fileName: String = ""
+    var fileName: String? = nil
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
@@ -51,7 +51,7 @@ class AddMapsViewController: UIViewController {
         
         // map from file picker or website
         if (segue.identifier == "pdfFromFilePicker"){
-            map = PDFMap(fileName: fileName) // pass URL also NEED TO WRITE NEW INIT FUNC
+            map = PDFMap(fileName: fileName!) // NEED TO WRITE NEW INIT FUNC
         }
     }
     

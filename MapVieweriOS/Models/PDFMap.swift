@@ -18,16 +18,15 @@ class PDFMap {
     var displayName: String = "" {didSet {
             print("Map Name changed to \(displayName).")
         }}
-    var tableIndex: Int = 0
     
     var fileName: String = "" // PDF filename
     var fileURL: URL? // PDF filename and URL
     var thumbnail: UIImage?
-    var bounds:[Double] = [0.0, 0.0, 0.0, 0.0]
+    private var bounds:[Double] = [0.0, 0.0, 0.0, 0.0]
     var modDate:Double = 0.0 // modification date
-    var fileSize:String = "0 KB" // PDF file size
-    var mapDist:String = "" // 10 mi or icon
-    var locationIcon:Bool = false // show location icon if on map
+    var fileSize:String = "File size" // PDF file size
+    var mapDist:String = "Dist. to map" // show distance to map (10 mi) or if on map, only show location icon
+    var showLocationIcon:Bool = true // show location icon if on map
     
     // margins
     var marginTop: Double = 0.0
@@ -51,6 +50,26 @@ class PDFMap {
     var longNow:Double = 0.0
     var latDiff: Double = 0.0
     var longDiff: Double = 0.0
+    
+    
+    
+    
+    init?(fileName: String, quick: Bool){
+        // Just fill in the name, used to add to table and display progress bar
+        self.displayName = "Importing " + fileName + "..."
+    }
+    
+    init?(fileName: String, progress: UIProgressView) throws {
+        // Called after add map from file picker or download from website
+        // called by MapListTableViewController.swift, unwindToMapsList, importMap
+        
+        do {
+            try setFileNameAndDisplayName(fileName: fileName)
+        } catch let error as NSError {
+            throw error
+        }
+        
+    }
     
     init?(fileName: String) {
         // Read each map from library. Files stored in documents directory.
@@ -139,6 +158,36 @@ class PDFMap {
         catch {
             return nil
         }
+        
+        // Location: on map or distance to map in miles
+        mapDist = "120 mi."
+        showLocationIcon = true
+    }
+    
+    func setFileNameAndDisplayName(fileName: String?) throws {
+        // Set fileName
+        guard let name = fileName, !name.isEmpty else {
+            throw AppError.pdfMapError.invalidFilename
+        }
+        self.fileName = name
+        
+        // Set displayName, strip off .pdf
+        let index = self.fileName.firstIndex(of: ".") ?? self.fileName.endIndex
+        self.displayName = String(self.fileName[..<index]) // without .pdf
+        
+        // Set fileURL. Get URL to documents directory
+        // To enable “Open in place” add “Application supports iTunes file sharing” or “UIFileSharingEnabled” key with value “YES” in Info.plist and to enable “File sharing” add “LSSupportsOpeningDocumentsInPlace” or “Supports opening documents in place” key with value “YES” in Info.plist.
+        // PDF Maps stored in Documents directory. User can access, copy, share, and delete. Gets backed up.
+        
+        guard let url = pathForDocumentDirectoryAsURL()?.appendingPathComponent(self.fileName) else {
+            throw AppError.pdfMapError.invalidDocumentDirectory
+        }
+        // must be a pdf!
+        if fileURL?.pathExtension != "pdf" {
+            throw AppError.pdfMapError.notPDF
+        }
+        self.fileURL = url
+
     }
     
     func pdfThumbnail(url: URL, width: Int = 90, height: Int = 90) -> UIImage? {

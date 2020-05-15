@@ -27,11 +27,5 @@ class MapListTableViewCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
-    /*@IBAction func editMapName(_ sender: Any) {
-        let name = (sender as! UITextField).text
-        if (name != nil && name != ""){
-            print ("edit map name \(name)")
-        }
-    }*/
     
 }

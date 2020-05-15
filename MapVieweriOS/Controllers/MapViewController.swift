@@ -259,7 +259,7 @@ class MapViewController: UIViewController {
     func addCurrentLatLongTextbox() {
         // Add text box for current location display
         currentLatLong.text = "  Current location: "
-        currentLatLong.backgroundColor = UIColor.gray.withAlphaComponent(0.5)
+        currentLatLong.backgroundColor = UIColor.gray.withAlphaComponent(0.8)
         currentLatLong.allowsEditingTextAttributes = false
         
         // layoutMargins does nothing!!!!!!!!!????????????

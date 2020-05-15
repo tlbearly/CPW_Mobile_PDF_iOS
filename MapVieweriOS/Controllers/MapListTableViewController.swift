@@ -15,6 +15,9 @@ import UIKit
 class MapListTableViewController: UITableViewController {
     //var currentMapName:String?
     private var sortBy = "name" // user selected sort method
+    private var importing = false
+    private var importFileName = ""
+    private var importIndexPath: IndexPath? = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,6 +40,13 @@ class MapListTableViewController: UITableViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        if importing {
+            // AddMapsViewController returned to unwindToMapsList function
+            importing = false
+            if importIndexPath != nil {
+                importMap(fileName: importFileName, newIndexPath: importIndexPath!)
+            }
+        }
         sortList(type: sortBy)
         self.tableView.reloadData()
     }
@@ -51,17 +61,82 @@ class MapListTableViewController: UITableViewController {
     
     @IBAction func unwindToMapsList(sender: UIStoryboardSegue){
         // Called from AddMapsViewController when user selects a file from file picker or downloads from a website.
-        if let sourceViewController = sender.source as? AddMapsViewController, let map = sourceViewController.map {
-            // Import map
+        // Import new map
+        //if let sourceViewController = sender.source as? AddMapsViewController, let map = sourceViewController.map {
+            // Show cell with progress bar as loads
+        if let sourceViewController = sender.source as? AddMapsViewController, let theFileName = sourceViewController.fileName {
+             guard let map = PDFMap(fileName: theFileName, quick: true) else {
+                 print("no map to import")
+                 return
+             }
+            
             let newIndexPath = IndexPath(row: maps.count, section: 0)
             
             maps.append(map)
             tableView.insertRows(at: [newIndexPath], with: .automatic)
+            
+            importing = true
+            importFileName = theFileName
+            importIndexPath = newIndexPath
             print("count = \(maps.count)")
         }
     }
     
     // MARK: Private Methods
+    
+    private func importMap(fileName: String, newIndexPath: IndexPath){
+        // Import a map and show progress bar. Called unwindToMapsList
+        let cellIdentifier = "MapListTableViewCell"
+        
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: newIndexPath) as? MapListTableViewCell else {
+            fatalError("The dequeued cell is not an instance of MapListTableViewCell.")
+        }
+        cell.mapName.text = "Done"
+        cell.loadingProgress.progress = 0
+        cell.loadingProgress.isHidden = false
+        self.tableView.reloadData() // TODO does not show progress bar!!!!!!!
+        
+        
+        // import map
+        do {
+            
+            let map = try PDFMap(fileName: fileName, progress: cell.loadingProgress)
+            maps[maps.count-1] = map!
+            tableView.reloadRows(at: [newIndexPath], with: .fade)
+            cell.loadingProgress.progress = 100
+        } catch {
+            switch (error){
+            case AppError.pdfMapError.notPDF:
+                // remove row, delete map from maps, report error
+                let alert = UIAlertController(title: "Map Import Failed", message: "File must be a pdf file.", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                self.present(alert, animated: true)
+                return
+            
+            case AppError.pdfMapError.invalidFilename:
+                // remove row, delete map from maps, report error
+                let alert = UIAlertController(title:  "Map Import Failed", message: "Invalid filename.", preferredStyle: .alert)
+               alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+               self.present(alert, animated: true)
+               return
+            case AppError.pdfMapError.invalidDocumentDirectory:
+                // remove row, delete map from maps, report error
+               let alert = UIAlertController(title: "Map Import Failed", message: "Cannot write to documents directory.", preferredStyle: .alert)
+               alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+               self.present(alert, animated: true)
+               return
+            default:
+                // remove row, delete map from maps, report error
+                let alert = UIAlertController(title: "Map Import Failed", message: "unknown error", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                self.present(alert, animated: true)
+                return
+            }
+            
+        }
+        
+    }
+    
     
     private func loadMaps() {
         // Load all PDF files found in the local documents directory. PDFMap gets the file modification
@@ -176,7 +251,8 @@ class MapListTableViewController: UITableViewController {
         // Fetches the appropriate map for the data source layout.
         let map = maps[indexPath.row]
         cell.fileSize.text = map.fileSize
-        cell.distToMap.text = "10 mi"
+        cell.distToMap.text = "Needs Location"
+        cell.distToMap.textColor = .red
         cell.mapName.text = map.displayName
         cell.fileName.text = map.fileName
         cell.mapName.placeholder = "Map Name"
@@ -272,6 +348,4 @@ class MapListTableViewController: UITableViewController {
             fatalError("Unexpected Segue Identifier: \(String(describing: segue.identifier))")
         }
     }
-    
-
 }

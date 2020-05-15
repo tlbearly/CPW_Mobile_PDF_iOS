@@ -30,6 +30,7 @@
 		60DBB8E2244A605200F84F4A /* Wellington.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 60DBB8E1244A605200F84F4A /* Wellington.pdf */; };
 		60DBB8E4244A606200F84F4A /* Wellington1.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 60DBB8E3244A606200F84F4A /* Wellington1.pdf */; };
 		A4535D6E2469BE4D000E945B /* 63RanchSTL_geo.pdf in Resources */ = {isa = PBXBuildFile; fileRef = A4535D6D2469BE4D000E945B /* 63RanchSTL_geo.pdf */; };
+		A4535D74246F1ACE000E945B /* AppError.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4535D73246F1ACE000E945B /* AppError.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -80,6 +81,7 @@
 		60DBB8E1244A605200F84F4A /* Wellington.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = Wellington.pdf; sourceTree = "<group>"; };
 		60DBB8E3244A606200F84F4A /* Wellington1.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = Wellington1.pdf; sourceTree = "<group>"; };
 		A4535D6D2469BE4D000E945B /* 63RanchSTL_geo.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = 63RanchSTL_geo.pdf; sourceTree = "<group>"; };
+		A4535D73246F1ACE000E945B /* AppError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppError.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -182,6 +184,7 @@
 				6014700324479156003D3BAF /* RoundedCorderProgressBar.swift */,
 				60DBB8D0244A53E400F84F4A /* PDFParser.swift */,
 				60DBB8D2244A54E900F84F4A /* PushPin.swift */,
+				A4535D73246F1ACE000E945B /* AppError.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -335,6 +338,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A4535D74246F1ACE000E945B /* AppError.swift in Sources */,
 				60146FFE24477260003D3BAF /* MapListTableViewCell.swift in Sources */,
 				60147000244773BD003D3BAF /* MapListTableViewController.swift in Sources */,
 				60147002244775EC003D3BAF /* PDFMap.swift in Sources */,
