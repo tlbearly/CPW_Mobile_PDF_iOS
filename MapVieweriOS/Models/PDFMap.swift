@@ -54,68 +54,106 @@ class PDFMap {
     
     
     
-    init?(fileName: String, quick: Bool){
-        // Just fill in the name, used to add to table and display progress bar
-        self.displayName = "Importing " + fileName + "..."
+    init?(fileName: String, fileURL: URL, quick: Bool) throws {
+        // Just set displayName to Loading..., check that fileName is not nil or "", check that fileURL exists.
+        // Will be used to add to the maps list table and display a progress bar
+        self.displayName = "Loading..."
+        
+        // Set file name
+        guard let testFile = setFileName(fileName: fileName) else {
+            throw AppError.pdfMapError.invalidFilename
+        }
+        self.fileName = testFile
+        
+        // Set file URL if the file exists
+        guard let url = urlExists(url: fileURL) else {
+            throw AppError.pdfMapError.pdfFileNotFound(file: fileURL.absoluteString)
+        }
+        self.fileURL = url
     }
     
-    init?(fileName: String, progress: UIProgressView) throws {
+    init?(fileName: String, fileURL: URL, progress: UIProgressView) throws {
         // Called after add map from file picker or download from website
         // called by MapListTableViewController.swift, unwindToMapsList, importMap
-        
+// NOT USED
         do {
             try setFileNameAndDisplayName(fileName: fileName)
-        } catch let error as NSError {
-            throw error
+        } catch let AppError {
+            throw AppError
         }
+        
+        // copy url to app documents directory
         
     }
     
-    init?(fileName: String) {
-        // Read each map from library. Files stored in documents directory.
-        if fileName.isEmpty {
-            return nil
+    init?(fileURL: URL) throws {
+        // Import a new file from filepicker or downloaded from the web. Make sure it exists, is a pdf,
+        // and then copy it to the app documents directory.
+        guard let url = urlExists(url: fileURL) else {
+            print("map does not exist. file: \(fileURL.absoluteString)")
+            throw AppError.pdfMapError.pdfFileNotFound(file: fileURL.absoluteString)
         }
+        self.fileURL = url
+    }
+    
+    init?(fileName: String) throws {
+        // Read each map from app documents directory.
+        guard let testFile = setFileName(fileName: fileName) else {
+            throw AppError.pdfMapError.invalidFilename
+        }
+        self.fileName = testFile
         
-        self.fileName = fileName
-        
-        // strip off .pdf
-        let index = fileName.firstIndex(of: ".") ?? fileName.endIndex
-        self.displayName = String(fileName[..<index]) // without .pdf
+        setDisplayName()
         
         // Get URL
         // To enable “Open in place” add “Application supports iTunes file sharing” or “UIFileSharingEnabled” key with value “YES” in Info.plist and to enable “File sharing” add “LSSupportsOpeningDocumentsInPlace” or “Supports opening documents in place” key with value “YES” in Info.plist.
         // PDF Maps stored in Documents directory. User can access, copy, share, and delete. Gets backed up.
         
-        guard let url = pathForDocumentDirectoryAsURL()?.appendingPathComponent(fileName) else {
-            return nil
+        guard let testUrl = getURLInDocumentsDirectory(fileName: self.fileName)
+        else {
+            print("documents directory does not exists.")
+            throw AppError.pdfMapError.invalidDocumentDirectory
         }
-        
+
+        guard let url = urlExists(url: testUrl) else {
+            print("map does not exist. file: \(testUrl.absoluteString)")
+            throw AppError.pdfMapError.pdfFileNotFound(file: testUrl.absoluteString)
+        }
         self.fileURL = url
+        
+
         // Parse PDF return bounds (lat, long), viewport (margins), mediabox (page size).
         let pdf: [String:Any?] = PDFParser.parse(pdfUrl: self.fileURL!)
-        print ("--")
-        print ("-- RETURNED VALUES --")
-        print ("PDF: \(self.displayName)")
+        print ("Import PDF: \(self.displayName)")
         if ((pdf["error"]) != nil) {
             print(pdf["error"]!!)
-            return
+            switch pdf["error"] as! String {
+            case "CannotOpePDF":
+                throw AppError.pdfMapError.cannotOpenPDF
+            case "PDFVersionTooLow":
+                throw AppError.pdfMapError.pdfVersionTooLow
+            case "CannotReadPDFDictionary":
+                throw AppError.pdfMapError.cannotReadPDFDictionary
+            default:
+                throw AppError.pdfMapError.unknownFormat
+            }
+            
         }
-        guard let bounds = pdf["bounds"]!! as? [Double] else {
+        guard let bounds = pdf["bounds"] as? [Double] else {
             print("Error: cannot convert bounds to float array")
-            return
+            throw AppError.pdfMapError.cannotReadPDFDictionary
         }
-        print ("lat/long bounds: \(bounds)")
-        guard let viewport = pdf["viewport"]!! as? [Float] else{
+       // print ("lat/long bounds: \(bounds)")
+        guard let viewport = pdf["viewport"] as? [Float] else{
             print("Error: cannot convert viewport to float array")
-            return
+            throw AppError.pdfMapError.cannotReadPDFDictionary
         }
-        print ("viewport margins: \(viewport)")
-        guard let mediabox = pdf["mediabox"]!! as? [Float] else {
+       // print ("viewport margins: \(viewport)")
+        guard let mediabox = pdf["mediabox"] as? [Float] else {
             print("Error: cannot convert mediabox to float array")
-            return
+            throw AppError.pdfMapError.cannotReadPDFDictionary
         }
-        print ("mediabox page size: \(mediabox)")
+       // print ("mediabox page size: \(mediabox)")
         marginTop = Double(mediabox[3] - viewport[1])
         marginBottom = Double(viewport[3])
         marginLeft = Double(viewport[0])
@@ -156,15 +194,58 @@ class PDFMap {
             self.fileSize = String(format: "%.0f",size) + units
         }
         catch {
-            return nil
+            throw AppError.pdfMapError.invalidFilename
         }
         
         // Location: on map or distance to map in miles
-        mapDist = "120 mi."
+        mapDist = "Dist. to Map"
         showLocationIcon = true
     }
     
+    func setFileName(fileName: String?) -> String? {
+        // make sure fileName is not nil or blank
+        guard let name = fileName, !name.isEmpty else {
+            return nil
+        }
+        return name
+    }
+    
+    func getURLInDocumentsDirectory(fileName: String) -> URL? {
+        // append the app documents directory to the front of the fileName. Return the url.
+        guard let url = pathForDocumentDirectoryAsURL()?.appendingPathComponent(fileName) else {
+            print("app documents directory does not exists.")
+            return nil
+        }
+       return url
+    }
+    
+    func urlExists(url: URL) -> URL? {
+        // Check if url exists
+        let fileManager = FileManager.default
+        let filePath = url.path
+        if fileManager.fileExists(atPath: filePath) {
+            return url
+        } else {
+            return nil
+        }
+    }
+    
+    /*func setFileURL(fileURL: URL) throws {
+        if UIApplication.shared.canOpenURL(fileURL as URL) {
+            self.fileURL = fileURL
+        } else {
+            throw AppError.pdfMapError.pdfFileNotFound(file: fileURL.absoluteString)
+        }
+    }*/
+    
+    func setDisplayName() {
+        // Set displayName, strip off .pdf
+        let index = self.fileName.firstIndex(of: ".") ?? self.fileName.endIndex
+        self.displayName = String(self.fileName[..<index])
+    }
+    
     func setFileNameAndDisplayName(fileName: String?) throws {
+        // Assumes file is in app documents directory. Used when displaying maps list first time.
         // Set fileName
         guard let name = fileName, !name.isEmpty else {
             throw AppError.pdfMapError.invalidFilename
@@ -183,11 +264,14 @@ class PDFMap {
             throw AppError.pdfMapError.invalidDocumentDirectory
         }
         // must be a pdf!
-        if fileURL?.pathExtension != "pdf" {
+        if url.pathExtension != "pdf" {
             throw AppError.pdfMapError.notPDF
         }
-        self.fileURL = url
-
+        if UIApplication.shared.canOpenURL(url as URL) {
+            self.fileURL = url
+        } else {
+            throw AppError.pdfMapError.pdfFileNotFound(file: url.absoluteString)
+        }
     }
     
     func pdfThumbnail(url: URL, width: Int = 90, height: Int = 90) -> UIImage? {

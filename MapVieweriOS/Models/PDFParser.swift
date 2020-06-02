@@ -69,7 +69,7 @@ class PDFParser
         else
         {
             print("Cannot open PDF.")
-            return [:]
+            return ["error": "CannotOpenPDF"]
         }
         
         // Get PDF version
@@ -95,12 +95,16 @@ class PDFParser
         // get dictionary
         guard let dictionary = page.dictionary else {
             print ("error getting dictionary")
-            return[ "error": "error getting dictionary"]
+            return ["error": "CannotReadDictionary"]
         }
         
         // GET VP array of dictionaries
         var vp: CGPDFArrayRef?
         if CGPDFDictionaryGetArray(dictionary,"VP",&vp), let vpArray = vp {
+            // check for version > 1.5
+            if (major == 1 && minor < 6) {
+                return ["error": "PDFVersionTooLow"]
+            }
             var maxBBoxHt: Float = 0.0
             var bboxValues: [Float] = []
             var gptsValues: [Double] = []   //String = ""
@@ -144,6 +148,9 @@ class PDFParser
                         }
                         print ("viewport = \(bboxValues)")
                     }
+                    else {
+                        return ["error": "CannotReadPDFDictionary"]
+                    }
                     
                     // Save the Measure CGPDFDictionaryRefs in an array
                     var measureDictRef: CGPDFDictionaryRef? = nil
@@ -151,9 +158,13 @@ class PDFParser
                         measureDicts[id] = measureDict
                         
                     }
+                    else {
+                        return ["error": "CannotReadPDFDictionary"]
+                    }
                 }
                 else {
                     print("error reading dictionaries in VP dictionary")
+                    return ["error": "CannotReadPDFDictionary"]
                 }
             }// loop to read each dictionary in VP
             
@@ -174,6 +185,9 @@ class PDFParser
                 }
                 print ("bounds = \(gptsValues)")
             }
+            else {
+                return ["error": "CannotReadPDFDictionary"]
+            }
             
             // TODO:  return values here...
             return ["bounds": gptsValues,
@@ -186,8 +200,8 @@ class PDFParser
             // TODO:  need to write code to read geoPDF format here...
             
             
-            // return values here...
-            return ["error":"TODO: need to write code to read geoPDF format here..."]
+            // return values here... TODO: need to write code to read geoPDF format here...
+            return ["error":"UnknownFormat"]
         }
     }
 

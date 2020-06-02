@@ -28,6 +28,7 @@ import CoreLocation // current location
 
 
 class MapViewController: UIViewController {
+    // MARK: Variables
     var pdfView:PDFView = PDFView()
     var map:PDFMap?
     var locationManager = CLLocationManager()
@@ -52,74 +53,48 @@ class MapViewController: UIViewController {
     var pdfHeight:Double = 0.0
     var currentLatLong:UITextField = UITextField()
     var debugTxtBox:UITextField = UITextField()
-    private var popup:UITextField = UITextField(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
+    private var popup:UIView = UITextView(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
     private var selectedWayPt:PDFAnnotation = PDFAnnotation()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        self.title = map?.displayName
         
         //
         // OPEN PDF & Add pdfView
         //
-        
-        guard let url = map?.fileURL else {
-            fatalError("PDF file not found.")
+        do {
+            try setupPDFView()
         }
-        // check if file exists
-        if !UIApplication.shared.canOpenURL(url){
-            fatalError("PDF file not found.")
+        catch AppError.pdfMapError.pdfFileNotFound (let file){
+            displayError(msg: "Map file not found.\n\n\(file)")
+            return
+        } catch {
+            displayError(msg: "Unknow error occured.")
+            return
         }
-        self.title = map?.displayName
-        
-        setupPDFView(url: url)
         
         
-        // Current location: lat long
+        //
+        // Display Current location: lat long
+        //
         addCurrentLatLongTextbox()
         
         // Debug text box
-      //addDebugTextbox()
-  
-
-        
-        
-        
-        
-        
-        
-
-        // try to zoom in
-       /* if let page = document.page(at: 0) {
-            pdfView.scaleFactor = pdfView.scaleFactorForSizeToFit * 2
-            pdfView.go(to: CGRect(x: 0, y: 0, width: 1000, height: 1000), on: page)
-        }*/
-        
-        // Set up double tab zoom in --- Does NOTHING!!!!!
-    //pdfView.isUserInteractionEnabled = true // didn't help???
-      /* let doubleScreenTap = UITapGestureRecognizer(target: pdfView, action: #selector(zoomIn(_:)))
-        doubleScreenTap.numberOfTapsRequired = 2
-        doubleScreenTap.numberOfTouchesRequired = 1
-        pdfView.addGestureRecognizer(doubleScreenTap)
-       */
-        
-        // scrolling direction for multiple pages
-        //pdfView.displayDirection = .vertical
-        //pdfView.displayDirection = .horizontal
-        
+        //addDebugTextbox()
     
         
-        // page margins
+        // set page margins
         marginTop = map!.marginTop
         marginBottom = map!.marginBottom
         marginLeft = map!.marginLeft
         marginRight = map!.marginRight
         
-        // page boundary with margins
+        // set page boundary with margins
         mediaBoxWidth = map!.mediaBoxWidth
         mediaBoxHeight = map!.mediaBoxHeight
         
-        // lat/long boundary in decimal degrees
+        // set lat/long boundary in decimal degrees
         lat1 = map!.lat1
         long1 = map!.long1
         lat2 = map!.lat2
@@ -127,17 +102,51 @@ class MapViewController: UIViewController {
         latDiff = map!.latDiff
         longDiff = map!.longDiff
         
-        // pdf boundary without margins
+        // set pdf boundary without margins
         pdfWidth = map!.pdfWidth
         pdfHeight = map!.pdfHeight
         
         
         // Call location manager
+        setupLocationServices()
+    }
+    
+    // MARK: - Navigation
+
+    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        // Get the new view controller using segue.destination.
+        // Pass the selected object to the new view controller.
+        super.prepare(for: segue, sender: sender)
+        
+        switch(segue.identifier ?? "") {
+        case "EditWayPt":
+            guard let editWayPtViewController = segue.destination as? EditWayPtViewController else {
+                fatalError("Unexpected destination: \(segue.destination)")
+            }
+            guard let mapViewController = sender as? MapViewController else {
+                fatalError("Unexpected sender: \(String(describing: sender))")
+            }
+            // pass the selected map name, thumbnail, etc to MapViewController.swift
+            let wayPt = selectedWayPt.contents
+            editWayPtViewController.wayPt = wayPt ?? "description$lat, long$date added"
+        default:
+            fatalError("Unexpected Segue Identifier: \(String(describing: segue.identifier))")
+        }
+        // map from file picker or website
+        if (segue.identifier == "EditWayPtViewController"){
+            print("AddMapViewController: go to EditWayPtViewController")
+        }
+    }
+    
+    func setupLocationServices() {
+        // MARK: setupLocationServices
+        // Check for location permission. Display button is permission is needed. Start updating
+        // user location.
         guard let page = pdfView.document?.page(at: 0) else {
-            print("Problem reading the PDF. Can't get page 1.")
+            displayError(msg: "Problem reading the PDF map. Can't get page 1.")
             return
         }
-        
         locationManager.desiredAccuracy=kCLLocationAccuracyBest
         let status = CLLocationManager.authorizationStatus()
         print("location status ",status)
@@ -169,7 +178,7 @@ class MapViewController: UIViewController {
             locationManager.startUpdatingLocation()
             locationManager.startUpdatingHeading() // get azimuth
             self.displayLocation(page: page, pdfView: self.pdfView) // initial location
-            // update location every 3 seconds
+            // update location every 2 seconds
             Timer.scheduledTimer(withTimeInterval: 2, repeats: true) { timer in
                 self.displayLocation(page: page, pdfView: self.pdfView)
             }
@@ -179,38 +188,29 @@ class MapViewController: UIViewController {
             locationManager.startUpdatingLocation()
             locationManager.startUpdatingHeading() // get azimuth
             self.displayLocation(page: page, pdfView: self.pdfView) // initial location
-            // update location every 3 seconds
+            // update location every 2 seconds
             Timer.scheduledTimer(withTimeInterval: 2, repeats: true) { timer in
                 self.displayLocation(page: page, pdfView: self.pdfView)
             }
         }
-        /*locationManager.requestWhenInUseAuthorization()
-        locationManager.startUpdatingLocation()
-        locationManager.startUpdatingHeading() // get azimuth
-        self.displayLocation(page: page, pdfView: pdfView) // initial location
-        */
-        
-        
-
-        
-        // register touch events
-        //let singleScreenTap = UITapGestureRecognizer(target: pdfView, action: #selector(zoomIn(_:)))
-        //singleScreenTap.numberOfTapsRequired = 1
-        //singleScreenTap.numberOfTouchesRequired = 1
-        //pdfView.addGestureRecognizer(singleScreenTap)
-        
     }
     
-    
-    //func setupPDFView(url: URL) -> PDFView? {
-        func setupPDFView(url: URL) {
-        //let pdfView = PDFView(frame: self.view.bounds);
+    func setupPDFView() throws {
+        // MARK: sertupPDFView
+        // Loads the url into a PDFVIew
+        
+        // check if file exists
+        guard let url = map?.fileURL else {
+            throw AppError.pdfMapError.mapNil
+        }
+        if !FileManager.default.fileExists(atPath:url.path){
+            throw AppError.pdfMapError.pdfFileNotFound(file: url.absoluteString)
+            //displayError(msg: "Map file not found.\n\n" + url.absoluteString)
+        }
         pdfView.frame = self.view.bounds
-        //pdfView = PDFView(frame: self.view.bounds);
         guard let document:PDFDocument = PDFDocument(url: url) else{
             print("File not found: ",url)
-            return
-            //return nil
+            throw AppError.pdfMapError.pdfFileNotFound(file: url.absoluteString)
         }
         // Must set this to false!
         pdfView.translatesAutoresizingMaskIntoConstraints = false
@@ -255,8 +255,16 @@ class MapViewController: UIViewController {
         pdfView.addGestureRecognizer(doubleScreenTap)
     }
     
+    func displayError(msg: String){
+        // MARK: displayError
+        let alert = UIAlertController(title: "Unable to View Map", message: msg, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        self.present(alert, animated: true)
+        return
+    }
     
     func addCurrentLatLongTextbox() {
+        // MARK: addCurrentLatLongTextbox
         // Add text box for current location display
         currentLatLong.text = "  Current location: "
         currentLatLong.backgroundColor = UIColor.gray.withAlphaComponent(0.8)
@@ -340,13 +348,25 @@ class MapViewController: UIViewController {
         var y:Double = (((90.0 - latNow) - (90.0 - lat2)) / latDiff) * pdfHeight
         y = (pdfHeight + marginTop - halfCirSize)  - (y) // Y is too low add 90???
 
-        currentLocation = PDFAnnotation(bounds: CGRect(x:x, y:y, width:cirSize,height:cirSize), forType: .circle, withProperties: nil)
-        // fill color
-        currentLocation.interiorColor = UIColor.cyan
         // border
         let border = PDFBorder()
-        border.lineWidth = 5.0 // border width
-        currentLocation.color = UIColor.white // border color
+        
+        // fill color
+        // this line crashes in iOS 11.0 PDFAnnotation.setInteriorColor
+        if #available(iOS 11.2, *) {
+            currentLocation = PDFAnnotation(bounds: CGRect(x:x, y:y, width:cirSize,height:cirSize), forType: .circle, withProperties: nil)
+            currentLocation.interiorColor = UIColor.cyan
+            border.lineWidth = 5.0 // border width
+            currentLocation.color = UIColor.white // border color
+        }
+        // iOS 11.0 and 11.1 don't have interiorColor function
+        else {
+            currentLocation = PDFAnnotation(bounds: CGRect(x:x, y:y, width:cirSize,height:cirSize), forType: .circle, withProperties: nil)
+            border.lineWidth = 12.0 // border width
+            currentLocation.color = UIColor.cyan // border color
+        }
+        
+        
         currentLocation.border = border
         page.addAnnotation(currentLocation)
         
@@ -354,11 +374,17 @@ class MapViewController: UIViewController {
         // Margin red dots
         let marginTLAnnotation = PDFAnnotation(bounds: CGRect(x:marginLeft-10, y:mediaBoxHeight - marginTop - 10, width:20,height:20), forType: .circle, withProperties: nil)
         // color
-        marginTLAnnotation.interiorColor = UIColor.red
+        if #available(iOS 11.2, *) {
+            marginTLAnnotation.interiorColor = UIColor.red
+        }
+        
         page.addAnnotation(marginTLAnnotation)
         let marginBRAnnotation = PDFAnnotation(bounds: CGRect(x:mediaBoxWidth - marginRight-10, y:marginBottom-10, width:20,height:20), forType: .circle, withProperties: nil)
         // color
-        marginBRAnnotation.interiorColor = UIColor.red
+        if #available(iOS 11.2, *) {
+            marginBRAnnotation.interiorColor = UIColor.red
+        }
+        
         page.addAnnotation(marginBRAnnotation)
         
         // map lat long boundaries long1,lat1 and long2,lat2 in yellow
@@ -368,15 +394,20 @@ class MapViewController: UIViewController {
         y = y + marginBottom - 5
         var latlongAnnotation = PDFAnnotation(bounds: CGRect(x:x, y:y, width:10,height:10), forType: .circle, withProperties: nil)
         // color
-        latlongAnnotation.interiorColor = UIColor.yellow
+        if #available(iOS 11.2, *) {
+            latlongAnnotation.interiorColor = UIColor.yellow
+        }
         page.addAnnotation(latlongAnnotation)
+        
         // map lat long boundaries long2,lat2
         x = (((long2 + 180) - (long1 + 180)) / longDiff) * pdfWidth
         x = x + marginLeft - 5
         y = (((90.0 - lat2) - (90.0 - lat2)) / latDiff) * pdfHeight
         y = y + marginBottom - 5
         latlongAnnotation = PDFAnnotation(bounds: CGRect(x:x, y:y, width:10,height:10), forType: .circle, withProperties: nil)
-        latlongAnnotation.interiorColor = UIColor.yellow
+        if #available(iOS 11.2, *) {
+            latlongAnnotation.interiorColor = UIColor.yellow
+        }
         page.addAnnotation(latlongAnnotation)
     }
     
@@ -425,6 +456,7 @@ class MapViewController: UIViewController {
     
     
     @objc func pdfViewTapped(_ gestureRecognizer: UITapGestureRecognizer) {
+        // Check if clicked on Way Point or add new way point annotation
         print("called single tap")
         
         let pdfView = gestureRecognizer.view as! PDFView
@@ -432,15 +464,15 @@ class MapViewController: UIViewController {
         {
             if let page = pdfView.currentPage
             {
-                let location:CGPoint = gestureRecognizer.location(in: pdfView)
-                let pdfViewPoint = pdfView.convert(location, to: page)
+                let location:CGPoint = gestureRecognizer.location(in: pdfView) // location on screen
+                let pdfViewPoint = pdfView.convert(location, to: page) // location on pdf
                 var removingPopup:Bool = false
                 
                 print ("Scr: \(Int(location.x)), \(Int(location.y))")
                 print ("PDF: \(Int(pdfViewPoint.x)), \(Int(pdfViewPoint.y))")
                 
                 // is popup showing? Did they click on the popup then allow editing
-                if let aPopup: UITextField = pdfView.viewWithTag(100) as? UITextField {
+                if let aPopup: UITextView = pdfView.viewWithTag(100) as? UITextView {
                 
                     if (location.x >= aPopup.bounds.minX &&
                     location.x <= aPopup.bounds.maxX &&
@@ -448,7 +480,7 @@ class MapViewController: UIViewController {
                     location.y <= aPopup.bounds.maxY){
                         print("MinX: \(location.x) < \(aPopup.bounds.minX)")
                         print("MaxX: \(location.x) > \(aPopup.bounds.maxX)")
-                        print("clicked on popup \(aPopup.isEditing)")
+                        print("clicked on popup")
                         return
                     }
                     // remove old popup
@@ -487,8 +519,14 @@ class MapViewController: UIViewController {
                     return
                     
                 }
-                let popupWidth:CGFloat = 200.0
-                let popupHeight:CGFloat = 50.0
+                
+                // open edit way point
+                selectedWayPt = waypt
+                self.performSegue(withIdentifier: "EditWayPt", sender: nil)
+                
+                let screenSize: CGRect = UIScreen.main.bounds
+                let popupWidth:CGFloat = screenSize.width - 60
+                let popupHeight:CGFloat = screenSize.height - 180
                 print ("way pt height: \(waypt.bounds.maxY - waypt.bounds.minY)")
                 
                 // calculate pixels to move over to get to mid point in image
@@ -505,22 +543,45 @@ class MapViewController: UIViewController {
                 
                 print("yRatio:\(ratioY) yscr:\(Int(location.y)) - ymove:\(Int(yMove)) - ht:\(Int(popupHeight)) = y:\(Int(y))")
                 
-                popup = UITextField(frame: CGRect(x: x, y: y, width: popupWidth, height: popupHeight))
-                selectedWayPt = waypt
+                let descLabel = UILabel(frame: CGRect(x: 10, y: 20, width: 80, height: 30))
+                descLabel.text = "Desc:"
+                let desc = UITextField(frame: CGRect(x: 90, y:20, width: 200, height: 30))
+                desc.backgroundColor = .init(red: 0.95, green: 0.95, blue: 0.95, alpha: 1)
+                desc.borderStyle = UITextField.BorderStyle.roundedRect
+                let latlongLabel = UILabel(frame: CGRect(x: 10, y: 60, width: 80, height: 30))
+                latlongLabel.text = "Lat/Long:"
+                let latlong = UITextField(frame: CGRect(x: 90, y:60, width: 200, height: 30))
+                latlong.allowsEditingTextAttributes = false
+                let timeNowLabel = UILabel(frame: CGRect(x: 10, y: 100, width: 80, height: 30))
+                timeNowLabel.text = "Date:"
+                let timeNow = UITextField(frame: CGRect(x: 90, y:100, width: 200, height: 30))
+                timeNow.allowsEditingTextAttributes = false
+                let saveBtn = PrimaryUIButton(frame: CGRect(x:10, y:300,width: 80, height: 40))
+                saveBtn.setTitle("Save", for: .normal)
+                popup = UIView(frame: CGRect(x: 30, y: 70, width: popupWidth, height: popupHeight))
+                
                 
                 // edit text listener
-                popup.addTarget(self, action: #selector(MapViewController.wayptTextChanged(_:)), for: UIControl.Event.editingDidEnd)
+                //popup.addTarget(self, action: #selector(MapViewController.wayptTextChanged(_:)), for: UIControl.Event.editingDidEnd)
+                guard let items = waypt.contents?.components(separatedBy: "$") else {
+                    print("empty waypt contents!!!!")
+                    return
+                }
+                desc.text = items[0]
+                latlong.text = items[1]
+                timeNow.text = items[2]
                 
-                popup.text = waypt.contents
+                //popup.text = waypt.contents
+                
                 popup.tag = 100
                 popup.backgroundColor = UIColor.white
                 
                 // add padding 15 to left and right
-                let paddingView = UIView(frame: CGRect(x: 0,y: 0,width: 15,height: popup.frame.height))
-                popup.leftView = paddingView
-                popup.leftViewMode = UITextField.ViewMode.always
-                popup.rightView = paddingView
-                popup.rightViewMode = UITextField.ViewMode.always
+                //let paddingView = UIView(frame: CGRect(x: 0,y: 0,width: 15,height: popup.frame.height))
+                //popup.leftView = paddingView
+                //popup.leftViewMode = UITextField.ViewMode.always
+                //popup.rightView = paddingView
+                //popup.rightViewMode = UITextField.ViewMode.always
                 
                 // add border
                 let myColor : UIColor = UIColor.gray
@@ -528,7 +589,13 @@ class MapViewController: UIViewController {
                 popup.layer.borderWidth = 1
                 popup.layer.cornerRadius = 10
                 //popup.setAlignmentRectInsets = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
-                
+                popup.addSubview(descLabel)
+                popup.addSubview(desc)
+                popup.addSubview(latlongLabel)
+                popup.addSubview(latlong)
+                popup.addSubview(timeNowLabel)
+                popup.addSubview(timeNow)
+                popup.addSubview(saveBtn)
                 pdfView.addSubview(popup)
                 
                 // add speech bubble
@@ -552,9 +619,17 @@ class MapViewController: UIViewController {
         let halfSize:CGFloat = 40.0
         let midX = x - halfSize
         let midY = y - 15
+        let long = (Double(x)/pdfWidth * longDiff) + long1
+        let lat = (Double(y)/pdfHeight * latDiff) + lat1
         let imageAnnotation = PushPin(image, bounds: CGRect(x: midX, y: midY, width: wayPtSize, height: wayPtSize), properties: nil)
         page.addAnnotation(imageAnnotation)
-        imageAnnotation.contents = "way pt at \(Int(midX)), \(Int(midY))"
+        let dateTime = Date()
+        let formatter = DateFormatter()
+        formatter.timeStyle = .short
+        formatter.dateStyle = .short
+        
+        // contents: description, lat/long, time added
+        imageAnnotation.contents = "Way Pt 1$\(String(format: "%.5f", lat)), \(String(format: "%.5f", long))$ \(formatter.string(from:dateTime))"
     }
     
     @objc func pdfViewTapped2(_ gestureRecognizer: UITapGestureRecognizer) {

@@ -29,6 +29,7 @@
 		60DBB8D3244A54E900F84F4A /* PushPin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60DBB8D2244A54E900F84F4A /* PushPin.swift */; };
 		60DBB8E2244A605200F84F4A /* Wellington.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 60DBB8E1244A605200F84F4A /* Wellington.pdf */; };
 		60DBB8E4244A606200F84F4A /* Wellington1.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 60DBB8E3244A606200F84F4A /* Wellington1.pdf */; };
+		A40049802486F6000092A93A /* EditWayPtViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A400497F2486F6000092A93A /* EditWayPtViewController.swift */; };
 		A4535D6E2469BE4D000E945B /* 63RanchSTL_geo.pdf in Resources */ = {isa = PBXBuildFile; fileRef = A4535D6D2469BE4D000E945B /* 63RanchSTL_geo.pdf */; };
 		A4535D74246F1ACE000E945B /* AppError.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4535D73246F1ACE000E945B /* AppError.swift */; };
 /* End PBXBuildFile section */
@@ -80,6 +81,7 @@
 		60DBB8D2244A54E900F84F4A /* PushPin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushPin.swift; sourceTree = "<group>"; };
 		60DBB8E1244A605200F84F4A /* Wellington.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = Wellington.pdf; sourceTree = "<group>"; };
 		60DBB8E3244A606200F84F4A /* Wellington1.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = Wellington1.pdf; sourceTree = "<group>"; };
+		A400497F2486F6000092A93A /* EditWayPtViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditWayPtViewController.swift; sourceTree = "<group>"; };
 		A4535D6D2469BE4D000E945B /* 63RanchSTL_geo.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = 63RanchSTL_geo.pdf; sourceTree = "<group>"; };
 		A4535D73246F1ACE000E945B /* AppError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppError.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -198,6 +200,7 @@
 				60146FFD24477260003D3BAF /* MapListTableViewCell.swift */,
 				60DBB8CE244A539600F84F4A /* MapViewController.swift */,
 				60955B47245255E000275EDA /* AddMapsViewController.swift */,
+				A400497F2486F6000092A93A /* EditWayPtViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -345,6 +348,7 @@
 				60DBB8CF244A539600F84F4A /* MapViewController.swift in Sources */,
 				6014700424479156003D3BAF /* RoundedCorderProgressBar.swift in Sources */,
 				609CA8F6244132AC006C0283 /* MapListViewController.swift in Sources */,
+				A40049802486F6000092A93A /* EditWayPtViewController.swift in Sources */,
 				60DBB8D1244A53E400F84F4A /* PDFParser.swift in Sources */,
 				60DBB8D3244A54E900F84F4A /* PushPin.swift in Sources */,
 				609CA8C52440C353006C0283 /* SplashViewController.swift in Sources */,
@@ -574,7 +578,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MapViewer.app/MapViewer";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MapVieweriOS.app/MapVieweriOS";
 			};
 			name = Debug;
 		};
@@ -595,7 +599,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MapViewer.app/MapViewer";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MapVieweriOS.app/MapVieweriOS";
 			};
 			name = Release;
 		};

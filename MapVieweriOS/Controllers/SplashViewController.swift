@@ -14,17 +14,11 @@ class SplashViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
     }
 
 
     @IBAction func continueClicked(_ sender: UIButton) {
-        // example to pass variables
-        //   let mapListVC:MapListViewController = MapListViewController()
-        // mapListVC.myValue = someValue
         self.dismiss(animated: true, completion: nil)
-        //self.performSegue(withIdentifier: "goToMapList", sender: self)
-        
     }
 }
 

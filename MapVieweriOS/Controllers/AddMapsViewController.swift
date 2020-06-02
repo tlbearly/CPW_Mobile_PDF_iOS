@@ -17,6 +17,7 @@ import MobileCoreServices
 class AddMapsViewController: UIViewController {
     var map: PDFMap? = nil
     var fileName: String? = nil
+    var fileURL: URL? = nil
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
@@ -27,7 +28,6 @@ class AddMapsViewController: UIViewController {
         super.viewDidLoad()
         
         self.title = "Add Map"
-        
         
         // For debugging write a test file to the documents dir
         writeDebugPDF(self, newFile: "Wellington")
@@ -51,18 +51,16 @@ class AddMapsViewController: UIViewController {
         
         // map from file picker or website
         if (segue.identifier == "pdfFromFilePicker"){
-            map = PDFMap(fileName: fileName!) // NEED TO WRITE NEW INIT FUNC
+            print("AddMapsViewController: return to MapListTableViewController to import map")
         }
     }
-    
-    //@IBAction func importMap(_ unwindSegue: UIStoryboardSegue){}
     
     
     // MARK: Private Functions
     
     
     func writeDebugPDF(_ sender: Any, newFile: String){
-        // use in simulater to write pdfs in app directory to the Simulator documents directory.
+        // For Debugging: use in simulater to write pdfs in app main directory on Mac to the Simulator's documents directory.
         
         guard let pdfFileURL = Bundle.main.url(forResource: newFile, withExtension: "pdf") else {
             print ("Can't write file: PDF file not found.")
@@ -114,6 +112,7 @@ extension AddMapsViewController: UIDocumentPickerDelegate {
         
         // copy file to documents directory, warn if it already imported
         fileName = urls[0].lastPathComponent
+        fileURL = urls[0]
         
         self.performSegue(withIdentifier: "pdfFromFilePicker", sender: nil)
     }

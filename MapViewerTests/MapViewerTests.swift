@@ -2,28 +2,32 @@
 //  MapViewerTests.swift
 //  MapViewerTests
 //
-//  Created by Brittney Bearly on 4/10/20.
+//  Created by Tammy Bearly on 4/10/20.
 //  Copyright © 2020 Colorado Parks and Wildlife. All rights reserved.
 //
 
 import XCTest
-@testable import MapViewer
+@testable import MapVieweriOS
 
 class MapViewerTests: XCTestCase {
 
     // MARK: PDFMap Class Tests
     
-    // Confirm that the PDFMap initializer return a Map object when passed valid parameters.
+    // Confirm that the PDFMap initializer returns a Map object when passed valid parameters.
     func testPDFMapInitSucceeds(){
-        let map = PDFMap.init(name: "Wellington.pdf", thumbnail: nil)
+        let map = PDFMap.init(fileName: "Wellington.pdf")
         XCTAssertNotNil(map)
-        //(name: "Wellington.pdf", thumbnail: nil, bounds: [1.0,1.0,1.0,1.0])
     }
 
-    func testPDFMapInitFaled(){
+    func testPDFMapInitFailed(){
         // Empty String
-        let emptyName = PDFMap.init(name: "", thumbnail: nil)
+        let emptyName = PDFMap.init(fileName: "")
         XCTAssertNil(emptyName)
+    }
+    
+    func testPDFMapInitFailed2() {
+        let notExistFile = PDFMap.init(fileName: "notExists.pdf")
+        XCTAssertNil(notExistFile)
     }
     
     

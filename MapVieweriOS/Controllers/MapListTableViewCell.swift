@@ -8,14 +8,35 @@
 
 import UIKit
 
-class MapListTableViewCell: UITableViewCell {
+//
+// MARK:  - Map List Cell Delegate Protocol
+//
+protocol MapListTableViewCellDelegate {
+    func cancelTapped(_ cell: MapListTableViewCell)
+}
 
+class MapListTableViewCell: UITableViewCell {
+    //
+    // MARK: - IBOutlets
+    //
     @IBOutlet weak var pdfImage: UIImageView!
     @IBOutlet weak var mapName: UITextField!
     @IBOutlet weak var fileSize: UILabel! // file size
     @IBOutlet weak var distToMap: UILabel! // distance to map
     @IBOutlet weak var loadingProgress: UIProgressView!
     @IBOutlet weak var fileName: UILabel! // pdf file name
+    
+    //
+    // MARK: - Variables and Properties
+    //
+    var importing = false
+    var delegate: MapListTableViewCellDelegate?
+    
+    // MARK: - IBActions
+    //
+    @IBAction func cancelTapped( _ sender: AnyObject) {
+        delegate?.cancelTapped(self)
+    }
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -28,4 +49,8 @@ class MapListTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
+    func updateDisplay(progress: Float){
+        // update progress bar when importing a map
+        loadingProgress.progress = progress
+    }
 }
