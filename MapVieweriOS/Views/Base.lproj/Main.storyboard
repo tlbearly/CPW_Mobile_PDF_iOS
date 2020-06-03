@@ -98,7 +98,6 @@
                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="pdf_icon" translatesAutoresizingMaskIntoConstraints="NO" id="YrY-aO-y4i">
                                             <rect key="frame" x="10" y="10" width="90" height="80"/>
                                             <constraints>
-                                                <constraint firstAttribute="height" constant="90" id="1mw-5q-khQ"/>
                                                 <constraint firstAttribute="width" constant="90" id="c9h-tg-Vp1"/>
                                             </constraints>
                                         </imageView>
@@ -340,7 +339,7 @@
         <!--PDF Map-->
         <scene sceneID="HXy-Bf-9xL">
             <objects>
-                <viewController id="XwV-qs-rbI" customClass="MapViewController" customModule="MapVieweriOS" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="PDF Map" id="XwV-qs-rbI" customClass="MapViewController" customModule="MapVieweriOS" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="1Sn-FH-aig">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="716"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -348,17 +347,20 @@
                         <viewLayoutGuide key="safeArea" id="n7v-S6-kn7"/>
                     </view>
                     <navigationItem key="navigationItem" title="PDF Map" id="Hi4-w7-zVY"/>
+                    <connections>
+                        <segue destination="JGa-RW-tBr" kind="show" identifier="editWayPt" id="WdJ-7z-iqg"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lhT-zc-Ejh" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2787" y="-544"/>
         </scene>
-        <!--Edit Way Pt View Controller-->
+        <!--Edit Way Point-->
         <scene sceneID="g1P-lr-9o1">
             <objects>
-                <viewController id="JGa-RW-tBr" customClass="EditWayPtViewController" sceneMemberID="viewController">
+                <viewController id="JGa-RW-tBr" customClass="EditWayPtViewController" customModule="MapVieweriOS" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="kf2-eL-Mw4">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="716"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Lat, Long:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BST-lx-pFV">
@@ -368,6 +370,10 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="cyan_pin" translatesAutoresizingMaskIntoConstraints="NO" id="5Cq-Bb-gU2">
+                                <rect key="frame" x="0.0" y="62" width="66" height="59"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
                             <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Way Pt Description" textAlignment="natural" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="kXw-jl-3Ri">
                                 <rect key="frame" x="66" y="74" width="328" height="34"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -406,33 +412,51 @@
                                 <rect key="frame" x="66" y="263" width="30" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Red"/>
+                                <connections>
+                                    <action selector="redBtnClicked:" destination="JGa-RW-tBr" eventType="touchUpInside" id="8UP-01-5vW"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3Qw-f8-GkY">
                                 <rect key="frame" x="148" y="263" width="31" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Blue"/>
+                                <connections>
+                                    <action selector="blueBtnClicked:" destination="JGa-RW-tBr" eventType="touchUpInside" id="Tp2-Sl-d1A"/>
+                                </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Q2C-SR-nYt">
-                                <rect key="frame" x="228" y="263" width="35" height="30"/>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4xU-e3-Rye">
+                                <rect key="frame" x="213" y="263" width="35" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Cyan"/>
+                                <connections>
+                                    <action selector="cyanBtnClicked:" destination="JGa-RW-tBr" eventType="touchUpInside" id="cBd-8C-QZD"/>
+                                </connections>
                             </button>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="cyan_pin" translatesAutoresizingMaskIntoConstraints="NO" id="5Cq-Bb-gU2">
-                                <rect key="frame" x="0.0" y="62" width="66" height="59"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </imageView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <viewLayoutGuide key="safeArea" id="BoW-rW-QSK"/>
                     </view>
-                    <navigationItem key="navigationItem" id="S5u-fm-qym">
-                        <barButtonItem key="leftBarButtonItem" systemItem="done" id="ujU-vZ-uMx"/>
-                        <barButtonItem key="rightBarButtonItem" systemItem="trash" id="w3A-K2-qPb"/>
+                    <navigationItem key="navigationItem" title="Edit Way Point" id="S5u-fm-qym">
+                        <barButtonItem key="leftBarButtonItem" systemItem="done" id="ujU-vZ-uMx">
+                            <connections>
+                                <action selector="doneBtnClicked:" destination="JGa-RW-tBr" id="Hol-4B-Jgb"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" systemItem="trash" id="w3A-K2-qPb">
+                            <connections>
+                                <action selector="trashBtnClicked:" destination="JGa-RW-tBr" id="r2t-v3-ekL"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="addDate" destination="X7c-Lh-X8k" id="oLJ-rZ-MC6"/>
+                        <outlet property="latLong" destination="Zs8-ne-wc9" id="NKy-WW-Yl7"/>
+                        <outlet property="wayPtDesc" destination="kXw-jl-3Ri" id="ROs-dI-jXM"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wN0-Nl-oq5" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4343.4782608695659" y="-537.22826086956525"/>
+            <point key="canvasLocation" x="3646" y="-545"/>
         </scene>
         <!--Map List View Controller-->
         <scene sceneID="T2R-45-Tv9">
@@ -452,24 +476,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="i4n-LL-FFi" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="976.81159420289862" y="-544.41964285714278"/>
-        </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="xVO-Bw-iai">
-            <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="CAQ-T1-Vg8" sceneMemberID="viewController">
-                    <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="vad-RZ-eTH">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="JGa-RW-tBr" kind="relationship" relationship="rootViewController" id="ONd-bV-gpC"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Qme-Dz-c5V" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="3437.68115942029" y="-537.22826086956525"/>
         </scene>
     </scenes>
     <resources>

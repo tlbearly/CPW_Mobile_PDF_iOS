@@ -120,24 +120,28 @@ class MapViewController: UIViewController {
         super.prepare(for: segue, sender: sender)
         
         switch(segue.identifier ?? "") {
-        case "EditWayPt":
-            guard let editWayPtViewController = segue.destination as? EditWayPtViewController else {
+        case "editWayPt":
+            guard let editWayPtVC = segue.destination as? EditWayPtViewController else {
                 fatalError("Unexpected destination: \(segue.destination)")
-            }
-            guard let mapViewController = sender as? MapViewController else {
-                fatalError("Unexpected sender: \(String(describing: sender))")
             }
             // pass the selected map name, thumbnail, etc to MapViewController.swift
             let wayPt = selectedWayPt.contents
-            editWayPtViewController.wayPt = wayPt ?? "description$lat, long$date added"
+            editWayPtVC.wayPt = wayPt ?? "description$lat, long$date added"
         default:
             fatalError("Unexpected Segue Identifier: \(String(describing: segue.identifier))")
         }
-        // map from file picker or website
-        if (segue.identifier == "EditWayPtViewController"){
-            print("AddMapViewController: go to EditWayPtViewController")
-        }
     }
+    
+    // MARK: Navigation
+    
+    @IBAction func unwindToMapDone(_ sender: Any) {
+        print("done button pressed")
+    }
+    
+    @IBAction func unwindToMapTrash(_ sender: Any) {
+        print("trash button pressed")
+    }
+    
     
     func setupLocationServices() {
         // MARK: setupLocationServices
@@ -522,7 +526,7 @@ class MapViewController: UIViewController {
                 
                 // open edit way point
                 selectedWayPt = waypt
-                self.performSegue(withIdentifier: "EditWayPt", sender: nil)
+                self.performSegue(withIdentifier: "editWayPt", sender: nil)
                 
                 let screenSize: CGRect = UIScreen.main.bounds
                 let popupWidth:CGFloat = screenSize.width - 60
