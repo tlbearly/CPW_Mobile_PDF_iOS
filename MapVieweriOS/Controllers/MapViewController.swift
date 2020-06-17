@@ -53,7 +53,7 @@ class MapViewController: UIViewController {
     var pdfHeight:Double = 0.0
     var currentLatLong:UITextField = UITextField()
     var debugTxtBox:UITextField = UITextField()
-    private var popup:UIView = UITextView(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
+    private var popup:UITextField = UITextField(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
     private var selectedWayPt:PDFAnnotation = PDFAnnotation()
     
     override func viewDidLoad() {
@@ -126,7 +126,7 @@ class MapViewController: UIViewController {
             }
             // pass the selected map name, thumbnail, etc to MapViewController.swift
             let wayPt = selectedWayPt.contents
-            editWayPtVC.wayPt = wayPt ?? "description$lat, long$date added"
+            editWayPtVC.wayPt = wayPt ?? "description$lat, long$date added$cyan_pin$0$0"
         default:
             fatalError("Unexpected Segue Identifier: \(String(describing: segue.identifier))")
         }
@@ -134,12 +134,39 @@ class MapViewController: UIViewController {
     
     // MARK: Navigation
     
-    @IBAction func unwindToMapDone(_ sender: Any) {
+    @IBAction func performUnwindToMapDone(_ sender: UIStoryboardSegue) {
         print("done button pressed")
+        guard let editWayPtVC = sender.source as? EditWayPtViewController else {
+            fatalError("Unexpected Segue Sender: \(String(describing: sender.source))")
+        }
+        let desc = editWayPtVC.wayPtDesc.text ?? "Way Point"
+        /*var wayPt = editWayPtVC.wayPtDesc.text ?? "Way Pt Desc$"
+        wayPt += "$"
+        wayPt += editWayPtVC.latLong.text ?? "lat, long$"
+        wayPt += "$"
+        wayPt += editWayPtVC.addDate.text ?? "Date Added"
+        wayPt += "$"
+        wayPt += editWayPtVC.pushPinImg // name of push pin file
+        wayPt += "$"
+ 
+        selectedWayPt.contents = wayPt*/
+        guard let page = pdfView.document?.page(at: 0) else {
+            displayError(msg: "Problem reading the PDF map. Can't get page 1.")
+            return
+        }
+        page.removeAnnotation(selectedWayPt)
+        addWayPt(x: CGFloat(editWayPtVC.x), y: CGFloat(editWayPtVC.y), page: page, imageName: editWayPtVC.pushPinImg, desc: desc, dateAdded: editWayPtVC.addDate.text)
+        savePDF()
     }
     
-    @IBAction func unwindToMapTrash(_ sender: Any) {
+    @IBAction func performUnwindToMapTrash(_ sender: UIStoryboardSegue) {
         print("trash button pressed")
+        guard let editWayPtVC = sender.source as? EditWayPtViewController else {
+            fatalError("Unexpected Segue Sender: \(String(describing: sender.source))")
+        }
+       // MARK: TODO delete selectedWayPt and savePDF
+        //selectedWayPt.action = .delete
+        savePDF()
     }
     
     
@@ -267,6 +294,7 @@ class MapViewController: UIViewController {
         return
     }
     
+    // MARK: addCurrentLatLongTextbox
     func addCurrentLatLongTextbox() {
         // MARK: addCurrentLatLongTextbox
         // Add text box for current location display
@@ -286,6 +314,7 @@ class MapViewController: UIViewController {
         currentLatLong.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 50).isActive = true
     }
     
+    // MARK: addDebugTextbox
     func addDebugTextbox() {
         // Add text box for current location display
         debugTxtBox.text = "  Debug: "
@@ -304,6 +333,7 @@ class MapViewController: UIViewController {
         debugTxtBox.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 100).isActive = true
     }
     
+    // MARK: displayLocation
     
     //func displayLocation(page: PDFPage, pdfView: PDFView, latNow: Double, longNow:Double){
     func displayLocation(page: PDFPage, pdfView: PDFView){
@@ -435,9 +465,12 @@ class MapViewController: UIViewController {
     
     
     // save the pdf with annotations in app directory
-    func savePDF(fileName:String){
-       let path = Bundle.main.url(forResource: fileName, withExtension: "pdf")
-       pdfView.document?.write(to:path!)
+    func savePDF(){
+        //guard let fileName = map?.fileURL else {
+        //    fatalError("Map file not found")
+        //}
+        //pdfView.document?.write(to:fileName) // this overwrites all of the geo spatial info!!!!
+        // Save way points to database
     }
     
     @objc func allowBtnPressed(){
@@ -476,8 +509,11 @@ class MapViewController: UIViewController {
                 print ("PDF: \(Int(pdfViewPoint.x)), \(Int(pdfViewPoint.y))")
                 
                 // is popup showing? Did they click on the popup then allow editing
-                if let aPopup: UITextView = pdfView.viewWithTag(100) as? UITextView {
-                
+                if let aPopup: UITextField = pdfView.viewWithTag(100) as? UITextField {
+                    // popup is showing and did not click on popup hide it.
+                    removingPopup = true
+                    aPopup.removeFromSuperview()
+                    /*
                     if (location.x >= aPopup.bounds.minX &&
                     location.x <= aPopup.bounds.maxX &&
                     location.y >= aPopup.bounds.minY &&
@@ -485,6 +521,8 @@ class MapViewController: UIViewController {
                         print("MinX: \(location.x) < \(aPopup.bounds.minX)")
                         print("MaxX: \(location.x) > \(aPopup.bounds.maxX)")
                         print("clicked on popup")
+                        // open edit way point
+                        self.performSegue(withIdentifier: "editWayPt", sender: nil)
                         return
                     }
                     // remove old popup
@@ -492,7 +530,7 @@ class MapViewController: UIViewController {
                         print("remove popup")
                         removingPopup = true
                         aPopup.removeFromSuperview()
-                    }
+                    }*/
                 }
                                 
                 // clicked on way point annotation?
@@ -507,7 +545,7 @@ class MapViewController: UIViewController {
                         pdfViewPoint.x<CGFloat(mediaBoxWidth - marginRight) &&
                         pdfViewPoint.y<CGFloat(mediaBoxHeight - marginTop)){
                         print ("add a way point!!!")
-                        addWayPt(x: pdfViewPoint.x, y: pdfViewPoint.y, page: page)
+                        addWayPt(x: pdfViewPoint.x, y: pdfViewPoint.y, page: page, imageName: "cyan_pin", desc: "Way Point", dateAdded: nil)
                         return
                     }
                     else {
@@ -519,18 +557,18 @@ class MapViewController: UIViewController {
                 // clicked on existing annotation. Is it a way pt? type stamp?
                 if (waypt.type != "Stamp"){
                     // clicked on current location
-                    addWayPt(x: pdfViewPoint.x, y: pdfViewPoint.y, page: page)
+                    addWayPt(x: pdfViewPoint.x, y: pdfViewPoint.y, page: page, imageName: "cyan_pin", desc: "Way Point", dateAdded: nil)
                     return
                     
                 }
                 
                 // open edit way point
                 selectedWayPt = waypt
-                self.performSegue(withIdentifier: "editWayPt", sender: nil)
+                // open edit way point
+               // self.performSegue(withIdentifier: "editWayPt", sender: nil)
                 
-                let screenSize: CGRect = UIScreen.main.bounds
-                let popupWidth:CGFloat = screenSize.width - 60
-                let popupHeight:CGFloat = screenSize.height - 180
+                let popupWidth:CGFloat = 150
+                let popupHeight:CGFloat = 50
                 print ("way pt height: \(waypt.bounds.maxY - waypt.bounds.minY)")
                 
                 // calculate pixels to move over to get to mid point in image
@@ -547,7 +585,7 @@ class MapViewController: UIViewController {
                 
                 print("yRatio:\(ratioY) yscr:\(Int(location.y)) - ymove:\(Int(yMove)) - ht:\(Int(popupHeight)) = y:\(Int(y))")
                 
-                let descLabel = UILabel(frame: CGRect(x: 10, y: 20, width: 80, height: 30))
+                /*let descLabel = UILabel(frame: CGRect(x: 10, y: 20, width: 80, height: 30))
                 descLabel.text = "Desc:"
                 let desc = UITextField(frame: CGRect(x: 90, y:20, width: 200, height: 30))
                 desc.backgroundColor = .init(red: 0.95, green: 0.95, blue: 0.95, alpha: 1)
@@ -561,31 +599,31 @@ class MapViewController: UIViewController {
                 let timeNow = UITextField(frame: CGRect(x: 90, y:100, width: 200, height: 30))
                 timeNow.allowsEditingTextAttributes = false
                 let saveBtn = PrimaryUIButton(frame: CGRect(x:10, y:300,width: 80, height: 40))
-                saveBtn.setTitle("Save", for: .normal)
-                popup = UIView(frame: CGRect(x: 30, y: 70, width: popupWidth, height: popupHeight))
+                saveBtn.setTitle("Save", for: .normal)*/
+                popup = UITextField(frame: CGRect(x: location.x, y: location.y, width: popupWidth, height: popupHeight))
                 
                 
                 // edit text listener
-                //popup.addTarget(self, action: #selector(MapViewController.wayptTextChanged(_:)), for: UIControl.Event.editingDidEnd)
+                popup.addTarget(self, action: #selector(MapViewController.wayptTextClicked(_:)), for: UIControl.Event.touchDown)// .editingDidEnd)
                 guard let items = waypt.contents?.components(separatedBy: "$") else {
                     print("empty waypt contents!!!!")
                     return
                 }
-                desc.text = items[0]
-                latlong.text = items[1]
-                timeNow.text = items[2]
+                //desc.text = items[0]
+                //latlong.text = items[1]
+                //timeNow.text = items[2]
                 
-                //popup.text = waypt.contents
+                popup.text = items[0]
                 
                 popup.tag = 100
                 popup.backgroundColor = UIColor.white
                 
                 // add padding 15 to left and right
-                //let paddingView = UIView(frame: CGRect(x: 0,y: 0,width: 15,height: popup.frame.height))
-                //popup.leftView = paddingView
-                //popup.leftViewMode = UITextField.ViewMode.always
-                //popup.rightView = paddingView
-                //popup.rightViewMode = UITextField.ViewMode.always
+                let paddingView = UIView(frame: CGRect(x: 0,y: 0,width: 15,height: popup.frame.height))
+                popup.leftView = paddingView
+                popup.leftViewMode = UITextField.ViewMode.always
+                popup.rightView = paddingView
+                popup.rightViewMode = UITextField.ViewMode.always
                 
                 // add border
                 let myColor : UIColor = UIColor.gray
@@ -593,13 +631,13 @@ class MapViewController: UIViewController {
                 popup.layer.borderWidth = 1
                 popup.layer.cornerRadius = 10
                 //popup.setAlignmentRectInsets = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
-                popup.addSubview(descLabel)
+                /*popup.addSubview(descLabel)
                 popup.addSubview(desc)
                 popup.addSubview(latlongLabel)
                 popup.addSubview(latlong)
                 popup.addSubview(timeNowLabel)
                 popup.addSubview(timeNow)
-                popup.addSubview(saveBtn)
+                popup.addSubview(saveBtn)*/
                 pdfView.addSubview(popup)
                 
                 // add speech bubble
@@ -611,14 +649,22 @@ class MapViewController: UIViewController {
         }
     }
     
-    @objc func wayptTextChanged(_ textField: UITextField){
-        // clicked on a waypt and a popup opened with the contents. When they click somewhere else it closes the popup and calls this function. Update the waypt annomation that was clicked on.//
-        selectedWayPt.contents = textField.text
+    @objc func wayptTextClicked(_ textField: UITextField){
+        // clicked on popup open edit way pt segue
+        if let aPopup: UITextField = pdfView.viewWithTag(100) as? UITextField {
+        // hide popup with push pin description.
+            aPopup.removeFromSuperview()
+        }
+        // Open EditWayPtViewController
+        self.performSegue(withIdentifier: "editWayPt", sender: nil)
+        
+        //selectedWayPt.contents = textField.text
     }
     
-    func addWayPt(x: CGFloat, y: CGFloat, page: PDFPage){
+    func addWayPt(x: CGFloat, y: CGFloat, page: PDFPage, imageName: String, desc: String, dateAdded: String?){
         // Create a PushPin
-        let image = UIImage(named: "cyan_pin")
+        var dateString: String
+        let image = UIImage(named: imageName)
         let wayPtSize:CGFloat = 80.0
         let halfSize:CGFloat = 40.0
         let midX = x - halfSize
@@ -627,13 +673,19 @@ class MapViewController: UIViewController {
         let lat = (Double(y)/pdfHeight * latDiff) + lat1
         let imageAnnotation = PushPin(image, bounds: CGRect(x: midX, y: midY, width: wayPtSize, height: wayPtSize), properties: nil)
         page.addAnnotation(imageAnnotation)
-        let dateTime = Date()
-        let formatter = DateFormatter()
-        formatter.timeStyle = .short
-        formatter.dateStyle = .short
+        if dateAdded == nil {
+            let dateTime = Date()
+            let formatter = DateFormatter()
+            formatter.timeStyle = .short
+            formatter.dateStyle = .short
+            dateString = formatter.string(from:dateTime)
+        }
+        else {
+            dateString = dateAdded!
+        }
         
         // contents: description, lat/long, time added
-        imageAnnotation.contents = "Way Pt 1$\(String(format: "%.5f", lat)), \(String(format: "%.5f", long))$ \(formatter.string(from:dateTime))"
+        imageAnnotation.contents = "\(desc)$\(String(format: "%.5f", lat)), \(String(format: "%.5f", long))$ \(dateString)$\(imageName)$\(x)$\(y)"
     }
     
     @objc func pdfViewTapped2(_ gestureRecognizer: UITapGestureRecognizer) {

@@ -32,16 +32,4 @@ class PushPin: PDFAnnotation {
         guard let cgImage = image?.cgImage else { return }
         context.draw(cgImage, in: bounds)
     }
-    
-/*    func addAction(linkAnnotation:PDFAnnotation, myPage:PDFPage){
-        //PDFAnnotation PDFAction and PDFDestination
-        // Create an action that allows the user to open a URL
-        let appleURL = URL(string: "http://apple.com")
-        let actionURL = PDFActionURL(url: appleURL!)
-        linkAnnotation.action = actionURL
-        // Create an action that allows the user to jump to a PDFDestination
-        let destination = PDFDestination(page: myPage, at: CGPoint(x: 35, y: 275))
-        let actionGoTo = PDFActionGoTo(destination: destination)
-        linkAnnotation.action = actionGoTo
-    }*/
 }

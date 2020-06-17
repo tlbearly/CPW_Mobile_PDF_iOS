@@ -30,6 +30,7 @@
 		60DBB8E2244A605200F84F4A /* Wellington.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 60DBB8E1244A605200F84F4A /* Wellington.pdf */; };
 		60DBB8E4244A606200F84F4A /* Wellington1.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 60DBB8E3244A606200F84F4A /* Wellington1.pdf */; };
 		A40049802486F6000092A93A /* EditWayPtViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A400497F2486F6000092A93A /* EditWayPtViewController.swift */; };
+		A400498624896E4A0092A93A /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A400498524896E4A0092A93A /* CloudKit.framework */; };
 		A4535D6E2469BE4D000E945B /* 63RanchSTL_geo.pdf in Resources */ = {isa = PBXBuildFile; fileRef = A4535D6D2469BE4D000E945B /* 63RanchSTL_geo.pdf */; };
 		A4535D74246F1ACE000E945B /* AppError.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4535D73246F1ACE000E945B /* AppError.swift */; };
 /* End PBXBuildFile section */
@@ -82,6 +83,8 @@
 		60DBB8E1244A605200F84F4A /* Wellington.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = Wellington.pdf; sourceTree = "<group>"; };
 		60DBB8E3244A606200F84F4A /* Wellington1.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = Wellington1.pdf; sourceTree = "<group>"; };
 		A400497F2486F6000092A93A /* EditWayPtViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditWayPtViewController.swift; sourceTree = "<group>"; };
+		A400498324896E4A0092A93A /* MapVieweriOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MapVieweriOS.entitlements; sourceTree = "<group>"; };
+		A400498524896E4A0092A93A /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		A4535D6D2469BE4D000E945B /* 63RanchSTL_geo.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = 63RanchSTL_geo.pdf; sourceTree = "<group>"; };
 		A4535D73246F1ACE000E945B /* AppError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppError.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -91,6 +94,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A400498624896E4A0092A93A /* CloudKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -118,6 +122,7 @@
 				609CA8D62440C355006C0283 /* MapViewerTests */,
 				609CA8E12440C355006C0283 /* MapViewerUITests */,
 				609CA8BE2440C353006C0283 /* Products */,
+				A400498424896E4A0092A93A /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -134,6 +139,7 @@
 		609CA8BF2440C353006C0283 /* MapVieweriOS */ = {
 			isa = PBXGroup;
 			children = (
+				A400498324896E4A0092A93A /* MapVieweriOS.entitlements */,
 				A4535D6D2469BE4D000E945B /* 63RanchSTL_geo.pdf */,
 				60BBA1152453A53E0057A53D /* MapVieweriOSDebug.entitlements */,
 				6048D42A2450D7C100A14EBA /* aWellington3.pdf */,
@@ -203,6 +209,14 @@
 				A400497F2486F6000092A93A /* EditWayPtViewController.swift */,
 			);
 			path = Controllers;
+			sourceTree = "<group>";
+		};
+		A400498424896E4A0092A93A /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				A400498524896E4A0092A93A /* CloudKit.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -530,6 +544,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = MapVieweriOS/MapVieweriOSDebug.entitlements;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 666AS39NZ8;
 				INFOPLIST_FILE = "$(SRCROOT)/MapVieweriOS/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -547,7 +562,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = MapVieweriOS/MapVieweriOS.entitlements;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 666AS39NZ8;
 				INFOPLIST_FILE = "$(SRCROOT)/MapVieweriOS/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (

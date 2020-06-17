@@ -24,6 +24,16 @@ class AppError {
         case pdfVersionTooLow
         // cannot parse pdf dictionary
         case cannotReadPDFDictionary
+        // failed to delete the map
+        case cannotDelete
+        // Cannot rename the map file destination file already exists
+        case cannotRename(file: String)
+        // cannot rename, new file name already exists
+        case fileAlreadyExists(file: String)
+        // duplicate name
+        case mapNameDuplicate
+        // map name cannot be blank
+        case mapNameBlank
         // cannot parse pdf dictionary
         case unknownFormat
     }

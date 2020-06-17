@@ -13,15 +13,24 @@ class EditWayPtViewController: UIViewController {
     @IBOutlet weak var wayPtDesc: UITextField!
     @IBOutlet weak var latLong: UILabel!
     @IBOutlet weak var addDate: UILabel!
+    @IBOutlet weak var pushPin: UIImageView!
+    var x:Float = 0.0
+    var y:Float = 0.0
+    
+    var pushPinImg:String = "cyan_pin"
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        
         let items = wayPt.components(separatedBy: "$")
         wayPtDesc.text = items[0]
         latLong.text = items[1]
         addDate.text = items[2]
-        
+        pushPinImg = items[3]
+        pushPin.image = UIImage(named: pushPinImg)
+        x = Float(items[4]) ?? 0.0
+        y = Float(items[5]) ?? 0.0
     }
     
 
@@ -32,30 +41,24 @@ class EditWayPtViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destination.
         // Pass the selected object to the new view controller.
+       
     }
     
     @IBAction func redBtnClicked(_ sender: Any) {
         print("red button clicked")
+        pushPinImg = "red_pin"
+        pushPin.image = UIImage(named: pushPinImg)
     }
     
     @IBAction func blueBtnClicked(_ sender: Any) {
         print("blue button clicked")
+        pushPinImg = "blue_pin"
+        pushPin.image = UIImage(named: pushPinImg)
     }
     
     @IBAction func cyanBtnClicked(_ sender: Any) {
         print("cyan button clicked")
-    }
-    
-    @IBAction func doneBtnClicked(_ sender: Any) {
-        print("done button clicked")
-        wayPt = wayPtDesc.text ?? "Way Pt Desc$"
-        wayPt += "$"
-        wayPt += latLong.text ?? "lat, long$"
-        wayPt += "$"
-        wayPt += addDate.text ?? "Date Added"
-    }
-    
-    @IBAction func trashBtnClicked(_ sender: Any) {
-        print("trash button clicked")
+        pushPinImg = "cyan_pin"
+        pushPin.image = UIImage(named: pushPinImg)
     }
 }

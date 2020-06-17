@@ -12,7 +12,7 @@
 // Segues https://matteomanferdini.com/unwind-segue
 
 import UIKit
-import MobileCoreServices
+import MobileCoreServices // needed for pdf type kUTTypePDF
 
 class AddMapsViewController: UIViewController {
     var map: PDFMap? = nil
@@ -21,7 +21,6 @@ class AddMapsViewController: UIViewController {
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-        
     }
 
     override func viewDidLoad() {
@@ -106,6 +105,19 @@ class AddMapsViewController: UIViewController {
 }
 
 extension AddMapsViewController: UIDocumentPickerDelegate {
+    // iOS 8.0 - 11.0
+    func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentAt url: URL) {
+       // called when user selects a pdf to import
+        print("selected a pdf. File is in urls[0]",url)
+        
+        // copy file to documents directory, warn if it already imported
+        fileName = url.lastPathComponent
+        fileURL = url
+        
+        self.performSegue(withIdentifier: "pdfFromFilePicker", sender: nil)
+    }
+    
+    // iOS 11.0+
     func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
        // called when user selects a pdf to import
         print("selected a pdf. File is in urls[0]",urls[0].lastPathComponent)
@@ -115,5 +127,9 @@ extension AddMapsViewController: UIDocumentPickerDelegate {
         fileURL = urls[0]
         
         self.performSegue(withIdentifier: "pdfFromFilePicker", sender: nil)
+    }
+    
+    func documentPickerWasCancelled(_ controller: UIDocumentPickerViewController) {
+        print("Cancelled")
     }
 }
