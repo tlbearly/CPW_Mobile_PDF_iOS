@@ -20,24 +20,33 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
     private var importing = false
     private var importFileName:String = ""
     private var currentMapName:String = ""
+    private var documentsURL:URL? = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // This does not allow clicking on a cell to show map!!!!!
-        //self.tableView.isEditing = true // shows delete & rearange buttons in each row
+        // get path to documents/app directory
+        documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first
+        if (documentsURL == nil) {
+           displayError(theError: AppError.pdfMapError.invalidDocumentDirectory, title: "Fatal Error")
+           return
+        } else {
         
-        // load maps
-        loadMaps()
-        
-        // sort list
-        sortList(type: sortBy)
-        
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
+            // This does not allow clicking on a cell to show map!!!!!
+            //self.tableView.isEditing = true // shows delete & rearange buttons in each row
+            
+            // load maps
+            loadMaps()
+            
+            // sort list
+            sortList(type: sortBy)
+            
+            // Uncomment the following line to preserve selection between presentations
+            // self.clearsSelectionOnViewWillAppear = false
 
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-         self.navigationItem.leftBarButtonItem = self.editButtonItem
+            // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
+            self.navigationItem.leftBarButtonItem = self.editButtonItem
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -49,7 +58,7 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
         }
         sortList(type: sortBy)
         self.tableView.reloadData()
-        showMsg()
+        showMsg() // if no imported maps
     }
 
    
@@ -112,7 +121,7 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
         
         do {
            // let map2 = try PDFMap(fileName: map.fileName)
-            let map2 = try PDFMap(fileURL: map.fileURL!)
+            let map2 = try PDFMap(fileURL: map.fileURL!) // import file
             maps[maps.count-1] = map2!
             
         } catch {
@@ -133,18 +142,6 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
             return
         }
         self.tableView.reloadData()
-
-        
-        //tableView.reloadRows(at: [newIndexPath], with: .fade)
-      /*  do {
-            let map = try PDFMap(fileName: fileName)//, progress: cell.loadingProgress)
-            maps[maps.count-1] = map!
-            tableView.reloadRows(at: [newIndexPath], with: .fade)
-            cell.loadingProgress.progress = 100
-        } catch {
-            displayError(theError: error)
-        }
-        */
     }
     
     private func displayError(theError: Error, title: String="Map Import Failed") {
@@ -152,7 +149,7 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
         var msg:String
         switch theError {
         case AppError.pdfMapError.invalidDocumentDirectory:
-            msg = "Cannot write to documents directory."
+            msg = "Cannot read from or write to the app documents directory. Your imported maps are stored here."
         case AppError.pdfMapError.invalidFilename:
             msg = "Invalid Filename."
         case AppError.pdfMapError.notPDF:
@@ -194,16 +191,10 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
         // date and parses the file for thumbnail. When the map is loaded in MapViewController,
         // it calls PDFParser to get lat/long bounds, mediabox, and viewport
         
-        // get app documents directory
-        guard let documentsUrl = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else {
-            print("documents directory does not exist!")
-            return
-        }
-
         // get pdf files in app documents directory
         var dirContents: [URL]? = nil
         do {
-            dirContents = try FileManager.default.contentsOfDirectory(at: documentsUrl, includingPropertiesForKeys: nil, options: .skipsHiddenFiles)
+            dirContents = try FileManager.default.contentsOfDirectory(at: documentsURL!, includingPropertiesForKeys: nil, options: .skipsHiddenFiles)
         }catch {
             print(error)
             return
@@ -268,7 +259,7 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
     // Set visible cells to enable editing of map name and allow deleting
     override func setEditing(_ editing: Bool, animated: Bool) {
         // show delete button, map name editable
-        // MARK: setEditing edit delete
+        // MARK: setEditing edit/done
         super.setEditing(editing, animated: animated)
         let cells = self.tableView.visibleCells as! Array<MapListTableViewCell>
         if (editing) {
@@ -296,8 +287,11 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
                 for i in 0...maps.count-1 {
                     if maps[i].fileName == cell.fileName.text && cell.mapName.text != nil &&
                         maps[i].displayName != cell.mapName.text {
-                            // save new display name
-                            maps[i].displayName = cell.mapName.text!
+                        // save new display name, filename, and URL
+                        maps[i].displayName = cell.mapName.text!
+                        maps[i].fileName = cell.mapName.text! + ".pdf"
+                        cell.fileName.text = maps[i].fileName
+                        maps[i].fileURL = documentsURL!.appendingPathComponent(cell.fileName.text!)
                     }
                 }
             }
@@ -309,13 +303,12 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
         // hide keyboard on enter key pressed
         self.view.endEditing(true)
         textField.resignFirstResponder() // hide keyboard
+        setEditing(true, animated: true) // refresh list of currently viewed cells with mapName textField editable
         return true
     }
     @objc func endEditingMapName(_ textField: UITextField){
         // MARK: endEditingMapName
         // enter key clicked
-        print ("end editing")
-        let currentCell = textField.superview?.superview?.superview as! MapListTableViewCell
         let mapName:String = textField.text ?? "" // if nil set to blank
         // no change, return
         if (mapName == currentMapName){
@@ -323,7 +316,7 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
         }
         // blank map name, reset and return
         if (mapName == "") {
-             currentCell.mapName.text = currentMapName // reset map Name if blank
+            textField.text = currentMapName // reset map Name if blank
              displayError(theError: AppError.pdfMapError.mapNameBlank, title: "Invalid Map Name")
              return
         }
@@ -336,7 +329,7 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
         }
         // Multiple same names found, reset and return
         if (count > 0){
-            currentCell.mapName.text = currentMapName // reset map Name if already exists
+            textField.text = currentMapName // reset map Name if already exists
             displayError(theError: AppError.pdfMapError.mapNameDuplicate, title: "Invalid Map Name")
             return
         }
@@ -345,17 +338,11 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
             let start = mapName.startIndex
             let end = mapName.index(mapName.endIndex, offsetBy: -4)
             let range = start..<end
-            currentCell.mapName.text = String(mapName[range])
+            textField.text = String(mapName[range])
          }
         // rename file
-        guard let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else {
-            print("Can't get documents directory.")
-            displayError(theError: AppError.pdfMapError.invalidDocumentDirectory, title: "Cannot Rename File")
-            currentCell.mapName.text = currentMapName // reset map Name
-            return
-        }
-        let sourceURL = documentsURL.appendingPathComponent(currentMapName + ".pdf")
-        let destURL = documentsURL.appendingPathComponent(currentCell.mapName.text! + ".pdf")
+        let sourceURL = documentsURL!.appendingPathComponent(currentMapName + ".pdf")
+        let destURL = documentsURL!.appendingPathComponent(textField.text! + ".pdf")
         let fileManager = FileManager.default
         
         if fileManager.fileExists(atPath: sourceURL.path){
@@ -363,24 +350,25 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
                // rename file
                 do {
                     try fileManager.moveItem(at: sourceURL, to: destURL)
+                    print("\(sourceURL) renamed to \(destURL)")
                 } catch {
                     displayError(theError: AppError.pdfMapError.cannotRename(file: destURL.path), title: "Cannot Rename Map File")
-                    currentCell.mapName.text = currentMapName // reset map Name
+                    textField.text = currentMapName // reset map name
                     return
                 }
             } else {
                 // destination file already exists
-                displayError(theError: AppError.pdfMapError.fileAlreadyExists(file: currentCell.mapName.text! + ".pdf"), title: "Cannot Rename File")
-                currentCell.mapName.text = currentMapName // reset map Name
+                displayError(theError: AppError.pdfMapError.fileAlreadyExists(file: textField.text! + ".pdf"), title: "Cannot Rename File")
+                textField.text = currentMapName // reset map name
                 return
             }
         } else {
             // source file does not exist!!!
             displayError(theError: AppError.pdfMapError.pdfFileNotFound(file: currentMapName + ".pdf"), title: "Cannot Rename File")
-            currentCell.mapName.text = currentMapName // reset map Name
+            textField.text = currentMapName // reset map name
             return
         }
-        currentCell.fileName.text = currentCell.mapName.text! + ".pdf"
+        setEditing(true, animated: true) // refresh list of currently viewed cells with mapName textField editable
     }
     @objc func saveCurrentMapName(_ mapName: UITextField){
         // Save old map name in case they change it to one that already exists.
@@ -493,6 +481,7 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
             maps.remove(at: indexPath.row)
             // Delete the row from the data source
             tableView.deleteRows(at: [indexPath], with: .fade)
+            setEditing(true, animated: true) // refresh list of currently viewed cells with mapName textField editable
             showMsg() // if deleted last row, show message to add maps press + button
         } else if editingStyle == .insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view

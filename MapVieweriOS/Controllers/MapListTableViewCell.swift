@@ -47,6 +47,15 @@ class MapListTableViewCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
 
         // Configure the view for the selected state
+        // mapName textField was staying white, and when user
+        // returns from viewing map, it was grey for a second
+        if selected {
+            mapName.backgroundColor = UIColor.lightGray
+            contentView.backgroundColor = UIColor.lightGray
+        } else {
+            mapName.backgroundColor = UIColor.white
+            contentView.backgroundColor = UIColor.white
+        }
     }
     
     func updateDisplay(progress: Float){
