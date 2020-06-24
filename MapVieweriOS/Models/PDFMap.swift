@@ -15,12 +15,13 @@ import PDFKit
 
 class PDFMap {
     // PDF display name, user can modify this
-    var displayName: String = "" {didSet {
+    var displayName: String = ""
+    /*{didSet {
             print("Map Name changed to \(displayName).")
-        }}
+        }}*/
     
     var fileName: String = "" // PDF filename
-    var fileURL: URL? // PDF filename and URL
+    var fileURL: URL? // PDF filename and URL in app documents dir
     var thumbnail: UIImage?
     private var bounds:[Double] = [0.0, 0.0, 0.0, 0.0]
     var modDate:Double = 0.0 // modification date
@@ -53,6 +54,7 @@ class PDFMap {
     
     
     init?(fileName: String, fileURL: URL, quick: Bool) throws {
+        // MARK: init Loading...
         // Just set displayName to Loading..., check that fileName is not nil or "", check that fileURL exists.
         // Will be used to add to the maps list table and display a progress bar
         self.displayName = "Loading..."
@@ -70,29 +72,19 @@ class PDFMap {
         self.fileURL = url
     }
     
-    init?(fileName: String, fileURL: URL, progress: UIProgressView) throws {
-        // Called after add map from file picker or download from website
-        // called by MapListTableViewController.swift, unwindToMapsList, importMap
-// NOT USED
-        do {
-            try setFileNameAndDisplayName(fileName: fileName)
-        } catch let AppError {
-            throw AppError
-        }
-        
-        // copy url to app documents directory
-        
-    }
-    
     init?(fileURL: URL) throws {
-        // Import a new file from filepicker or downloaded from the web. Make sure it exists, is a pdf,
+        // MARK: init import
+        // Import a new file from filepicker or downloaded from the web. Make sure it exists, that it is a pdf,
         // and then copy it to the app documents directory.
+        
+        // does the fileURL exist?
         guard let url = urlExists(url: fileURL) else {
             print("map does not exist. file: \(fileURL.absoluteString)")
             throw AppError.pdfMapError.pdfFileNotFound(file: fileURL.absoluteString)
         }
         self.fileURL = url
         
+        // MARK: TODO - write db
         
         // copy url to app documents
         // destination directory name
@@ -100,11 +92,26 @@ class PDFMap {
              print("Can't get documents directory.")
             throw AppError.pdfMapError.invalidDocumentDirectory
          }
-         
+        
+        // Make sure there is enough space
+        let availBytes:Int64 = volumeCapacityForImportantUsage() ?? 0
+        do {
+            let size = try getFileSize(url: url)
+            if (availBytes < size){
+                print ("Not enough space on local directory to save file.")
+                throw AppError.pdfMapError.diskFull
+            }
+        } catch {
+            print ("Cannot get file size.")
+            throw AppError.pdfMapError.mapNil
+        }
+        
+        
         self.fileName = fileURL.lastPathComponent
         setDisplayName()
+        
+        // Copy file to app documents directory
         var destURL = documentsURL.appendingPathComponent(self.fileName)
-         
         var index = 0
         let fileManager = FileManager.default
         var name:String = ""
@@ -113,14 +120,14 @@ class PDFMap {
             name = self.displayName + String(index) + ".pdf"
             destURL = documentsURL.appendingPathComponent(name)
         }
-        
-         do {
+        do {
              try FileManager.default.copyItem(at:fileURL, to: destURL)
-         }
-         catch{
+        }
+        catch{
             print("ERROR: unable to copy file to the app documents directory")
             throw AppError.pdfMapError.pdfFileNotFound(file: fileURL.absoluteString)
-         }
+        }
+        
         self.fileName = name
         setDisplayName()
         self.fileURL = destURL
@@ -137,7 +144,7 @@ class PDFMap {
         
         // get modification date and file size
         do {
-            try getModDateFileSize(url: destURL)
+            try getModDateFileSize(url: destURL, now: true)
         } catch let AppError {
             throw AppError
         }
@@ -148,12 +155,14 @@ class PDFMap {
     }
     
     init?(fileName: String) throws {
+        // MARK: init load
         // Read each map from app documents directory.
         guard let testFile = setFileName(fileName: fileName) else {
             throw AppError.pdfMapError.invalidFilename
         }
         self.fileName = testFile
         
+        // MARK: TODO - read db
         setDisplayName()
         
         // Get URL
@@ -173,87 +182,19 @@ class PDFMap {
         self.fileURL = url
         
 
+        // Read the database for lat long values
+        
         // Parse PDF return bounds (lat, long), viewport (margins), mediabox (page size).
-        let pdf: [String:Any?] = PDFParser.parse(pdfUrl: self.fileURL!)
-        print ("Import PDF: \(self.displayName)")
-        if ((pdf["error"]) != nil) {
-            print(pdf["error"]!!)
-            switch pdf["error"] as! String {
-            case "CannotOpePDF":
-                throw AppError.pdfMapError.cannotOpenPDF
-            case "PDFVersionTooLow":
-                throw AppError.pdfMapError.pdfVersionTooLow
-            case "CannotReadPDFDictionary":
-                throw AppError.pdfMapError.cannotReadPDFDictionary
-            default:
-                // delete the file
-               /* do {
-                    print ("deleting file \(self.fileURL!)")
-                    try FileManager.default.removeItem(at: self.fileURL!)
-                } catch let error as NSError {
-                    print("Error: \(error.domain)")
-                }*/
-                throw AppError.pdfMapError.unknownFormat
-            }
-            
+        do {
+            try readPDF()
+        } catch let AppError  {
+            throw AppError
         }
-        guard let bounds = pdf["bounds"] as? [Double] else {
-            print("Error: cannot convert bounds to float array")
-            throw AppError.pdfMapError.cannotReadPDFDictionary
-        }
-       // print ("lat/long bounds: \(bounds)")
-        guard let viewport = pdf["viewport"] as? [Float] else{
-            print("Error: cannot convert viewport to float array")
-            throw AppError.pdfMapError.cannotReadPDFDictionary
-        }
-       // print ("viewport margins: \(viewport)")
-        guard let mediabox = pdf["mediabox"] as? [Float] else {
-            print("Error: cannot convert mediabox to float array")
-            throw AppError.pdfMapError.cannotReadPDFDictionary
-        }
-       // print ("mediabox page size: \(mediabox)")
-        marginTop = Double(mediabox[3] - viewport[1])
-        marginBottom = Double(viewport[3])
-        marginLeft = Double(viewport[0])
-        marginRight = Double(mediabox[2] - viewport[2])
-        mediaBoxWidth = Double(mediabox[2] - mediabox[0])
-        mediaBoxHeight = Double(mediabox[3] - mediabox[1])
-        lat1 = bounds[0]
-        long1 = bounds[1]
-        lat2 = bounds[2]
-        long2 = bounds[5]
-        latDiff = (90.0 - lat1) - (90.0 - lat2)
-        longDiff = (long2 + 180.0) - (long1 + 180.0)
-        // mediaBox is page boundary
-        pdfWidth = (mediaBoxWidth - (marginLeft + marginRight)) // don't need * zoom
-        pdfHeight = (mediaBoxHeight - (marginTop + marginBottom))
-        
-
-        
-        
         
         // Get thumbnail
         self.thumbnail = pdfThumbnail(url: url, width: 90, height: 90) ??  UIImage(imageLiteralResourceName: "pdf_icon")
         
         
-        // Get modification date and file size
-        /*do {
-            let attr = try FileManager.default.attributesOfItem(atPath: url.relativePath)
-            let date = attr[FileAttributeKey.modificationDate] as? Date
-            self.modDate = date?.timeIntervalSince1970 ?? 0.0
-            // PDF file size in KB or MB
-            var size = attr[FileAttributeKey.size] as! Double
-            var units = " KB"
-            size = size / 1000.0
-            if size >= 1000.0 {
-                size = size / 1000.0
-                units = " MB"
-            }
-            self.fileSize = String(format: "%.0f",size) + units
-        }
-        catch {
-            throw AppError.pdfMapError.invalidFilename
-        }*/
         // get modification date and file size
         do {
             try getModDateFileSize(url: url)
@@ -262,11 +203,12 @@ class PDFMap {
         }
         
         // Location: on map or distance to map in miles
-        mapDist = "Dist. to Map"
-        showLocationIcon = true
+        mapDist = distanceToMap()
+        showLocationIcon = false
     }
     
     func setFileName(fileName: String?) -> String? {
+        // MARK: setFileName
         // make sure fileName is not nil or blank
         guard let name = fileName, !name.isEmpty else {
             return nil
@@ -275,6 +217,7 @@ class PDFMap {
     }
     
     func getURLInDocumentsDirectory(fileName: String) -> URL? {
+        // MARK: getURLInDocumentsDir
         // append the app documents directory to the front of the fileName. Return the url.
         guard let url = pathForDocumentDirectoryAsURL()?.appendingPathComponent(fileName) else {
             print("app documents directory does not exists.")
@@ -284,6 +227,7 @@ class PDFMap {
     }
     
     func urlExists(url: URL) -> URL? {
+        // MARK: urlExists
         // Check if url exists
         let fileManager = FileManager.default
         let filePath = url.path
@@ -303,6 +247,7 @@ class PDFMap {
     }*/
     
     func setDisplayName() {
+        // MARK: setDisplayName
         // Set displayName, strip off .pdf
         let index = self.fileName.firstIndex(of: ".") ?? self.fileName.endIndex
         self.displayName = String(self.fileName[..<index])
@@ -339,6 +284,7 @@ class PDFMap {
     }
 
     func readPDF() throws {
+        // MARK: readPDF
         // Parse PDF return bounds (lat, long), viewport (margins), mediabox (page size).
         let pdf: [String:Any?] = PDFParser.parse(pdfUrl: self.fileURL!)
         print ("Import PDF: \(self.displayName)")
@@ -396,6 +342,7 @@ class PDFMap {
     
     
     func pdfThumbnail(url: URL, width: Int = 90, height: Int = 90) -> UIImage? {
+      // MARK: pdfThumbnail
       guard let data = try? Data(contentsOf: url),
       let page = PDFDocument(data: data)?.page(at: 0) else {
         return nil
@@ -405,21 +352,48 @@ class PDFMap {
       return page.thumbnail(of: screenSize, for: .mediaBox)
     }
     
-    func getModDateFileSize(url: URL) throws {
+    func getFileSize(url: URL) throws -> Int64 {
+        // MARK: getFileSize
+        // return file size in bytes
         do {
             let attr = try FileManager.default.attributesOfItem(atPath: url.relativePath)
-            var date = attr[FileAttributeKey.modificationDate] as? Date
-            if date == nil {
-                date = attr[FileAttributeKey.creationDate] as? Date
+            // PDF file size in KB or MB or GB
+            let size = attr[FileAttributeKey.size] as! Int64
+            return size
+        }
+        catch {
+            throw AppError.pdfMapError.invalidFilename
+        }
+    }
+    
+    func getModDateFileSize(url: URL, now: Bool = false) throws {
+        // MARK: getModDateFileSize
+        // Set the modification date, date imported
+        // Set the file size as string with units
+        do {
+            let attr = try FileManager.default.attributesOfItem(atPath: url.relativePath)
+            if (now){
+                self.modDate = Date().timeIntervalSinceReferenceDate
             }
-            self.modDate = date?.timeIntervalSince1970 ?? 0.0
-            // PDF file size in KB or MB
+            // MARK: TODO delete this will read from data base
+            else {
+                var date = attr[FileAttributeKey.modificationDate] as? Date
+                if date == nil {
+                    date = attr[FileAttributeKey.creationDate] as? Date
+                }
+                self.modDate = date?.timeIntervalSince1970 ?? 0.0
+            }
+            // PDF file size in KB or MB or GB
             var size = attr[FileAttributeKey.size] as! Double
             var units = " KB"
             size = size / 1000.0
             if size >= 1000.0 {
                 size = size / 1000.0
                 units = " MB"
+            }
+            if size >= 1000.0 {
+                size = size / 1000.0
+                units = " GB"
             }
             self.fileSize = String(format: "%.0f",size) + units
             print ("\(self.fileSize)")
@@ -430,6 +404,7 @@ class PDFMap {
     }
     
     func distanceToMap() -> String {
+        // MARK: distanceToMap
         // read current location, check if it is within the bounds of this map
         return "Dist. to Map"
     }
@@ -454,6 +429,8 @@ class PDFMap {
     }
     
     func volumeCapacityForImportantUsage() -> Int64? {
+        // Check available disk space in app documents dir. for important resources (app needs to function)
+        // returns available space in bytes
         let documentDirectoryPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first
         var results: URLResourceValues?
         do {

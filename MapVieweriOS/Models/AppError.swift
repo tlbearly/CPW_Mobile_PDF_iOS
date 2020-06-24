@@ -34,6 +34,10 @@ class AppError {
         case mapNameDuplicate
         // map name cannot be blank
         case mapNameBlank
+        // app documents directory full
+        case diskFull
+        // cannot select row, table was in process of loading
+        case cannotSelectRow
         // cannot parse pdf dictionary
         case unknownFormat
     }

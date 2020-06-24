@@ -34,9 +34,9 @@ class MapListTableViewCell: UITableViewCell {
     
     // MARK: - IBActions
     //
-    @IBAction func cancelTapped( _ sender: AnyObject) {
+   /* @IBAction func cancelTapped( _ sender: AnyObject) {
         delegate?.cancelTapped(self)
-    }
+    }*/
     
     override func awakeFromNib() {
         super.awakeFromNib()

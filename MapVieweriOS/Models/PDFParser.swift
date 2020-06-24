@@ -90,7 +90,7 @@ class PDFParser
             Float (mediaBox[2]),
             Float (mediaBox[3])
         ]
-        print("mediabox = \(mediabox)" )
+        //print("mediabox = \(mediabox)" )
         
         // get dictionary
         guard let dictionary = page.dictionary else {
@@ -146,7 +146,7 @@ class PDFParser
                             bboxValues.append(" ")
                             bboxValues.append(bboxValue[3].description)*/
                         }
-                        print ("viewport = \(bboxValues)")
+                        //print ("viewport = \(bboxValues)")
                     }
                     else {
                         return ["error": "CannotReadPDFDictionary"]
@@ -183,7 +183,7 @@ class PDFParser
                     //    gptsValues.append(" ")
                     //}
                 }
-                print ("bounds = \(gptsValues)")
+                //print ("bounds = \(gptsValues)")
             }
             else {
                 return ["error": "CannotReadPDFDictionary"]
