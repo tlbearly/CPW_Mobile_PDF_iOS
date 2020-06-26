@@ -62,6 +62,7 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
         // if done importing and returned from displaying the map, now show the list
         else if showMap {
             showMap = false
+            // sort table by user preference
             sortList(type: sortBy)
             self.tableView.reloadData()
             scrollToCurrentMapName()
@@ -209,11 +210,12 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
         do {
             dirContents = try FileManager.default.contentsOfDirectory(at: documentsURL!, includingPropertiesForKeys: nil, options: .skipsHiddenFiles)
         }catch {
-            print(error)
+            displayError(theError: AppError.pdfMapError.invalidDocumentDirectory)
             return
         }
           
         if dirContents != nil {
+            // only load pdf files
             let pdfFiles = dirContents!.filter{ $0.pathExtension == "pdf" }
             
             // load pdf files into maps array
@@ -380,7 +382,7 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
                // rename file
                 do {
                     try fileManager.moveItem(at: sourceURL, to: destURL)
-                    print("\(sourceURL.lastPathComponent) renamed to \(destURL.lastPathComponent)")
+                    //print("\(sourceURL.lastPathComponent) renamed to \(destURL.lastPathComponent)")
                 } catch {
                     displayError(theError: AppError.pdfMapError.cannotRename(file: destURL.path), title: "Cannot Rename Map File")
                     textField.text = currentMapName // reset map name
@@ -403,7 +405,7 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
     @objc func saveCurrentMapName(_ mapName: UITextField){
         // Save old map name in case they change it to one that already exists.
         currentMapName = mapName.text ?? ""
-        print ("current Map Name = \(currentMapName)")
+        //print ("current Map Name = \(currentMapName)")
     }
     
     func scrollToBottom(){
@@ -456,7 +458,7 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
         cell.fileName.text = map.fileName
         cell.mapName.placeholder = "Map Name"
         cell.pdfImage.image = map.thumbnail
-        print("\(map.displayName) \(map.modDate)")
+       //print("\(map.displayName) \(map.modDate)")
         // reset map name editing to done. Sometimes if scroll it is still in editing mode grey textbox
         cell.mapName.isEnabled = false
         cell.mapName.backgroundColor = .white
@@ -499,24 +501,18 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
     override func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         // MARK: didEndDisplaying cell
         if (showMap){
-            print("end displaying row \(indexPath.row)")
+            //print("end displaying row \(indexPath.row)")
             if let lastVisibleIndexPath = tableView.indexPathsForVisibleRows?.last {
                 if indexPath == lastVisibleIndexPath {
-                    print ("done loading, show map")
-                // If just imported a map programmatically select row and show map
-                // Performs segue in didSelectRowAt
-                //let currentCell = cell as! MapListTableViewCell
-                //if showMap && currentMapName == currentCell.mapName.text {
-                    // select the row which calls didSelectRow at which will show the map
+                    // If just imported a map programmatically select row and show map
+                    // Performs segue in didSelectRowAt
+                    // select the row which calls didSelectRow which will show the map
                     self.tableView.selectRow(at: indexPath, animated: true, scrollPosition: UITableView.ScrollPosition.bottom)
                     self.tableView.delegate?.tableView?(self.tableView, didSelectRowAt: indexPath)
-                //}
                 }
             }
         }
     }
-    
-
     
     // Override to support conditional editing of the table view.
     // if return true allows deleting a row
@@ -548,15 +544,14 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
             // Delete file from app/documents...
             let cell = self.tableView.cellForRow(at: indexPath) as! MapListTableViewCell
             guard let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else {
-                 print("Can't get documents directory.")
                 displayError(theError: AppError.pdfMapError.invalidDocumentDirectory)
                 return
             }
-            guard let filename = cell.fileName.text else {
+            guard let mapName = cell.mapName.text  else {
                 displayError(theError: AppError.pdfMapError.invalidFilename)
                 return
             }
-            let fileURL = documentsURL.appendingPathComponent(filename)
+            let fileURL = documentsURL.appendingPathComponent(mapName + ".pdf")
             do {
                 try FileManager.default.removeItem(at: fileURL)
             } catch {
@@ -575,7 +570,7 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
             }
         } else if editingStyle == .insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-            print("insert...")
+            //print("insert...")
         }    
     }
     

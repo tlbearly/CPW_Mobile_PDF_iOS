@@ -33,8 +33,6 @@ class AddMapsViewController: UIViewController {
         writeDebugPDF(self, newFile: "Wellington1")
         writeDebugPDF(self, newFile: "Wellington3")
         writeDebugPDF(self, newFile: "63RanchSTL_geo")
-        
-        
     }
 
     
@@ -72,8 +70,8 @@ class AddMapsViewController: UIViewController {
             return
         }
         
-        let fileName = newFile+".pdf"
-        let destURL = documentsURL.appendingPathComponent(fileName)
+        let name = newFile+".pdf"
+        let destURL = documentsURL.appendingPathComponent(name)
         
         let filePath = destURL.path
         let fileManager = FileManager.default
@@ -100,22 +98,20 @@ class AddMapsViewController: UIViewController {
         documentPicker.allowsMultipleSelection = false
         present(documentPicker, animated: true, completion: nil)
     }
-    
-    
 }
 
 extension AddMapsViewController: UIDocumentPickerDelegate {
     // iOS 8.0 - 11.0
-    func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentAt url: URL) {
+    /*func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentAt url: URL) {
        // called when user selects a pdf to import
-        print("selected a pdf. File is in urls[0]",url)
+        print("selected a pdf. File is in url ",url)
         
         // copy file to documents directory, warn if it already imported
         fileName = url.lastPathComponent
         fileURL = url
         
         self.performSegue(withIdentifier: "pdfFromFilePicker", sender: nil)
-    }
+    }*/
     
     // iOS 11.0+
     func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
