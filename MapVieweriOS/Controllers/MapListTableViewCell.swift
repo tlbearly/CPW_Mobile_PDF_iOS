@@ -25,6 +25,7 @@ class MapListTableViewCell: UITableViewCell {
     @IBOutlet weak var distToMap: UILabel! // distance to map
     @IBOutlet weak var loadingProgress: UIProgressView!
     @IBOutlet weak var fileName: UILabel! // pdf file name
+    @IBOutlet weak var locationIcon: UIImageView!
     
     //
     // MARK: - Variables and Properties

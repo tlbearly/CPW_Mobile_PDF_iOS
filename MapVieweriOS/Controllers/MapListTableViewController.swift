@@ -23,10 +23,15 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
     private var importFileName:String = ""
     private var currentMapName:String = ""
     private var documentsURL:URL? = nil
+    private var latNow:Double = 0.0
+    private var longNow:Double = 0.0
     var locationManager = CLLocationManager()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // start location services to calc. distance to map or on map
+        setupLocationServices()
         
         // get path to documents/app directory
         documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first
@@ -72,6 +77,7 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
             self.tableView.reloadData()
             showMsg() // if no imported maps
         }
+        
     }
 
    
@@ -232,6 +238,102 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
             }
         }
         showMsg()
+    }
+    
+    // MARK: Location funcs
+    
+    func setupLocationServices() {
+        // MARK: setupLocationServices
+        // Check for location permission. Display button if permission is needed. Start updating
+        // user location.
+        locationManager.desiredAccuracy=kCLLocationAccuracyBest
+        let status = CLLocationManager.authorizationStatus()
+        print("location status ",status)
+        switch status {
+        case .notDetermined:
+            // display location permissions request
+            self.locationManager.requestWhenInUseAuthorization()
+            self.locationManager.startUpdatingLocation()
+            self.updateLocation() // initial
+            // update location every 2 seconds
+            Timer.scheduledTimer(withTimeInterval: 2, repeats: true) { timer in
+                self.updateLocation()
+            }
+            
+        case .denied, .restricted:
+            let alert = UIAlertController(title: "Location Services Disabled", message: "Please enable Location Services in Settings, Privacy, Location Services.", preferredStyle: .alert)
+            let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+            alert.addAction(okAction)
+            present(alert, animated: true, completion: nil)
+            
+        case .authorizedAlways, .authorizedWhenInUse:
+            locationManager.startUpdatingLocation()
+            self.updateLocation() // initial
+            // update location every 2 seconds
+            Timer.scheduledTimer(withTimeInterval: 2, repeats: true) { timer in
+                self.updateLocation()
+            }
+            
+        default:
+            locationManager.requestWhenInUseAuthorization()
+            locationManager.startUpdatingLocation()
+            self.updateLocation()
+            // update location every 2 seconds
+            Timer.scheduledTimer(withTimeInterval: 2, repeats: true) { timer in
+                self.updateLocation()
+            }
+        }
+    }
+
+    // get current location
+    func updateLocation() {
+        if (CLLocationManager.authorizationStatus() == .authorizedWhenInUse ||
+           CLLocationManager.authorizationStatus() == .authorizedAlways) {
+            guard let currentLoc = locationManager.location else {
+                latNow = 0.0
+                longNow = 0.0
+                return
+            }
+            var needRefresh:Bool = false
+            if (latNow == 0.0) {
+                needRefresh = true
+            }
+            latNow = currentLoc.coordinate.latitude
+            longNow = currentLoc.coordinate.longitude
+            if needRefresh {
+                self.tableView.reloadData()
+            }
+        }
+    }
+    
+    func  distance_on_unit_sphere(lat1: Double, long1:Double, lat2:Double, long2:Double) -> Double {
+
+       // Convert latitude and longitude to
+       // spherical coordinates in radians.
+        let degrees_to_radians:Double = Double.pi/180.0
+
+       // phi = 90 - latitude
+       let phi1 = (90.0 - lat1)*degrees_to_radians
+       let phi2 = (90.0 - lat2)*degrees_to_radians
+
+       // theta = longitude
+       let theta1 = long1*degrees_to_radians
+       let theta2 = long2*degrees_to_radians
+
+       // Compute spherical distance from spherical coordinates.
+
+       // For two locations in spherical coordinates
+       // (1, theta, phi) and (1, theta, phi)
+       // cosine( arc length ) =
+       //    sin phi sin phi' cos(theta-theta') + cos phi cos phi'
+       // distance = rho * arc length
+
+       let cosine = (sin(phi1) * sin(phi2) * cos(theta1 - theta2) + cos(phi1) * cos(phi2))
+       let arc = acos( cosine )
+
+       // Remember to multiply arc by the radius of the earth
+       // in your favorite set of units to get length.
+       return arc * 3963 // 3,962 is the radius of earth in miles
     }
     
     func showMsg() {
@@ -452,8 +554,62 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
         // Fetches the appropriate map for the data source layout.
         let map = maps[indexPath.row]
         cell.fileSize.text = map.fileSize
-        cell.distToMap.text = map.mapDist
-        cell.distToMap.textColor = .red
+        // distance to map
+        if latNow == 0.0 {
+            cell.distToMap.text = "Distance to map"
+        }
+        else if (latNow >= map.lat1 && latNow <= map.lat2 && longNow >= map.long1 && longNow <= map.long2) {
+            cell.distToMap.text = "On Map"
+            cell.locationIcon.isHidden = false
+        }
+        else {
+            
+            cell.locationIcon.isHidden = true
+            var dist:Double = 0.0
+            var direction = ""
+            if latNow > map.lat1 {
+                direction = "S"
+            }
+            else if latNow  > map.lat2 {
+                direction = ""
+            }
+            else {
+                direction = "N"
+            }
+            if longNow < map.long1 {
+                direction += "E"
+            }
+            else if longNow > map.long2 {
+                direction += "W"
+            }
+
+            switch direction {
+            case "S":
+                dist = distance_on_unit_sphere(lat1: latNow, long1: longNow, lat2: map.lat2, long2: longNow)
+            case "N":
+                dist = distance_on_unit_sphere(lat1: latNow, long1: longNow, lat2: map.lat1, long2: longNow)
+            case "E":
+                dist = distance_on_unit_sphere(lat1: latNow, long1: longNow, lat2: latNow, long2: map.long2)
+            case "W":
+                dist = distance_on_unit_sphere(lat1: latNow, long1: longNow, lat2: latNow, long2: map.long1)
+            case "SE":
+                dist = distance_on_unit_sphere(lat1: latNow, long1: longNow, lat2: map.lat2, long2: map.long2)
+            case "SW":
+               dist = distance_on_unit_sphere(lat1: latNow, long1: longNow, lat2: map.lat1, long2: map.long2)
+            case "NE":
+                dist = distance_on_unit_sphere(lat1: latNow, long1: longNow, lat2: map.lat2, long2: map.long1)
+            case "NW":
+                dist = distance_on_unit_sphere(lat1: latNow, long1: longNow, lat2: map.lat1, long2: map.long1)
+            default:
+                dist = distance_on_unit_sphere(lat1: latNow, long1: longNow, lat2: map.lat1, long2: map.long1)
+            }
+            
+            let distStr = String(format: "%.1f", dist)
+            cell.distToMap.text = "\(distStr) mi. \(direction)"
+            map.mapDist = cell.distToMap.text!
+        }
+        cell.distToMap.textColor = UIColor.blue
+
         cell.mapName.text = map.displayName
         cell.fileName.text = map.fileName
         cell.mapName.placeholder = "Map Name"

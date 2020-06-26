@@ -33,6 +33,7 @@
 		A400498624896E4A0092A93A /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A400498524896E4A0092A93A /* CloudKit.framework */; };
 		A4535D6E2469BE4D000E945B /* 63RanchSTL_geo.pdf in Resources */ = {isa = PBXBuildFile; fileRef = A4535D6D2469BE4D000E945B /* 63RanchSTL_geo.pdf */; };
 		A4535D74246F1ACE000E945B /* AppError.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4535D73246F1ACE000E945B /* AppError.swift */; };
+		A46C95F824A6B1F3004043E0 /* CobbLake.pdf in Resources */ = {isa = PBXBuildFile; fileRef = A46C95F724A6B1F3004043E0 /* CobbLake.pdf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -87,6 +88,7 @@
 		A400498524896E4A0092A93A /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		A4535D6D2469BE4D000E945B /* 63RanchSTL_geo.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = 63RanchSTL_geo.pdf; sourceTree = "<group>"; };
 		A4535D73246F1ACE000E945B /* AppError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppError.swift; sourceTree = "<group>"; };
+		A46C95F724A6B1F3004043E0 /* CobbLake.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = CobbLake.pdf; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -139,6 +141,7 @@
 		609CA8BF2440C353006C0283 /* MapVieweriOS */ = {
 			isa = PBXGroup;
 			children = (
+				A46C95F724A6B1F3004043E0 /* CobbLake.pdf */,
 				A400498324896E4A0092A93A /* MapVieweriOS.entitlements */,
 				A4535D6D2469BE4D000E945B /* 63RanchSTL_geo.pdf */,
 				60BBA1152453A53E0057A53D /* MapVieweriOSDebug.entitlements */,
@@ -323,6 +326,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A46C95F824A6B1F3004043E0 /* CobbLake.pdf in Resources */,
 				609CA8CD2440C355006C0283 /* LaunchScreen.storyboard in Resources */,
 				60DBB8E2244A605200F84F4A /* Wellington.pdf in Resources */,
 				609CA8CA2440C355006C0283 /* Assets.xcassets in Resources */,

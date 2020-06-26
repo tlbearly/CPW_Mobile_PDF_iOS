@@ -33,6 +33,7 @@ class AddMapsViewController: UIViewController {
         writeDebugPDF(self, newFile: "Wellington1")
         writeDebugPDF(self, newFile: "Wellington3")
         writeDebugPDF(self, newFile: "63RanchSTL_geo")
+        writeDebugPDF(self, newFile: "CobbLake")
     }
 
     
