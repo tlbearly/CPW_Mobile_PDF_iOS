@@ -76,7 +76,7 @@ class PDFParser
         var major: Int32 = 0
         var minor: Int32 = 0
          document.getVersion(majorVersion: &major, minorVersion: &minor)
-        print("Version: \(major).\(minor)")
+        //print("Version: \(major).\(minor)")
         
         // get media box
         var mediaBox: [CGFloat] = [0.0, 0.0, 0.0, 0.0]
@@ -155,7 +155,7 @@ class PDFParser
                     // Save the Measure CGPDFDictionaryRefs in an array
                     var measureDictRef: CGPDFDictionaryRef? = nil
                     if CGPDFDictionaryGetDictionary(eachDict, "Measure", &measureDictRef), let measureDict = measureDictRef {
-                        measureDicts[id] = measureDict
+                        measureDicts[index] = measureDict
                         
                     }
                     else {

@@ -34,6 +34,7 @@
 		A4535D6E2469BE4D000E945B /* 63RanchSTL_geo.pdf in Resources */ = {isa = PBXBuildFile; fileRef = A4535D6D2469BE4D000E945B /* 63RanchSTL_geo.pdf */; };
 		A4535D74246F1ACE000E945B /* AppError.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4535D73246F1ACE000E945B /* AppError.swift */; };
 		A46C95F824A6B1F3004043E0 /* CobbLake.pdf in Resources */ = {isa = PBXBuildFile; fileRef = A46C95F724A6B1F3004043E0 /* CobbLake.pdf */; };
+		A4E0085124E32E95006F2665 /* Chambers_Lake_403010545_FSTopo.pdf in Resources */ = {isa = PBXBuildFile; fileRef = A4E0085024E32E95006F2665 /* Chambers_Lake_403010545_FSTopo.pdf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -89,6 +90,7 @@
 		A4535D6D2469BE4D000E945B /* 63RanchSTL_geo.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = 63RanchSTL_geo.pdf; sourceTree = "<group>"; };
 		A4535D73246F1ACE000E945B /* AppError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppError.swift; sourceTree = "<group>"; };
 		A46C95F724A6B1F3004043E0 /* CobbLake.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = CobbLake.pdf; sourceTree = "<group>"; };
+		A4E0085024E32E95006F2665 /* Chambers_Lake_403010545_FSTopo.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = Chambers_Lake_403010545_FSTopo.pdf; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -141,6 +143,7 @@
 		609CA8BF2440C353006C0283 /* MapVieweriOS */ = {
 			isa = PBXGroup;
 			children = (
+				A4E0085024E32E95006F2665 /* Chambers_Lake_403010545_FSTopo.pdf */,
 				A46C95F724A6B1F3004043E0 /* CobbLake.pdf */,
 				A400498324896E4A0092A93A /* MapVieweriOS.entitlements */,
 				A4535D6D2469BE4D000E945B /* 63RanchSTL_geo.pdf */,
@@ -330,6 +333,7 @@
 				609CA8CD2440C355006C0283 /* LaunchScreen.storyboard in Resources */,
 				60DBB8E2244A605200F84F4A /* Wellington.pdf in Resources */,
 				609CA8CA2440C355006C0283 /* Assets.xcassets in Resources */,
+				A4E0085124E32E95006F2665 /* Chambers_Lake_403010545_FSTopo.pdf in Resources */,
 				60DBB8E4244A606200F84F4A /* Wellington1.pdf in Resources */,
 				A4535D6E2469BE4D000E945B /* 63RanchSTL_geo.pdf in Resources */,
 				609CA8C82440C353006C0283 /* Main.storyboard in Resources */,

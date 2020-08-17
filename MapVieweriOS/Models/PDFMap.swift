@@ -25,8 +25,8 @@ class PDFMap {
     var thumbnail: UIImage?
     private var bounds:[Double] = [0.0, 0.0, 0.0, 0.0]
     var modDate:Double = 0.0 // modification date
-    var fileSize:String = "File size" // PDF file size
-    var mapDist:String = "Dist. to map" // show distance to map (10 mi) or if on map, only show location icon
+    var fileSize:String = "" // PDF file size
+    var mapDist:String = "" // show distance to map (10 mi) or if on map, only show location icon
     var showLocationIcon:Bool = true // show location icon if on map
     
     // margins
@@ -70,6 +70,9 @@ class PDFMap {
             throw AppError.pdfMapError.pdfFileNotFound(file: fileURL.absoluteString)
         }
         self.fileURL = url
+        self.fileSize = "File size..."
+        self.mapDist = "Miles to map..."
+        self.thumbnail = UIImage(imageLiteralResourceName: "pdf_icon")
     }
     
     init?(fileURL: URL) throws {
@@ -216,6 +219,13 @@ class PDFMap {
         return name
     }
     
+    func getThumbnail() -> UIImage {
+        guard let img:UIImage = self.thumbnail else {
+            return UIImage(imageLiteralResourceName: "pdf_icon")
+        }
+        return img
+    }
+    
     func getURLInDocumentsDirectory(fileName: String) -> URL? {
         // MARK: getURLInDocumentsDir
         // append the app documents directory to the front of the fileName. Return the url.
@@ -287,7 +297,7 @@ class PDFMap {
         // MARK: readPDF
         // Parse PDF return bounds (lat, long), viewport (margins), mediabox (page size).
         let pdf: [String:Any?] = PDFParser.parse(pdfUrl: self.fileURL!)
-        print ("Import PDF: \(self.displayName)")
+//        print ("Import PDF: \(self.displayName)")
        if ((pdf["error"]) != nil) {
            print(pdf["error"]!!)
            switch pdf["error"] as! String {
@@ -396,7 +406,7 @@ class PDFMap {
                 units = " GB"
             }
             self.fileSize = String(format: "%.0f",size) + units
-            print ("\(self.fileSize)")
+            //print ("\(self.fileSize)")
         }
         catch {
             throw AppError.pdfMapError.invalidFilename

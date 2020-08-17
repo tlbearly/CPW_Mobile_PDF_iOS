@@ -11,9 +11,9 @@ import UIKit
 //
 // MARK:  - Map List Cell Delegate Protocol
 //
-protocol MapListTableViewCellDelegate {
-    func cancelTapped(_ cell: MapListTableViewCell)
-}
+//protocol MapListTableViewCellDelegate {
+//    func cancelTapped(_ cell: MapListTableViewCell)
+//}
 
 class MapListTableViewCell: UITableViewCell {
     //
@@ -31,7 +31,7 @@ class MapListTableViewCell: UITableViewCell {
     // MARK: - Variables and Properties
     //
     var importing = false
-    var delegate: MapListTableViewCellDelegate?
+    //var delegate: MapListTableViewCellDelegate?
     
     // MARK: - IBActions
     //

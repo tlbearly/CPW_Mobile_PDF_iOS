@@ -55,10 +55,12 @@ class MapViewController: UIViewController {
     var debugTxtBox:UITextField = UITextField()
     private var popup:UITextField = UITextField(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
     private var selectedWayPt:PDFAnnotation = PDFAnnotation()
+    var screenWidth:CGFloat = 0.0
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = map?.displayName
+        screenWidth = self.view.frame.size.width
         
         //
         // OPEN PDF & Add pdfView
@@ -135,36 +137,29 @@ class MapViewController: UIViewController {
     // MARK: Navigation
     
     @IBAction func performUnwindToMapDone(_ sender: UIStoryboardSegue) {
-        print("done button pressed")
+        // MARK: WayPt Done
         guard let editWayPtVC = sender.source as? EditWayPtViewController else {
             fatalError("Unexpected Segue Sender: \(String(describing: sender.source))")
         }
         let desc = editWayPtVC.wayPtDesc.text ?? "Way Point"
-        /*var wayPt = editWayPtVC.wayPtDesc.text ?? "Way Pt Desc$"
-        wayPt += "$"
-        wayPt += editWayPtVC.latLong.text ?? "lat, long$"
-        wayPt += "$"
-        wayPt += editWayPtVC.addDate.text ?? "Date Added"
-        wayPt += "$"
-        wayPt += editWayPtVC.pushPinImg // name of push pin file
-        wayPt += "$"
- 
-        selectedWayPt.contents = wayPt*/
         guard let page = pdfView.document?.page(at: 0) else {
             displayError(msg: "Problem reading the PDF map. Can't get page 1.")
             return
         }
         page.removeAnnotation(selectedWayPt)
-        addWayPt(x: CGFloat(editWayPtVC.x), y: CGFloat(editWayPtVC.y), page: page, imageName: editWayPtVC.pushPinImg, desc: desc, dateAdded: editWayPtVC.addDate.text)
+        // add padding to desc since textview doesn't use margins
+        addWayPt(x: CGFloat(editWayPtVC.x), y: CGFloat(editWayPtVC.y), page: page, imageName: editWayPtVC.pushPinImg, desc: " " + desc.trimmingCharacters(in: .whitespacesAndNewlines), dateAdded: editWayPtVC.addDate.text)
         savePDF()
     }
     
     @IBAction func performUnwindToMapTrash(_ sender: UIStoryboardSegue) {
-        print("trash button pressed")
-        guard let editWayPtVC = sender.source as? EditWayPtViewController else {
-            fatalError("Unexpected Segue Sender: \(String(describing: sender.source))")
+        // MARK: WayPt Trash
+        // delete selectedWayPt and savePDF
+        guard let page = pdfView.document?.page(at: 0) else {
+            displayError(msg: "Problem reading the PDF map. Can't get page 1.")
+            return
         }
-       // MARK: TODO delete selectedWayPt and savePDF
+        page.removeAnnotation(selectedWayPt)
         //selectedWayPt.action = .delete
         savePDF()
     }
@@ -493,6 +488,7 @@ class MapViewController: UIViewController {
     
     
     @objc func pdfViewTapped(_ gestureRecognizer: UITapGestureRecognizer) {
+        // MARK: pdfViewTap
         // Check if clicked on Way Point or add new way point annotation
         print("called single tap")
         
@@ -513,24 +509,6 @@ class MapViewController: UIViewController {
                     // popup is showing and did not click on popup hide it.
                     removingPopup = true
                     aPopup.removeFromSuperview()
-                    /*
-                    if (location.x >= aPopup.bounds.minX &&
-                    location.x <= aPopup.bounds.maxX &&
-                    location.y >= aPopup.bounds.minY &&
-                    location.y <= aPopup.bounds.maxY){
-                        print("MinX: \(location.x) < \(aPopup.bounds.minX)")
-                        print("MaxX: \(location.x) > \(aPopup.bounds.maxX)")
-                        print("clicked on popup")
-                        // open edit way point
-                        self.performSegue(withIdentifier: "editWayPt", sender: nil)
-                        return
-                    }
-                    // remove old popup
-                    else {
-                        print("remove popup")
-                        removingPopup = true
-                        aPopup.removeFromSuperview()
-                    }*/
                 }
                                 
                 // clicked on way point annotation?
@@ -545,7 +523,7 @@ class MapViewController: UIViewController {
                         pdfViewPoint.x<CGFloat(mediaBoxWidth - marginRight) &&
                         pdfViewPoint.y<CGFloat(mediaBoxHeight - marginTop)){
                         print ("add a way point!!!")
-                        addWayPt(x: pdfViewPoint.x, y: pdfViewPoint.y, page: page, imageName: "cyan_pin", desc: "Way Point", dateAdded: nil)
+                        addWayPt(x: pdfViewPoint.x, y: pdfViewPoint.y, page: page, imageName: "cyan_pin", desc: " Way Point", dateAdded: nil)
                         return
                     }
                     else {
@@ -557,15 +535,13 @@ class MapViewController: UIViewController {
                 // clicked on existing annotation. Is it a way pt? type stamp?
                 if (waypt.type != "Stamp"){
                     // clicked on current location
-                    addWayPt(x: pdfViewPoint.x, y: pdfViewPoint.y, page: page, imageName: "cyan_pin", desc: "Way Point", dateAdded: nil)
+                    addWayPt(x: pdfViewPoint.x, y: pdfViewPoint.y, page: page, imageName: "cyan_pin", desc: " Way Point", dateAdded: nil)
                     return
                     
                 }
                 
-                // open edit way point
+                // Display popup bubble
                 selectedWayPt = waypt
-                // open edit way point
-               // self.performSegue(withIdentifier: "editWayPt", sender: nil)
                 
                 let popupWidth:CGFloat = 150
                 let popupHeight:CGFloat = 50
@@ -577,7 +553,13 @@ class MapViewController: UIViewController {
                 let ratioY = location.y/pdfViewPoint.y
                 let wayptXMiddle:CGFloat = (waypt.bounds.maxX - waypt.bounds.minX)/2 + waypt.bounds.minX
                 let xMove:CGFloat = (pdfViewPoint.x - wayptXMiddle) * ratioX
-                let x = location.x - xMove - popupWidth/2
+                var x = location.x - xMove - popupWidth/2
+                if (x < 1) {
+                    x = 1
+                }
+                else if (x + popupWidth > screenWidth){
+                    x = screenWidth - popupWidth
+                }
                 let yMove:CGFloat = (waypt.bounds.maxY - pdfViewPoint.y) / ratioY
                 
                 let y = location.y - (yMove + popupHeight)
@@ -600,7 +582,7 @@ class MapViewController: UIViewController {
                 timeNow.allowsEditingTextAttributes = false
                 let saveBtn = PrimaryUIButton(frame: CGRect(x:10, y:300,width: 80, height: 40))
                 saveBtn.setTitle("Save", for: .normal)*/
-                popup = UITextField(frame: CGRect(x: location.x, y: location.y, width: popupWidth, height: popupHeight))
+                popup = UITextField(frame: CGRect(x: x, y: location.y+20, width: popupWidth, height: popupHeight))
                 
                 
                 // edit text listener
@@ -613,17 +595,17 @@ class MapViewController: UIViewController {
                 //latlong.text = items[1]
                 //timeNow.text = items[2]
                 
-                popup.text = items[0]
+                popup.text = " " + items[0]
                 
                 popup.tag = 100
                 popup.backgroundColor = UIColor.white
                 
                 // add padding 15 to left and right
-                let paddingView = UIView(frame: CGRect(x: 0,y: 0,width: 15,height: popup.frame.height))
+               /* let paddingView = UIView(frame: CGRect(x: 0,y: 0,width: 15,height: popup.frame.height))
                 popup.leftView = paddingView
                 popup.leftViewMode = UITextField.ViewMode.always
                 popup.rightView = paddingView
-                popup.rightViewMode = UITextField.ViewMode.always
+                popup.rightViewMode = UITextField.ViewMode.always*/
                 
                 // add border
                 let myColor : UIColor = UIColor.gray

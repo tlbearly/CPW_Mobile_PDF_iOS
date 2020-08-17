@@ -25,6 +25,7 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
     private var documentsURL:URL? = nil
     private var latNow:Double = 0.0
     private var longNow:Double = 0.0
+    private var progress:Float = 0.0
     var locationManager = CLLocationManager()
     
     override func viewDidLoad() {
@@ -72,12 +73,12 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
             self.tableView.reloadData()
             scrollToCurrentMapName()
         }
+        // returned from displaying map
         else {
             sortList(type: sortBy)
             self.tableView.reloadData()
             showMsg() // if no imported maps
         }
-        
     }
 
    
@@ -99,6 +100,8 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
                 let map = try PDFMap(fileName: theFileName, fileURL: fileURL, quick: true)
                 if (map != nil){
                     maps += [map!]
+                    progress = 0.4
+                    print ("unwind total rows: \(maps.count)")
                     self.tableView.reloadData()
                     scrollToBottom()
                     importing = true
@@ -178,6 +181,7 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
             showMap = true
             currentMapName = map2!.displayName
             // when the table reloads it will display the map in didEndDisplaying cell
+            progress = 0.9
             self.tableView.reloadData()
             scrollToBottom()
             
@@ -190,9 +194,10 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
             displayError(theError: error)
             maps.remove(at: maps.count-1)
             var indexPath:IndexPath
+            // if the cell is visible, delete it
             let cells = self.tableView.visibleCells as! Array<MapListTableViewCell>
             for cell in cells {
-                if cell.fileName.text == "Loading..." {
+                if cell.loadingProgress.isHidden == false {
                     if self.tableView.indexPath(for: cell) != nil {
                         indexPath = self.tableView.indexPath(for: cell)!
                         // Delete the row from the data source
@@ -201,6 +206,7 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
                     }
                 }
             }
+            showMsg()
             return
         }
     }
@@ -408,6 +414,9 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
                 cell.mapName.borderStyle = UITextField.BorderStyle.roundedRect
             }
         }
+        else if (importing){
+            return
+        }
         else {
             // Done button pushed. Update all map names. Set map name text boxes to un-editable
             tableView.isScrollEnabled = true
@@ -418,8 +427,9 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
                 cell.mapName.borderStyle = UITextField.BorderStyle.none
                 // search for cell where map name has changed and filenames match. Filename must be unique.
                 for i in 0...maps.count-1 {
-                    if maps[i].fileName == cell.fileName.text && cell.mapName.text != nil &&
-                        maps[i].displayName != cell.mapName.text {
+                    if (maps[i].fileName == cell.fileName.text &&
+                        cell.mapName.text != nil &&
+                        maps[i].displayName != cell.mapName.text){
                         // save new display name, filename, and URL
                         maps[i].displayName = cell.mapName.text!
                         maps[i].fileName = cell.mapName.text! + ".pdf"
@@ -507,7 +517,7 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
     @objc func saveCurrentMapName(_ mapName: UITextField){
         // Save old map name in case they change it to one that already exists.
         currentMapName = mapName.text ?? ""
-        //print ("current Map Name = \(currentMapName)")
+        print ("current Map Name = \(currentMapName)")
     }
     
     func scrollToBottom(){
@@ -553,17 +563,41 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
         
         // Fetches the appropriate map for the data source layout.
         let map = maps[indexPath.row]
+        // reset map name editing to done. Sometimes if scroll it is still in editing mode grey textbox
+        cell.mapName.isEnabled = false
+        cell.mapName.backgroundColor = .white
+        cell.mapName.borderStyle = UITextField.BorderStyle.none
+        
+        // show progress bar
+        if (map.displayName == "Loading..."){//cell.mapName.text == "Loading..." && map.displayName == "Loading...") {
+            // scroll to cell that was just loaded after importing the map
+            self.tableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
+            cell.loadingProgress.isHidden = false
+            cell.mapName.text = "Loading..."
+            cell.pdfImage.image = map.getThumbnail()
+            cell.fileSize.text = "File size..."
+            cell.distToMap.text = "Miles to map..."
+            cell.locationIcon.isHidden = true
+            cell.loadingProgress.setProgress(progress, animated: true)
+            return cell
+
+            
+        } else {
+            cell.loadingProgress.isHidden = true
+        }
+        
         cell.fileSize.text = map.fileSize
         // distance to map
         if latNow == 0.0 {
-            cell.distToMap.text = "Distance to map"
+            cell.distToMap.text = "Miles to map..."
         }
+        // on map, show location icon
         else if (latNow >= map.lat1 && latNow <= map.lat2 && longNow >= map.long1 && longNow <= map.long2) {
-            cell.distToMap.text = "On Map"
+            cell.distToMap.text = ""
             cell.locationIcon.isHidden = false
         }
+            // off map show distance to map
         else {
-            
             cell.locationIcon.isHidden = true
             var dist:Double = 0.0
             var direction = ""
@@ -608,26 +642,17 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
             cell.distToMap.text = "\(distStr) mi. \(direction)"
             map.mapDist = cell.distToMap.text!
         }
-        cell.distToMap.textColor = UIColor.blue
-
+        
+        
+        print ("row:\(indexPath.row)  \(cell.mapName.text!)  \(map.displayName)")
+        
         cell.mapName.text = map.displayName
         cell.fileName.text = map.fileName
         cell.mapName.placeholder = "Map Name"
         cell.pdfImage.image = map.thumbnail
        //print("\(map.displayName) \(map.modDate)")
-        // reset map name editing to done. Sometimes if scroll it is still in editing mode grey textbox
-        cell.mapName.isEnabled = false
-        cell.mapName.backgroundColor = .white
-        cell.mapName.borderStyle = UITextField.BorderStyle.none
         
-        // show progress bar
-        if (cell.mapName.text == "Loading...") {
-            // scroll to cell that was just loaded after importing the map
-            self.tableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
-            cell.loadingProgress.isHidden = false
-        } else {
-            cell.loadingProgress.isHidden = true
-        }
+        
         return cell
     }
     
@@ -646,7 +671,6 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
             return
         }
         if (showMap) {
-            //showMap = false
             // when user returns to list it sets showMap to false in viewDidAppear
             tableView.deselectRow(at: indexPath, animated: true)
             // causes error, self.tableView.reloadData()

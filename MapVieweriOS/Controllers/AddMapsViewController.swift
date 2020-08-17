@@ -34,6 +34,7 @@ class AddMapsViewController: UIViewController {
         writeDebugPDF(self, newFile: "Wellington3")
         writeDebugPDF(self, newFile: "63RanchSTL_geo")
         writeDebugPDF(self, newFile: "CobbLake")
+        writeDebugPDF(self, newFile: "Chambers_Lake_403010545_FSTopo")
     }
 
     
@@ -97,7 +98,7 @@ class AddMapsViewController: UIViewController {
         let documentPicker = UIDocumentPickerViewController(documentTypes: [kUTTypePDF as String], in: .import)
         documentPicker.delegate = self
         documentPicker.allowsMultipleSelection = false
-        present(documentPicker, animated: true, completion: nil)
+        self.present(documentPicker, animated: true, completion: nil)
     }
 }
 
@@ -116,14 +117,14 @@ extension AddMapsViewController: UIDocumentPickerDelegate {
     
     // iOS 11.0+
     func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
-       // called when user selects a pdf to import
-        print("selected a pdf. File is in urls[0]",urls[0].lastPathComponent)
-        
-        // copy file to documents directory, warn if it already imported
-        fileName = urls[0].lastPathComponent
-        fileURL = urls[0]
-        
-        self.performSegue(withIdentifier: "pdfFromFilePicker", sender: nil)
+            // called when user selects a pdf to import
+            print("selected a pdf. File is in urls[0]", urls[0].lastPathComponent)
+            
+            // copy file to documents directory, warn if it already imported
+            fileName = urls[0].lastPathComponent
+            fileURL = urls[0]
+            
+            self.performSegue(withIdentifier: "pdfFromFilePicker", sender: nil)
     }
     
     func documentPickerWasCancelled(_ controller: UIDocumentPickerViewController) {
