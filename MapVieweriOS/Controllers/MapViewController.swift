@@ -226,12 +226,15 @@ class MapViewController: UIViewController {
         // Loads the url into a PDFVIew
         
         // check if file exists
-        guard let url = map?.fileURL else {
+        let documentsDir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+        if map == nil {
             throw AppError.pdfMapError.mapNil
         }
+        
+        let url = documentsDir.appendingPathComponent(map!.fileName)
         if !FileManager.default.fileExists(atPath:url.path){
-            throw AppError.pdfMapError.pdfFileNotFound(file: url.absoluteString)
-            //displayError(msg: "Map file not found.\n\n" + url.absoluteString)
+            print("Map file not found: \(url.absoluteString)")
+            throw AppError.pdfMapError.pdfFileNotFound(file: url.lastPathComponent)
         }
         pdfView.frame = self.view.bounds
         guard let document:PDFDocument = PDFDocument(url: url) else{

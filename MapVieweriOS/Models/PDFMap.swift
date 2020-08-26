@@ -12,14 +12,12 @@
 
 import UIKit
 import PDFKit
+import os.log
 
-class PDFMap {
+class PDFMap: NSObject, NSCoding {
+    //MARK: Properties
     // PDF display name, user can modify this
     var displayName: String = ""
-    /*{didSet {
-            print("Map Name changed to \(displayName).")
-        }}*/
-    
     var fileName: String = "" // PDF filename
     var fileURL: URL? // PDF filename and URL in app documents dir
     var thumbnail: UIImage?
@@ -52,9 +50,72 @@ class PDFMap {
     var latDiff: Double = 0.0
     var longDiff: Double = 0.0
     
+    // MARK: Archiving Paths
+    static let DocumentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+    static let ArchiveURL = DocumentsDirectory.appendingPathComponent("maps")
+
+    
+    //MARK: Types
+    struct PropertyKey {
+        static let displayName = "displayName"
+        static let fileName = "fileName"
+        static let fileURL = "fileURL"
+        static let thumbnail = "thumbnail"
+        static let bounds1 = "bounds1"
+        static let bounds2 = "bounds2"
+        static let bounds3 = "bounds3"
+        static let bounds4 = "bounds4"
+        static let modDate = "modDate"
+        static let fileSize = "fileSize"
+        static let marginTop = "marginTop"
+        static let marginBottom = "marginBottom"
+        static let marginLeft = "marginLeft"
+        static let marginRight = "marginRight"
+        static let mediaBoxHeight = "mediaBoxHeight"
+        static let mediaBoxWidth = "mediaBoxWidth"
+        static let pdfWidth = "pdfWidth"
+        static let pdfHeight = "pdfHeight"
+        static let lat1 = "lat1"
+        static let lat2 = "lat2"
+        static let long1 = "long1"
+        static let long2 = "long2"
+        static let latDiff = "latDiff"
+        static let longDiff = "longDiff"
+    }
+    
+    
+    
+    // MARK: init read from database
+    init(displayName: String, fileName: String, fileURL: URL,thumbnail: UIImage, bounds1: Double, bounds2: Double, bounds3: Double, bounds4: Double, modDate: Double, fileSize: String, marginTop: Double, marginBottom: Double, marginLeft: Double, marginRight: Double, mediaBoxWidth:Double, mediaBoxHeight: Double, pdfWidth: Double, pdfHeight: Double, lat1: Double, lat2: Double, long1: Double, long2: Double, latDiff: Double, longDiff: Double){
+        self.displayName = displayName
+        self.fileName = fileName
+        self.fileURL = fileURL
+        self.thumbnail = thumbnail
+        self.bounds[0] = bounds1
+        self.bounds[1] = bounds2
+        self.bounds[2] = bounds3
+        self.bounds[3] = bounds4
+        self.modDate = modDate
+        self.fileSize = fileSize
+        self.marginTop = marginTop
+        self.marginBottom = marginBottom
+        self.marginLeft = marginLeft
+        self.marginRight = marginRight
+        self.mediaBoxWidth = mediaBoxWidth
+        self.mediaBoxHeight = mediaBoxHeight
+        self.pdfWidth = pdfWidth
+        self.pdfHeight = pdfHeight
+        self.lat1 = lat1
+        self.lat2 = lat2
+        self.long1 = long1
+        self.long2 = long2
+        self.latDiff = latDiff
+        self.longDiff = longDiff
+    }
     
     init?(fileName: String, fileURL: URL, quick: Bool) throws {
         // MARK: init Loading...
+        super.init()
         // Just set displayName to Loading..., check that fileName is not nil or "", check that fileURL exists.
         // Will be used to add to the maps list table and display a progress bar
         self.displayName = "Loading..."
@@ -77,6 +138,7 @@ class PDFMap {
     
     init?(fileURL: URL) throws {
         // MARK: init import
+        super.init()
         // Import a new file from filepicker or downloaded from the web. Make sure it exists, that it is a pdf,
         // and then copy it to the app documents directory.
         
@@ -91,10 +153,10 @@ class PDFMap {
         
         // copy url to app documents
         // destination directory name
-         guard let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else {
+         /*guard let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else {
              print("Can't get documents directory.")
             throw AppError.pdfMapError.invalidDocumentDirectory
-         }
+         }*/
         
         // Make sure there is enough space
         let availBytes:Int64 = volumeCapacityForImportantUsage() ?? 0
@@ -114,14 +176,14 @@ class PDFMap {
         setDisplayName()
         
         // Copy file to app documents directory
-        var destURL = documentsURL.appendingPathComponent(self.fileName)
+        var destURL = PDFMap.DocumentsDirectory.appendingPathComponent(self.fileName)
         var index = 0
         let fileManager = FileManager.default
         var name:String = ""
         while fileManager.fileExists(atPath: destURL.path){
             index += 1
             name = self.displayName + String(index) + ".pdf"
-            destURL = documentsURL.appendingPathComponent(name)
+            destURL = PDFMap.DocumentsDirectory.appendingPathComponent(name)
         }
         do {
              try FileManager.default.copyItem(at:fileURL, to: destURL)
@@ -159,6 +221,7 @@ class PDFMap {
     
     init?(fileName: String) throws {
         // MARK: init load
+        super.init()
         // Read each map from app documents directory.
         guard let testFile = setFileName(fileName: fileName) else {
             throw AppError.pdfMapError.invalidFilename
@@ -172,12 +235,8 @@ class PDFMap {
         // To enable “Open in place” add “Application supports iTunes file sharing” or “UIFileSharingEnabled” key with value “YES” in Info.plist and to enable “File sharing” add “LSSupportsOpeningDocumentsInPlace” or “Supports opening documents in place” key with value “YES” in Info.plist.
         // PDF Maps stored in Documents directory. User can access, copy, share, and delete. Gets backed up.
         
-        guard let testUrl = getURLInDocumentsDirectory(fileName: self.fileName)
-        else {
-            print("documents directory does not exists.")
-            throw AppError.pdfMapError.invalidDocumentDirectory
-        }
-
+        let testUrl = PDFMap.DocumentsDirectory.appendingPathComponent(self.fileName)
+        
         guard let url = urlExists(url: testUrl) else {
             print("map does not exist. file: \(testUrl.absoluteString)")
             throw AppError.pdfMapError.pdfFileNotFound(file: testUrl.absoluteString)
@@ -226,15 +285,12 @@ class PDFMap {
         return img
     }
     
-    func getURLInDocumentsDirectory(fileName: String) -> URL? {
+    /*(func getURLInDocumentsDirectory(fileName: String) -> URL {
         // MARK: getURLInDocumentsDir
         // append the app documents directory to the front of the fileName. Return the url.
-        guard let url = pathForDocumentDirectoryAsURL()?.appendingPathComponent(fileName) else {
-            print("app documents directory does not exists.")
-            return nil
-        }
+       let url = PDFMap.DocumentsDirectory.appendingPathComponent(fileName)
        return url
-    }
+    }*/
     
     func urlExists(url: URL) -> URL? {
         // MARK: urlExists
@@ -279,9 +335,8 @@ class PDFMap {
         // To enable “Open in place” add “Application supports iTunes file sharing” or “UIFileSharingEnabled” key with value “YES” in Info.plist and to enable “File sharing” add “LSSupportsOpeningDocumentsInPlace” or “Supports opening documents in place” key with value “YES” in Info.plist.
         // PDF Maps stored in Documents directory. User can access, copy, share, and delete. Gets backed up.
         
-        guard let url = pathForDocumentDirectoryAsURL()?.appendingPathComponent(self.fileName) else {
-            throw AppError.pdfMapError.invalidDocumentDirectory
-        }
+        let url = PDFMap.DocumentsDirectory.appendingPathComponent(self.fileName)
+        
         // must be a pdf!
         if url.pathExtension != "pdf" {
             throw AppError.pdfMapError.notPDF
@@ -419,9 +474,9 @@ class PDFMap {
         return "Dist. to Map"
     }
     
-    func pathForDocumentDirectoryAsURL() -> URL? {
+    /*func pathForDocumentDirectoryAsURL() -> URL? {
         FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first
-    }
+    }*/
     
     func pathForDocumentDirectoryAsString() -> [String]? {
         NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
@@ -451,4 +506,82 @@ class PDFMap {
         return results?.volumeAvailableCapacityForImportantUsage
     }
     
+    // MARK: NSCoding
+    func encode(with coder: NSCoder) {
+        // write persistent data
+        print("writing \(self.fileName)") // \(self.fileURL!.path)")
+        coder.encode(displayName, forKey: PropertyKey.displayName)
+        coder.encode(fileName, forKey: PropertyKey.fileName)
+        coder.encode(fileURL!.path, forKey: PropertyKey.fileURL)
+        coder.encode(thumbnail, forKey: PropertyKey.thumbnail)
+        coder.encode(bounds[0], forKey: PropertyKey.bounds1)
+        coder.encode(bounds[1], forKey: PropertyKey.bounds2)
+        coder.encode(bounds[2], forKey: PropertyKey.bounds3)
+        coder.encode(bounds[3], forKey: PropertyKey.bounds4)
+        coder.encode(modDate, forKey: PropertyKey.modDate)
+        coder.encode(fileSize, forKey: PropertyKey.fileSize)
+        coder.encode(marginTop, forKey: PropertyKey.marginTop)
+        coder.encode(marginBottom, forKey: PropertyKey.marginBottom)
+        coder.encode(marginLeft, forKey: PropertyKey.marginLeft)
+        coder.encode(marginRight, forKey: PropertyKey.marginRight)
+        coder.encode(mediaBoxHeight, forKey: PropertyKey.mediaBoxHeight)
+        coder.encode(mediaBoxWidth, forKey: PropertyKey.mediaBoxWidth)
+        coder.encode(pdfWidth, forKey: PropertyKey.pdfWidth)
+        coder.encode(pdfHeight, forKey: PropertyKey.pdfHeight)
+        coder.encode(lat1, forKey: PropertyKey.lat1)
+        coder.encode(lat2, forKey: PropertyKey.lat2)
+        coder.encode(long1, forKey: PropertyKey.long1)
+        coder.encode(long2, forKey: PropertyKey.long2)
+        coder.encode(latDiff, forKey: PropertyKey.latDiff)
+        coder.encode(longDiff, forKey: PropertyKey.longDiff)
+    }
+    
+    required convenience init?(coder aDecoder: NSCoder) {
+        // read persistent data (imported maps) via NSCoding
+        
+        // The display name is required. If we cannot decode a display name string, the initializer should fail.
+        guard let displayName = aDecoder.decodeObject(forKey: PropertyKey.displayName) as? String else { os_log("Unable to decode the display name for a PDF Map object.", log: OSLog.default, type: .debug)
+            return nil
+        }
+        guard let fileName = aDecoder.decodeObject(forKey: PropertyKey.fileName) as? String else {
+            os_log("Unable to decode the file name for a PDF Map object.", log: OSLog.default, type: .debug)
+            return nil
+        }
+        guard let fileURLStr = aDecoder.decodeObject(forKey: PropertyKey.fileURL) as? String else {
+            os_log("Unable to decode the map URL for a PDF Map object.", log: OSLog.default, type: .debug)
+            return nil
+        }
+        let fileURL = URL(fileURLWithPath: fileURLStr)
+        
+        // Because thumbnail is an optional property of PDFMap, just use conditional cast.
+        guard let thumbnail = aDecoder.decodeObject(forKey: PropertyKey.thumbnail) as? UIImage else {
+            os_log("Unable to decode the thumbnail for a PDF Map object.", log: OSLog.default, type: .debug)
+            return nil
+        }
+        
+        let bounds1 = aDecoder.decodeDouble(forKey: PropertyKey.bounds1)
+        let bounds2 = aDecoder.decodeDouble(forKey: PropertyKey.bounds2)
+        let bounds3 = aDecoder.decodeDouble(forKey: PropertyKey.bounds3)
+        let bounds4 = aDecoder.decodeDouble(forKey: PropertyKey.bounds4)
+        let modDate = aDecoder.decodeDouble(forKey: PropertyKey.modDate)
+        guard let fileSize = aDecoder.decodeObject(forKey: PropertyKey.fileSize) as? String else { return nil }
+        let marginTop = aDecoder.decodeDouble(forKey: PropertyKey.marginTop)
+        let marginBottom = aDecoder.decodeDouble(forKey: PropertyKey.marginBottom)
+        let marginLeft = aDecoder.decodeDouble(forKey: PropertyKey.marginLeft)
+        let marginRight = aDecoder.decodeDouble(forKey: PropertyKey.marginRight)
+        let mediaBoxHeight = aDecoder.decodeDouble(forKey: PropertyKey.mediaBoxHeight)
+        let mediaBoxWidth = aDecoder.decodeDouble(forKey: PropertyKey.mediaBoxWidth)
+        let pdfWidth = aDecoder.decodeDouble(forKey: PropertyKey.pdfWidth)
+        let pdfHeight = aDecoder.decodeDouble(forKey: PropertyKey.pdfHeight)
+        let lat1 = aDecoder.decodeDouble(forKey: PropertyKey.lat1)
+        let lat2 = aDecoder.decodeDouble(forKey: PropertyKey.lat2)
+        let long1 = aDecoder.decodeDouble(forKey: PropertyKey.long1)
+        let long2 = aDecoder.decodeDouble(forKey: PropertyKey.long2)
+        let latDiff = aDecoder.decodeDouble(forKey: PropertyKey.latDiff)
+        let longDiff = aDecoder.decodeDouble(forKey: PropertyKey.longDiff)
+        
+        
+        // Must call designated initializer.
+        self.init(displayName: displayName, fileName: fileName, fileURL: fileURL,thumbnail: thumbnail, bounds1: bounds1, bounds2: bounds2, bounds3: bounds3, bounds4: bounds4, modDate: modDate, fileSize: fileSize, marginTop: marginTop, marginBottom: marginBottom, marginLeft: marginLeft, marginRight: marginRight, mediaBoxWidth:mediaBoxWidth, mediaBoxHeight: mediaBoxHeight, pdfWidth: pdfWidth, pdfHeight: pdfHeight, lat1: lat1, lat2: lat2, long1: long1, long2: long2, latDiff: latDiff, longDiff: longDiff)
+    }
 }

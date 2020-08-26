@@ -12,11 +12,13 @@
 
 import UIKit
 import CoreLocation // current location
+import os.log
 
 class MapListTableViewController: UITableViewController, UITextFieldDelegate {
     @IBOutlet weak var msgLabel: UILabel!
     @IBOutlet weak var addBtn: UIBarButtonItem!
     
+    //MARK: Properties
     private var sortBy = "name" // user selected sort method
     private var importing = false
     private var showMap = false
@@ -27,6 +29,9 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
     private var longNow:Double = 0.0
     private var progress:Float = 0.0
     var locationManager = CLLocationManager()
+    
+    // MARK: - Data source
+    var maps = [PDFMap]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -45,7 +50,13 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
             //self.tableView.isEditing = true // shows delete & rearange buttons in each row
             
             // load maps
-            loadMaps()
+            if let savedMaps = loadMaps() {
+                maps += savedMaps
+            }
+            else {
+                maps = []
+                showMsg()
+            }
             
             // sort list
             sortList(type: sortBy)
@@ -80,10 +91,6 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
             showMsg() // if no imported maps
         }
     }
-
-   
-    // MARK: - Data source
-    var maps = [PDFMap]()
     
     // MARK: Actions
     
@@ -154,6 +161,8 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
              msg = "Local disk is full. Remove some pictures, data, or apps."
          case AppError.pdfMapError.cannotSelectRow:
              msg = "Table was in the process of loading, cannot show the map."
+         case AppError.pdfMapError.mapSaveFail:
+            msg = "Failed to save maps."
          default:
              msg = "Unknow error occured."
          }
@@ -178,6 +187,7 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
             // Copy the pdf to the app documents directory, parse the pdf for lat/long, and store info in a database
             let map2 = try PDFMap(fileURL: map.fileURL!) // import map
             maps[maps.count-1] = map2!
+            saveMaps() // save in NSCoding (database)
             showMap = true
             currentMapName = map2!.displayName
             // when the table reloads it will display the map in didEndDisplaying cell
@@ -211,19 +221,41 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
         }
     }
     
-    private func loadMaps() {
+    private func saveMaps() {
+        // Archive the maps array
+        let isSuccessfullSave = NSKeyedArchiver.archiveRootObject(maps, toFile: PDFMap.ArchiveURL.path)
+        if isSuccessfullSave {
+            os_log("Maps successfully saved.", log: OSLog.default, type: .debug)
+        }
+        else {
+            os_log("Failed to save maps.", log: OSLog.default, type: .error)
+            displayError(theError: AppError.pdfMapError.mapSaveFail)
+        }
+    }
+    
+    private func loadMaps() -> [PDFMap]? {
         // MARK: loadMaps
+        
+        // Read data from local storage NSCoding
+        // Return array of maps or nil
+        return NSKeyedUnarchiver.unarchiveObject(withFile: PDFMap.ArchiveURL.path) as? [PDFMap]
+        
+        
+        
+        
+        // old - read all pdfs in directory
+        
         // Load all PDF files found in the local documents directory. PDFMap gets the file modification
         // date and parses the file for thumbnail. When the map is loaded in MapViewController,
         // it calls PDFParser to get lat/long bounds, mediabox, and viewport
         
         // get pdf files in app documents directory
-        var dirContents: [URL]? = nil
+        /*var dirContents: [URL]? = nil
         do {
             dirContents = try FileManager.default.contentsOfDirectory(at: documentsURL!, includingPropertiesForKeys: nil, options: .skipsHiddenFiles)
         }catch {
             displayError(theError: AppError.pdfMapError.invalidDocumentDirectory)
-            return
+            return nil
         }
           
         if dirContents != nil {
@@ -244,6 +276,7 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
             }
         }
         showMsg()
+        return maps*/
     }
     
     // MARK: Location funcs
@@ -438,7 +471,8 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
                     }
                 }
             }
-             self.tableView.reloadData()
+            saveMaps()
+            self.tableView.reloadData()
         }
     }
     
@@ -745,6 +779,7 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
                 setEditing(true, animated: true)
                 self.navigationItem.leftBarButtonItem!.title = "Done"
             }
+            saveMaps()
             if (maps.count == 0) {
                 showMsg() // if deleted last row, show message to add maps press + button
             }

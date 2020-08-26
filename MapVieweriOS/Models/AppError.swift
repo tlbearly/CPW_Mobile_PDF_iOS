@@ -38,6 +38,8 @@ class AppError {
         case diskFull
         // cannot select row, table was in process of loading
         case cannotSelectRow
+        // cannot save maps
+        case mapSaveFail
         // cannot parse pdf dictionary
         case unknownFormat
     }
