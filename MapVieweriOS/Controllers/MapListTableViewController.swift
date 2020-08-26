@@ -55,8 +55,8 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
             }
             else {
                 maps = []
-                showMsg()
             }
+            showMsg()
             
             // sort list
             sortList(type: sortBy)
@@ -678,7 +678,7 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
         }
         
         
-        print ("row:\(indexPath.row)  \(cell.mapName.text!)  \(map.displayName)")
+        //print ("row:\(indexPath.row)  \(cell.mapName.text!)  \(map.displayName)")
         
         cell.mapName.text = map.displayName
         cell.fileName.text = map.fileName
