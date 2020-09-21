@@ -76,6 +76,8 @@ class MapViewController: UIViewController {
             return
         }
         
+        //NSNotificationName PDFViewScaleChangedNotification
+        
         
         //
         // Display Current location: lat long
@@ -337,6 +339,17 @@ class MapViewController: UIViewController {
     func displayLocation(page: PDFPage, pdfView: PDFView){
         // Remove last location dot
         page.removeAnnotation(currentLocation) // remove last location dot
+        
+        // DEBUG remove margin and lat long circles
+        if (page.annotations.count > 0){
+            for i in stride(from: page.annotations.count-1, to: 0, by: -1) {
+                if (page.annotations[i].type == "Circle"){
+                    page.removeAnnotation(page.annotations[i])
+                }
+            }
+        }
+        
+        
         var azimuth:Double = -1.0
         // get current location
         if (CLLocationManager.authorizationStatus() == .authorizedWhenInUse ||
@@ -525,12 +538,27 @@ class MapViewController: UIViewController {
                     if (pdfViewPoint.x>CGFloat(marginLeft) && pdfViewPoint.y>CGFloat(marginBottom) &&
                         pdfViewPoint.x<CGFloat(mediaBoxWidth - marginRight) &&
                         pdfViewPoint.y<CGFloat(mediaBoxHeight - marginTop)){
-                        print ("add a way point!!!")
-                        addWayPt(x: pdfViewPoint.x, y: pdfViewPoint.y, page: page, imageName: "cyan_pin", desc: " Way Point", dateAdded: nil)
+                        //print ("add a way point!!!")
+                        var count:Int = 1
+                        if (page.annotations.count > 0){
+                            for i in 0...page.annotations.count-1 {
+                                if page.annotations[i].type == "Stamp" {
+                                    count+=1
+                                }
+                            }
+                        }
+                        let desc = " Way Point \(count)";
+                        addWayPt(x: pdfViewPoint.x, y: pdfViewPoint.y, page: page, imageName: "cyan_pin", desc: desc, dateAdded: nil)
                         return
                     }
+                    // Display off map message for 1 second
                     else {
-                        print ("off map x \(Int(pdfViewPoint.x)) > width \(Int(pdfView.bounds.width)) or y \(Int(pdfViewPoint.y)) > height  \(Int(pdfView.bounds.height)) or negative")
+                        //print ("off map x \(Int(pdfViewPoint.x)) > width \(Int(pdfView.bounds.width)) or y \(Int(pdfViewPoint.y)) > height  \(Int(pdfView.bounds.height)) or negative")
+                        let alert = UIAlertController(title: "Off Map", message: "", preferredStyle: .alert)
+                        self.present(alert, animated: true)
+                        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1.0) {
+                            alert.dismiss(animated: true)
+                        }
                         return
                     }
                 }
@@ -650,13 +678,16 @@ class MapViewController: UIViewController {
         // Create a PushPin
         var dateString: String
         let image = UIImage(named: imageName)
-        let wayPtSize:CGFloat = 80.0
-        let halfSize:CGFloat = 40.0
+        
+        print("width \(pdfWidth * Double(pdfView.scaleFactor))")
+        let wayPtSize:CGFloat = 80.0 / CGFloat(pdfView.scaleFactor)
+        let halfSize:CGFloat = wayPtSize / 2
         let midX = x - halfSize
-        let midY = y - 15
+        let midY = y - (15  / CGFloat(pdfView.scaleFactor))
         let long = (Double(x)/pdfWidth * longDiff) + long1
         let lat = (Double(y)/pdfHeight * latDiff) + lat1
         let imageAnnotation = PushPin(image, bounds: CGRect(x: midX, y: midY, width: wayPtSize, height: wayPtSize), properties: nil)
+        
         page.addAnnotation(imageAnnotation)
         if dateAdded == nil {
             let dateTime = Date()
@@ -681,19 +712,53 @@ class MapViewController: UIViewController {
         {
             if let currentPage = pdfView.currentPage
             {
-                let point = gestureRecognizer.location(in: pdfView)
-                let destination = PDFDestination(page: currentPage, at: point)
+                let point = gestureRecognizer.location(in: pdfView) // location on screen
+                let pdfViewPoint = pdfView.convert(point, to: currentPage) // location on pdf
+                var moveX = (1 / (pdfView.scaleFactor * 2.0)) * (pdfView.frame.width / 2.0)
+                var moveY = (1 / (pdfView.scaleFactor * 2.0)) * (pdfView.frame.height / 2.0)
+                if (moveX < 0){moveX = 0}
+                if (moveY < 0){moveY = 0}
+                let myPoint:CGPoint = CGPoint(x: pdfViewPoint.x - moveX, y: pdfViewPoint.y + moveY)
+                
+                let destination = PDFDestination(page: currentPage, at: myPoint)
                 let scale = pdfView.scaleFactor * 2.0
                 // zoom to full extent
                 if (scale >= pdfView.maxScaleFactor) {
                     pdfView.scaleFactor = pdfView.scaleFactorForSizeToFit
                     print(pdfView.scaleFactorForSizeToFit)
-                    return
                 }
-                destination.zoom = (scale)
-                pdfView.go(to: destination)
-                pdfView.scaleFactor = destination.zoom
-                //print("scaleFactor: \(scale)")
+                else {
+                    destination.zoom = (scale)
+                    pdfView.scaleFactor = destination.zoom
+                    pdfView.go(to: destination)
+                }
+                
+               // print("scaleFactor: \(scale)")
+                resizePushPins()
+            }
+        }
+    }
+    
+    func resizePushPins() {
+        let wayPtHeight:CGFloat = 80.0 / CGFloat(pdfView.scaleFactor) // square
+        let halfSize = wayPtHeight / 2
+        let scale = 1.0 / CGFloat(pdfView.scaleFactor)
+        guard let page = pdfView.document?.page(at: 0) else {
+            displayError(msg: "Problem reading the PDF map. Can't get page 1.")
+            return
+        }
+
+        if (page.annotations.count > 0){
+            for i in 0...page.annotations.count-1 {
+                let pt:PDFAnnotation = page.annotations[i]
+                if (pt.type == "Stamp"){
+                    let midX = pt.bounds.minX + halfSize
+                    let midY = pt.bounds.minY + (15  / CGFloat(pdfView.scaleFactor))
+                    print(pt.bounds)
+                    
+                    pt.bounds = CGRect(x: midX, y: midY, width: wayPtHeight, height: wayPtHeight)
+                    print("scale: \(pt.bounds)")
+                }
             }
         }
     }
