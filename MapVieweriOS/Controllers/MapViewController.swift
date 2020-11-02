@@ -614,7 +614,11 @@ class MapViewController: UIViewController {
                 let saveBtn = PrimaryUIButton(frame: CGRect(x:10, y:300,width: 80, height: 40))
                 saveBtn.setTitle("Save", for: .normal)*/
                 popup = UITextField(frame: CGRect(x: x, y: location.y+20, width: popupWidth, height: popupHeight))
-                
+                let rightImgView = UIImageView(frame: CGRect(x: 0.0, y: 0.0, width: 90.0, height: 90.0))
+                rightImgView.image = UIImage(named: "arrow_right_circle")
+                rightImgView.contentMode = .scaleAspectFit
+                popup.rightView = rightImgView
+                popup.rightViewMode = .always
                 
                 // edit text listener
                 popup.addTarget(self, action: #selector(MapViewController.wayptTextClicked(_:)), for: UIControl.Event.touchDown)// .editingDidEnd)
@@ -742,7 +746,7 @@ class MapViewController: UIViewController {
     func resizePushPins() {
         let wayPtHeight:CGFloat = 80.0 / CGFloat(pdfView.scaleFactor) // square
         let halfSize = wayPtHeight / 2
-        let scale = 1.0 / CGFloat(pdfView.scaleFactor)
+        //let scale = 1.0 / CGFloat(pdfView.scaleFactor)
         guard let page = pdfView.document?.page(at: 0) else {
             displayError(msg: "Problem reading the PDF map. Can't get page 1.")
             return

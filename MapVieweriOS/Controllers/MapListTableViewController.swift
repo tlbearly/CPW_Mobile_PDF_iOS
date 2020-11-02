@@ -223,13 +223,25 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
     
     private func saveMaps() {
         // Archive the maps array
-        let isSuccessfullSave = NSKeyedArchiver.archiveRootObject(maps, toFile: PDFMap.ArchiveURL.path)
-        if isSuccessfullSave {
-            os_log("Maps successfully saved.", log: OSLog.default, type: .debug)
+        if #available (iOS 12.0,*){
+            //'archiveRootObject(_:toFile:)' was deprecated in iOS 12.0: Use +archivedDataWithRootObject:requiringSecureCoding:error: and -writeToURL:options:error: instead
+            do {
+                let dataToBeArchived = try NSKeyedArchiver.archivedData(withRootObject: maps, requiringSecureCoding: false)
+                try dataToBeArchived.write(to: PDFMap.ArchiveURL)
+                os_log("Maps successfully saved.", log: OSLog.default, type: .debug)
+            } catch {
+                displayError(theError: AppError.pdfMapError.mapSaveFail)
+            }
         }
-        else {
-            os_log("Failed to save maps.", log: OSLog.default, type: .error)
-            displayError(theError: AppError.pdfMapError.mapSaveFail)
+        else{
+            let isSuccessfullSave = NSKeyedArchiver.archiveRootObject(maps, toFile: PDFMap.ArchiveURL.path)
+            if isSuccessfullSave {
+                os_log("Maps successfully saved.", log: OSLog.default, type: .debug)
+            }
+            else {
+                os_log("Failed to save maps.", log: OSLog.default, type: .error)
+                displayError(theError: AppError.pdfMapError.mapSaveFail)
+            }
         }
     }
     
@@ -238,8 +250,17 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
         
         // Read data from local storage NSCoding
         // Return array of maps or nil
-        return NSKeyedUnarchiver.unarchiveObject(withFile: PDFMap.ArchiveURL.path) as? [PDFMap]
-        
+        if #available (iOS 12.0,*){
+            if let archivedData = try? Data(contentsOf: PDFMap.ArchiveURL),
+               let myObject = (try? NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(archivedData)) as? [PDFMap] {
+                return myObject
+            }
+            else {
+                return nil
+            }
+        }else {
+            return NSKeyedUnarchiver.unarchiveObject(withFile: PDFMap.ArchiveURL.path) as? [PDFMap]
+        }
         
         
         
