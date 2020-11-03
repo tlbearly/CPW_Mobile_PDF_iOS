@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="crJ-s1-QnB">
-    <device id="retina5_5" orientation="landscape" appearance="light"/>
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment version="4352" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17126"/>
@@ -15,20 +15,20 @@
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="SplashViewController" customModule="MapVieweriOS" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="736" height="414"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView autoresizesSubviews="NO" opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="32" translatesAutoresizingMaskIntoConstraints="NO" id="V9l-iY-Xsw">
-                                <rect key="frame" x="20" y="26" width="696" height="362.33333333333331"/>
+                                <rect key="frame" x="20" y="204" width="374" height="434.5"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Colorado Parks and Wildlife" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0fH-pf-Edh">
-                                        <rect key="frame" x="207" y="0.0" width="282" height="28.666666666666668"/>
+                                        <rect key="frame" x="46" y="0.0" width="282" height="29"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="24"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" placeholderIntrinsicWidth="108" placeholderIntrinsicHeight="108" image="cpw_sitelogo" adjustsImageSizeForAccessibilityContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ykG-Ej-bL7">
-                                        <rect key="frame" x="294" y="60.666666666666671" width="108" height="108.00000000000001"/>
+                                        <rect key="frame" x="133" y="61" width="108" height="108"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="ykG-Ej-bL7" secondAttribute="height" multiplier="1:1" id="38S-go-RVn"/>
                                             <constraint firstAttribute="height" constant="108" id="7w8-NY-yEr"/>
@@ -36,7 +36,7 @@
                                         </constraints>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mj3-5M-a2g">
-                                        <rect key="frame" x="3.3333333333333144" y="200.66666666666666" width="689.66666666666674" height="95.666666666666657"/>
+                                        <rect key="frame" x="0.5" y="201" width="373.5" height="167.5"/>
                                         <viewLayoutGuide key="safeArea" id="lAT-Z4-0b5"/>
                                         <string key="text">Take this app out in the field to display your current location on PDF maps from the HuntingAtlas, FishingAtlas, CPW Maps Library, or any geo-referenced PDF. No need for internet or data connection! Plus use this app to download PDF maps (requires data connection)</string>
                                         <fontDescription key="fontDescription" type="system" pointSize="20"/>
@@ -44,7 +44,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button autoresizesSubviews="NO" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Gt5-18-aO6" customClass="PrimaryUIButton" customModule="MapVieweriOS" customModuleProvider="target">
-                                        <rect key="frame" x="303" y="328.33333333333331" width="90" height="34"/>
+                                        <rect key="frame" x="142" y="400.5" width="90" height="34"/>
                                         <viewLayoutGuide key="safeArea" id="WjY-E8-3gK"/>
                                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <state key="normal" title="CONTINUE"/>
@@ -77,12 +77,12 @@
             <objects>
                 <tableViewController id="Rk3-2j-9u0" userLabel="Imported Maps" customClass="MapListTableViewController" customModule="MapVieweriOS" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="110" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" contentViewInsetsToSafeArea="NO" id="dQn-IY-pJt">
-                        <rect key="frame" x="0.0" y="0.0" width="736" height="414"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <viewLayoutGuide key="safeArea" id="hYQ-Dh-RFP"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <label key="tableHeaderView" hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No maps have been imported. Use the + button to import a map." textAlignment="center" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="mpF-QI-wF8" userLabel="Msg">
-                            <rect key="frame" x="0.0" y="0.0" width="736" height="80"/>
+                            <rect key="frame" x="0.0" y="0.0" width="414" height="80"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                             <nil key="textColor"/>
@@ -90,10 +90,10 @@
                         </label>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="MapListTableViewCell" rowHeight="100" id="fzz-cP-97s" customClass="MapListTableViewCell" customModule="MapVieweriOS" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="108" width="736" height="100"/>
+                                <rect key="frame" x="0.0" y="108" width="414" height="100"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="fzz-cP-97s" id="G3V-XX-9kL">
-                                    <rect key="frame" x="0.0" y="0.0" width="736" height="100"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="100"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="pdf_icon" translatesAutoresizingMaskIntoConstraints="NO" id="YrY-aO-y4i">
@@ -103,37 +103,37 @@
                                             </constraints>
                                         </imageView>
                                         <stackView autoresizesSubviews="NO" opaque="NO" contentMode="scaleToFill" axis="vertical" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="iEB-gE-UEm">
-                                            <rect key="frame" x="110" y="13" width="606" height="74.333333333333329"/>
+                                            <rect key="frame" x="110" y="13" width="284" height="74"/>
                                             <subviews>
                                                 <textField opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Map Name" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="e3O-LR-362">
-                                                    <rect key="frame" x="0.0" y="0.0" width="606" height="23.333333333333332"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="284" height="23"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                                     <textInputTraits key="textInputTraits"/>
                                                 </textField>
                                                 <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Filename" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Qbs-jU-Yx4">
-                                                    <rect key="frame" x="0.0" y="27.333333333333336" width="606" height="0.0"/>
+                                                    <rect key="frame" x="0.0" y="27" width="284" height="0.0"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" translatesAutoresizingMaskIntoConstraints="NO" id="0Kz-h3-2oQ" userLabel="Horz Stack View">
-                                                    <rect key="frame" x="0.0" y="31.333333333333336" width="606" height="30"/>
+                                                    <rect key="frame" x="0.0" y="31" width="284" height="30"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" layoutMarginsFollowReadableWidth="YES" text="File Size KB" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IGx-nl-nVb">
-                                                            <rect key="frame" x="0.0" y="0.0" width="158.33333333333334" height="30"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="61.5" height="30"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                                             <color key="textColor" systemColor="secondaryLabelColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" restorationIdentifier="locationIcon" image="nearme" translatesAutoresizingMaskIntoConstraints="NO" id="Dhl-xV-Inq">
-                                                            <rect key="frame" x="158.33333333333331" y="0.0" width="80" height="30"/>
+                                                            <rect key="frame" x="61.5" y="0.0" width="80" height="30"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="30" id="5yP-vV-FVS"/>
                                                                 <constraint firstAttribute="width" constant="80" id="Apq-rl-Ly4"/>
                                                             </constraints>
                                                         </imageView>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Allow Location" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DlV-Yt-wPo">
-                                                            <rect key="frame" x="238.33333333333329" y="0.0" width="367.66666666666674" height="30"/>
+                                                            <rect key="frame" x="141.5" y="0.0" width="142.5" height="30"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                                             <color key="textColor" systemColor="secondaryLabelColor"/>
                                                             <nil key="highlightedColor"/>
@@ -141,7 +141,7 @@
                                                     </subviews>
                                                 </stackView>
                                                 <progressView opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" verticalHuggingPriority="750" restorationIdentifier="progressBar" insetsLayoutMarginsFromSafeArea="NO" progressViewStyle="bar" progress="0.29999999999999999" translatesAutoresizingMaskIntoConstraints="NO" id="S1e-e4-Ap3" customClass="RoundedCornerProgressBar" customModule="MapVieweriOS" customModuleProvider="target">
-                                                    <rect key="frame" x="0.0" y="69.333333333333329" width="606" height="6"/>
+                                                    <rect key="frame" x="0.0" y="69" width="284" height="6"/>
                                                     <viewLayoutGuide key="safeArea" id="8Zc-dc-FwT"/>
                                                     <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <color key="tintColor" systemColor="systemTealColor"/>
@@ -202,212 +202,190 @@
             <objects>
                 <viewController title="Add Maps" id="33z-Sm-ZcB" customClass="AddMapsViewController" customModule="MapVieweriOS" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="uSc-zw-HM8">
-                        <rect key="frame" x="0.0" y="0.0" width="736" height="414"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="JkA-LU-4vk">
-                                <rect key="frame" x="20" y="44" width="696" height="370"/>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dFQ-K0-TJ5">
+                                <rect key="frame" x="20" y="56" width="374" height="752"/>
                                 <subviews>
-                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="QDO-ro-vWf" userLabel="File Picker Stack View">
-                                        <rect key="frame" x="0.0" y="0.0" width="696" height="128"/>
+                                    <stackView autoresizesSubviews="NO" opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" alignment="center" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="JkA-LU-4vk" userLabel="Vertical Stack View">
+                                        <rect key="frame" x="0.0" y="20" width="374" height="577"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="From a Folder" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mFv-EX-6cZ">
-                                                <rect key="frame" x="0.0" y="0.0" width="141" height="28.666666666666668"/>
+                                                <rect key="frame" x="116.5" y="0.0" width="141" height="30"/>
                                                 <accessibility key="accessibilityConfiguration">
                                                     <accessibilityTraits key="traits" staticText="YES" header="YES"/>
                                                 </accessibility>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="30" id="uGL-3w-7XP"/>
+                                                </constraints>
                                                 <fontDescription key="fontDescription" type="system" pointSize="24"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="Select PDF files that you downloaded." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SaC-3b-U8V">
-                                                <rect key="frame" x="0.0" y="48.666666666666671" width="696" height="20.333333333333329"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="Select PDF files that you downloaded." lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SaC-3b-U8V">
+                                                <rect key="frame" x="43" y="35" width="288" height="60"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="60" id="Ld8-og-LHD"/>
+                                                </constraints>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fje-tu-REb">
-                                                <rect key="frame" x="0.0" y="89" width="696" height="39"/>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NQ8-59-Wkm" customClass="PrimaryUIButton" customModule="MapVieweriOS" customModuleProvider="target">
+                                                <rect key="frame" x="127.5" y="100" width="119" height="39"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="39" id="hN6-2h-6Cd"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" type="system" pointSize="22"/>
+                                                <state key="normal" title="FILE PICKER"/>
+                                                <connections>
+                                                    <action selector="filePickerClicked:" destination="33z-Sm-ZcB" eventType="touchUpInside" id="WAH-tL-5EO"/>
+                                                </connections>
+                                            </button>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="   " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mjD-9V-ccy">
+                                                <rect key="frame" x="180.5" y="144" width="13.5" height="20"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="20" id="rZJ-CE-5dM"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="From a Website" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zml-oh-ZAx">
+                                                <rect key="frame" x="107" y="169" width="160" height="30"/>
+                                                <accessibility key="accessibilityConfiguration">
+                                                    <accessibilityTraits key="traits" staticText="YES" header="YES"/>
+                                                </accessibility>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="30" id="zIw-yy-1k6"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Download Ready Made Maps" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="F9x-g1-8tT">
+                                                <rect key="frame" x="52" y="204" width="270" height="30"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="30" id="lgs-PI-4gW"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="CPW Maps tip: Select the GeoPDF file format." lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mus-Ud-6zr">
+                                                <rect key="frame" x="13.5" y="239" width="347.5" height="60"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="60" id="sBG-g5-rOO"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="USGS Topo tip: Select 'US Topo' for the Dataset." lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SVj-4t-jT4">
+                                                <rect key="frame" x="2.5" y="304" width="369" height="60"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="60" id="XKE-nL-WzF"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" alignment="center" spacing="20" baselineRelativeArrangement="YES" translatesAutoresizingMaskIntoConstraints="NO" id="VPF-MB-Z6o" userLabel="CPW Buttons Stack View">
+                                                <rect key="frame" x="0.0" y="369" width="374" height="39"/>
                                                 <subviews>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NQ8-59-Wkm" customClass="PrimaryUIButton" customModule="MapVieweriOS" customModuleProvider="target">
-                                                        <rect key="frame" x="288.66666666666669" y="0.0" width="119" height="39"/>
+                                                    <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" adjustsImageSizeForAccessibilityContentSizeCategory="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ciB-e1-VH9" customClass="PrimaryUIButton" customModule="MapVieweriOS" customModuleProvider="target">
+                                                        <rect key="frame" x="0.0" y="0.0" width="166.5" height="39"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="22"/>
-                                                        <state key="normal" title="FILE PICKER"/>
-                                                        <connections>
-                                                            <action selector="filePickerClicked:" destination="33z-Sm-ZcB" eventType="touchUpInside" id="WAH-tL-5EO"/>
-                                                        </connections>
+                                                        <state key="normal" title="CPW MAPS"/>
+                                                    </button>
+                                                    <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" adjustsImageSizeForAccessibilityContentSizeCategory="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2HW-uK-DLz" customClass="PrimaryUIButton" customModule="MapVieweriOS" customModuleProvider="target">
+                                                        <rect key="frame" x="186.5" y="0.0" width="187.5" height="39"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="22"/>
+                                                        <state key="normal" title="USGS TOPO"/>
                                                     </button>
                                                 </subviews>
-                                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="height" constant="39" id="2T2-xB-Zxz"/>
-                                                    <constraint firstItem="NQ8-59-Wkm" firstAttribute="centerX" secondItem="fje-tu-REb" secondAttribute="centerX" id="h6L-rH-fDc"/>
-                                                    <constraint firstItem="NQ8-59-Wkm" firstAttribute="centerY" secondItem="fje-tu-REb" secondAttribute="centerY" id="rjQ-NI-XAK"/>
+                                                    <constraint firstAttribute="height" constant="39" id="4N5-vi-1qP"/>
+                                                    <constraint firstItem="2HW-uK-DLz" firstAttribute="leading" secondItem="ciB-e1-VH9" secondAttribute="trailing" constant="20" id="MqA-e2-J7B"/>
                                                 </constraints>
-                                            </view>
-                                        </subviews>
-                                        <constraints>
-                                            <constraint firstItem="SaC-3b-U8V" firstAttribute="leading" secondItem="QDO-ro-vWf" secondAttribute="leading" id="OCJ-ZG-JY3"/>
-                                            <constraint firstAttribute="trailing" secondItem="fje-tu-REb" secondAttribute="trailing" id="Sm8-vz-tBb"/>
-                                            <constraint firstAttribute="trailing" secondItem="SaC-3b-U8V" secondAttribute="trailing" id="tln-ol-oJm"/>
-                                        </constraints>
-                                    </stackView>
-                                    <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ghj-TR-Bs3" userLabel="Website Scroll View">
-                                        <rect key="frame" x="0.0" y="148" width="395.33333333333331" height="222"/>
-                                        <subviews>
-                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="1aY-Nj-PA1">
-                                                <rect key="frame" x="0.0" y="0.0" width="395.33333333333331" height="489"/>
+                                            </stackView>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="   " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aba-ws-xB5">
+                                                <rect key="frame" x="180.5" y="413" width="13.5" height="20"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="20" id="6uV-bC-PU9"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Download Custom Maps" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ULd-Ja-rCx">
+                                                <rect key="frame" x="73" y="438" width="228.5" height="30"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="30" id="et0-pE-OiQ"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Create a custom map then press the download icon." textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="P6T-dD-R8K">
+                                                <rect key="frame" x="47" y="473" width="280.5" height="60"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="60" id="j5H-bo-ss1"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" alignment="center" spacing="20" baselineRelativeArrangement="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7CK-Dg-csW" userLabel="NDIS Buttons Stack View">
+                                                <rect key="frame" x="0.0" y="538" width="374" height="39"/>
                                                 <subviews>
-                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PE3-zA-HdN" userLabel="Ready Made View">
-                                                        <rect key="frame" x="0.0" y="0.0" width="395.33333333333331" height="235"/>
-                                                        <subviews>
-                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="From a Website" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zml-oh-ZAx">
-                                                                <rect key="frame" x="0.0" y="0.0" width="395.33333333333331" height="50"/>
-                                                                <accessibility key="accessibilityConfiguration">
-                                                                    <accessibilityTraits key="traits" staticText="YES" header="YES"/>
-                                                                </accessibility>
-                                                                <fontDescription key="fontDescription" type="system" pointSize="24"/>
-                                                                <nil key="textColor"/>
-                                                                <nil key="highlightedColor"/>
-                                                            </label>
-                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Download Ready Made Maps" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="YMD-Cg-1qy">
-                                                                <rect key="frame" x="0.0" y="70" width="255" height="24"/>
-                                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                                                <nil key="textColor"/>
-                                                                <nil key="highlightedColor"/>
-                                                            </label>
-                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="For CPW Maps: Select the GeoPDF file format." textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mus-Ud-6zr">
-                                                                <rect key="frame" x="0.0" y="154.33333333333331" width="395.33333333333331" height="20.333333333333343"/>
-                                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                                <nil key="textColor"/>
-                                                                <nil key="highlightedColor"/>
-                                                            </label>
-                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="For USGS Topo: Select 'US Topo' for the Dataset." textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SVj-4t-jT4">
-                                                                <rect key="frame" x="0.0" y="194.66666666666669" width="395.33333333333331" height="20.333333333333343"/>
-                                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                                <nil key="textColor"/>
-                                                                <nil key="highlightedColor"/>
-                                                            </label>
-                                                        </subviews>
-                                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                                        <constraints>
-                                                            <constraint firstAttribute="trailing" secondItem="Zml-oh-ZAx" secondAttribute="trailing" id="BoD-2y-FjC"/>
-                                                            <constraint firstItem="SVj-4t-jT4" firstAttribute="top" secondItem="mus-Ud-6zr" secondAttribute="bottom" constant="20" id="Dfw-7a-zEx"/>
-                                                            <constraint firstAttribute="trailing" secondItem="SVj-4t-jT4" secondAttribute="trailing" id="Ezj-8T-Gd4"/>
-                                                            <constraint firstItem="YMD-Cg-1qy" firstAttribute="top" secondItem="Zml-oh-ZAx" secondAttribute="bottom" constant="20" id="HeJ-Mh-NmU"/>
-                                                            <constraint firstAttribute="height" constant="235" id="K1Y-eH-QRL"/>
-                                                            <constraint firstItem="SVj-4t-jT4" firstAttribute="leading" secondItem="PE3-zA-HdN" secondAttribute="leading" id="XOT-jg-DEV"/>
-                                                            <constraint firstItem="mus-Ud-6zr" firstAttribute="leading" secondItem="PE3-zA-HdN" secondAttribute="leading" id="hxv-fH-zke"/>
-                                                            <constraint firstAttribute="bottom" secondItem="SVj-4t-jT4" secondAttribute="bottom" constant="20" id="jr7-CY-tbP"/>
-                                                            <constraint firstAttribute="trailing" secondItem="mus-Ud-6zr" secondAttribute="trailing" id="my4-J0-IGB"/>
-                                                            <constraint firstItem="Zml-oh-ZAx" firstAttribute="leading" secondItem="PE3-zA-HdN" secondAttribute="leading" id="pHi-W0-H96"/>
-                                                            <constraint firstItem="Zml-oh-ZAx" firstAttribute="top" secondItem="PE3-zA-HdN" secondAttribute="top" id="xhY-M5-Z9b"/>
-                                                        </constraints>
-                                                    </view>
-                                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="VPF-MB-Z6o" userLabel="CPW Buttons Stack View">
-                                                        <rect key="frame" x="0.0" y="255" width="395.33333333333331" height="39"/>
-                                                        <subviews>
-                                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" adjustsImageSizeForAccessibilityContentSizeCategory="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ciB-e1-VH9" customClass="PrimaryUIButton" customModule="MapVieweriOS" customModuleProvider="target">
-                                                                <rect key="frame" x="0.0" y="0.0" width="192.66666666666666" height="39"/>
-                                                                <fontDescription key="fontDescription" type="system" pointSize="22"/>
-                                                                <state key="normal" title="CPW MAPS"/>
-                                                            </button>
-                                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" adjustsImageSizeForAccessibilityContentSizeCategory="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2HW-uK-DLz" customClass="PrimaryUIButton" customModule="MapVieweriOS" customModuleProvider="target">
-                                                                <rect key="frame" x="202.66666666666669" y="0.0" width="192.66666666666669" height="39"/>
-                                                                <fontDescription key="fontDescription" type="system" pointSize="22"/>
-                                                                <state key="normal" title="USGS TOPO"/>
-                                                            </button>
-                                                        </subviews>
-                                                        <constraints>
-                                                            <constraint firstAttribute="height" constant="39" id="4N5-vi-1qP"/>
-                                                        </constraints>
-                                                    </stackView>
-                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9vh-mC-7Wd" userLabel="Custom Made View">
-                                                        <rect key="frame" x="0.0" y="314" width="395.33333333333331" height="116"/>
-                                                        <subviews>
-                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Download Custom Maps" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ULd-Ja-rCx">
-                                                                <rect key="frame" x="0.0" y="31.666666666666629" width="395.33333333333331" height="24"/>
-                                                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                                                <nil key="textColor"/>
-                                                                <nil key="highlightedColor"/>
-                                                            </label>
-                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Create a custom map then press the download icon." textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="P6T-dD-R8K">
-                                                                <rect key="frame" x="0.0" y="75.666666666666629" width="395.33333333333331" height="20.333333333333329"/>
-                                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                                <nil key="textColor"/>
-                                                                <nil key="highlightedColor"/>
-                                                            </label>
-                                                        </subviews>
-                                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                                        <constraints>
-                                                            <constraint firstItem="ULd-Ja-rCx" firstAttribute="leading" secondItem="9vh-mC-7Wd" secondAttribute="leading" id="2MU-Nx-ntA"/>
-                                                            <constraint firstAttribute="trailing" secondItem="P6T-dD-R8K" secondAttribute="trailing" id="N4I-WU-j15"/>
-                                                            <constraint firstItem="P6T-dD-R8K" firstAttribute="top" secondItem="ULd-Ja-rCx" secondAttribute="bottom" constant="20" id="Vbc-PR-Q1e"/>
-                                                            <constraint firstAttribute="bottom" secondItem="P6T-dD-R8K" secondAttribute="bottom" constant="20" id="hpk-De-5l6"/>
-                                                            <constraint firstItem="P6T-dD-R8K" firstAttribute="leading" secondItem="9vh-mC-7Wd" secondAttribute="leading" id="vht-98-BxI"/>
-                                                            <constraint firstAttribute="trailing" secondItem="ULd-Ja-rCx" secondAttribute="trailing" id="xdW-w4-nqX"/>
-                                                            <constraint firstAttribute="height" constant="116" id="xpA-wv-Lzz"/>
-                                                        </constraints>
-                                                    </view>
-                                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="7CK-Dg-csW" userLabel="NDIS Buttons Stack View">
-                                                        <rect key="frame" x="0.0" y="450" width="395.33333333333331" height="39"/>
-                                                        <subviews>
-                                                            <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" adjustsImageSizeForAccessibilityContentSizeCategory="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PlA-h7-rkn" customClass="PrimaryUIButton" customModule="MapVieweriOS" customModuleProvider="target">
-                                                                <rect key="frame" x="0.0" y="0.0" width="197.66666666666666" height="39"/>
-                                                                <fontDescription key="fontDescription" type="system" pointSize="22"/>
-                                                                <state key="normal" title="HUNTING ATLAS"/>
-                                                            </button>
-                                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" adjustsImageSizeForAccessibilityContentSizeCategory="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ydy-yT-F9m" customClass="PrimaryUIButton" customModule="MapVieweriOS" customModuleProvider="target">
-                                                                <rect key="frame" x="197.66666666666669" y="0.0" width="197.66666666666669" height="39"/>
-                                                                <fontDescription key="fontDescription" type="system" pointSize="22"/>
-                                                                <state key="normal" title="FISHING ATLAS"/>
-                                                            </button>
-                                                        </subviews>
-                                                        <constraints>
-                                                            <constraint firstAttribute="height" constant="39" id="iVh-v6-lbi"/>
-                                                        </constraints>
-                                                    </stackView>
+                                                    <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" adjustsImageSizeForAccessibilityContentSizeCategory="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PlA-h7-rkn" customClass="PrimaryUIButton" customModule="MapVieweriOS" customModuleProvider="target">
+                                                        <rect key="frame" x="0.0" y="0.0" width="177" height="39"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="22"/>
+                                                        <state key="normal" title="HUNTING ATLAS"/>
+                                                    </button>
+                                                    <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" adjustsImageSizeForAccessibilityContentSizeCategory="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ydy-yT-F9m" customClass="PrimaryUIButton" customModule="MapVieweriOS" customModuleProvider="target">
+                                                        <rect key="frame" x="197" y="0.0" width="177" height="39"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="22"/>
+                                                        <state key="normal" title="FISHING ATLAS"/>
+                                                    </button>
                                                 </subviews>
                                                 <constraints>
-                                                    <constraint firstAttribute="trailing" secondItem="9vh-mC-7Wd" secondAttribute="trailing" id="BiC-2Q-kKm"/>
-                                                    <constraint firstAttribute="trailing" secondItem="VPF-MB-Z6o" secondAttribute="trailing" id="Nxh-zk-sQD"/>
-                                                    <constraint firstItem="PE3-zA-HdN" firstAttribute="top" secondItem="1aY-Nj-PA1" secondAttribute="top" id="RcM-fW-usS"/>
-                                                    <constraint firstAttribute="trailing" secondItem="7CK-Dg-csW" secondAttribute="trailing" id="aWX-VZ-zQ2"/>
-                                                    <constraint firstItem="VPF-MB-Z6o" firstAttribute="top" secondItem="PE3-zA-HdN" secondAttribute="bottom" constant="20" id="c9T-1B-Qae"/>
-                                                    <constraint firstItem="PE3-zA-HdN" firstAttribute="leading" secondItem="1aY-Nj-PA1" secondAttribute="leading" id="cok-tq-R3N"/>
-                                                    <constraint firstItem="9vh-mC-7Wd" firstAttribute="leading" secondItem="1aY-Nj-PA1" secondAttribute="leading" id="idC-jO-bbX"/>
-                                                    <constraint firstItem="7CK-Dg-csW" firstAttribute="leading" secondItem="1aY-Nj-PA1" secondAttribute="leading" id="mYD-Cn-nCf"/>
-                                                    <constraint firstAttribute="trailing" secondItem="PE3-zA-HdN" secondAttribute="trailing" id="tOn-eA-Zoo"/>
-                                                    <constraint firstItem="7CK-Dg-csW" firstAttribute="top" secondItem="9vh-mC-7Wd" secondAttribute="bottom" constant="20" id="ueR-72-WWH"/>
-                                                    <constraint firstItem="VPF-MB-Z6o" firstAttribute="leading" secondItem="1aY-Nj-PA1" secondAttribute="leading" id="xyU-Dy-zDn"/>
+                                                    <constraint firstAttribute="height" constant="39" id="iVh-v6-lbi"/>
                                                 </constraints>
                                             </stackView>
                                         </subviews>
                                         <constraints>
-                                            <constraint firstItem="1aY-Nj-PA1" firstAttribute="trailing" secondItem="jdF-NE-Il9" secondAttribute="trailing" id="8M4-Cx-CYe"/>
-                                            <constraint firstItem="1aY-Nj-PA1" firstAttribute="width" secondItem="kn1-Ng-lJd" secondAttribute="width" id="bYz-UM-Dyc"/>
-                                            <constraint firstItem="1aY-Nj-PA1" firstAttribute="bottom" secondItem="jdF-NE-Il9" secondAttribute="bottom" id="gAt-tb-l5N"/>
-                                            <constraint firstItem="1aY-Nj-PA1" firstAttribute="top" secondItem="jdF-NE-Il9" secondAttribute="top" id="swJ-dC-irL"/>
-                                            <constraint firstItem="1aY-Nj-PA1" firstAttribute="centerX" secondItem="Ghj-TR-Bs3" secondAttribute="centerX" id="wYh-5p-ErO"/>
+                                            <constraint firstItem="VPF-MB-Z6o" firstAttribute="leading" secondItem="JkA-LU-4vk" secondAttribute="leading" id="BbG-TI-mug"/>
+                                            <constraint firstItem="7CK-Dg-csW" firstAttribute="trailing" secondItem="JkA-LU-4vk" secondAttribute="trailing" id="G49-dV-Rm5"/>
+                                            <constraint firstItem="VPF-MB-Z6o" firstAttribute="trailing" secondItem="JkA-LU-4vk" secondAttribute="trailing" id="fnH-bi-d8y"/>
+                                            <constraint firstItem="7CK-Dg-csW" firstAttribute="leading" secondItem="JkA-LU-4vk" secondAttribute="leading" id="fyo-Dg-dqn"/>
                                         </constraints>
-                                        <viewLayoutGuide key="contentLayoutGuide" id="jdF-NE-Il9"/>
-                                        <viewLayoutGuide key="frameLayoutGuide" id="kn1-Ng-lJd"/>
-                                    </scrollView>
+                                    </stackView>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstItem="QDO-ro-vWf" firstAttribute="leading" secondItem="JkA-LU-4vk" secondAttribute="leading" id="2pG-kf-UVa"/>
-                                    <constraint firstAttribute="trailing" secondItem="QDO-ro-vWf" secondAttribute="trailing" id="B42-zd-WSc"/>
+                                    <constraint firstItem="JkA-LU-4vk" firstAttribute="trailing" secondItem="ZOg-dp-glF" secondAttribute="trailing" id="7gO-zv-Itu"/>
+                                    <constraint firstItem="JkA-LU-4vk" firstAttribute="leading" secondItem="ZOg-dp-glF" secondAttribute="leading" id="Fm5-KT-Nq6"/>
+                                    <constraint firstItem="1GI-lZ-YOD" firstAttribute="width" secondItem="JkA-LU-4vk" secondAttribute="width" id="P84-w6-UQA"/>
+                                    <constraint firstItem="JkA-LU-4vk" firstAttribute="width" secondItem="ZOg-dp-glF" secondAttribute="width" id="SkN-VB-aJV"/>
+                                    <constraint firstItem="JkA-LU-4vk" firstAttribute="centerX" secondItem="ZOg-dp-glF" secondAttribute="centerX" id="bZK-Wz-sdV"/>
+                                    <constraint firstItem="JkA-LU-4vk" firstAttribute="top" secondItem="ZOg-dp-glF" secondAttribute="top" constant="20" id="egC-KO-ZOY"/>
+                                    <constraint firstItem="JkA-LU-4vk" firstAttribute="bottom" secondItem="ZOg-dp-glF" secondAttribute="bottom" constant="-40" id="oVu-w8-i7c" userLabel="Vertical Stack View.bottom = Content Layout Guide.bottom -40"/>
+                                    <constraint firstItem="1GI-lZ-YOD" firstAttribute="leading" secondItem="JkA-LU-4vk" secondAttribute="leading" constant="20" id="pct-nH-Xs7"/>
                                 </constraints>
-                            </stackView>
+                                <inset key="scrollIndicatorInsets" minX="20" minY="0.0" maxX="20" maxY="0.0"/>
+                                <viewLayoutGuide key="contentLayoutGuide" id="ZOg-dp-glF"/>
+                                <viewLayoutGuide key="frameLayoutGuide" id="1GI-lZ-YOD"/>
+                            </scrollView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="Rah-e8-mMc"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="Rah-e8-mMc" firstAttribute="bottom" secondItem="JkA-LU-4vk" secondAttribute="bottom" id="4of-wm-C9j"/>
-                            <constraint firstItem="JkA-LU-4vk" firstAttribute="trailing" secondItem="Rah-e8-mMc" secondAttribute="trailing" constant="-20" id="DVG-mq-Aat"/>
-                            <constraint firstItem="JkA-LU-4vk" firstAttribute="leading" secondItem="Rah-e8-mMc" secondAttribute="leading" constant="20" id="YJh-yB-COf"/>
-                            <constraint firstItem="JkA-LU-4vk" firstAttribute="top" secondItem="Rah-e8-mMc" secondAttribute="top" id="kLR-ZV-j8b"/>
+                            <constraint firstItem="dFQ-K0-TJ5" firstAttribute="leading" secondItem="Rah-e8-mMc" secondAttribute="leading" constant="20" id="21P-KX-LaA"/>
+                            <constraint firstItem="Rah-e8-mMc" firstAttribute="bottom" secondItem="dFQ-K0-TJ5" secondAttribute="bottom" id="WBe-kh-I6X"/>
+                            <constraint firstItem="dFQ-K0-TJ5" firstAttribute="trailing" secondItem="Rah-e8-mMc" secondAttribute="trailing" constant="-20" id="ayv-yi-6Oq"/>
+                            <constraint firstItem="dFQ-K0-TJ5" firstAttribute="top" secondItem="Rah-e8-mMc" secondAttribute="top" id="kgF-gU-y8A"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="864-pM-HQY"/>
@@ -418,14 +396,14 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DcZ-Q4-AIj" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <exit id="u7s-Fc-kxb" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="2461.5999999999999" y="-1231.0344827586207"/>
+            <point key="canvasLocation" x="2460.8695652173915" y="-1232.608695652174"/>
         </scene>
         <!--PDF Map-->
         <scene sceneID="HXy-Bf-9xL">
             <objects>
                 <viewController title="PDF Map" id="XwV-qs-rbI" customClass="MapViewController" customModule="MapVieweriOS" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="1Sn-FH-aig">
-                        <rect key="frame" x="0.0" y="0.0" width="736" height="414"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <viewLayoutGuide key="safeArea" id="n7v-S6-kn7"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -444,11 +422,11 @@
             <objects>
                 <viewController id="JGa-RW-tBr" customClass="EditWayPtViewController" customModule="MapVieweriOS" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="kf2-eL-Mw4">
-                        <rect key="frame" x="0.0" y="0.0" width="736" height="414"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="pEQ-4g-t6x" userLabel="Stack View 1">
-                                <rect key="frame" x="10" y="54" width="706" height="80"/>
+                                <rect key="frame" x="10" y="66" width="384" height="80"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="cyan_pin" translatesAutoresizingMaskIntoConstraints="NO" id="5Cq-Bb-gU2">
                                         <rect key="frame" x="0.0" y="0.0" width="80" height="80"/>
@@ -458,23 +436,23 @@
                                         </constraints>
                                     </imageView>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Way Pt Description" textAlignment="natural" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="kXw-jl-3Ri">
-                                        <rect key="frame" x="90" y="23" width="616" height="34"/>
+                                        <rect key="frame" x="90" y="23" width="294" height="34"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
                                 </subviews>
                             </stackView>
                             <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="R7v-Aq-zt0" userLabel="Stack View 2">
-                                <rect key="frame" x="20" y="144" width="210.66666666666666" height="40.333333333333343"/>
+                                <rect key="frame" x="20" y="156" width="211" height="40.5"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Lat, Long:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BST-lx-pFV">
-                                        <rect key="frame" x="0.0" y="9.9999999999999982" width="75.333333333333329" height="20.333333333333329"/>
+                                        <rect key="frame" x="0.0" y="10" width="75.5" height="20.5"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Lat, Long value" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zs8-ne-wc9" userLabel="Lat Long Value">
-                                        <rect key="frame" x="95.333333333333343" y="9.9999999999999982" width="115.33333333333334" height="20.333333333333329"/>
+                                        <rect key="frame" x="95.5" y="10" width="115.5" height="20.5"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
@@ -485,16 +463,16 @@
                                 </constraints>
                             </stackView>
                             <stackView opaque="NO" contentMode="scaleToFill" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="M3S-Pw-e63" userLabel="Stack View 3">
-                                <rect key="frame" x="20" y="204.33333333333334" width="196.66666666666666" height="20.333333333333343"/>
+                                <rect key="frame" x="20" y="216.5" width="197" height="20.5"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Date Added:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7ri-Bw-FYN">
-                                        <rect key="frame" x="0.0" y="0.0" width="94.666666666666671" height="20.333333333333332"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="95" height="20.5"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Date Value" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="X7c-Lh-X8k">
-                                        <rect key="frame" x="114.66666666666666" y="0.0" width="82" height="20.333333333333332"/>
+                                        <rect key="frame" x="115" y="0.0" width="82" height="20.5"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
@@ -502,13 +480,13 @@
                                 </subviews>
                             </stackView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Push Pin Color:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8cK-51-1r4">
-                                <rect key="frame" x="20" y="244.66666666666666" width="116" height="20.333333333333343"/>
+                                <rect key="frame" x="20" y="257" width="116" height="20.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <stackView opaque="NO" contentMode="scaleToFill" spacing="43" translatesAutoresizingMaskIntoConstraints="NO" id="Lp3-EL-pP6" userLabel="Stack View buttons">
-                                <rect key="frame" x="40" y="285" width="182" height="30"/>
+                                <rect key="frame" x="40" y="297.5" width="182" height="30"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HoX-eo-ra3">
                                         <rect key="frame" x="0.0" y="0.0" width="30" height="30"/>
@@ -581,7 +559,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="crJ-s1-QnB" customClass="MapListViewController" customModule="MapVieweriOS" customModuleProvider="target" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="Gaz-PV-ZNm">
-                        <rect key="frame" x="0.0" y="0.0" width="736" height="44"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="56"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
@@ -597,9 +575,9 @@
     </scenes>
     <resources>
         <image name="cpw_sitelogo" width="32" height="32"/>
-        <image name="cyan_pin" width="170.66667175292969" height="170.66667175292969"/>
-        <image name="nearme" width="147.33332824707031" height="133.33332824707031"/>
-        <image name="pdf_icon" width="27.333333969116211" height="37.333332061767578"/>
+        <image name="cyan_pin" width="170.5" height="170.5"/>
+        <image name="nearme" width="221" height="200"/>
+        <image name="pdf_icon" width="27" height="37"/>
         <systemColor name="secondaryLabelColor">
             <color red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
