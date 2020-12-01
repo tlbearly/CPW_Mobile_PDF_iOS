@@ -50,6 +50,8 @@ class PDFMap: NSObject, NSCoding {
     var latDiff: Double = 0.0
     var longDiff: Double = 0.0
     
+    var wayPtArray: [WayPt] = []
+    
     // MARK: Archiving Paths
     static let DocumentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
     static let ArchiveURL = DocumentsDirectory.appendingPathComponent("maps")
@@ -81,12 +83,13 @@ class PDFMap: NSObject, NSCoding {
         static let long2 = "long2"
         static let latDiff = "latDiff"
         static let longDiff = "longDiff"
+        static let wayPtArray = "wayPtArray"
     }
     
     
     
     // MARK: init read from database
-    init(displayName: String, fileName: String, fileURL: URL,thumbnail: UIImage, bounds1: Double, bounds2: Double, bounds3: Double, bounds4: Double, modDate: Double, fileSize: String, marginTop: Double, marginBottom: Double, marginLeft: Double, marginRight: Double, mediaBoxWidth:Double, mediaBoxHeight: Double, pdfWidth: Double, pdfHeight: Double, lat1: Double, lat2: Double, long1: Double, long2: Double, latDiff: Double, longDiff: Double){
+    init(displayName: String, fileName: String, fileURL: URL,thumbnail: UIImage, bounds1: Double, bounds2: Double, bounds3: Double, bounds4: Double, modDate: Double, fileSize: String, marginTop: Double, marginBottom: Double, marginLeft: Double, marginRight: Double, mediaBoxWidth:Double, mediaBoxHeight: Double, pdfWidth: Double, pdfHeight: Double, lat1: Double, lat2: Double, long1: Double, long2: Double, latDiff: Double, longDiff: Double, wayPtArray: [WayPt]){
         self.displayName = displayName
         self.fileName = fileName
         self.fileURL = fileURL
@@ -111,6 +114,7 @@ class PDFMap: NSObject, NSCoding {
         self.long2 = long2
         self.latDiff = latDiff
         self.longDiff = longDiff
+        self.wayPtArray = wayPtArray
     }
     
     init?(fileName: String, fileURL: URL, quick: Bool) throws {
@@ -148,8 +152,6 @@ class PDFMap: NSObject, NSCoding {
             throw AppError.pdfMapError.pdfFileNotFound(file: fileURL.absoluteString)
         }
         self.fileURL = url
-        
-        // MARK: TODO - write db
         
         // copy url to app documents
         // destination directory name
@@ -228,7 +230,6 @@ class PDFMap: NSObject, NSCoding {
         }
         self.fileName = testFile
         
-        // MARK: TODO - read db
         setDisplayName()
         
         // Get URL
@@ -440,7 +441,6 @@ class PDFMap: NSObject, NSCoding {
             if (now){
                 self.modDate = Date().timeIntervalSinceReferenceDate
             }
-            // MARK: TODO delete this will read from data base
             else {
                 var date = attr[FileAttributeKey.modificationDate] as? Date
                 if date == nil {
@@ -509,7 +509,7 @@ class PDFMap: NSObject, NSCoding {
     // MARK: NSCoding
     func encode(with coder: NSCoder) {
         // write persistent data
-        print("writing \(self.fileName)") // \(self.fileURL!.path)")
+        //print("writing \(self.fileName)")
         coder.encode(displayName, forKey: PropertyKey.displayName)
         coder.encode(fileName, forKey: PropertyKey.fileName)
         coder.encode(fileURL!.path, forKey: PropertyKey.fileURL)
@@ -534,6 +534,9 @@ class PDFMap: NSObject, NSCoding {
         coder.encode(long2, forKey: PropertyKey.long2)
         coder.encode(latDiff, forKey: PropertyKey.latDiff)
         coder.encode(longDiff, forKey: PropertyKey.longDiff)
+        
+        // MARK: TODO add way points
+        coder.encode(wayPtArray, forKey: PropertyKey.wayPtArray)
     }
     
     required convenience init?(coder aDecoder: NSCoder) {
@@ -580,8 +583,10 @@ class PDFMap: NSObject, NSCoding {
         let latDiff = aDecoder.decodeDouble(forKey: PropertyKey.latDiff)
         let longDiff = aDecoder.decodeDouble(forKey: PropertyKey.longDiff)
         
+        // MARK: TODO add way points
+        let wayPtArray = aDecoder.decodeObject(forKey: PropertyKey.wayPtArray) as? [WayPt] ?? []
         
         // Must call designated initializer.
-        self.init(displayName: displayName, fileName: fileName, fileURL: fileURL,thumbnail: thumbnail, bounds1: bounds1, bounds2: bounds2, bounds3: bounds3, bounds4: bounds4, modDate: modDate, fileSize: fileSize, marginTop: marginTop, marginBottom: marginBottom, marginLeft: marginLeft, marginRight: marginRight, mediaBoxWidth:mediaBoxWidth, mediaBoxHeight: mediaBoxHeight, pdfWidth: pdfWidth, pdfHeight: pdfHeight, lat1: lat1, lat2: lat2, long1: long1, long2: long2, latDiff: latDiff, longDiff: longDiff)
+        self.init(displayName: displayName, fileName: fileName, fileURL: fileURL,thumbnail: thumbnail, bounds1: bounds1, bounds2: bounds2, bounds3: bounds3, bounds4: bounds4, modDate: modDate, fileSize: fileSize, marginTop: marginTop, marginBottom: marginBottom, marginLeft: marginLeft, marginRight: marginRight, mediaBoxWidth:mediaBoxWidth, mediaBoxHeight: mediaBoxHeight, pdfWidth: pdfWidth, pdfHeight: pdfHeight, lat1: lat1, lat2: lat2, long1: long1, long2: long2, latDiff: latDiff, longDiff: longDiff, wayPtArray: wayPtArray)
     }
 }

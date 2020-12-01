@@ -86,8 +86,10 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
         }
         // returned from displaying map
         else {
-            sortList(type: sortBy)
+            // way points could have changed. Reload maps database
+            maps = loadMaps() ?? []
             self.tableView.reloadData()
+            sortList(type: sortBy)
             showMsg() // if no imported maps
         }
     }
@@ -228,7 +230,7 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
             do {
                 let dataToBeArchived = try NSKeyedArchiver.archivedData(withRootObject: maps, requiringSecureCoding: false)
                 try dataToBeArchived.write(to: PDFMap.ArchiveURL)
-                os_log("Maps successfully saved.", log: OSLog.default, type: .debug)
+                //os_log("Maps successfully saved.", log: OSLog.default, type: .debug)
             } catch {
                 displayError(theError: AppError.pdfMapError.mapSaveFail)
             }
@@ -236,7 +238,7 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
         else{
             let isSuccessfullSave = NSKeyedArchiver.archiveRootObject(maps, toFile: PDFMap.ArchiveURL.path)
             if isSuccessfullSave {
-                os_log("Maps successfully saved.", log: OSLog.default, type: .debug)
+                //os_log("Maps successfully saved.", log: OSLog.default, type: .debug)
             }
             else {
                 os_log("Failed to save maps.", log: OSLog.default, type: .error)
@@ -611,6 +613,7 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         // MARK: cellForRowAt
+        // update the table with distance to map
         let cellIdentifier = "MapListTableViewCell"
         guard let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as? MapListTableViewCell else {
             fatalError("The dequeued cell is not an instance of MapListTableViewCell.")
@@ -651,7 +654,7 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
             cell.distToMap.text = ""
             cell.locationIcon.isHidden = false
         }
-            // off map show distance to map
+        // off map show distance to map
         else {
             cell.locationIcon.isHidden = true
             var dist:Double = 0.0
@@ -849,8 +852,10 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
                 fatalError("The selected cell is not being displayed by the table.")
             }
             // pass the selected map name, thumbnail, etc to MapViewController.swift
-            let selectedMap = maps[indexPath.row]
-            mapViewController.map = selectedMap
+            //let selectedMap = maps[indexPath.row]
+            //mapViewController.map = selectedMap
+            mapViewController.maps = maps
+            mapViewController.mapIndex = indexPath.row
         default:
             fatalError("Unexpected Segue Identifier: \(String(describing: segue.identifier))")
         }

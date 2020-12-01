@@ -25,30 +25,38 @@
 import UIKit
 import PDFKit // requires iOS 11+ iPhone 6+
 import CoreLocation // current location
+import os.log
 
 
-class MapViewController: UIViewController {
+class MapViewController: UIViewController, UIGestureRecognizerDelegate {
     // MARK: Variables
     var pdfView:PDFView = PDFView()
-    var map:PDFMap?
+    //var map:PDFMap?
+    var maps:[PDFMap] = []
+    var mapIndex:Int = -1
     var locationManager = CLLocationManager()
     let allowBtn = PrimaryUIButton() // turn on location services button
     // make a dummy location dot because displayLocation deletes it first
     var currentLocation: PDFAnnotation = PDFAnnotation(bounds: CGRect(x:0, y:0, width:1,height:1), forType: .circle, withProperties: nil)
+    // pdf map boundary in lat/long
     var lat1:Double = 0.0
     var lat2:Double = 0.0
     var long1:Double = 0.0
     var long2:Double = 0.0
+    // current location
     var latNow:Double = 0.0
     var longNow:Double = 0.0
+    // pdf maps margins
     var marginTop:Double = 0.0
     var marginBottom:Double = 0.0
     var marginLeft:Double = 0.0
     var marginRight:Double = 0.0
+    // pdf map size
     var mediaBoxWidth:Double = 0.0
     var mediaBoxHeight:Double = 0.0
     var latDiff:Double = 0.0
     var longDiff:Double = 0.0
+    // pdf page size
     var pdfWidth:Double = 0.0
     var pdfHeight:Double = 0.0
     var currentLatLong:UITextField = UITextField()
@@ -56,11 +64,34 @@ class MapViewController: UIViewController {
     private var popup:UITextField = UITextField(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
     private var selectedWayPt:PDFAnnotation = PDFAnnotation()
     var screenWidth:CGFloat = 0.0
+    var addWayPtsFromDatabaseFlag = true
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = map?.displayName
+        self.title = maps[mapIndex].displayName
         screenWidth = self.view.frame.size.width
+        
+        // set page margins
+        marginTop = maps[mapIndex].marginTop
+        marginBottom = maps[mapIndex].marginBottom
+        marginLeft = maps[mapIndex].marginLeft
+        marginRight = maps[mapIndex].marginRight
+        
+        // set page boundary with margins
+        mediaBoxWidth = maps[mapIndex].mediaBoxWidth
+        mediaBoxHeight = maps[mapIndex].mediaBoxHeight
+        
+        // set lat/long boundary in decimal degrees
+        lat1 = maps[mapIndex].lat1
+        long1 = maps[mapIndex].long1
+        lat2 = maps[mapIndex].lat2
+        long2 = maps[mapIndex].long2
+        latDiff = maps[mapIndex].latDiff
+        longDiff = maps[mapIndex].longDiff
+        
+        // set pdf boundary without margins
+        pdfWidth = maps[mapIndex].pdfWidth
+        pdfHeight = maps[mapIndex].pdfHeight
         
         //
         // OPEN PDF & Add pdfView
@@ -86,31 +117,25 @@ class MapViewController: UIViewController {
         
         // Debug text box
         //addDebugTextbox()
+    }
     
-        
-        // set page margins
-        marginTop = map!.marginTop
-        marginBottom = map!.marginBottom
-        marginLeft = map!.marginLeft
-        marginRight = map!.marginRight
-        
-        // set page boundary with margins
-        mediaBoxWidth = map!.mediaBoxWidth
-        mediaBoxHeight = map!.mediaBoxHeight
-        
-        // set lat/long boundary in decimal degrees
-        lat1 = map!.lat1
-        long1 = map!.long1
-        lat2 = map!.lat2
-        long2 = map!.long2
-        latDiff = map!.latDiff
-        longDiff = map!.longDiff
-        
-        // set pdf boundary without margins
-        pdfWidth = map!.pdfWidth
-        pdfHeight = map!.pdfHeight
-        
-        
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        // Add way points from maps array that was passed from MapListTableViewController
+        if (addWayPtsFromDatabaseFlag){
+            addWayPtsFromDatabaseFlag = false
+            let nilPt = CGPoint(x: 0, y: 0) // tells addPopup in addWayPt not to show popup.
+            guard let page = pdfView.document?.page(at: 0) else {
+                displayError(msg: "Problem reading the PDF map. Can't get page 1.")
+                return
+            }
+            if (maps[mapIndex].wayPtArray.count > 0){
+                for i in 0...maps[mapIndex].wayPtArray.count-1 {
+                    // add padding to desc since textview doesn't use margins
+                    addWayPt(x: CGFloat(maps[mapIndex].wayPtArray[i].x), y: CGFloat(maps[mapIndex].wayPtArray[i].y), page: page, imageName: maps[mapIndex].wayPtArray[i].imageName, desc: maps[mapIndex].wayPtArray[i].desc, dateAdded: maps[mapIndex].wayPtArray[i].dateAdded, location: nilPt)
+                }
+            }
+        }
         // Call location manager
         setupLocationServices()
     }
@@ -140,6 +165,7 @@ class MapViewController: UIViewController {
     
     @IBAction func performUnwindToMapDone(_ sender: UIStoryboardSegue) {
         // MARK: WayPt Done
+        // Return from waypt edit window. Done button pressed
         guard let editWayPtVC = sender.source as? EditWayPtViewController else {
             fatalError("Unexpected Segue Sender: \(String(describing: sender.source))")
         }
@@ -148,10 +174,12 @@ class MapViewController: UIViewController {
             displayError(msg: "Problem reading the PDF map. Can't get page 1.")
             return
         }
+        // update the push pin color and description
         page.removeAnnotation(selectedWayPt)
+        removeWayPt(x: editWayPtVC.x, y: editWayPtVC.y)
+        let nilPt = CGPoint(x: 0, y: 0) // tells addPopup in addWayPt not to show popup.
         // add padding to desc since textview doesn't use margins
-        addWayPt(x: CGFloat(editWayPtVC.x), y: CGFloat(editWayPtVC.y), page: page, imageName: editWayPtVC.pushPinImg, desc: " " + desc.trimmingCharacters(in: .whitespacesAndNewlines), dateAdded: editWayPtVC.addDate.text)
-        savePDF()
+        addWayPt(x: CGFloat(editWayPtVC.x), y: CGFloat(editWayPtVC.y), page: page, imageName: editWayPtVC.pushPinImg, desc: " " + desc.trimmingCharacters(in: .whitespacesAndNewlines), dateAdded: editWayPtVC.addDate.text, location: nilPt)
     }
     
     @IBAction func performUnwindToMapTrash(_ sender: UIStoryboardSegue) {
@@ -162,8 +190,10 @@ class MapViewController: UIViewController {
             return
         }
         page.removeAnnotation(selectedWayPt)
-        //selectedWayPt.action = .delete
-        savePDF()
+        guard let arr:[String] = selectedWayPt.contents?.components(separatedBy: "$") else {
+            return
+        }
+        removeWayPt(x: Float(arr[4])!, y: Float(arr[5])!)
     }
     
     
@@ -177,7 +207,6 @@ class MapViewController: UIViewController {
         }
         locationManager.desiredAccuracy=kCLLocationAccuracyBest
         let status = CLLocationManager.authorizationStatus()
-        print("location status ",status)
         switch status {
         case .notDetermined:
             // display button, when click on it display permissions request
@@ -229,11 +258,11 @@ class MapViewController: UIViewController {
         
         // check if file exists
         let documentsDir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
-        if map == nil {
+        /*if map == nil {
             throw AppError.pdfMapError.mapNil
-        }
+        }*/
         
-        let url = documentsDir.appendingPathComponent(map!.fileName)
+        let url = documentsDir.appendingPathComponent(maps[mapIndex].fileName)
         if !FileManager.default.fileExists(atPath:url.path){
             print("Map file not found: \(url.absoluteString)")
             throw AppError.pdfMapError.pdfFileNotFound(file: url.lastPathComponent)
@@ -245,11 +274,11 @@ class MapViewController: UIViewController {
         }
         // Must set this to false!
         pdfView.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(pdfView)
-        pdfView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
-        pdfView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
-        pdfView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
-        pdfView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
+        //view.addSubview(pdfView)
+        //pdfView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
+        //pdfView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
+        //pdfView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
+        //pdfView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
         pdfView.autoresizesSubviews = true
         pdfView.autoresizingMask = [.flexibleWidth, .flexibleHeight, .flexibleTopMargin, .flexibleLeftMargin]
         pdfView.displayDirection = .vertical
@@ -266,24 +295,53 @@ class MapViewController: UIViewController {
         pdfView.minScaleFactor = pdfView.scaleFactorForSizeToFit
         pdfView.scaleFactor = pdfView.scaleFactorForSizeToFit // fit in window
         
-        //pdfView.autoScales = true // true is giving error one error
-        //pdfView.minScaleFactor = pdfView.scaleFactorForSizeToFit //pdfView.scaleFactor
-        //pdfView.zoomIn(15.0)
-        //pdfView.maxScaleFactor = 10
-        //pdfView.scaleFactor = 1
-        print ("min \(pdfView.minScaleFactor)  max \(pdfView.maxScaleFactor)  scaleFactor \(pdfView.scaleFactor)");
-        
         // add gestures
-        //pdfView.isUserInteractionEnabled = true
         let singleScreenTap = UITapGestureRecognizer(target: self, action: #selector(MapViewController.pdfViewTapped(_:)))
+        let doubleScreenTap = UITapGestureRecognizer(target: self, action: #selector(MapViewController.pdfViewTapped2(_:)))
+        let pinchScreen = UIPinchGestureRecognizer(target: self, action: #selector(MapViewController.pdfViewPinched(_:)))
+        let panScreen = UIPanGestureRecognizer(target: self, action: #selector(MapViewController.pdfViewPanned(_:)))
+        
+        singleScreenTap.cancelsTouchesInView = false
+        doubleScreenTap.cancelsTouchesInView = false
+        panScreen.cancelsTouchesInView = false
+        pinchScreen.cancelsTouchesInView = false
+        
+        singleScreenTap.require(toFail: pinchScreen)
+        singleScreenTap.require(toFail: panScreen)
+        singleScreenTap.require(toFail: doubleScreenTap)
+        
+        doubleScreenTap.require(toFail: panScreen)
+        doubleScreenTap.require(toFail: pinchScreen)
+        
+        pinchScreen.require(toFail: panScreen)
+        
+        // Allow pinch and pan, calls self.gestureRecognizer function
+        pinchScreen.delegate = self
+        panScreen.delegate = self
+        singleScreenTap.delegate = self
+        
         singleScreenTap.numberOfTapsRequired = 1
         singleScreenTap.numberOfTouchesRequired = 1
-        let doubleScreenTap = UITapGestureRecognizer(target: self, action: #selector(MapViewController.pdfViewTapped2(_:)))
         doubleScreenTap.numberOfTapsRequired = 2
         doubleScreenTap.numberOfTouchesRequired = 1
-        singleScreenTap.require(toFail: doubleScreenTap)
+        
+        pdfView.isUserInteractionEnabled = true
+        
+        pdfView.addGestureRecognizer(pinchScreen)
+        pdfView.addGestureRecognizer(panScreen)
         pdfView.addGestureRecognizer(singleScreenTap)
         pdfView.addGestureRecognizer(doubleScreenTap)
+        
+        view.addSubview(pdfView)
+        pdfView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
+        pdfView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
+        pdfView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
+        pdfView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
+    }
+    
+    // allow multiple gestures to be recognized, must add UIGestureRecognizerDelegate to class
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
     }
     
     func displayError(msg: String){
@@ -334,17 +392,18 @@ class MapViewController: UIViewController {
     }
     
     // MARK: displayLocation
-    
-    //func displayLocation(page: PDFPage, pdfView: PDFView, latNow: Double, longNow:Double){
     func displayLocation(page: PDFPage, pdfView: PDFView){
+        // Update current location
+        
         // Remove last location dot
         page.removeAnnotation(currentLocation) // remove last location dot
         
         // DEBUG remove margin and lat long circles
         if (page.annotations.count > 0){
-            for i in stride(from: page.annotations.count-1, to: 0, by: -1) {
+            for i in stride(from: page.annotations.count-1, to: -1, by: -1) {
                 if (page.annotations[i].type == "Circle"){
                     page.removeAnnotation(page.annotations[i])
+                    
                 }
             }
         }
@@ -384,14 +443,16 @@ class MapViewController: UIViewController {
             return
         }
         
-        let cirSize:Double = 30.0
-        let halfCirSize:Double = 15.0
+        //let cirSize:Double = 30.0
+        //let halfCirSize:Double = 15.0
+        let cirSize = 30.0 / Double(pdfView.scaleFactor)
+        let halfCirSize:Double = cirSize / 2.0
 
         // Add current location dot
         var x:Double = (((longNow + 180.0) - (long1 + 180.0)) / longDiff) * pdfWidth
         x = x + marginLeft - halfCirSize
         var y:Double = (((90.0 - latNow) - (90.0 - lat2)) / latDiff) * pdfHeight
-        y = (pdfHeight + marginTop - halfCirSize)  - (y) // Y is too low add 90???
+        y = (pdfHeight + marginTop - halfCirSize)  - (y)
 
         // border
         let border = PDFBorder()
@@ -400,8 +461,8 @@ class MapViewController: UIViewController {
         // this line crashes in iOS 11.0 PDFAnnotation.setInteriorColor
         if #available(iOS 11.2, *) {
             currentLocation = PDFAnnotation(bounds: CGRect(x:x, y:y, width:cirSize,height:cirSize), forType: .circle, withProperties: nil)
-            currentLocation.interiorColor = UIColor.cyan
-            border.lineWidth = 5.0 // border width
+            currentLocation.interiorColor = UIColor.blue
+            border.lineWidth = CGFloat(cirSize) / 6.0 //5.0 // border width
             currentLocation.color = UIColor.white // border color
         }
         // iOS 11.0 and 11.1 don't have interiorColor function
@@ -411,10 +472,8 @@ class MapViewController: UIViewController {
             currentLocation.color = UIColor.cyan // border color
         }
         
-        
         currentLocation.border = border
         page.addAnnotation(currentLocation)
-        
         
         // Margin red dots
         let marginTLAnnotation = PDFAnnotation(bounds: CGRect(x:marginLeft-10, y:mediaBoxHeight - marginTop - 10, width:20,height:20), forType: .circle, withProperties: nil)
@@ -477,11 +536,28 @@ class MapViewController: UIViewController {
     
     // save the pdf with annotations in app directory
     func savePDF(){
-        //guard let fileName = map?.fileURL else {
-        //    fatalError("Map file not found")
-        //}
-        //pdfView.document?.write(to:fileName) // this overwrites all of the geo spatial info!!!!
         // Save way points to database
+        if #available (iOS 11.0,*){
+            //'archiveRootObject(_:toFile:)' was deprecated in iOS 12.0: Use +archivedDataWithRootObject:requiringSecureCoding:error: and -writeToURL:options:error: instead
+            do {
+                let dataToBeArchived = try NSKeyedArchiver.archivedData(withRootObject: maps, requiringSecureCoding: false)
+                try dataToBeArchived.write(to: PDFMap.ArchiveURL)
+                //os_log("Maps successfully saved.", log: OSLog.default, type: .debug)
+            } catch {
+                displayError(msg: "Failed to save way points.")
+            }
+        }
+        // older than iOS 11 depricated
+        else{
+            let isSuccessfullSave = NSKeyedArchiver.archiveRootObject(maps, toFile: PDFMap.ArchiveURL.path)
+            if isSuccessfullSave {
+                //os_log("Maps successfully saved.", log: OSLog.default, type: .debug)
+            }
+            else {
+                os_log("Failed to save maps.", log: OSLog.default, type: .error)
+                displayError(msg: "Failed to save way points.")
+            }
+        }
     }
     
     @objc func allowBtnPressed(){
@@ -502,7 +578,153 @@ class MapViewController: UIViewController {
         }
     }
     
+    func getWayPtLabel(page: PDFPage) -> String {
+        var count:Int = 1
+        if (page.annotations.count > 0){
+            for i in 0...page.annotations.count-1 {
+                if page.annotations[i].type == "Stamp" {
+                    count+=1
+                }
+            }
+        }
+        let desc = " Way Point \(count)"
+        return desc
+    }
     
+    func addPopup(waypt: PDFAnnotation, pdfViewPoint: CGPoint, location: CGPoint, page: PDFPage) {
+        // MARK: addPopup
+        // Display popup bubble
+        selectedWayPt = waypt
+        
+        let popupWidth:CGFloat = 150
+        let popupHeight:CGFloat = 50
+        
+        // calculate pixels to move over to get to mid point in image
+        // ratio is used to covert from pdf pt to screen pt
+        let ratioX = location.x/pdfViewPoint.x
+        //let ratioY = location.y/pdfViewPoint.y
+        let wayptXMiddle:CGFloat = (waypt.bounds.maxX - waypt.bounds.minX)/2 + waypt.bounds.minX
+        let xMove:CGFloat = (pdfViewPoint.x - wayptXMiddle) * ratioX
+        var x = location.x - xMove - popupWidth/2
+        if (x < 1) {
+            x = 1
+        }
+        else if (x + popupWidth > screenWidth){
+            x = screenWidth - popupWidth
+        }
+        //let yMove:CGFloat = (waypt.bounds.maxY - pdfViewPoint.y) / ratioY
+        
+        //let y = location.y - (yMove + popupHeight)
+        //print("xRatio:\(ratioX) xscr:\(Int(location.x)) - xmove:\(Int(xMove)) - wd:\(Int(popupWidth/2)) = x:\(Int(x))")
+        //print("yRatio:\(ratioY) yscr:\(Int(location.y)) - ymove:\(Int(yMove)) - ht:\(Int(popupHeight)) = y:\(Int(y))")
+        
+        popup = UITextField(frame: CGRect(x: x, y: location.y+20, width: popupWidth, height: popupHeight))
+        let rightImgView = UIImageView(frame: CGRect(x: 0.0, y: 0.0, width: 90.0, height: 90.0))
+        rightImgView.image = UIImage(named: "arrow_right_circle")
+        rightImgView.contentMode = .scaleAspectFit
+        popup.rightView = rightImgView
+        popup.rightViewMode = .always
+        
+        // edit text listener
+        popup.addTarget(self, action: #selector(MapViewController.wayptTextClicked(_:)), for: UIControl.Event.touchDown)
+        guard let items = waypt.contents?.components(separatedBy: "$") else {
+            print("empty waypt contents!!!!")
+            return
+        }
+        
+        // add padding
+        popup.text = " " + items[0]
+        
+        // give it a tag so we will know if this popup was clicked on
+        popup.tag = 100
+        popup.backgroundColor = UIColor.white
+        
+        // add border
+        let myColor : UIColor = UIColor.gray
+        popup.layer.borderColor = myColor.cgColor
+        popup.layer.borderWidth = 1
+        popup.layer.cornerRadius = 10
+        pdfView.addSubview(popup)
+    }
+        
+    @objc func wayptTextClicked(_ textField: UITextField){
+        // clicked on popup open edit way pt segue
+        if let aPopup: UITextField = pdfView.viewWithTag(100) as? UITextField {
+        // hide popup with push pin description.
+            aPopup.removeFromSuperview()
+        }
+        // Open EditWayPtViewController
+        self.performSegue(withIdentifier: "editWayPt", sender: nil)
+    }
+    
+    func addWayPt(x: CGFloat, y: CGFloat, page: PDFPage, imageName: String, desc: String, dateAdded: String?, location: CGPoint){
+        // Create a PushPin
+        var dateString: String
+        let image = UIImage(named: imageName)
+        
+        //print("width \(pdfWidth * Double(pdfView.scaleFactor))")
+        //print("desc \(desc)")
+        let wayPtSize:CGFloat = 80.0 / CGFloat(pdfView.scaleFactor)
+        let halfSize:CGFloat = wayPtSize / 2
+        let midX = x - halfSize
+        let midY = y - (15.0  / CGFloat(pdfView.scaleFactor))
+        let long = (Double(x)/pdfWidth * longDiff) + long1
+        let lat = (Double(y)/pdfHeight * latDiff) + lat1
+        let imageAnnotation = PushPin(image, bounds: CGRect(x: midX, y: midY, width: wayPtSize, height: wayPtSize), properties: nil)
+        
+        page.addAnnotation(imageAnnotation)
+        if dateAdded == nil {
+            let dateTime = Date()
+            let formatter = DateFormatter()
+            formatter.timeStyle = .short
+            formatter.dateStyle = .short
+            dateString = formatter.string(from:dateTime)
+        }
+        else {
+            dateString = dateAdded!
+        }
+        
+        // contents: description, lat/long, time added
+        imageAnnotation.contents = "\(desc)$\(String(format: "%.5f", lat)), \(String(format: "%.5f", long))$ \(dateString)$\(imageName)$\(x)$\(y)"
+        let pdfViewPoint = CGPoint(x: x,y: y)
+        if (location.x != 0 && location.y != 0) {
+            addPopup(waypt: imageAnnotation, pdfViewPoint: pdfViewPoint,location: location, page: page)
+        }
+        
+        // if not already in database, add it
+        var found = false
+        if (maps[mapIndex].wayPtArray.count > 0){
+            for i in 0...maps[mapIndex].wayPtArray.count-1 {
+                if (Int(maps[mapIndex].wayPtArray[i].x) == Int(x) &&
+                        Int(maps[mapIndex].wayPtArray[i].y) == Int(y)){
+                    found = true
+                    break
+                }
+            }
+        }
+        if (!found){
+            let wayPt = WayPt(x: Float(x), y: Float(y), imageName: imageName, desc: desc, dateAdded: dateString)
+            maps[mapIndex].wayPtArray.append(wayPt)
+            savePDF()
+        }
+    }
+    
+    func removeWayPt(x:Float, y:Float){
+        // Updated way point remove it so can update and add it again
+        if (maps[mapIndex].wayPtArray.count > 0){
+            for i in 0...maps[mapIndex].wayPtArray.count-1 {
+                if (Int(maps[mapIndex].wayPtArray[i].x) == Int(x) &&
+                        Int(maps[mapIndex].wayPtArray[i].y) == Int(y)){
+                    maps[mapIndex].wayPtArray.remove(at: i)
+                    break
+                }
+            }
+        }
+        // save these changes in the database
+        savePDF()
+    }
+    
+    // MARK: Gestures
     @objc func pdfViewTapped(_ gestureRecognizer: UITapGestureRecognizer) {
         // MARK: pdfViewTap
         // Check if clicked on Way Point or add new way point annotation
@@ -517,8 +739,8 @@ class MapViewController: UIViewController {
                 let pdfViewPoint = pdfView.convert(location, to: page) // location on pdf
                 var removingPopup:Bool = false
                 
-                print ("Scr: \(Int(location.x)), \(Int(location.y))")
-                print ("PDF: \(Int(pdfViewPoint.x)), \(Int(pdfViewPoint.y))")
+                //print ("Scr: \(Int(location.x)), \(Int(location.y))")
+                //print ("PDF: \(Int(pdfViewPoint.x)), \(Int(pdfViewPoint.y))")
                 
                 // is popup showing? Did they click on the popup then allow editing
                 if let aPopup: UITextField = pdfView.viewWithTag(100) as? UITextField {
@@ -538,17 +760,7 @@ class MapViewController: UIViewController {
                     if (pdfViewPoint.x>CGFloat(marginLeft) && pdfViewPoint.y>CGFloat(marginBottom) &&
                         pdfViewPoint.x<CGFloat(mediaBoxWidth - marginRight) &&
                         pdfViewPoint.y<CGFloat(mediaBoxHeight - marginTop)){
-                        //print ("add a way point!!!")
-                        var count:Int = 1
-                        if (page.annotations.count > 0){
-                            for i in 0...page.annotations.count-1 {
-                                if page.annotations[i].type == "Stamp" {
-                                    count+=1
-                                }
-                            }
-                        }
-                        let desc = " Way Point \(count)";
-                        addWayPt(x: pdfViewPoint.x, y: pdfViewPoint.y, page: page, imageName: "cyan_pin", desc: desc, dateAdded: nil)
+                        addWayPt(x: pdfViewPoint.x, y: pdfViewPoint.y, page: page, imageName: "cyan_pin", desc: getWayPtLabel(page: page), dateAdded: nil,location: location)
                         return
                     }
                     // Display off map message for 1 second
@@ -566,156 +778,55 @@ class MapViewController: UIViewController {
                 // clicked on existing annotation. Is it a way pt? type stamp?
                 if (waypt.type != "Stamp"){
                     // clicked on current location
-                    addWayPt(x: pdfViewPoint.x, y: pdfViewPoint.y, page: page, imageName: "cyan_pin", desc: " Way Point", dateAdded: nil)
-                    return
-                    
-                }
-                
-                // Display popup bubble
-                selectedWayPt = waypt
-                
-                let popupWidth:CGFloat = 150
-                let popupHeight:CGFloat = 50
-                print ("way pt height: \(waypt.bounds.maxY - waypt.bounds.minY)")
-                
-                // calculate pixels to move over to get to mid point in image
-                // ratio is used to covert from pdf pt to screen pt
-                let ratioX = location.x/pdfViewPoint.x
-                let ratioY = location.y/pdfViewPoint.y
-                let wayptXMiddle:CGFloat = (waypt.bounds.maxX - waypt.bounds.minX)/2 + waypt.bounds.minX
-                let xMove:CGFloat = (pdfViewPoint.x - wayptXMiddle) * ratioX
-                var x = location.x - xMove - popupWidth/2
-                if (x < 1) {
-                    x = 1
-                }
-                else if (x + popupWidth > screenWidth){
-                    x = screenWidth - popupWidth
-                }
-                let yMove:CGFloat = (waypt.bounds.maxY - pdfViewPoint.y) / ratioY
-                
-                let y = location.y - (yMove + popupHeight)
-                print("xRatio:\(ratioX) xscr:\(Int(location.x)) - xmove:\(Int(xMove)) - wd:\(Int(popupWidth/2)) = x:\(Int(x))")
-                
-                print("yRatio:\(ratioY) yscr:\(Int(location.y)) - ymove:\(Int(yMove)) - ht:\(Int(popupHeight)) = y:\(Int(y))")
-                
-                /*let descLabel = UILabel(frame: CGRect(x: 10, y: 20, width: 80, height: 30))
-                descLabel.text = "Desc:"
-                let desc = UITextField(frame: CGRect(x: 90, y:20, width: 200, height: 30))
-                desc.backgroundColor = .init(red: 0.95, green: 0.95, blue: 0.95, alpha: 1)
-                desc.borderStyle = UITextField.BorderStyle.roundedRect
-                let latlongLabel = UILabel(frame: CGRect(x: 10, y: 60, width: 80, height: 30))
-                latlongLabel.text = "Lat/Long:"
-                let latlong = UITextField(frame: CGRect(x: 90, y:60, width: 200, height: 30))
-                latlong.allowsEditingTextAttributes = false
-                let timeNowLabel = UILabel(frame: CGRect(x: 10, y: 100, width: 80, height: 30))
-                timeNowLabel.text = "Date:"
-                let timeNow = UITextField(frame: CGRect(x: 90, y:100, width: 200, height: 30))
-                timeNow.allowsEditingTextAttributes = false
-                let saveBtn = PrimaryUIButton(frame: CGRect(x:10, y:300,width: 80, height: 40))
-                saveBtn.setTitle("Save", for: .normal)*/
-                popup = UITextField(frame: CGRect(x: x, y: location.y+20, width: popupWidth, height: popupHeight))
-                let rightImgView = UIImageView(frame: CGRect(x: 0.0, y: 0.0, width: 90.0, height: 90.0))
-                rightImgView.image = UIImage(named: "arrow_right_circle")
-                rightImgView.contentMode = .scaleAspectFit
-                popup.rightView = rightImgView
-                popup.rightViewMode = .always
-                
-                // edit text listener
-                popup.addTarget(self, action: #selector(MapViewController.wayptTextClicked(_:)), for: UIControl.Event.touchDown)// .editingDidEnd)
-                guard let items = waypt.contents?.components(separatedBy: "$") else {
-                    print("empty waypt contents!!!!")
+                    addWayPt(x: pdfViewPoint.x, y: pdfViewPoint.y, page: page, imageName: "red_pin", desc: getWayPtLabel(page: page), dateAdded: nil, location: location)
                     return
                 }
-                //desc.text = items[0]
-                //latlong.text = items[1]
-                //timeNow.text = items[2]
-                
-                popup.text = " " + items[0]
-                
-                popup.tag = 100
-                popup.backgroundColor = UIColor.white
-                
-                // add padding 15 to left and right
-               /* let paddingView = UIView(frame: CGRect(x: 0,y: 0,width: 15,height: popup.frame.height))
-                popup.leftView = paddingView
-                popup.leftViewMode = UITextField.ViewMode.always
-                popup.rightView = paddingView
-                popup.rightViewMode = UITextField.ViewMode.always*/
-                
-                // add border
-                let myColor : UIColor = UIColor.gray
-                popup.layer.borderColor = myColor.cgColor
-                popup.layer.borderWidth = 1
-                popup.layer.cornerRadius = 10
-                //popup.setAlignmentRectInsets = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
-                /*popup.addSubview(descLabel)
-                popup.addSubview(desc)
-                popup.addSubview(latlongLabel)
-                popup.addSubview(latlong)
-                popup.addSubview(timeNowLabel)
-                popup.addSubview(timeNow)
-                popup.addSubview(saveBtn)*/
-                pdfView.addSubview(popup)
-                
-                // add speech bubble
-                // https://stackoverflow.com/questions/4442126/how-to-draw-a-speech-bubble-on-an-iphone
-                
-
+                addPopup(waypt: waypt,pdfViewPoint: pdfViewPoint,location: location, page: page)
                 
             }
         }
     }
-    
-    @objc func wayptTextClicked(_ textField: UITextField){
-        // clicked on popup open edit way pt segue
-        if let aPopup: UITextField = pdfView.viewWithTag(100) as? UITextField {
-        // hide popup with push pin description.
-            aPopup.removeFromSuperview()
+
+    @objc func pdfViewPinched(_ gestureRecognizer: UIPinchGestureRecognizer){
+        print ("pinch")
+        if gestureRecognizer.state == .began {
+            // is popup showing? Hide it
+            if let aPopup: UITextField = pdfView.viewWithTag(100) as? UITextField {
+                // popup is showing hide it.
+                aPopup.removeFromSuperview()
+            }
         }
-        // Open EditWayPtViewController
-        self.performSegue(withIdentifier: "editWayPt", sender: nil)
-        
-        //selectedWayPt.contents = textField.text
+        else if gestureRecognizer.state == .ended
+        {
+            resizePushPins()
+        }
     }
     
-    func addWayPt(x: CGFloat, y: CGFloat, page: PDFPage, imageName: String, desc: String, dateAdded: String?){
-        // Create a PushPin
-        var dateString: String
-        let image = UIImage(named: imageName)
-        
-        print("width \(pdfWidth * Double(pdfView.scaleFactor))")
-        let wayPtSize:CGFloat = 80.0 / CGFloat(pdfView.scaleFactor)
-        let halfSize:CGFloat = wayPtSize / 2
-        let midX = x - halfSize
-        let midY = y - (15  / CGFloat(pdfView.scaleFactor))
-        let long = (Double(x)/pdfWidth * longDiff) + long1
-        let lat = (Double(y)/pdfHeight * latDiff) + lat1
-        let imageAnnotation = PushPin(image, bounds: CGRect(x: midX, y: midY, width: wayPtSize, height: wayPtSize), properties: nil)
-        
-        page.addAnnotation(imageAnnotation)
-        if dateAdded == nil {
-            let dateTime = Date()
-            let formatter = DateFormatter()
-            formatter.timeStyle = .short
-            formatter.dateStyle = .short
-            dateString = formatter.string(from:dateTime)
+    @objc func pdfViewPanned(_ gestureRecognizer: UIPanGestureRecognizer){
+        print ("panning")
+        if gestureRecognizer.state == .began {
+            // is popup showing? Hide it
+            if let aPopup: UITextField = pdfView.viewWithTag(100) as? UITextField {
+                // popup is showing hide it.
+                aPopup.removeFromSuperview()
+            }
         }
-        else {
-            dateString = dateAdded!
-        }
-        
-        // contents: description, lat/long, time added
-        imageAnnotation.contents = "\(desc)$\(String(format: "%.5f", lat)), \(String(format: "%.5f", long))$ \(dateString)$\(imageName)$\(x)$\(y)"
     }
     
     @objc func pdfViewTapped2(_ gestureRecognizer: UITapGestureRecognizer) {
-        print("called double tap")
+        // double tap
+        print("double tap")
         
         let pdfView = gestureRecognizer.view as! PDFView
         if gestureRecognizer.state == .ended
         {
             if let currentPage = pdfView.currentPage
             {
+                // is popup showing? Did they click on the popup then allow editing
+                if let aPopup: UITextField = pdfView.viewWithTag(100) as? UITextField {
+                    // popup is showing hide it.
+                    aPopup.removeFromSuperview()
+                }
                 let point = gestureRecognizer.location(in: pdfView) // location on screen
                 let pdfViewPoint = pdfView.convert(point, to: currentPage) // location on pdf
                 var moveX = (1 / (pdfView.scaleFactor * 2.0)) * (pdfView.frame.width / 2.0)
@@ -729,7 +840,6 @@ class MapViewController: UIViewController {
                 // zoom to full extent
                 if (scale >= pdfView.maxScaleFactor) {
                     pdfView.scaleFactor = pdfView.scaleFactorForSizeToFit
-                    print(pdfView.scaleFactorForSizeToFit)
                 }
                 else {
                     destination.zoom = (scale)
@@ -737,15 +847,15 @@ class MapViewController: UIViewController {
                     pdfView.go(to: destination)
                 }
                 
-               // print("scaleFactor: \(scale)")
                 resizePushPins()
             }
         }
     }
     
     func resizePushPins() {
+        // When zoom in or out resize push pins and current location marker
         let wayPtHeight:CGFloat = 80.0 / CGFloat(pdfView.scaleFactor) // square
-        let halfSize = wayPtHeight / 2
+        let halfSize:CGFloat = wayPtHeight / 2.0
         //let scale = 1.0 / CGFloat(pdfView.scaleFactor)
         guard let page = pdfView.document?.page(at: 0) else {
             displayError(msg: "Problem reading the PDF map. Can't get page 1.")
@@ -756,12 +866,30 @@ class MapViewController: UIViewController {
             for i in 0...page.annotations.count-1 {
                 let pt:PDFAnnotation = page.annotations[i]
                 if (pt.type == "Stamp"){
-                    let midX = pt.bounds.minX + halfSize
-                    let midY = pt.bounds.minY + (15  / CGFloat(pdfView.scaleFactor))
-                    print(pt.bounds)
+                    // get lat long from contents and convert to screen coordinates locX, locY
+                    guard let items:[String] = pt.contents?.components(separatedBy: "$") else {
+                        displayError(msg: "Way point is missing lat long value. Cannot resize.")
+                        return
+                    }
+                    let latlong = items[1].components(separatedBy: ",")
+                    let latStr = latlong[0].trimmingCharacters(in: .whitespaces)
+                    let longStr = latlong[1].trimmingCharacters(in: .whitespaces)
+                    guard let long:Double = Double(longStr) else {
+                        displayError(msg: "Problem reading longitude of way point.")
+                        return
+                    }
+                    let locX = CGFloat(((long - long1) / longDiff) * pdfWidth)
+                    guard let lat:Double = Double(latStr) else {
+                        displayError(msg: "Problem reading latitude of way point.")
+                        return
+                    }
+                    let locY = CGFloat(((lat - lat1) / latDiff) * pdfHeight)
                     
-                    pt.bounds = CGRect(x: midX, y: midY, width: wayPtHeight, height: wayPtHeight)
-                    print("scale: \(pt.bounds)")
+                    // the locX, locY is the point at the base of the push pin
+                    // now calculate the x,y at the bottom left of the image rectangle
+                    let minX = locX - halfSize
+                    let minY = locY - (15.0  / CGFloat(pdfView.scaleFactor))
+                    pt.bounds = CGRect(x: minX, y: minY, width: wayPtHeight, height: wayPtHeight)
                 }
             }
         }

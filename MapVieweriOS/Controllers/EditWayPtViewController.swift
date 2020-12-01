@@ -21,8 +21,6 @@ class EditWayPtViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        
         let items = wayPt.components(separatedBy: "$")
         wayPtDesc.text = items[0]
         latLong.text = items[1]
