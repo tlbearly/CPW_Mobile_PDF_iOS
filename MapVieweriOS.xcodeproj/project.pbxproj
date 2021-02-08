@@ -35,7 +35,9 @@
 		A4535D74246F1ACE000E945B /* AppError.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4535D73246F1ACE000E945B /* AppError.swift */; };
 		A46C95F824A6B1F3004043E0 /* CobbLake.pdf in Resources */ = {isa = PBXBuildFile; fileRef = A46C95F724A6B1F3004043E0 /* CobbLake.pdf */; };
 		A475DBB2255DF42600B0B8DD /* WayPt.swift in Sources */ = {isa = PBXBuildFile; fileRef = A475DBB1255DF42600B0B8DD /* WayPt.swift */; };
+		A48DF66125D1AE4200D699FD /* CPW_HPP_NorthLarimer_geo.pdf in Resources */ = {isa = PBXBuildFile; fileRef = A48DF66025D1AE4200D699FD /* CPW_HPP_NorthLarimer_geo.pdf */; };
 		A4E0085124E32E95006F2665 /* Chambers_Lake_403010545_FSTopo.pdf in Resources */ = {isa = PBXBuildFile; fileRef = A4E0085024E32E95006F2665 /* Chambers_Lake_403010545_FSTopo.pdf */; };
+		A4E711F82587C2B800D21AED /* CO_Shadow_Mountain_20110217_TM_geo.pdf in Resources */ = {isa = PBXBuildFile; fileRef = A4E711F72587C2B800D21AED /* CO_Shadow_Mountain_20110217_TM_geo.pdf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -92,7 +94,9 @@
 		A4535D73246F1ACE000E945B /* AppError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppError.swift; sourceTree = "<group>"; };
 		A46C95F724A6B1F3004043E0 /* CobbLake.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = CobbLake.pdf; sourceTree = "<group>"; };
 		A475DBB1255DF42600B0B8DD /* WayPt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WayPt.swift; sourceTree = "<group>"; };
+		A48DF66025D1AE4200D699FD /* CPW_HPP_NorthLarimer_geo.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = CPW_HPP_NorthLarimer_geo.pdf; sourceTree = "<group>"; };
 		A4E0085024E32E95006F2665 /* Chambers_Lake_403010545_FSTopo.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = Chambers_Lake_403010545_FSTopo.pdf; sourceTree = "<group>"; };
+		A4E711F72587C2B800D21AED /* CO_Shadow_Mountain_20110217_TM_geo.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = CO_Shadow_Mountain_20110217_TM_geo.pdf; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -145,6 +149,7 @@
 		609CA8BF2440C353006C0283 /* MapVieweriOS */ = {
 			isa = PBXGroup;
 			children = (
+				A48DF66025D1AE4200D699FD /* CPW_HPP_NorthLarimer_geo.pdf */,
 				A4E0085024E32E95006F2665 /* Chambers_Lake_403010545_FSTopo.pdf */,
 				A46C95F724A6B1F3004043E0 /* CobbLake.pdf */,
 				A400498324896E4A0092A93A /* MapVieweriOS.entitlements */,
@@ -154,6 +159,7 @@
 				60B05F60244DE22B00A92950 /* Wellington3.pdf */,
 				60DBB8E3244A606200F84F4A /* Wellington1.pdf */,
 				60DBB8E1244A605200F84F4A /* Wellington.pdf */,
+				A4E711F72587C2B800D21AED /* CO_Shadow_Mountain_20110217_TM_geo.pdf */,
 				609CA8F42441327B006C0283 /* Controllers */,
 				609CA8F224412E01006C0283 /* Views */,
 				609CA8F324412E0C006C0283 /* Models */,
@@ -333,7 +339,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				A46C95F824A6B1F3004043E0 /* CobbLake.pdf in Resources */,
+				A48DF66125D1AE4200D699FD /* CPW_HPP_NorthLarimer_geo.pdf in Resources */,
 				609CA8CD2440C355006C0283 /* LaunchScreen.storyboard in Resources */,
+				A4E711F82587C2B800D21AED /* CO_Shadow_Mountain_20110217_TM_geo.pdf in Resources */,
 				60DBB8E2244A605200F84F4A /* Wellington.pdf in Resources */,
 				609CA8CA2440C355006C0283 /* Assets.xcassets in Resources */,
 				A4E0085124E32E95006F2665 /* Chambers_Lake_403010545_FSTopo.pdf in Resources */,
@@ -565,6 +573,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 12.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.cpw.MapVieweriOS;
 				PRODUCT_NAME = MapVieweriOS;
 				SWIFT_VERSION = 5.0;
@@ -585,6 +594,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 12.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.cpw.MapVieweriOS;
 				PRODUCT_NAME = MapVieweriOS;
 				SWIFT_VERSION = 5.0;

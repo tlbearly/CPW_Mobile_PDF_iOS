@@ -235,8 +235,8 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
             locationManager.startUpdatingLocation()
             locationManager.startUpdatingHeading() // get azimuth
             self.displayLocation(page: page, pdfView: self.pdfView) // initial location
-            // update location every 2 seconds
-            Timer.scheduledTimer(withTimeInterval: 2, repeats: true) { timer in
+            // update location every 5 seconds
+            Timer.scheduledTimer(withTimeInterval: 5, repeats: true) { timer in
                 self.displayLocation(page: page, pdfView: self.pdfView)
             }
             
@@ -245,8 +245,8 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
             locationManager.startUpdatingLocation()
             locationManager.startUpdatingHeading() // get azimuth
             self.displayLocation(page: page, pdfView: self.pdfView) // initial location
-            // update location every 2 seconds
-            Timer.scheduledTimer(withTimeInterval: 2, repeats: true) { timer in
+            // update location every 5 seconds
+            Timer.scheduledTimer(withTimeInterval: 5, repeats: true) { timer in
                 self.displayLocation(page: page, pdfView: self.pdfView)
             }
         }
@@ -391,13 +391,42 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         debugTxtBox.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 100).isActive = true
     }
     
+    // MARK: addCurrentLocationDot
+    func addCurrentLocationDot(page: PDFPage){
+        // draw current location dot
+        let cirSize = 30.0 / Double(pdfView.scaleFactor)
+        let halfCirSize:Double = cirSize / 2.0
+        var x:Double
+        var y:Double
+        x = (((longNow + 180.0) - (long1 + 180.0)) / longDiff) * pdfWidth
+        x = x + marginLeft - halfCirSize
+        y = (((90.0 - latNow) - (90.0 - lat2)) / latDiff) * pdfHeight
+        y = (pdfHeight + marginTop - halfCirSize)  - (y)
+
+        // border
+        let border = PDFBorder()
+        
+        // fill color
+        // this line crashes in iOS 11.0 PDFAnnotation.setInteriorColor
+        if #available(iOS 11.2, *) {
+            currentLocation = PDFAnnotation(bounds: CGRect(x:x, y:y, width:cirSize,height:cirSize), forType: .circle, withProperties: nil)
+            currentLocation.interiorColor = UIColor.blue
+            border.lineWidth = CGFloat(cirSize) / 6.0 // border width
+            currentLocation.color = UIColor.white // border color
+        }
+        // iOS 11.0 and 11.1 don't have interiorColor function
+        else {
+            currentLocation = PDFAnnotation(bounds: CGRect(x:x, y:y, width:cirSize,height:cirSize), forType: .circle, withProperties: nil)
+            border.lineWidth = 12.0 // border width
+            currentLocation.color = UIColor.cyan // border color
+        }
+        
+        currentLocation.border = border
+        page.addAnnotation(currentLocation)
+    }
     // MARK: displayLocation
     func displayLocation(page: PDFPage, pdfView: PDFView){
-        // Update current location
-        
-        // Remove last location dot
-        page.removeAnnotation(currentLocation) // remove last location dot
-        
+        // DEBUG add lat long boundary dots
         // DEBUG remove margin and lat long circles
         if (page.annotations.count > 0){
             for i in stride(from: page.annotations.count-1, to: -1, by: -1) {
@@ -407,7 +436,55 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
                 }
             }
         }
+        // DEBUG map lat long boundaries long1,lat1 and long2,lat2 in yellow
+        var x:Double
+        var y:Double
+        var latlongAnnotation: PDFAnnotation
+        // Margin red dots
+        let marginTLAnnotation = PDFAnnotation(bounds: CGRect(x:marginLeft-10, y:mediaBoxHeight - marginTop - 10, width:20,height:20), forType: .circle, withProperties: nil)
+        // color
+        if #available(iOS 11.2, *) {
+            marginTLAnnotation.interiorColor = UIColor.red
+        }
+        page.addAnnotation(marginTLAnnotation)
+        let marginBRAnnotation = PDFAnnotation(bounds: CGRect(x:mediaBoxWidth - marginRight-10, y:marginBottom-10, width:20,height:20), forType: .circle, withProperties: nil)
+        // color
+        if #available(iOS 11.2, *) {
+            marginBRAnnotation.interiorColor = UIColor.red
+        }
         
+        page.addAnnotation(marginBRAnnotation)
+        
+        // map lat long boundaries long1,lat1 in yellow
+        x = (((long1 + 180.0) - (long1 + 180.0)) / longDiff) * pdfWidth
+        x = x + marginLeft - 5
+        y = (((90.0 - lat1) - (90.0 - lat2)) / latDiff) * pdfHeight
+        y = y + marginBottom - 5
+        latlongAnnotation = PDFAnnotation(bounds: CGRect(x:x, y:y, width:10,height:10), forType: .circle, withProperties: nil)
+        // color
+        if #available(iOS 11.2, *) {
+            latlongAnnotation.interiorColor = UIColor.yellow
+        }
+        page.addAnnotation(latlongAnnotation)
+        
+        // map lat long boundaries long2,lat2 in yellow
+        x = (((long2 + 180) - (long1 + 180)) / longDiff) * pdfWidth
+        x = x + marginLeft - 5
+        y = (((90.0 - lat2) - (90.0 - lat2)) / latDiff) * pdfHeight
+        y = y + marginBottom - 5
+        latlongAnnotation = PDFAnnotation(bounds: CGRect(x:x, y:y, width:10,height:10), forType: .circle, withProperties: nil)
+        if #available(iOS 11.2, *) {
+            latlongAnnotation.interiorColor = UIColor.yellow
+        }
+        page.addAnnotation(latlongAnnotation)
+        
+        
+        
+        
+        // Update current location
+        
+        // Remove last location dot
+        page.removeAnnotation(currentLocation) // remove last location dot
         
         var azimuth:Double = -1.0
         // get current location
@@ -443,15 +520,18 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
             return
         }
         
-        //let cirSize:Double = 30.0
-        //let halfCirSize:Double = 15.0
-        let cirSize = 30.0 / Double(pdfView.scaleFactor)
+        // draw current location dot
+        addCurrentLocationDot(page:page)
+        /*let cirSize = 30.0 / Double(pdfView.scaleFactor)
         let halfCirSize:Double = cirSize / 2.0
 
         // Add current location dot
-        var x:Double = (((longNow + 180.0) - (long1 + 180.0)) / longDiff) * pdfWidth
+        //var x:Double
+        //var y:Double
+        //var latlongAnnotation
+        x = (((longNow + 180.0) - (long1 + 180.0)) / longDiff) * pdfWidth
         x = x + marginLeft - halfCirSize
-        var y:Double = (((90.0 - latNow) - (90.0 - lat2)) / latDiff) * pdfHeight
+        y = (((90.0 - latNow) - (90.0 - lat2)) / latDiff) * pdfHeight
         y = (pdfHeight + marginTop - halfCirSize)  - (y)
 
         // border
@@ -462,7 +542,7 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         if #available(iOS 11.2, *) {
             currentLocation = PDFAnnotation(bounds: CGRect(x:x, y:y, width:cirSize,height:cirSize), forType: .circle, withProperties: nil)
             currentLocation.interiorColor = UIColor.blue
-            border.lineWidth = CGFloat(cirSize) / 6.0 //5.0 // border width
+            border.lineWidth = CGFloat(cirSize) / 6.0 // border width
             currentLocation.color = UIColor.white // border color
         }
         // iOS 11.0 and 11.1 don't have interiorColor function
@@ -474,9 +554,10 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         
         currentLocation.border = border
         page.addAnnotation(currentLocation)
+         */
         
         // Margin red dots
-        let marginTLAnnotation = PDFAnnotation(bounds: CGRect(x:marginLeft-10, y:mediaBoxHeight - marginTop - 10, width:20,height:20), forType: .circle, withProperties: nil)
+        /*let marginTLAnnotation = PDFAnnotation(bounds: CGRect(x:marginLeft-10, y:mediaBoxHeight - marginTop - 10, width:20,height:20), forType: .circle, withProperties: nil)
         // color
         if #available(iOS 11.2, *) {
             marginTLAnnotation.interiorColor = UIColor.red
@@ -496,7 +577,7 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         x = x + marginLeft - 5
         y = (((90.0 - lat1) - (90.0 - lat2)) / latDiff) * pdfHeight
         y = y + marginBottom - 5
-        var latlongAnnotation = PDFAnnotation(bounds: CGRect(x:x, y:y, width:10,height:10), forType: .circle, withProperties: nil)
+        latlongAnnotation = PDFAnnotation(bounds: CGRect(x:x, y:y, width:10,height:10), forType: .circle, withProperties: nil)
         // color
         if #available(iOS 11.2, *) {
             latlongAnnotation.interiorColor = UIColor.yellow
@@ -513,6 +594,7 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
             latlongAnnotation.interiorColor = UIColor.yellow
         }
         page.addAnnotation(latlongAnnotation)
+ */
     }
     
     // On rotation make map fit, was zooming on landscape NOT WORKING??? Does nothing???
@@ -572,8 +654,8 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
             return
         }
         self.displayLocation(page: page, pdfView: self.pdfView) // initial location
-        // update location every 3 seconds
-        Timer.scheduledTimer(withTimeInterval: 2, repeats: true) { timer in
+        // update location every 5 seconds
+        Timer.scheduledTimer(withTimeInterval: 5, repeats: true) { timer in
             self.displayLocation(page: page, pdfView: self.pdfView)
         }
     }
@@ -668,6 +750,13 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         let halfSize:CGFloat = wayPtSize / 2
         let midX = x - halfSize
         let midY = y - (15.0  / CGFloat(pdfView.scaleFactor))
+        
+        
+        
+        // MARK: TODO add page margin left and top
+        print ("x=\(round(x)) y=\(round(y))")
+        //let marginL = CGFloat(marginLeft) * pdfView.scaleFactor
+        //let marginT = CGFloat(marginTop) * pdfView.scaleFactor
         let long = (Double(x)/pdfWidth * longDiff) + long1
         let lat = (Double(y)/pdfHeight * latDiff) + lat1
         let imageAnnotation = PushPin(image, bounds: CGRect(x: midX, y: midY, width: wayPtSize, height: wayPtSize), properties: nil)
@@ -862,6 +951,11 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
             return
         }
 
+        // Remove last location dot
+        page.removeAnnotation(currentLocation)
+        // resize current location dot
+        addCurrentLocationDot(page:page)
+        
         if (page.annotations.count > 0){
             for i in 0...page.annotations.count-1 {
                 let pt:PDFAnnotation = page.annotations[i]

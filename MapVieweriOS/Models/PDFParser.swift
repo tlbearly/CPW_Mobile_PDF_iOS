@@ -24,6 +24,7 @@ class PDFParser
     //static let CGPDFObjectTypeObject: CGPDFObjectType = CGPDFObjectType(rawValue: 77696)!
 
     /// Shorthand for type strings.
+    // For DEBUGGING
     /*static let namesForTypes: [CGPDFObjectType:String] =
     [
         .null : "Null",
@@ -36,9 +37,9 @@ class PDFParser
         .dictionary : "Dictionary",
         .stream : "Stream",
         CGPDFObjectTypeObject : "Object",
-    ]*/
+    ]
 
-    /*struct Message
+    struct Message
     {
         static let parentNotSerialized = "<PARENT_NOT_SERIALIZED>"
         static let couldNotParseValue = "<COULD_NOT_PARSE_VALUE>"
@@ -58,6 +59,8 @@ class PDFParser
         catch
         { print(error) }
     }*/
+    
+    // end  For DEBUGGING
 
     /// Parse a PDF file into a JSON file.
     static func parse(pdfUrl: URL) -> [String:Any?]
@@ -98,6 +101,8 @@ class PDFParser
             return ["error": "CannotReadDictionary"]
         }
         
+        var bboxValues: [Float] = []
+        var gptsValues: [Double] = []
         // GET VP array of dictionaries
         var vp: CGPDFArrayRef?
         if CGPDFDictionaryGetArray(dictionary,"VP",&vp), let vpArray = vp {
@@ -106,8 +111,6 @@ class PDFParser
                 return ["error": "PDFVersionTooLow"]
             }
             var maxBBoxHt: Float = 0.0
-            var bboxValues: [Float] = []
-            var gptsValues: [Double] = []   //String = ""
             var measureDicts: [Int : CGPDFDictionaryRef] = [:]
             var id = 0 // the vpArray that has the image with the largest height, ie the map
             // Loop through each dictionary look for BBox<array> and Measure<Dict>GPTS<array>
@@ -137,14 +140,6 @@ class PDFParser
                             maxBBoxHt = ht
                             id = index
                             bboxValues = [Float (bboxValue[0]), Float(bboxValue[1]), Float(bboxValue[2]), Float(bboxValue[3])]
-                            /* // return string x y x y
-                            bboxValues.append(bboxValue[0].description)
-                            bboxValues.append(" ")
-                            bboxValues.append(bboxValue[1].description)
-                            bboxValues.append(" ")
-                            bboxValues.append(bboxValue[2].description)
-                            bboxValues.append(" ")
-                            bboxValues.append(bboxValue[3].description)*/
                         }
                         //print ("viewport = \(bboxValues)")
                     }
@@ -179,17 +174,14 @@ class PDFParser
                     var gptsValueRef: CGPDFReal = 0.0
                     CGPDFArrayGetNumber(gptsArr, i, &gptsValueRef)
                     gptsValues.append(Double (gptsValueRef)) //.description)
-                    //if (i < CGPDFArrayGetCount(gptsArr) - 1) {
-                    //    gptsValues.append(" ")
-                    //}
                 }
-                //print ("bounds = \(gptsValues)")
+                print ("bounds = \(gptsValues)")
             }
             else {
                 return ["error": "CannotReadPDFDictionary"]
             }
             
-            // TODO:  return values here...
+            // return values here...
             return ["bounds": gptsValues,
                     "mediabox": mediabox,
                     "viewport": bboxValues]
@@ -199,13 +191,377 @@ class PDFParser
             
             // TODO:  need to write code to read geoPDF format here...
             
-            
-            // return values here... TODO: need to write code to read geoPDF format here...
-            return ["error":"UnknownFormat"]
+            var lgiArrayRef: CGPDFArrayRef?
+            if CGPDFDictionaryGetArray(dictionary,"LGIDict",&lgiArrayRef), let lgiDictArray = lgiArrayRef {
+                var max:Double = 0.0
+                var id:Int = 0
+                var v1:Double = 0.0
+                var v2:Double = 0.0
+                var lgiDictRef: CGPDFDictionaryRef? = nil
+                // Select LGIDict dictionary with largest vertical area (the map!)
+                for i in 0 ..< CGPDFArrayGetCount(lgiDictArray){
+                    if CGPDFArrayGetDictionary(lgiDictArray, i, &lgiDictRef), let lgiDictionary1 = lgiDictRef {
+                        var neatArrRef: CGPDFArrayRef? = nil
+                        if CGPDFDictionaryGetArray(lgiDictionary1, "Neatline", &neatArrRef), let neatArray = neatArrRef {
+                            // Get v1, neatArray[1]
+                            if CGPDFArrayGetString(neatArray, 1, &neatArrRef), let v1StrRef = neatArrRef {
+                                guard let v1CFStr:CFString = CGPDFStringCopyTextString(v1StrRef) else {
+                                    return ["error":"UnknownFormat missing Neatline v1"]
+                                }
+                                let v1double = CFStringGetDoubleValue(v1CFStr)
+                                v1 = round(v1double)
+                            }
+                            else {
+                                return ["error":"UnknownFormat missing Neatline v1"]
+                            }
+                            // Get v2, neatArray[3]
+                            if CGPDFArrayGetString(neatArray, 3, &neatArrRef), let v2StrRef = neatArrRef {
+                                guard let v2CFStr:CFString = CGPDFStringCopyTextString(v2StrRef) else {
+                                    return ["error":"UnknownFormat missing Neatline v2"]
+                                }
+                                let v2double = CFStringGetDoubleValue(v2CFStr)
+                                v2 = round(v2double)
+                            }
+                            else {
+                                return ["error":"UnknownFormat missing Neatline v2"]
+                            }
+                            if (v1 == v2){
+                                // Get v2 as get neatArray[5]
+                                if CGPDFArrayGetString(neatArray, 5, &neatArrRef), let v2StrRef = neatArrRef {
+                                    guard let v2CFStr:CFString = CGPDFStringCopyTextString(v2StrRef) else {
+                                        return ["error":"UnknownFormat missing Neatline v5"]
+                                    }
+                                    let v2double = CFStringGetDoubleValue(v2CFStr)
+                                    v2 = round(v2double)
+                                }
+                                else {
+                                    return ["error":"UnknownFormat missing Neatline v5"]
+                                }
+                            }
+                            if (v1 < v2){
+                                let tmp:Double = v1
+                                v1 = v2
+                                v2 = tmp
+                            }
+                            let thisMax:Double = v1 - v2
+                            if (thisMax > max) {
+                                max = thisMax
+                                id = i
+                            }
+                        }
+                        else {
+                            return ["error":"UnknownFormat missing Neatline"]
+                        }
+                    }
+                    else {
+                        return ["error":"UnknownFormat missing Dictionary"]
+                    }
+                }
+                
+                // Get dictionary from lgiDictArray[id]
+                // working for projection type UTM, unit meters
+                if CGPDFArrayGetDictionary(lgiDictArray, id, &lgiDictRef), let lgiDictionary = lgiDictRef {
+                    var displayDictRef:CGPDFDictionaryRef? = nil
+                    var projTypeRef:CGPDFStringRef? = nil
+                    var projUnitsRef:CGPDFStringRef? = nil
+                    var projZoneRef:CGPDFReal = 13.0
+                    var zone:CGFloat = 13.0
+                    // Display dictionary has: ProjectionType, Units, Zone
+                    if CGPDFDictionaryGetDictionary(lgiDictionary, "Display", &displayDictRef), let displayDict = displayDictRef {
+                        if CGPDFDictionaryGetString(displayDict, "ProjectionType", &projTypeRef), let projTypeRef2 = projTypeRef {
+                            guard let CFprojType:CFString = CGPDFStringCopyTextString(projTypeRef2) else {
+                                return ["error":"UnknownFormat missing ProjectionType"]
+                            }
+                            let projType:String = CFprojType as String
+                            if projType.lowercased() != "ut" {
+                                return ["error":"UnknownFormat missing ProjectionType"]
+                            }
+                        }
+                        else {
+                            return ["error":"UnknownFormat missing ProjectionType"]
+                        }
+                        // check for units in meters "m"
+                        if CGPDFDictionaryGetString(displayDict, "Units", &projUnitsRef), let projUnitsRef2 = projUnitsRef {
+                            guard let CFunits:CFString = CGPDFStringCopyTextString(projUnitsRef2) else {
+                                return ["error":"UnknownFormat missing Units"]
+                            }
+                            let units:String = CFunits as String
+                            if (units.lowercased() != "m"){
+                                return ["error":"UnknownFormat Units not in meters"]
+                            }
+                            // get zone
+                            if CGPDFDictionaryGetNumber(displayDict, "Zone", &projZoneRef) {
+                                zone = CGFloat(projZoneRef)
+                            }
+                            else {
+                                zone = 13.0
+                            }
+                        }
+                        else {
+                            return ["error":"UnknownFormat missing Units"]
+                        }
+                    }
+                    // no Display dictionary. Projection dictionary has: ProjectionType, Units, and Zone
+                    else {
+                        // check for projectionType of UTM "ut"
+                        if CGPDFDictionaryGetDictionary(lgiDictionary, "Projection", &displayDictRef), let projDict = displayDictRef {
+                            if CGPDFDictionaryGetString(projDict, "ProjectionType", &projTypeRef), let projTypeRef2 = projTypeRef {
+                                guard let CFprojType:CFString = CGPDFStringCopyTextString(projTypeRef2) else {
+                                    return ["error":"UnknownFormat missing ProjectionType"]
+                                }
+                                let projType:String = CFprojType as String
+                                if projType.lowercased() != "ut" {
+                                    return ["error":"UnknownFormat unknown ProjectionType"]
+                                }
+                                // check for units in meters "m"
+                                if CGPDFDictionaryGetString(projDict, "Units", &projUnitsRef), let projUnitsRef2 = projUnitsRef {
+                                    guard let CFunits:CFString = CGPDFStringCopyTextString(projUnitsRef2) else {
+                                        return ["error":"UnknownFormat missing Units"]
+                                    }
+                                    let units:String = CFunits as String
+                                    if (units.lowercased() != "m"){
+                                        return ["error":"UnknownFormat Units not in meters"]
+                                    }
+                                    // get zone
+                                    if CGPDFDictionaryGetNumber(projDict, "Zone", &projZoneRef) {
+                                        zone = CGFloat(projZoneRef)
+                                    }
+                                    else {
+                                        zone = 13.0
+                                    }
+                                }
+                                else {
+                                    return ["error":"UnknownFormat missing Units"]
+                                }
+                            }
+                            else {
+                                return ["error":"UnknownFormat missing ProjectionType"]
+                            }
+                        }
+                        else {
+                            return ["error":"UnknownFormat missing Projection"]
+                        }
+                    }
+                    
+                    
+                    // Get Viewport
+                    // This works for projType == UT (for UTM) units == M for meters
+                    var neatlineRef:CGPDFArrayRef? = nil
+                    if CGPDFDictionaryGetArray(lgiDictionary, "Neatline", &neatlineRef), let neatArray = neatlineRef {
+                        var neatArrRef:CGPDFArrayRef? = nil
+                        //var strRef:CGPDFStringRef? = nil
+                        var h1:Double, h2:Double, v1:Double, v2:Double
+                        
+                        if CGPDFArrayGetString(neatArray, 0, &neatArrRef), let strRef = neatArrRef {
+                            guard let str:CFString = CGPDFStringCopyTextString(strRef) else {
+                                return ["error":"UnknownFormat missing Neatline[0]"]
+                            }
+                            let myDouble = CFStringGetDoubleValue(str)
+                            h1 = round(myDouble)
+                        }
+                        else {
+                            return ["error":"UnknownFormat missing Neatline[0]"]
+                        }
+                        if CGPDFArrayGetString(neatArray, 1, &neatArrRef), let strRef = neatArrRef {
+                            guard let str:CFString = CGPDFStringCopyTextString(strRef) else {
+                                return ["error":"UnknownFormat missing Neatline[0]"]
+                            }
+                            let myDouble = CFStringGetDoubleValue(str)
+                            v1 = round(myDouble)
+                        }
+                        else {
+                            return ["error":"UnknownFormat missing Neatline[1]"]
+                        }
+                        if CGPDFArrayGetString(neatArray, 2, &neatArrRef), let strRef = neatArrRef {
+                            guard let str:CFString = CGPDFStringCopyTextString(strRef) else {
+                                return ["error":"UnknownFormat missing Neatline[0]"]
+                            }
+                            let myDouble = CFStringGetDoubleValue(str)
+                            h2 = round(myDouble)
+                        }
+                        else {
+                            return ["error":"UnknownFormat missing Neatline[2]"]
+                        }
+                        if CGPDFArrayGetString(neatArray, 3, &neatArrRef), let strRef = neatArrRef {
+                            guard let str:CFString = CGPDFStringCopyTextString(strRef) else {
+                                return ["error":"UnknownFormat missing Neatline[0]"]
+                            }
+                            let myDouble = CFStringGetDoubleValue(str)
+                            v2 = round(myDouble)
+                        }
+                        else {
+                            return ["error":"UnknownFormat missing Neatline[3]"]
+                        }
+                        if (h1 == h2){
+                            if CGPDFArrayGetString(neatArray, 4, &neatArrRef), let strRef = neatArrRef {
+                                guard let str:CFString = CGPDFStringCopyTextString(strRef) else {
+                                    return ["error":"UnknownFormat missing Neatline[0]"]
+                                }
+                                let myDouble = CFStringGetDoubleValue(str)
+                                h2 = round(myDouble)
+                            }
+                            else {
+                                return ["error":"UnknownFormat missing Neatline[4]"]
+                            }
+                        }
+                        if (v1 == v2){
+                            if CGPDFArrayGetString(neatArray, 5, &neatArrRef), let strRef = neatArrRef {
+                                guard let str:CFString = CGPDFStringCopyTextString(strRef) else {
+                                    return ["error":"UnknownFormat missing Neatline[0]"]
+                                }
+                                let myDouble = CFStringGetDoubleValue(str)
+                                v2 = round(myDouble)
+                            }
+                            else {
+                                return ["error":"UnknownFormat missing Neatline[5]"]
+                            }
+                        }
+                        var tmp:Double
+                        if (h2 < h1){
+                            tmp = h1
+                            h1 = h2
+                            h2 = tmp
+                        }
+                        if (v1 < v2){
+                            tmp = v1
+                            v1 = v2
+                            v2 = tmp
+                        }
+                        bboxValues = [Float (h1), Float(v1), Float(h2), Float(v2)]
+                        
+                        // Get Latitude/Longitude Bounds lat1 long1 lat2 long1 lat2 long2 lat1 long2
+                        // Get CTM dictionary
+                        
+                        var cmtRef:CGPDFArrayRef? = nil
+                        
+                        
+                        
+                        // MARK: DEBUG show catalog of dictionary
+                        CGPDFDictionaryApplyFunction(lgiDictionary, { (key, object, info) in
+                            NSLog("key = %s",key)
+                        }, nil)
+                        
+                        
+                        
+                        
+                        
+                        
+                        if CGPDFDictionaryGetArray(lgiDictionary, "CTM", &cmtRef), let cmtArray = cmtRef {
+                            var cmtArrRef:CGPDFArrayRef? = nil
+                            //var strRef:CGPDFStringRef? = nil
+                            var a:Double, H:Double, V:Double, x1:Double, y1:Double, x2:Double, y2:Double
+                            // get a = cmtArry[0], scale (x2 - x1) / (h2 - h1)
+                            if CGPDFArrayGetString(cmtArray, 0, &cmtArrRef), let strRef = cmtArrRef {
+                                guard let str:CFString = CGPDFStringCopyTextString(strRef) else {
+                                    return ["error":"UnknownFormat missing CMT[0]"]
+                                }
+                                a = CFStringGetDoubleValue(str)
+                            }
+                            else {
+                                return ["error":"UnknownFormat missing CMT[0]"]
+                            }
+                            // get H = cmtArry[4], x1 - a * h1
+                            if CGPDFArrayGetString(cmtArray, 4, &cmtArrRef), let strRef = cmtArrRef {
+                                guard let str:CFString = CGPDFStringCopyTextString(strRef) else {
+                                    return ["error":"UnknownFormat missing CMT[4]"]
+                                }
+                                H = CFStringGetDoubleValue(str)
+                            }
+                            else {
+                                return ["error":"UnknownFormat missing CMT[4]"]
+                            }
+                            // get V = cmtArry[5], y1 - a * v1
+                            if CGPDFArrayGetString(cmtArray, 5, &cmtArrRef), let strRef = cmtArrRef {
+                                guard let str:CFString = CGPDFStringCopyTextString(strRef) else {
+                                    return ["error":"UnknownFormat missing CMT[5]"]
+                                }
+                                V = CFStringGetDoubleValue(str)
+                            }
+                            else {
+                                return ["error":"UnknownFormat missing CMT[5]"]
+                            }
+                            // in meters!
+                            x1 = H + (a * h1)
+                            y1 = V + (a * v1)
+                            x2 = H + (a * h2)
+                            y2 = V + (a * v2)
+                            
+                            // MARK: TODO add call to utmtoll
+                            let latlong1:[Double] = UTMtoLL(f: y1,f1: x1,j: Double(zone))
+                            let latlong2:[Double] = UTMtoLL(f: y2,f1: x2,j: Double(zone))
+                            print ("a=\(a) H=\(H) V=\(V)")
+                            print ("x1=\(x1) y1=\(y1) x2=\(x2) y2=\(y2)")
+                            print("\(latlong1[0]), \(latlong1[1])")
+                            print("\(latlong2[0]), \(latlong2[1])")
+                            gptsValues = [latlong2[1], latlong1[0], latlong1[1], latlong1[0], latlong1[1], latlong2[0]]
+                            print ("bounds = \(gptsValues)")
+                        }
+                        else {
+                            return ["error":"UnknownFormat missing CTM"]
+                        }
+                        
+                        
+                    }
+                    else {
+                        return ["error":"UnknownFormat missing Neatline"]
+                    }
+                }
+                else {
+                    return ["error":"UnknownFormat missing Dictionary[id]"]
+                }
+                
+                // return values here...
+                //return ["error":"debug"]
+                return ["bounds": gptsValues,
+                        "mediabox": mediabox,
+                        "viewport": bboxValues]
+            }
+            else {
+                // MEASURE dictionary not found
+                return ["error":"UnknownFormat missing MEASURE"]
+            }
         }
     }
 
-/*    static func value(from object: CGPDFObjectRef) -> Any?
+    
+    static func UTMtoLL(f:Double, f1:Double, j:Double) ->[Double] {
+        // Convert UTM to Lat Long return [lat, long]
+        // UTM=f,f1 Zone=j Colorado is mostly 13 and a little 12
+        let d:Double = 0.99960000000000004;
+        let d1:Double = 6378137;
+        let d2:Double = 0.0066943799999999998;
+
+        let d4:Double = (1 - (1 - d2).squareRoot())/(1 + (1 - d2).squareRoot())
+        let d15:Double = f1 - 500000.0
+        let d16:Double = f;
+        let d11:Double = ((j - 1.0) * 6.0 - 180.0) + 3.0
+
+        let d3:Double = d2/(1 - d2)
+        let d10:Double = d16 / d
+        let d12:Double = d10 / (d1 * (1 - d2/4 - (3 * d2 * d2)/64 - (5 * pow(d2,3))/256))
+        let d14:Double = d12 + ((3*d4)/2 - (27*pow(d4,3))/32) * sin(2*d12) + ((21*d4*d4)/16 - (55 * pow(d4,4))/32) * sin(4*d12) + ((151 * pow(d4,3))/96) * sin(6*d12)
+        let d13:Double = d14 * 180 / Double.pi
+        let d5:Double = d1 / (1 - d2 * sin(d14) * sin(d14)).squareRoot()
+        let d6:Double = tan(d14) * tan(d14)
+        let d7:Double = d3 * cos(d14) * cos(d14)
+        let d8:Double = (d1 * (1 - d2))/pow(1-d2*sin(d14)*sin(d14),1.5)
+
+        let d9:Double = d15/(d5 * d)
+        var d17:Double = d14 - ((d5 * tan(d14))/d8) * (((d9 * d9)/2-(((5 + 3 * d6 + 10 * d7) - 4 * d7 * d7 - 9 * d3) * pow(d9,4))/24) + (((61 + 90 * d6 + 298 * d7 + (45 * d6) * d6) - 252 * d3 - 3 * d7 * d7) * pow(d9,6))/720)
+        d17 = d17 * 180 / Double.pi
+        var d18:Double = ((d9 - ((1 + 2 * d6 + d7) * pow(d9,3))/6) + (((((5 - 2 * d7) + 28*d6) - 3 * d7 * d7) + 8 * d3 + 24 * d6 * d6) * pow(d9,5))/120)/cos(d14)
+        d18 = d11 + d18 * 180 / Double.pi
+        //var lat_long:[Double] //= {d18,d17}
+        //lat_long[0] = d18
+        //lat_long[1] = d17
+        return [d18,d17]
+    }
+    
+    
+    
+    
+    // used for debugging to show values
+   /* static func value(from object: CGPDFObjectRef) -> Any?
     {
         switch (CGPDFObjectGetType(object))
         {

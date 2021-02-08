@@ -30,11 +30,13 @@ class AddMapsViewController: UIViewController {
         
         // For debugging write a test file to the documents dir
         writeDebugPDF(self, newFile: "Wellington")
+        writeDebugPDF(self, newFile: "CO_Shadow_Mountain_20110217_TM_geo")
         writeDebugPDF(self, newFile: "Wellington1")
         writeDebugPDF(self, newFile: "Wellington3")
         writeDebugPDF(self, newFile: "63RanchSTL_geo")
         writeDebugPDF(self, newFile: "CobbLake")
         writeDebugPDF(self, newFile: "Chambers_Lake_403010545_FSTopo")
+        writeDebugPDF(self, newFile: "CPW_HPP_NorthLarimer_geo")
     }
 
     
@@ -62,7 +64,7 @@ class AddMapsViewController: UIViewController {
         // For Debugging: use in simulater to write pdfs in app main directory on Mac to the Simulator's documents directory.
         
         guard let pdfFileURL = Bundle.main.url(forResource: newFile, withExtension: "pdf") else {
-            print ("Can't write file: PDF file not found.")
+            print ("Can't write file: PDF file not found: \(newFile)")
             return
         }
         

@@ -391,6 +391,8 @@ class PDFMap: NSObject, NSCoding {
       // print ("mediabox page size: \(mediabox)")
        marginTop = Double(mediabox[3] - viewport[1])
        marginBottom = Double(viewport[3])
+        //wrong marginBottom = Double(mediabox[3] - viewport[1])
+        //wrong marginTop = Double(viewport[3])
        marginLeft = Double(viewport[0])
        marginRight = Double(mediabox[2] - viewport[2])
        mediaBoxWidth = Double(mediabox[2] - mediabox[0])
