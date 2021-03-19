@@ -12,6 +12,7 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?  // required for iOS < 13
+    var orientationLock = UIInterfaceOrientationMask.all // tlb 3/12/21
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
@@ -35,5 +36,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
 
+    // tlb added 3/12/21 to lock orientation
+    /// set orientations you want to be allowed in this property by default
+    func application(_ application: UIApplication, supportedInterfaceOrientationsFor window: UIWindow?) -> UIInterfaceOrientationMask {
+            return self.orientationLock
+    }
 }
 

@@ -36,6 +36,7 @@
 		A46C95F824A6B1F3004043E0 /* CobbLake.pdf in Resources */ = {isa = PBXBuildFile; fileRef = A46C95F724A6B1F3004043E0 /* CobbLake.pdf */; };
 		A475DBB2255DF42600B0B8DD /* WayPt.swift in Sources */ = {isa = PBXBuildFile; fileRef = A475DBB1255DF42600B0B8DD /* WayPt.swift */; };
 		A48DF66125D1AE4200D699FD /* CPW_HPP_NorthLarimer_geo.pdf in Resources */ = {isa = PBXBuildFile; fileRef = A48DF66025D1AE4200D699FD /* CPW_HPP_NorthLarimer_geo.pdf */; };
+		A4B3911C25FBCF8600730DED /* AppUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4B3911B25FBCF8600730DED /* AppUtility.swift */; };
 		A4E0085124E32E95006F2665 /* Chambers_Lake_403010545_FSTopo.pdf in Resources */ = {isa = PBXBuildFile; fileRef = A4E0085024E32E95006F2665 /* Chambers_Lake_403010545_FSTopo.pdf */; };
 		A4E711F82587C2B800D21AED /* CO_Shadow_Mountain_20110217_TM_geo.pdf in Resources */ = {isa = PBXBuildFile; fileRef = A4E711F72587C2B800D21AED /* CO_Shadow_Mountain_20110217_TM_geo.pdf */; };
 /* End PBXBuildFile section */
@@ -95,6 +96,7 @@
 		A46C95F724A6B1F3004043E0 /* CobbLake.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = CobbLake.pdf; sourceTree = "<group>"; };
 		A475DBB1255DF42600B0B8DD /* WayPt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WayPt.swift; sourceTree = "<group>"; };
 		A48DF66025D1AE4200D699FD /* CPW_HPP_NorthLarimer_geo.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = CPW_HPP_NorthLarimer_geo.pdf; sourceTree = "<group>"; };
+		A4B3911B25FBCF8600730DED /* AppUtility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppUtility.swift; sourceTree = "<group>"; };
 		A4E0085024E32E95006F2665 /* Chambers_Lake_403010545_FSTopo.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = Chambers_Lake_403010545_FSTopo.pdf; sourceTree = "<group>"; };
 		A4E711F72587C2B800D21AED /* CO_Shadow_Mountain_20110217_TM_geo.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = CO_Shadow_Mountain_20110217_TM_geo.pdf; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -208,6 +210,7 @@
 				60DBB8D2244A54E900F84F4A /* PushPin.swift */,
 				A4535D73246F1ACE000E945B /* AppError.swift */,
 				A475DBB1255DF42600B0B8DD /* WayPt.swift */,
+				A4B3911B25FBCF8600730DED /* AppUtility.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -376,6 +379,7 @@
 			files = (
 				A4535D74246F1ACE000E945B /* AppError.swift in Sources */,
 				60146FFE24477260003D3BAF /* MapListTableViewCell.swift in Sources */,
+				A4B3911C25FBCF8600730DED /* AppUtility.swift in Sources */,
 				60147000244773BD003D3BAF /* MapListTableViewController.swift in Sources */,
 				60147002244775EC003D3BAF /* PDFMap.swift in Sources */,
 				60DBB8CF244A539600F84F4A /* MapViewController.swift in Sources */,
@@ -495,7 +499,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -550,7 +554,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;

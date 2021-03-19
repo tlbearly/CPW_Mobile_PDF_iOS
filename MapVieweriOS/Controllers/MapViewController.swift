@@ -27,6 +27,9 @@ import PDFKit // requires iOS 11+ iPhone 6+
 import CoreLocation // current location
 import os.log
 
+class CellClass:UITableViewCell {
+    
+}
 
 class MapViewController: UIViewController, UIGestureRecognizerDelegate {
     // MARK: Variables
@@ -66,10 +69,45 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
     var screenWidth:CGFloat = 0.0
     var addWayPtsFromDatabaseFlag = true
     
+    
+    // dropdown more menu
+    var moreBtn:UIBarButtonItem!
+    //var btnSelectMore:UIButton! // NOT CREATED YET!!!
+    let transparentView = UIView();
+    let tableView = UITableView();
+    //var selectedButton:UIButton
+    var dataSource = [String]()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // populate more drop down menu
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.register(CellClass.self, forCellReuseIdentifier: "Cell")
+        
+        
         self.title = maps[mapIndex].displayName
         screenWidth = self.view.frame.size.width
+        
+        // add orientation buttons
+        //let portBtn = UIBarButtonItem(image: (UIImage(named: "cyan_pin")), style: .plain, target: self, action: #selector(lockPortrait))
+        //let landBtn = UIBarButtonItem(image: (UIImage(named: "red_pin")), style: .plain, target: self, action: #selector(lockLandscape))
+        //portBtn.imageInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: -25)
+        //landBtn.imageInsets = UIEdgeInsets(top: 0, left: -25, bottom: 0, right: 0)
+        var moreImg = UIImage(named: "cyan_pin")
+        if #available(iOS 13.0, *) {
+            moreImg = UIImage(systemName: "ipad.homebutton")
+            //landImg = UIImage(systemName: "ipad.homebutton.landscape")
+        } else {
+            // Fallback on earlier versions
+            moreImg = UIImage(named: "cyan_pin")
+        }
+        let moreBtn = UIBarButtonItem(image: moreImg, style: .plain, target: self, action: #selector(onClickMore))
+        //let landBtn = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(lockLandscape))
+        //let landBtn = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(lockPortrait))
+        //let portBtn = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(lockPortrait))
+        self.navigationItem.rightBarButtonItem = moreBtn
         
         // set page margins
         marginTop = maps[mapIndex].marginTop
@@ -119,6 +157,25 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         //addDebugTextbox()
     }
     
+    // set default orientation from database tlb 3/12/21
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        // lock in landscape or portrait mode to start
+        //AppUtility.lockOrientation(.landscapeRight, andRotateTo: .landscapeRight)
+        // Or to rotate and lock
+         AppUtility.lockOrientation(.portrait, andRotateTo: .portrait)
+        
+    }
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        // Don't forget to reset when view is being removed
+        // use .all to return to physical device orientation
+        AppUtility.lockOrientation(.portrait, andRotateTo: .portrait)
+        //AppUtility.lockOrientation(UIInterfaceOrientationMask.all)
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         // Add way points from maps array that was passed from MapListTableViewController
@@ -138,6 +195,49 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         }
         // Call location manager
         setupLocationServices()
+    }
+    
+    // MARK: More Menu
+    func addTransparentView(frames:CGRect){
+        let window = UIApplication.shared.keyWindow
+        transparentView.frame = window?.frame ?? self.view.frame
+        self.view.addSubview(transparentView)
+        
+        tableView.frame = CGRect(x: 0, y: 40, width: frames.width, height: 0)
+        self.view.addSubview(tableView)
+        tableView.layer.cornerRadius = 5
+        
+        transparentView.backgroundColor = UIColor.black.withAlphaComponent(0.9)
+        tableView.reloadData()
+        let tapgesture = UITapGestureRecognizer(target: self, action: #selector(removeTransparentView))
+        transparentView.addGestureRecognizer(tapgesture)
+        transparentView.alpha = 0
+        UIView.animate(withDuration: 0.4, delay: 0.0, usingSpringWithDamping: 1.0, initialSpringVelocity: 1.0, options: .curveEaseInOut, animations: {
+            self.transparentView.alpha = 0.5
+            self.tableView.frame = CGRect(x: 0, y: 40+5, width: Int(frames.width), height: self.dataSource.count * 55)
+        }, completion: nil)
+    }
+    @objc func removeTransparentView(){
+        let frames = self.view.frame
+        // remove more button drop down menu view
+        UIView.animate(withDuration: 0.4, delay: 0.0, usingSpringWithDamping: 1.0, initialSpringVelocity: 1.0, options: .curveEaseInOut, animations: {
+            self.transparentView.alpha = 0.0
+            self.tableView.frame = CGRect(x: 0, y: 40, width: frames.width, height: 0)
+        }, completion: nil)
+    }
+    @objc func onClickMore(_ sender:Any){
+        dataSource = ["Lock in Landscape Mode", "Lock in Portrait Mode", "Show All Points", "Hide All Points"]
+        
+        addTransparentView(frames: self.view.frame)
+    }
+    func lockLandscape(){
+        // lock in landscape mode
+        AppUtility.lockOrientation(.landscapeRight, andRotateTo: .landscapeRight)
+    }
+    
+    @objc func lockPortrait(){
+        // lock in portrait mode
+        AppUtility.lockOrientation(.portrait, andRotateTo: .portrait)
     }
     
     // MARK: - Navigation
@@ -1014,3 +1114,26 @@ extension PDFView {
 }
 */
 
+extension MapViewController:UITableViewDelegate, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return dataSource.count
+    }
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
+        cell.textLabel?.text = dataSource[indexPath.row]
+        return cell
+    }
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 50
+    }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if (dataSource[indexPath.row] == "Lock in Landscape Mode"){
+            lockLandscape()
+            removeTransparentView()
+        }
+        else if (dataSource[indexPath.row] == "Lock in Portrait Mode"){
+            lockPortrait()
+            removeTransparentView()
+        }
+    }
+}

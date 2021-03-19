@@ -540,7 +540,7 @@ class PDFParser
         let d10:Double = d16 / d
         let d12:Double = d10 / (d1 * (1 - d2/4 - (3 * d2 * d2)/64 - (5 * pow(d2,3))/256))
         let d14:Double = d12 + ((3*d4)/2 - (27*pow(d4,3))/32) * sin(2*d12) + ((21*d4*d4)/16 - (55 * pow(d4,4))/32) * sin(4*d12) + ((151 * pow(d4,3))/96) * sin(6*d12)
-        let d13:Double = d14 * 180 / Double.pi
+//        let d13:Double = d14 * 180 / Double.pi
         let d5:Double = d1 / (1 - d2 * sin(d14) * sin(d14)).squareRoot()
         let d6:Double = tan(d14) * tan(d14)
         let d7:Double = d3 * cos(d14) * cos(d14)
