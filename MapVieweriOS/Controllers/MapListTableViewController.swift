@@ -5,6 +5,7 @@
 //  Created by Tammy Bearly on 4/15/20.
 //  Copyright © 2020 Colorado Parks and Wildlife. All rights reserved.
 //
+// Show list of imported maps
 //
 // From: https://developer.apple.com/library/archive/referencelibrary/GettingStarted/DevelopiOSAppsSwift/CreateATableView.html
 //
@@ -66,6 +67,8 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
 
             // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
             self.navigationItem.leftBarButtonItem = self.editButtonItem
+            let moreBtn = UIBarButtonItem(image: (UIImage(named: "more")), style: .plain, target: self, action: #selector(onClickMore))
+            self.navigationItem.rightBarButtonItems = [moreBtn, addBtn]
         }
     }
     
@@ -419,6 +422,9 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
         }
     }
     
+    @objc func onClickMore(){
+        
+    }
     func sortList(type: String = "name"){
         // MARK: sortList
         switch type {
