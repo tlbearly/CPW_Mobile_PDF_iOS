@@ -34,11 +34,21 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
     // MARK: - Data source
     var maps = [PDFMap]()
     
+    // more drop down menu
+    let moreMenuTransparentView = UIView();
+    let moreMenuTableview = UITableView();
+    var dataSource = [String]()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         // start location services to calc. distance to map or on map
         setupLocationServices()
+        
+        // populate more drop down menu
+        moreMenuTableview.delegate = self
+        moreMenuTableview.dataSource = self
+        moreMenuTableview.register(CellClass.self, forCellReuseIdentifier: "Cell")
         
         // get path to documents/app directory
         documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first
@@ -422,8 +432,38 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
         }
     }
     
-    @objc func onClickMore(){
+    
+    // MARK: More Menu
+    func addMoreMenuTransparentView(frames:CGRect){
+        let window = UIApplication.shared.keyWindow
+        moreMenuTransparentView.frame = window?.frame ?? self.view.frame
+        self.view.addSubview(moreMenuTransparentView)
         
+        moreMenuTableview.frame = CGRect(x: frames.origin.x, y: 0, width: frames.width, height: 0)
+        self.view.addSubview(moreMenuTableview)
+        moreMenuTableview.layer.cornerRadius = 5
+        
+        moreMenuTransparentView.backgroundColor = UIColor.black.withAlphaComponent(0.9)
+        moreMenuTableview.reloadData()
+        let tapgesture = UITapGestureRecognizer(target: self, action: #selector(removeMoreMenuTransparentView))
+        moreMenuTransparentView.addGestureRecognizer(tapgesture)
+        moreMenuTransparentView.alpha = 0
+        UIView.animate(withDuration: 0.4, delay: 0.0, usingSpringWithDamping: 1.0, initialSpringVelocity: 1.0, options: .curveEaseInOut, animations: {
+            self.moreMenuTransparentView.alpha = 0.5
+            self.moreMenuTableview.frame = CGRect(x: Int(frames.origin.x), y: 5, width: Int(frames.width), height: self.dataSource.count * 50)
+        }, completion: nil)
+    }
+    @objc func removeMoreMenuTransparentView(){
+        let frames = self.view.frame
+        // remove more button drop down menu view
+        UIView.animate(withDuration: 0.4, delay: 0.0, usingSpringWithDamping: 1.0, initialSpringVelocity: 1.0, options: .curveEaseInOut, animations: {
+            self.moreMenuTransparentView.alpha = 0.0
+            self.moreMenuTableview.frame = CGRect(x: frames.origin.x, y: 0, width: frames.width, height: 0)
+        }, completion: nil)
+    }
+    @objc func onClickMore(_ sender:Any){
+        dataSource = ["Name", "Date", "Size", "Proximity"]
+        addMoreMenuTransparentView(frames: self.view.frame)
     }
     func sortList(type: String = "name"){
         // MARK: sortList
@@ -614,110 +654,130 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // return the number of rows
-        return maps.count
+        if tableView == self.moreMenuTableview {
+            return dataSource.count
+        } else {
+            return maps.count
+        }
+    }
+
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if tableView == self.moreMenuTableview {
+            return 50
+        }
+        else {
+            return tableView.rowHeight
+        }
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         // MARK: cellForRowAt
-        // update the table with distance to map
-        let cellIdentifier = "MapListTableViewCell"
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as? MapListTableViewCell else {
-            fatalError("The dequeued cell is not an instance of MapListTableViewCell.")
-        }
         
-        // Fetches the appropriate map for the data source layout.
-        let map = maps[indexPath.row]
-        // reset map name editing to done. Sometimes if scroll it is still in editing mode grey textbox
-        cell.mapName.isEnabled = false
-        cell.mapName.backgroundColor = .white
-        cell.mapName.borderStyle = UITextField.BorderStyle.none
-        
-        // show progress bar
-        if (map.displayName == "Loading..."){//cell.mapName.text == "Loading..." && map.displayName == "Loading...") {
-            // scroll to cell that was just loaded after importing the map
-            self.tableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
-            cell.loadingProgress.isHidden = false
-            cell.mapName.text = "Loading..."
-            cell.pdfImage.image = map.getThumbnail()
-            cell.fileSize.text = "File size..."
-            cell.distToMap.text = "Miles to map..."
-            cell.locationIcon.isHidden = true
-            cell.loadingProgress.setProgress(progress, animated: true)
+        if tableView == self.moreMenuTableview {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
+            cell.textLabel?.text = dataSource[indexPath.row]
             return cell
-
-            
-        } else {
-            cell.loadingProgress.isHidden = true
         }
-        
-        cell.fileSize.text = map.fileSize
-        // distance to map
-        if latNow == 0.0 {
-            cell.distToMap.text = "Miles to map..."
-        }
-        // on map, show location icon
-        else if (latNow >= map.lat1 && latNow <= map.lat2 && longNow >= map.long1 && longNow <= map.long2) {
-            cell.distToMap.text = ""
-            cell.locationIcon.isHidden = false
-        }
-        // off map show distance to map
         else {
-            cell.locationIcon.isHidden = true
-            var dist:Double = 0.0
-            var direction = ""
-            if latNow > map.lat1 {
-                direction = "S"
+            // update the table with distance to map
+            let cellIdentifier = "MapListTableViewCell"
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as? MapListTableViewCell else {
+                fatalError("The dequeued cell is not an instance of MapListTableViewCell.")
             }
-            else if latNow  > map.lat2 {
-                direction = ""
-            }
-            else {
-                direction = "N"
-            }
-            if longNow < map.long1 {
-                direction += "E"
-            }
-            else if longNow > map.long2 {
-                direction += "W"
-            }
+        
+            // Fetches the appropriate map for the data source layout.
+            let map = maps[indexPath.row]
+            // reset map name editing to done. Sometimes if scroll it is still in editing mode grey textbox
+            cell.mapName.isEnabled = false
+            cell.mapName.backgroundColor = .white
+            cell.mapName.borderStyle = UITextField.BorderStyle.none
+            
+            // show progress bar
+            if (map.displayName == "Loading..."){//cell.mapName.text == "Loading..." && map.displayName == "Loading...") {
+                // scroll to cell that was just loaded after importing the map
+                self.tableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
+                cell.loadingProgress.isHidden = false
+                cell.mapName.text = "Loading..."
+                cell.pdfImage.image = map.getThumbnail()
+                cell.fileSize.text = "File size..."
+                cell.distToMap.text = "Miles to map..."
+                cell.locationIcon.isHidden = true
+                cell.loadingProgress.setProgress(progress, animated: true)
+                return cell
 
-            switch direction {
-            case "S":
-                dist = distance_on_unit_sphere(lat1: latNow, long1: longNow, lat2: map.lat2, long2: longNow)
-            case "N":
-                dist = distance_on_unit_sphere(lat1: latNow, long1: longNow, lat2: map.lat1, long2: longNow)
-            case "E":
-                dist = distance_on_unit_sphere(lat1: latNow, long1: longNow, lat2: latNow, long2: map.long2)
-            case "W":
-                dist = distance_on_unit_sphere(lat1: latNow, long1: longNow, lat2: latNow, long2: map.long1)
-            case "SE":
-                dist = distance_on_unit_sphere(lat1: latNow, long1: longNow, lat2: map.lat2, long2: map.long2)
-            case "SW":
-               dist = distance_on_unit_sphere(lat1: latNow, long1: longNow, lat2: map.lat1, long2: map.long2)
-            case "NE":
-                dist = distance_on_unit_sphere(lat1: latNow, long1: longNow, lat2: map.lat2, long2: map.long1)
-            case "NW":
-                dist = distance_on_unit_sphere(lat1: latNow, long1: longNow, lat2: map.lat1, long2: map.long1)
-            default:
-                dist = distance_on_unit_sphere(lat1: latNow, long1: longNow, lat2: map.lat1, long2: map.long1)
+                
+            } else {
+                cell.loadingProgress.isHidden = true
             }
             
-            let distStr = String(format: "%.1f", dist)
-            cell.distToMap.text = "\(distStr) mi. \(direction)"
-            map.mapDist = cell.distToMap.text!
+            cell.fileSize.text = map.fileSize
+            // distance to map
+            if latNow == 0.0 {
+                cell.distToMap.text = "Miles to map..."
+            }
+            // on map, show location icon
+            else if (latNow >= map.lat1 && latNow <= map.lat2 && longNow >= map.long1 && longNow <= map.long2) {
+                cell.distToMap.text = ""
+                cell.locationIcon.isHidden = false
+            }
+            // off map show distance to map
+            else {
+                cell.locationIcon.isHidden = true
+                var dist:Double = 0.0
+                var direction = ""
+                if latNow > map.lat1 {
+                    direction = "S"
+                }
+                else if latNow  > map.lat2 {
+                    direction = ""
+                }
+                else {
+                    direction = "N"
+                }
+                if longNow < map.long1 {
+                    direction += "E"
+                }
+                else if longNow > map.long2 {
+                    direction += "W"
+                }
+
+                switch direction {
+                case "S":
+                    dist = distance_on_unit_sphere(lat1: latNow, long1: longNow, lat2: map.lat2, long2: longNow)
+                case "N":
+                    dist = distance_on_unit_sphere(lat1: latNow, long1: longNow, lat2: map.lat1, long2: longNow)
+                case "E":
+                    dist = distance_on_unit_sphere(lat1: latNow, long1: longNow, lat2: latNow, long2: map.long2)
+                case "W":
+                    dist = distance_on_unit_sphere(lat1: latNow, long1: longNow, lat2: latNow, long2: map.long1)
+                case "SE":
+                    dist = distance_on_unit_sphere(lat1: latNow, long1: longNow, lat2: map.lat2, long2: map.long2)
+                case "SW":
+                   dist = distance_on_unit_sphere(lat1: latNow, long1: longNow, lat2: map.lat1, long2: map.long2)
+                case "NE":
+                    dist = distance_on_unit_sphere(lat1: latNow, long1: longNow, lat2: map.lat2, long2: map.long1)
+                case "NW":
+                    dist = distance_on_unit_sphere(lat1: latNow, long1: longNow, lat2: map.lat1, long2: map.long1)
+                default:
+                    dist = distance_on_unit_sphere(lat1: latNow, long1: longNow, lat2: map.lat1, long2: map.long1)
+                }
+                
+                let distStr = String(format: "%.1f", dist)
+                cell.distToMap.text = "\(distStr) mi. \(direction)"
+                map.mapDist = cell.distToMap.text!
+            }
+            
+            
+            //print ("row:\(indexPath.row)  \(cell.mapName.text!)  \(map.displayName)")
+            
+            cell.mapName.text = map.displayName
+            cell.fileName.text = map.fileName
+            cell.mapName.placeholder = "Map Name"
+            cell.pdfImage.image = map.thumbnail
+           //print("\(map.displayName) \(map.modDate)")
+            
+            return cell
         }
-        
-        
-        //print ("row:\(indexPath.row)  \(cell.mapName.text!)  \(map.displayName)")
-        
-        cell.mapName.text = map.displayName
-        cell.fileName.text = map.fileName
-        cell.mapName.placeholder = "Map Name"
-        cell.pdfImage.image = map.thumbnail
-       //print("\(map.displayName) \(map.modDate)")
-        
-        
-        return cell
     }
     
     // Used to show the map after importing a new map

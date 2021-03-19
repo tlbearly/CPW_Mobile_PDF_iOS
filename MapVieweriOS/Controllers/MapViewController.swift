@@ -208,7 +208,6 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
     }
     @objc func onClickMore(_ sender:Any){
         dataSource = ["Lock in Landscape Mode", "Lock in Portrait Mode", "Show All Points", "Hide All Points"]
-        
         addMoreMenuTransparentView(frames: self.view.frame)
     }
     func lockLandscape(){
@@ -1098,18 +1097,18 @@ extension PDFView {
 */
 
 extension MapViewController:UITableViewDelegate, UITableViewDataSource {
-    func tableView(_ moreMenuTableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return dataSource.count
     }
-    func tableView(_ moreMenuTableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = moreMenuTableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
         cell.textLabel?.text = dataSource[indexPath.row]
         return cell
     }
-    func tableView(_ moreMenuTableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 50
     }
-    func tableView(_ moreMenuTableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if (dataSource[indexPath.row] == "Lock in Landscape Mode"){
             lockLandscape()
             removeMoreMenuTransparentView()
