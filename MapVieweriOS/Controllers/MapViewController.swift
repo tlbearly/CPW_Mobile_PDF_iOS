@@ -69,13 +69,9 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
     var screenWidth:CGFloat = 0.0
     var addWayPtsFromDatabaseFlag = true
     
-    
-    // dropdown more menu
-    var moreBtn:UIBarButtonItem!
-    //var btnSelectMore:UIButton! // NOT CREATED YET!!!
+    // more drop down menu
     let transparentView = UIView();
     let tableView = UITableView();
-    //var selectedButton:UIButton
     var dataSource = [String]()
     
     override func viewDidLoad() {
@@ -90,23 +86,8 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         self.title = maps[mapIndex].displayName
         screenWidth = self.view.frame.size.width
         
-        // add orientation buttons
-        //let portBtn = UIBarButtonItem(image: (UIImage(named: "cyan_pin")), style: .plain, target: self, action: #selector(lockPortrait))
-        //let landBtn = UIBarButtonItem(image: (UIImage(named: "red_pin")), style: .plain, target: self, action: #selector(lockLandscape))
-        //portBtn.imageInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: -25)
-        //landBtn.imageInsets = UIEdgeInsets(top: 0, left: -25, bottom: 0, right: 0)
-        var moreImg = UIImage(named: "cyan_pin")
-        if #available(iOS 13.0, *) {
-            moreImg = UIImage(systemName: "ipad.homebutton")
-            //landImg = UIImage(systemName: "ipad.homebutton.landscape")
-        } else {
-            // Fallback on earlier versions
-            moreImg = UIImage(named: "cyan_pin")
-        }
-        let moreBtn = UIBarButtonItem(image: moreImg, style: .plain, target: self, action: #selector(onClickMore))
-        //let landBtn = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(lockLandscape))
-        //let landBtn = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(lockPortrait))
-        //let portBtn = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(lockPortrait))
+        // add more drop down menu button
+        let moreBtn = UIBarButtonItem(image: (UIImage(named: "more")), style: .plain, target: self, action: #selector(onClickMore))
         self.navigationItem.rightBarButtonItem = moreBtn
         
         // set page margins
@@ -232,12 +213,14 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
     }
     func lockLandscape(){
         // lock in landscape mode
-        AppUtility.lockOrientation(.landscapeRight, andRotateTo: .landscapeRight)
+        AppUtility.lockOrientation(.landscapeLeft, andRotateTo: .landscapeLeft)
+        //self.navigationItem.rightBarButtonItem = portBtn
     }
     
     @objc func lockPortrait(){
         // lock in portrait mode
         AppUtility.lockOrientation(.portrait, andRotateTo: .portrait)
+        //self.navigationItem.rightBarButtonItem = landBtn
     }
     
     // MARK: - Navigation
@@ -1130,10 +1113,12 @@ extension MapViewController:UITableViewDelegate, UITableViewDataSource {
         if (dataSource[indexPath.row] == "Lock in Landscape Mode"){
             lockLandscape()
             removeTransparentView()
+            resizePushPins()
         }
         else if (dataSource[indexPath.row] == "Lock in Portrait Mode"){
             lockPortrait()
             removeTransparentView()
+            resizePushPins()
         }
     }
 }

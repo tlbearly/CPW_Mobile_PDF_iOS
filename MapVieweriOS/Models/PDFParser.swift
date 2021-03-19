@@ -168,7 +168,6 @@ class PDFParser
             var gptsArrayRef: CGPDFArrayRef? = nil
             if CGPDFDictionaryGetArray(measureDicts[id]!, "GPTS", &gptsArrayRef), let gptsArr = gptsArrayRef {
                 // Get values from GPTS Array lat1 long1 lat2 long1 lat2 long2 lat1 long2
-                
                 for i in 0 ..< CGPDFArrayGetCount(gptsArr)
                 {
                     var gptsValueRef: CGPDFReal = 0.0
@@ -186,11 +185,10 @@ class PDFParser
                     "mediabox": mediabox,
                     "viewport": bboxValues]
         }
+        
+        
         // no VP, This is the GeoPDF format
         else {
-            
-            // TODO:  need to write code to read geoPDF format here...
-            
             var lgiArrayRef: CGPDFArrayRef?
             if CGPDFDictionaryGetArray(dictionary,"LGIDict",&lgiArrayRef), let lgiDictArray = lgiArrayRef {
                 var max:Double = 0.0
@@ -511,7 +509,6 @@ class PDFParser
                 }
                 
                 // return values here...
-                //return ["error":"debug"]
                 return ["bounds": gptsValues,
                         "mediabox": mediabox,
                         "viewport": bboxValues]
@@ -551,9 +548,6 @@ class PDFParser
         d17 = d17 * 180 / Double.pi
         var d18:Double = ((d9 - ((1 + 2 * d6 + d7) * pow(d9,3))/6) + (((((5 - 2 * d7) + 28*d6) - 3 * d7 * d7) + 8 * d3 + 24 * d6 * d6) * pow(d9,5))/120)/cos(d14)
         d18 = d11 + d18 * 180 / Double.pi
-        //var lat_long:[Double] //= {d18,d17}
-        //lat_long[0] = d18
-        //lat_long[1] = d17
         return [d18,d17]
     }
     
