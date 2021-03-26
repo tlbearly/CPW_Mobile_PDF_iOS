@@ -42,6 +42,8 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
     let sortByLabels = ["Name        ","Date          ","Size           ", "Proximity  "]
     let upArrow = "\u{2E0D}\u{2E0C}"
     let downArrow = "\u{2E0C}\u{2E0D}"
+    let checkMark = "\u{2713}"
+    let mapListTitle = "Imported Maps"
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -50,8 +52,9 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
         setupLocationServices()
         
         // populate more drop down menu
-        let selectedSort = sortByLabels[0] + downArrow
-        dataSource = [selectedSort,sortByLabels[1],sortByLabels[2],sortByLabels[3]]
+        let selectedSort = checkMark + " " + sortByLabels[0] + downArrow
+        let sp = "    "
+        dataSource = [selectedSort,sp + sortByLabels[1], sp + sortByLabels[2], sp + sortByLabels[3]]
         moreMenuTableview.delegate = self
         moreMenuTableview.dataSource = self
         
@@ -91,9 +94,26 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
 
             // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
             self.navigationItem.leftBarButtonItem = self.editButtonItem
-            moreBtn = UIBarButtonItem(image: (UIImage(named: "more")), style: .plain, target: self, action: #selector(onClickMore))
+            
+            
+            
+            //let check = UIImage(named: "check-bold")
+            /*if #available(iOS 14.0, *) {
+                let sortByName = UIAction(title: "Name", image: check, identifier: nil, discoverabilityTitle: nil, attributes: .init(), state: .mixed, handler: {_ in self.sortList(type: "name")})
+                    
+                    
+                    //title: "new Name", image: check, action: #selector(onClickMore(_:)), propertyList: nil, alternates: .init(), discoverabilityTitle: "Name", attributes: .destructive, state: .on)
+                    moreBtn = UIBarButtonItem()
+                    moreBtn.menu = UIMenu(title: "Sort By:", image: nil, identifier: nil, options: .displayInline, children: [sortByName])
+            } else {*/
+                // Fallback on earlier versions
+                moreBtn = UIBarButtonItem(image: (UIImage(named: "more")), style: .plain, target: self, action: #selector(onClickMore))
+            /*}*/
+            
+            
             self.navigationItem.rightBarButtonItems = [moreBtn, addBtn]
-            //moreBtn.menu = moreMenuTableview
+            
+            
         }
     }
     
@@ -116,11 +136,12 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
         else {
             // way points could have changed. Reload maps database
             maps = loadMaps() ?? []
-            self.tableView.reloadData()
+            print(maps[0].displayName)
             sortList(type: sortBy)
+            self.tableView.reloadData()
+            print("After sort and reload data \(maps[0].displayName)")
             showMsg() // if no imported maps
-        }
-    }
+        }    }
     
     // MARK: Actions
     
@@ -458,6 +479,7 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
         moreMenuTableview.frame = CGRect(x: frames.origin.x, y: self.tableView.contentOffset.y + 60.0, width: frames.width, height: 0)
         self.view.addSubview(moreMenuTableview)
         moreMenuTableview.layer.cornerRadius = 5
+        self.title = "Sort By"
         
         moreMenuTransparentView.backgroundColor = UIColor.black.withAlphaComponent(0.9)
         moreMenuTableview.reloadData()
@@ -471,6 +493,7 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
         moreBtn.isEnabled = false
     }
     @objc func removeMoreMenuTransparentView(){
+        self.title = mapListTitle
         let frames = self.view.frame
         // remove more button drop down menu view
         UIView.animate(withDuration: 0.4, delay: 0.0, usingSpringWithDamping: 1.0, initialSpringVelocity: 1.0, options: .curveEaseInOut, animations: {
@@ -479,11 +502,13 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
         }, completion: nil)
         moreBtn.isEnabled = true
     }
+
     @objc func onClickMore(_ sender:Any){
         addMoreMenuTransparentView(frames: self.view.frame)
     }
     func sortList(type: String = "name"){
         // MARK: sortList
+        print("sorting by \(type)")
         switch type {
         // by file imported date, newest first
         case "date":
@@ -631,7 +656,7 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
                 else {
                     b = 0
                 }
-                print("\($0.mapDist) < \($1.mapDist)")
+                print("\($0.mapDist) < \($1.mapDist) \(a! < b!)")
                 return a! < b!
             })
             
@@ -666,7 +691,7 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
                 else {
                     b = 0
                 }
-                print("\($0.mapDist) > \($1.mapDist)")
+                print("\($0.mapDist) > \($1.mapDist) \(a! > b!)")
                 return a! > b!
             })
             
@@ -678,6 +703,8 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
         }
         self.tableView.reloadData()
         sortBy = type
+        print("1st sorted item: \(maps[0].displayName)")
+        print("2nd sorted item: \(maps[1].displayName)")
     }
     
     
@@ -967,10 +994,10 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
     func sortByDataUpdate(arrow:String, index:Int){
         for i in 0...self.dataSource.count-1 {
             if (i == index){
-                self.dataSource[i] = sortByLabels[i] + arrow
+                self.dataSource[i] = checkMark + " " + sortByLabels[i] + arrow
             }
             else {
-                self.dataSource[i] = sortByLabels[i]
+                self.dataSource[i] = "    " + sortByLabels[i]
             }
         }
     }
