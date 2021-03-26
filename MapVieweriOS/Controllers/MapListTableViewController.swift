@@ -35,9 +35,13 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
     var maps = [PDFMap]()
     
     // more drop down menu
+    var moreBtn:UIBarButtonItem!
     let moreMenuTransparentView = UIView();
     let moreMenuTableview = UITableView();
     var dataSource = [String]()
+    let sortByLabels = ["Name        ","Date          ","Size           ", "Proximity  "]
+    let upArrow = "\u{2E0D}\u{2E0C}"
+    let downArrow = "\u{2E0C}\u{2E0D}"
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -46,8 +50,18 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
         setupLocationServices()
         
         // populate more drop down menu
+        let selectedSort = sortByLabels[0] + downArrow
+        dataSource = [selectedSort,sortByLabels[1],sortByLabels[2],sortByLabels[3]]
         moreMenuTableview.delegate = self
         moreMenuTableview.dataSource = self
+        
+        // Put in a Table View Cell???????
+        //let sortByLabel = UILabel()
+        //sortByLabel.frame = CGRect(x:0.0, y:0.0, width:100.0, height:40.0)
+        //let arrow = UILabel()
+        //arrow.frame = CGRect(x:120.0, y:0.0, width:140.0, height:40.0)
+        
+        
         moreMenuTableview.register(CellClass.self, forCellReuseIdentifier: "Cell")
         
         // get path to documents/app directory
@@ -77,8 +91,9 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
 
             // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
             self.navigationItem.leftBarButtonItem = self.editButtonItem
-            let moreBtn = UIBarButtonItem(image: (UIImage(named: "more")), style: .plain, target: self, action: #selector(onClickMore))
+            moreBtn = UIBarButtonItem(image: (UIImage(named: "more")), style: .plain, target: self, action: #selector(onClickMore))
             self.navigationItem.rightBarButtonItems = [moreBtn, addBtn]
+            //moreBtn.menu = moreMenuTableview
         }
     }
     
@@ -437,9 +452,10 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
     func addMoreMenuTransparentView(frames:CGRect){
         let window = UIApplication.shared.keyWindow
         moreMenuTransparentView.frame = window?.frame ?? self.view.frame
+        moreMenuTransparentView.frame.origin.y += self.tableView.contentOffset.y + 60
         self.view.addSubview(moreMenuTransparentView)
         
-        moreMenuTableview.frame = CGRect(x: frames.origin.x, y: 0, width: frames.width, height: 0)
+        moreMenuTableview.frame = CGRect(x: frames.origin.x, y: self.tableView.contentOffset.y + 60.0, width: frames.width, height: 0)
         self.view.addSubview(moreMenuTableview)
         moreMenuTableview.layer.cornerRadius = 5
         
@@ -450,19 +466,20 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
         moreMenuTransparentView.alpha = 0
         UIView.animate(withDuration: 0.4, delay: 0.0, usingSpringWithDamping: 1.0, initialSpringVelocity: 1.0, options: .curveEaseInOut, animations: {
             self.moreMenuTransparentView.alpha = 0.5
-            self.moreMenuTableview.frame = CGRect(x: Int(frames.origin.x), y: 5, width: Int(frames.width), height: self.dataSource.count * 50)
+            self.moreMenuTableview.frame = CGRect(x: Int(frames.origin.x), y: Int(self.tableView.contentOffset.y) + 65, width: Int(frames.width), height: self.dataSource.count * 50)
         }, completion: nil)
+        moreBtn.isEnabled = false
     }
     @objc func removeMoreMenuTransparentView(){
         let frames = self.view.frame
         // remove more button drop down menu view
         UIView.animate(withDuration: 0.4, delay: 0.0, usingSpringWithDamping: 1.0, initialSpringVelocity: 1.0, options: .curveEaseInOut, animations: {
             self.moreMenuTransparentView.alpha = 0.0
-            self.moreMenuTableview.frame = CGRect(x: frames.origin.x, y: 0, width: frames.width, height: 0)
+            self.moreMenuTableview.frame = CGRect(x: frames.origin.x, y: self.tableView.contentOffset.y + 60, width: frames.width, height: 0)
         }, completion: nil)
+        moreBtn.isEnabled = true
     }
     @objc func onClickMore(_ sender:Any){
-        dataSource = ["Name", "Date", "Size", "Proximity"]
         addMoreMenuTransparentView(frames: self.view.frame)
     }
     func sortList(type: String = "name"){
@@ -484,16 +501,183 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
                 $0.fileName.lowercased() < $1.fileName.lowercased()
             })
         // by filename z-a
-        case "reverse":
+        case "namereverse":
             maps = maps.sorted(by:{
                 $0.fileName.lowercased() > $1.fileName.lowercased()
             })
+        // file size ## MB or ## KB    0KB-100MB
+        case "size":
+            maps = maps.sorted(by:{
+                var a:Int?
+                var b:Int?
+                let aArr = $0.fileSize.split(separator: " ")
+                let bArr = $1.fileSize.split(separator: " ")
+                if ($0.fileSize.lowercased().contains("mb")) {
+                    a = Int(aArr[0])
+                    if (a != nil){
+                        a = a! * 1000
+                    }
+                    else{
+                        return false
+                    }
+                }
+                else {
+                    a = Int(aArr[0])
+                    if (a != nil){
+                        a = a!
+                    }
+                    else{
+                        // error no filesize
+                        return false
+                    }
+                }
+                if ($1.fileSize.lowercased().contains("mb")) {
+                    b = Int(bArr[0])
+                    if (b != nil){
+                        b = b! * 1000
+                    }
+                    else {
+                        return false
+                    }
+                }
+                else {
+                    b = Int(bArr[0])
+                    if (b != nil){
+                        b = b!
+                    }
+                    else{
+                        // error no filesize
+                        return false
+                    }
+                }
+                return a! < b!
+            })
+        // file size ## MB or ## KB  100MB-0KB
+        case "sizereverse":
+            maps = maps.sorted(by:{
+                var a:Int?
+                var b:Int?
+                let aArr = $0.fileSize.split(separator: " ")
+                let bArr = $1.fileSize.split(separator: " ")
+                if ($0.fileSize.lowercased().contains("mb")) {
+                    a = Int(aArr[0])
+                    if (a != nil){
+                        a = a! * 1000
+                    }
+                    else{
+                        return false
+                    }
+                }
+                else {
+                    a = Int(aArr[0])
+                    if (a != nil){
+                        a = a!
+                    }
+                    else{
+                        // error no filesize
+                        return false
+                    }
+                }
+                if ($1.fileSize.lowercased().contains("mb")) {
+                    b = Int(bArr[0])
+                    if (b != nil){
+                        b = b! * 1000
+                    }
+                    else {
+                        return false
+                    }
+                }
+                else {
+                    b = Int(bArr[0])
+                    if (b != nil){
+                        b = b!
+                    }
+                    else{
+                        // error no filesize
+                        return false
+                    }
+                }
+                return a! > b!
+            })
+            
+        // proximity ## mi SW or icon 0 - 100mi etc
+        case "proximity":
+            maps = maps.sorted(by:{
+                var a:Float?
+                var b:Float?
+                let aArr = $0.mapDist.split(separator: " ")
+                let bArr = $1.mapDist.split(separator: " ")
+                if ($0.mapDist.lowercased().contains("mi")) {
+                    a = Float(aArr[0])
+                    if (a != nil){
+                        a = a!
+                    }
+                    else{
+                        return false
+                    }
+                }
+                else {
+                    a = 0
+                }
+                if ($1.mapDist.lowercased().contains("mi")) {
+                    b = Float(bArr[0])
+                    if (b != nil){
+                        b = b!
+                    }
+                    else {
+                        return false
+                    }
+                }
+                else {
+                    b = 0
+                }
+                print("\($0.mapDist) < \($1.mapDist)")
+                return a! < b!
+            })
+            
+        // proximity ## mi SW or icon 100mi - 0mi etc
+        case "proximityreverse":
+            maps = maps.sorted(by:{
+                var a:Float?
+                var b:Float?
+                let aArr = $0.mapDist.split(separator: " ")
+                let bArr = $1.mapDist.split(separator: " ")
+                if ($0.mapDist.lowercased().contains("mi")) {
+                    a = Float(aArr[0])
+                    if (a != nil){
+                        a = a!
+                    }
+                    else{
+                        return false
+                    }
+                }
+                else {
+                    a = 0
+                }
+                if ($1.mapDist.lowercased().contains("mi")) {
+                    b = Float(bArr[0])
+                    if (b != nil){
+                        b = b!
+                    }
+                    else {
+                        return false
+                    }
+                }
+                else {
+                    b = 0
+                }
+                print("\($0.mapDist) > \($1.mapDist)")
+                return a! > b!
+            })
+            
         // by file name a-z
         default:
             maps = maps.sorted(by:{
                 $0.fileName.lowercased() < $1.fileName.lowercased()
             })
         }
+        self.tableView.reloadData()
+        sortBy = type
     }
     
     
@@ -780,11 +964,86 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
         }
     }
     
+    func sortByDataUpdate(arrow:String, index:Int){
+        for i in 0...self.dataSource.count-1 {
+            if (i == index){
+                self.dataSource[i] = sortByLabels[i] + arrow
+            }
+            else {
+                self.dataSource[i] = sortByLabels[i]
+            }
+        }
+    }
+    
     // Used to show the map after importing a new map
     // Not called while in edit mode
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         // MARK: didSelectRowAt
         // Cell clicked on
+        
+        // Sort Table By Chosen Row
+        if (tableView == self.moreMenuTableview){
+            guard let cell = tableView.cellForRow(at: indexPath) else {
+                displayError(theError: AppError.pdfMapError.cannotSelectRow)
+                return
+            }
+            var reverse = false
+            let label = cell.textLabel?.text
+            if (label!.contains(upArrow)){
+                //display A-Z, old-new, small-big
+                reverse = false
+                sortByDataUpdate(arrow:downArrow, index:indexPath.row)
+                //dataSource[indexPath.row] = self.sortByLabels[indexPath.row] + downArrow
+                //cell.textLabel?.text = dataSource[indexPath.row]
+                self.moreMenuTableview.reloadData()
+            }
+            else if (label!.contains(downArrow)){
+                // display Z-A, new-old, big-small
+                reverse = true
+                sortByDataUpdate(arrow:upArrow, index:indexPath.row)
+                //dataSource[indexPath.row] = self.sortByLabels[indexPath.row] + upArrow
+                //cell.textLabel?.text = dataSource[indexPath.row]
+                self.moreMenuTableview.reloadData()
+            }
+            else {
+                // display A-Z, old-new, small-big
+                reverse = false
+                sortByDataUpdate(arrow:downArrow, index:indexPath.row)
+            }
+            
+            if (dataSource[indexPath.row].contains("Name")){
+                if (reverse){
+                    sortList(type: "namereverse")
+                } else {
+                    sortList(type: "name")
+                }
+            }
+            else if (dataSource[indexPath.row].contains("Date")){
+                if (reverse){
+                    sortList(type: "datereverse")
+                } else {
+                    sortList(type: "date")
+                }
+            }
+            else if (dataSource[indexPath.row].contains("Size")){
+                if (reverse){
+                    sortList(type: "sizereverse")
+                } else {
+                    sortList(type: "size")
+                }
+            }
+            else if (dataSource[indexPath.row].contains("Proximity")){
+                if (reverse){
+                    sortList(type: "proximityreverse")
+                } else {
+                    sortList(type: "proximity")
+                }
+            }
+            removeMoreMenuTransparentView() // hide drop down menu
+        }
+        
+        // MapListTableView row selected
+        else {
         /*let cellIdentifier = "MapListTableViewCell"
         guard let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as? MapListTableViewCell else {
             fatalError("The dequeued cell is not an instance of MapListTableViewCell.")
@@ -800,10 +1059,20 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
             // causes error, self.tableView.reloadData()
             performSegue(withIdentifier: "ShowMap", sender: cell)
         }
+        }
     }
     
     override func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         // MARK: didEndDisplaying cell
+        // scrolled maps list, adjust placement of more dropdown menu
+        if (tableView == moreMenuTableview){
+            if (moreMenuTableview.frame.height != 0.0){
+                moreMenuTransparentView.frame.origin.y = self.tableView.contentOffset.y + 60
+                moreMenuTableview.frame.origin.y = self.tableView.contentOffset.y + 60.0
+                //print("more menu y: \(moreMenuTableview.frame.origin.y) tableView offsetY: \(self.tableView.contentOffset.y + 60)")
+            }
+        }
+        
         if (showMap){
             //print("end displaying row \(indexPath.row)")
             if let lastVisibleIndexPath = tableView.indexPathsForVisibleRows?.last {
