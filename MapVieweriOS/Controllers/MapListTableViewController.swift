@@ -48,23 +48,12 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // start location services to calc. distance to map or on map
-        setupLocationServices()
-        
-        // populate more drop down menu
+        // populate more drop down menu for sorting
         let selectedSort = checkMark + " " + sortByLabels[0] + downArrow
         let sp = "    "
         dataSource = [selectedSort,sp + sortByLabels[1], sp + sortByLabels[2], sp + sortByLabels[3]]
         moreMenuTableview.delegate = self
         moreMenuTableview.dataSource = self
-        
-        // Put in a Table View Cell???????
-        //let sortByLabel = UILabel()
-        //sortByLabel.frame = CGRect(x:0.0, y:0.0, width:100.0, height:40.0)
-        //let arrow = UILabel()
-        //arrow.frame = CGRect(x:120.0, y:0.0, width:140.0, height:40.0)
-        
-        
         moreMenuTableview.register(CellClass.self, forCellReuseIdentifier: "Cell")
         
         // get path to documents/app directory
@@ -77,6 +66,16 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
             // This does not allow clicking on a cell to show map!!!!!
             //self.tableView.isEditing = true // shows delete & rearange buttons in each row
             
+            // Uncomment the following line to preserve selection between presentations
+            // self.clearsSelectionOnViewWillAppear = false
+
+            // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
+            self.navigationItem.leftBarButtonItem = self.editButtonItem
+            
+            moreBtn = UIBarButtonItem(image: (UIImage(named: "more")), style: .plain, target: self, action: #selector(onClickMore))
+            
+            self.navigationItem.rightBarButtonItems = [moreBtn, addBtn]
+            
             // load maps
             if let savedMaps = loadMaps() {
                 maps += savedMaps
@@ -84,36 +83,13 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
             else {
                 maps = []
             }
-            showMsg()
+            showMsg() // if no maps imported
             
             // sort list
             sortList(type: sortBy)
             
-            // Uncomment the following line to preserve selection between presentations
-            // self.clearsSelectionOnViewWillAppear = false
-
-            // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-            self.navigationItem.leftBarButtonItem = self.editButtonItem
-            
-            
-            
-            //let check = UIImage(named: "check-bold")
-            /*if #available(iOS 14.0, *) {
-                let sortByName = UIAction(title: "Name", image: check, identifier: nil, discoverabilityTitle: nil, attributes: .init(), state: .mixed, handler: {_ in self.sortList(type: "name")})
-                    
-                    
-                    //title: "new Name", image: check, action: #selector(onClickMore(_:)), propertyList: nil, alternates: .init(), discoverabilityTitle: "Name", attributes: .destructive, state: .on)
-                    moreBtn = UIBarButtonItem()
-                    moreBtn.menu = UIMenu(title: "Sort By:", image: nil, identifier: nil, options: .displayInline, children: [sortByName])
-            } else {*/
-                // Fallback on earlier versions
-                moreBtn = UIBarButtonItem(image: (UIImage(named: "more")), style: .plain, target: self, action: #selector(onClickMore))
-            /*}*/
-            
-            
-            self.navigationItem.rightBarButtonItems = [moreBtn, addBtn]
-            
-            
+            // start location services to calc. distance to map or on map
+            setupLocationServices()
         }
     }
     
@@ -128,20 +104,22 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
         else if showMap {
             showMap = false
             // sort table by user preference
-            sortList(type: sortBy)
-            self.tableView.reloadData()
+            sortList(type: sortBy) // reloads the data too!
             scrollToCurrentMapName()
         }
         // returned from displaying map
         else {
             // way points could have changed. Reload maps database
             maps = loadMaps() ?? []
-            print(maps[0].displayName)
-            sortList(type: sortBy)
-            self.tableView.reloadData()
-            print("After sort and reload data \(maps[0].displayName)")
+            // calculate distance to each map
+            for i in 0...maps.count-1 {
+                maps[i].mapDist = getDistToMap(map: maps[i])
+                print(maps[i].displayName)
+            }
+            sortList(type: sortBy) // reloads the data too!
             showMsg() // if no imported maps
-        }    }
+        }
+    }
     
     // MARK: Actions
     
@@ -359,7 +337,7 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
         // user location.
         locationManager.desiredAccuracy=kCLLocationAccuracyBest
         let status = CLLocationManager.authorizationStatus()
-        print("location status ",status)
+        //print("location status ",status)
         switch status {
         case .notDetermined:
             // display location permissions request
@@ -656,7 +634,15 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
                 else {
                     b = 0
                 }
-                print("\($0.mapDist) < \($1.mapDist) \(a! < b!)")
+                // check if current location is on the map
+                // make it negative so it is smaller than other maps that are the same distance away
+                // but not on the map. Subtract from 1000 and make it negaive so it keeps the proper order
+                if (latNow >= $1.lat1 && latNow <= $1.lat2 && longNow >= $1.long1 && longNow <= $1.long2) {
+                    b = (1000 - b!) * -1
+                }
+                if (latNow >= $0.lat1 && latNow <= $0.lat2 && longNow >= $0.long1 && longNow <= $0.long2) {
+                    a = (1000 - a!) * -1
+                }
                 return a! < b!
             })
             
@@ -691,7 +677,15 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
                 else {
                     b = 0
                 }
-                print("\($0.mapDist) > \($1.mapDist) \(a! > b!)")
+                // check if current location is on the map
+                // make it negative so it is smaller than other maps that are the same distance away
+                // but not on the map. Subtract from 1000 and make it negaive so it keeps the proper order
+                if (latNow >= $1.lat1 && latNow <= $1.lat2 && longNow >= $1.long1 && longNow <= $1.long2) {
+                    b = (1000 - b!) * -1
+                }
+                if (latNow >= $0.lat1 && latNow <= $0.lat2 && longNow >= $0.long1 && longNow <= $0.long2) {
+                    a = (1000 - a!) * -1
+                }
                 return a! > b!
             })
             
@@ -703,8 +697,6 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
         }
         self.tableView.reloadData()
         sortBy = type
-        print("1st sorted item: \(maps[0].displayName)")
-        print("2nd sorted item: \(maps[1].displayName)")
     }
     
     
@@ -718,6 +710,7 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
             // Edit button pushed. Highlight map name text box and make editable.
             tableView.isScrollEnabled = false
             addBtn.isEnabled = false
+            moreBtn.isEnabled = false
             for cell in cells {
                 cell.mapName.isEnabled = true // editable
                 cell.mapName.delegate = self
@@ -734,6 +727,7 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
             // Done button pushed. Update all map names. Set map name text boxes to un-editable
             tableView.isScrollEnabled = true
             addBtn.isEnabled = true
+            moreBtn.isEnabled = true
             for cell in cells {
                 cell.mapName.isEnabled = false
                 cell.mapName.backgroundColor = .white
@@ -854,6 +848,51 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
         }
     }
 
+    //
+    // MARK: Get Distance to Map
+    //
+    func getDistToMap(map:PDFMap) -> String {
+        var dist:Double = 0.0
+        var direction = ""
+        if latNow > map.lat1 {
+            direction = "S"
+        }
+        else if latNow  > map.lat2 {
+            direction = ""
+        }
+        else {
+            direction = "N"
+        }
+        if longNow < map.long1 {
+            direction += "E"
+        }
+        else if longNow > map.long2 {
+            direction += "W"
+        }
+
+        switch direction {
+        case "S":
+            dist = distance_on_unit_sphere(lat1: latNow, long1: longNow, lat2: map.lat2, long2: longNow)
+        case "N":
+            dist = distance_on_unit_sphere(lat1: latNow, long1: longNow, lat2: map.lat1, long2: longNow)
+        case "E":
+            dist = distance_on_unit_sphere(lat1: latNow, long1: longNow, lat2: latNow, long2: map.long2)
+        case "W":
+            dist = distance_on_unit_sphere(lat1: latNow, long1: longNow, lat2: latNow, long2: map.long1)
+        case "SE":
+            dist = distance_on_unit_sphere(lat1: latNow, long1: longNow, lat2: map.lat2, long2: map.long2)
+        case "SW":
+           dist = distance_on_unit_sphere(lat1: latNow, long1: longNow, lat2: map.lat1, long2: map.long2)
+        case "NE":
+            dist = distance_on_unit_sphere(lat1: latNow, long1: longNow, lat2: map.lat2, long2: map.long1)
+        case "NW":
+            dist = distance_on_unit_sphere(lat1: latNow, long1: longNow, lat2: map.lat1, long2: map.long1)
+        default:
+            dist = distance_on_unit_sphere(lat1: latNow, long1: longNow, lat2: map.lat1, long2: map.long1)
+        }
+        let distStr = String(format: "%.1f", dist)
+        return "\(distStr) mi. \(direction)"
+    }
     
     //
     // MARK: Table Functions
