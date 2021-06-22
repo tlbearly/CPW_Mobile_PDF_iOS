@@ -15,19 +15,32 @@ class MapViewerTests: XCTestCase {
     
     // Confirm that the PDFMap initializer returns a Map object when passed valid parameters.
     func testPDFMapInitSucceeds(){
-        let map = PDFMap.init(fileName: "Wellington.pdf")
-        XCTAssertNotNil(map)
+        do {
+            let map = try PDFMap.init(fileName: "Wellington.pdf")
+            XCTAssertNotNil(map)
+        } catch {
+            print("Wellington.pdf file not found.")
+        }
+        
     }
 
     func testPDFMapInitFailed(){
         // Empty String
-        let emptyName = PDFMap.init(fileName: "")
-        XCTAssertNil(emptyName)
+        do {
+            let emptyName = try PDFMap.init(fileName: "")
+            XCTAssertNil(emptyName)
+        } catch {
+            print(error)
+        }
     }
     
     func testPDFMapInitFailed2() {
-        let notExistFile = PDFMap.init(fileName: "notExists.pdf")
-        XCTAssertNil(notExistFile)
+        do{
+            let notExistFile = try PDFMap.init(fileName: "notExists.pdf")
+            XCTAssertNil(notExistFile)
+        }catch {
+            print(error)
+        }
     }
     
     
