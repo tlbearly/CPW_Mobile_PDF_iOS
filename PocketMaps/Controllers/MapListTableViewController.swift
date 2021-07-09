@@ -115,7 +115,7 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
             if (maps.count > 0){
                 for i in 0...maps.count-1 {
                     maps[i].mapDist = getDistToMap(map: maps[i])
-                    print(maps[i].displayName)
+                    //print(maps[i].displayName)
                 }
                 sortList(type: sortBy) // reloads the data too!
             }
@@ -139,7 +139,7 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
                 if (map != nil){
                     maps += [map!]
                     progress = 0.4
-                    print ("unwind total rows: \(maps.count)")
+                    //print ("unwind total rows: \(maps.count)")
                     self.tableView.reloadData()
                     scrollToBottom()
                     importing = true
@@ -452,11 +452,12 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
     // MARK: More Menu
     func addMoreMenuTransparentView(frames:CGRect){
         let window = UIApplication.shared.keyWindow
+        let y:Int = Int(self.navigationController?.navigationBar.frame.maxY ?? 0) + Int(self.tableView.contentOffset.y)
         moreMenuTransparentView.frame = window?.frame ?? self.view.frame
-        moreMenuTransparentView.frame.origin.y += self.tableView.contentOffset.y + 60
+        moreMenuTransparentView.frame.origin.y = CGFloat(y) //+= self.tableView.contentOffset.y + 60
         self.view.addSubview(moreMenuTransparentView)
         
-        moreMenuTableview.frame = CGRect(x: frames.origin.x, y: self.tableView.contentOffset.y + 60.0, width: frames.width, height: 0)
+        //moreMenuTableview.frame = CGRect(x: frames.origin.x, y: self.tableView.contentOffset.y + 60.0, width: frames.width, height: 0)
         self.view.addSubview(moreMenuTableview)
         moreMenuTableview.layer.cornerRadius = 5
         self.title = "Sort By"
@@ -468,9 +469,9 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
         moreMenuTransparentView.alpha = 0
         UIView.animate(withDuration: 0.4, delay: 0.0, usingSpringWithDamping: 1.0, initialSpringVelocity: 1.0, options: .curveEaseInOut, animations: {
             self.moreMenuTransparentView.alpha = 0.5
-            self.moreMenuTableview.frame = CGRect(x: Int(frames.origin.x), y: Int(self.tableView.contentOffset.y) + 65, width: Int(frames.width), height: self.dataSource.count * 50)
+            self.moreMenuTableview.frame = CGRect(x: 0, y: y, width: Int(frames.width), height: self.dataSource.count * 50)
         }, completion: nil)
-        moreBtn.isEnabled = false
+        moreBtn.isEnabled = false // gray out ... button
     }
     @objc func removeMoreMenuTransparentView(){
         self.title = mapListTitle
@@ -488,7 +489,7 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
     }
     func sortList(type: String = "name"){
         // MARK: sortList
-        print("sorting by \(type)")
+        //print("sorting by \(type)")
         switch type {
         // by file imported date, newest first
         case "date":
@@ -804,7 +805,7 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
                // rename file
                 do {
                     try fileManager.moveItem(at: sourceURL, to: destURL)
-                    //print("\(sourceURL.lastPathComponent) renamed to \(destURL.lastPathComponent)")
+                    //("\(sourceURL.lastPathComponent) renamed to \(destURL.lastPathComponent)")
                 } catch {
                     displayError(theError: AppError.pdfMapError.cannotRename(file: destURL.path), title: "Cannot Rename Map File")
                     textField.text = currentMapName // reset map name
@@ -827,7 +828,7 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
     @objc func saveCurrentMapName(_ mapName: UITextField){
         // Save old map name in case they change it to one that already exists.
         currentMapName = mapName.text ?? ""
-        print ("current Map Name = \(currentMapName)")
+        //print ("current Map Name = \(currentMapName)")
     }
     
     func scrollToBottom(){
@@ -1132,15 +1133,6 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
     
     override func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         // MARK: didEndDisplaying cell
-        // scrolled maps list, adjust placement of more dropdown menu
-        if (tableView == moreMenuTableview){
-            if (moreMenuTableview.frame.height != 0.0){
-                moreMenuTransparentView.frame.origin.y = self.tableView.contentOffset.y + 60
-                moreMenuTableview.frame.origin.y = self.tableView.contentOffset.y + 60.0
-                //print("more menu y: \(moreMenuTableview.frame.origin.y) tableView offsetY: \(self.tableView.contentOffset.y + 60)")
-            }
-        }
-        
         if (showMap){
             //print("end displaying row \(indexPath.row)")
             if let lastVisibleIndexPath = tableView.indexPathsForVisibleRows?.last {
@@ -1166,13 +1158,13 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
     override func tableView(_ tableView: UITableView,
                             willBeginEditingRowAt indexPath: IndexPath) {
         super.tableView(tableView, willBeginEditingRowAt: indexPath)
-        print ("willBeginEditingRowAt")
+        //print ("willBeginEditingRowAt")
     }
     
     override func tableView(_ tableView: UITableView, didEndEditingRowAt indexPath: IndexPath?) {
         super.tableView(tableView, didEndEditingRowAt: indexPath)
         // Call when user presses delete button??????????
-        print("ddidEndEditingRowAt")
+        print("didEndEditingRowAt")
     }
  */
     

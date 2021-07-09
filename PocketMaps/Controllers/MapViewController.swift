@@ -963,7 +963,7 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
     }
 
     @objc func pdfViewPinched(_ gestureRecognizer: UIPinchGestureRecognizer){
-        print ("pinch")
+        //print ("pinch")
         if gestureRecognizer.state == .began {
             // is popup showing? Hide it
             if let aPopup: UITextField = pdfView.viewWithTag(100) as? UITextField {
@@ -978,7 +978,7 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
     }
     
     @objc func pdfViewPanned(_ gestureRecognizer: UIPanGestureRecognizer){
-        print ("panning")
+        //print ("panning")
         if gestureRecognizer.state == .began {
             // is popup showing? Hide it
             if let aPopup: UITextField = pdfView.viewWithTag(100) as? UITextField {
@@ -1150,7 +1150,7 @@ extension MapViewController:UITableViewDelegate, UITableViewDataSource {
         return cell
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 50
+        return tableView.rowHeight // 50
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if (dataSource[indexPath.row] == "Lock in Landscape Mode"){

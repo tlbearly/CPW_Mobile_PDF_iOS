@@ -208,8 +208,8 @@
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dFQ-K0-TJ5">
                                 <rect key="frame" x="20" y="88" width="388" height="804"/>
                                 <subviews>
-                                    <stackView autoresizesSubviews="NO" opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" alignment="center" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="JkA-LU-4vk" userLabel="Vertical Stack View">
-                                        <rect key="frame" x="0.0" y="20" width="388" height="382.66666666666669"/>
+                                    <stackView autoresizesSubviews="NO" opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="JkA-LU-4vk" userLabel="Vertical Stack View">
+                                        <rect key="frame" x="0.0" y="20" width="388" height="518.66666666666663"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Import Maps" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mFv-EX-6cZ">
                                                 <rect key="frame" x="129" y="0.0" width="130" height="30"/>
@@ -224,7 +224,7 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="Use File Picker to select PDF maps that you downloaded. They will be copied to this app." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SaC-3b-U8V">
-                                                <rect key="frame" x="25" y="45" width="338" height="60"/>
+                                                <rect key="frame" x="25" y="40" width="338" height="60"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="60" id="Ld8-og-LHD"/>
                                                 </constraints>
@@ -233,7 +233,7 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NQ8-59-Wkm" customClass="PrimaryUIButton" customModule="PocketMaps" customModuleProvider="target">
-                                                <rect key="frame" x="134.66666666666666" y="120" width="119" height="39"/>
+                                                <rect key="frame" x="134.66666666666666" y="110" width="119" height="39"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="39" id="hN6-2h-6Cd"/>
                                                 </constraints>
@@ -244,13 +244,13 @@
                                                 </connections>
                                             </button>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=" " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WbL-2E-Mjb">
-                                                <rect key="frame" x="191.66666666666666" y="174" width="4.6666666666666572" height="21.333333333333343"/>
+                                                <rect key="frame" x="191.66666666666666" y="159" width="4.6666666666666572" height="21.333333333333343"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="bottom" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Download Maps" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zml-oh-ZAx">
-                                                <rect key="frame" x="110.66666666666666" y="210.33333333333331" width="166.99999999999997" height="43.333333333333343"/>
+                                                <rect key="frame" x="110.66666666666666" y="190.33333333333331" width="166.99999999999997" height="49.333333333333343"/>
                                                 <accessibility key="accessibilityConfiguration">
                                                     <accessibilityTraits key="traits" staticText="YES" header="YES"/>
                                                 </accessibility>
@@ -258,17 +258,18 @@
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="To download georeferenced PDF maps go to https://cpw.state.co.us/learn/Pages/Maps.aspx" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mus-Ud-6zr">
-                                                <rect key="frame" x="18" y="268.66666666666669" width="352.33333333333331" height="60"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mus-Ud-6zr">
+                                                <rect key="frame" x="0.0" y="249.66666666666669" width="388" height="220"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="height" constant="60" id="sBG-g5-rOO"/>
+                                                    <constraint firstAttribute="height" constant="220" id="joL-hD-nFG"/>
                                                 </constraints>
+                                                <string key="text">This will start up your browser and show a list of resources for downloading geospatial PDFs from the CPW website. When the map is displayed, click on the Share icon (the rectangle with up arrow), then scroll the icons in the footer to click on Save to Files icon, select a place to save the map, click Save or Add button. Return to this app and use File Picker button above to load maps into this app. </string>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Xos-Ln-Pg5" customClass="PrimaryUIButton" customModule="PocketMaps" customModuleProvider="target">
-                                                <rect key="frame" x="111.66666666666666" y="343.66666666666669" width="164.99999999999997" height="39"/>
+                                                <rect key="frame" x="111.66666666666666" y="479.66666666666663" width="164.99999999999997" height="39"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="39" id="736-CP-Bjh"/>
                                                 </constraints>
