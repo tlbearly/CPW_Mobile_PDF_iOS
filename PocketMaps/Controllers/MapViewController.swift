@@ -67,12 +67,15 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
     private var popup:UITextField = UITextField(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
     private var selectedWayPt:PDFAnnotation = PDFAnnotation()
     var screenWidth:CGFloat = 0.0
+    var screenHeight:CGFloat = 0.0
     var addWayPtsFromDatabaseFlag = true
+    var addingWayPt = false
     
     // more drop down menu
     let moreMenuTransparentView = UIView();
     let moreMenuTableview = UITableView();
     var dataSource = [String]()
+    var pinBtn:UIBarButtonItem = UIBarButtonItem(image: (UIImage(named: "grey_pin")), style: .plain, target: self, action: #selector(onClickWayPtPin))
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -85,10 +88,13 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         
         self.title = maps[mapIndex].displayName
         screenWidth = self.view.frame.size.width
+        screenHeight = self.view.frame.size.height
         
+        // set add way point button in titlebar to active
+        pinBtn.isEnabled = true
         // add more drop down menu button
         let moreBtn = UIBarButtonItem(image: (UIImage(named: "more")), style: .plain, target: self, action: #selector(onClickMore))
-        self.navigationItem.rightBarButtonItem = moreBtn
+        self.navigationItem.rightBarButtonItems = [moreBtn,pinBtn]
         
         // set page margins
         marginTop = maps[mapIndex].marginTop
@@ -207,8 +213,20 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         }, completion: nil)
     }
     @objc func onClickMore(_ sender:Any){
-        dataSource = ["Lock in Landscape Mode", "Lock in Portrait Mode", "Show All Way Points", "Hide All Way Points"]
+        dataSource = ["Add Way Point","Mark Current Location", "Show Way Points", "Hide Way Points", "Delete All Way Points","Lock in Landscape Mode", "Lock in Portrait Mode"]
         addMoreMenuTransparentView(frames: self.view.frame)
+    }
+    @objc func onClickWayPtPin(_ sender:Any){
+        addingWayPt = true
+        // set add way point button in titlebar to inactive
+        pinBtn.isEnabled = false
+        let alert = UIAlertController(title: "Add Way Point", message: "", preferredStyle: .alert)
+        self.present(alert, animated: true)
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1.0) {
+            alert.dismiss(animated: true)
+        }
+        let cyanPin = UIImage(named: "cyan_pin")
+        pinBtn.image = cyanPin
     }
     func lockLandscape(){
         // lock in landscape mode
@@ -238,7 +256,7 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
             }
             // pass the selected map name, thumbnail, etc to MapViewController.swift
             let wayPt = selectedWayPt.contents
-            editWayPtVC.wayPt = wayPt ?? "description$lat, long$date added$cyan_pin$0$0"
+            editWayPtVC.wayPt = wayPt ?? "description$lat, long$date added$blue_pin$0$0"
         default:
             fatalError("Unexpected Segue Identifier: \(String(describing: segue.identifier))")
         }
@@ -430,9 +448,16 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         return true
     }
     
+    // MARK: displayError
     func displayError(msg: String){
-        // MARK: displayError
         let alert = UIAlertController(title: "Unable to View Map", message: msg, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        self.present(alert, animated: true)
+        return
+    }
+    func displayError(msg: String, title: String?){
+        let theTitle:String = title ?? "Unable to View Map"
+        let alert = UIAlertController(title: theTitle, message: msg, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
         self.present(alert, animated: true)
         return
@@ -496,7 +521,7 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         // this line crashes in iOS 11.0 PDFAnnotation.setInteriorColor
         if #available(iOS 11.2, *) {
             currentLocation = PDFAnnotation(bounds: CGRect(x:x, y:y, width:cirSize,height:cirSize), forType: .circle, withProperties: nil)
-            currentLocation.interiorColor = UIColor.blue
+            currentLocation.interiorColor = UIColor.cyan
             border.lineWidth = CGFloat(cirSize) / 6.0 // border width
             currentLocation.color = UIColor.white // border color
         }
@@ -826,6 +851,13 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
     }
     
     func addWayPt(x: CGFloat, y: CGFloat, page: PDFPage, imageName: String, desc: String, dateAdded: String?, location: CGPoint){
+        
+        if (addingWayPt){
+            pinBtn.isEnabled = true
+            addingWayPt = false // flag to ignor taps unless add way point was selected from the menu
+            let greyPin = UIImage(named: "grey_pin")
+            pinBtn.image = greyPin
+        }
         // Create a PushPin
         var dateString: String
         let image = UIImage(named: imageName)
@@ -884,6 +916,21 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         }
     }
     
+    func removeAllWayPoints(){
+        // Remove all way points from pdf annotation and database
+        print("total way pts = \(maps[mapIndex].wayPtArray.count)")
+        var i:Int
+        while (maps[mapIndex].wayPtArray.count > 0){
+            i = maps[mapIndex].wayPtArray.count - 1
+            maps[mapIndex].wayPtArray.remove(at: i)
+            print("removing way pt \(i)")
+        }
+            
+        // save these changes in the database
+        savePDF()
+        hideWayPts() // update pdf annotations
+    }
+    
     func removeWayPt(x:Float, y:Float){
         // Updated way point remove it so can update and add it again
         if (maps[mapIndex].wayPtArray.count > 0){
@@ -934,12 +981,13 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
                     // make sure it is on the map
                     if (pdfViewPoint.x>CGFloat(marginLeft) && pdfViewPoint.y>CGFloat(marginBottom) &&
                         pdfViewPoint.x<CGFloat(mediaBoxWidth - marginRight) &&
-                        pdfViewPoint.y<CGFloat(mediaBoxHeight - marginTop)){
-                        addWayPt(x: pdfViewPoint.x, y: pdfViewPoint.y, page: page, imageName: "cyan_pin", desc: getWayPtLabel(page: page), dateAdded: nil,location: location)
+                        pdfViewPoint.y<CGFloat(mediaBoxHeight - marginTop) && addingWayPt){
+                        addWayPt(x: pdfViewPoint.x, y: pdfViewPoint.y, page: page, imageName: "blue_pin", desc: getWayPtLabel(page: page), dateAdded: nil,location: location)
                         return
                     }
                     // Display off map message for 1 second
                     else {
+                        if (!addingWayPt) {return}
                         //print ("off map x \(Int(pdfViewPoint.x)) > width \(Int(pdfView.bounds.width)) or y \(Int(pdfViewPoint.y)) > height  \(Int(pdfView.bounds.height)) or negative")
                         let alert = UIAlertController(title: "Off Map", message: "", preferredStyle: .alert)
                         self.present(alert, animated: true)
@@ -951,7 +999,7 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
                 }
                 
                 // clicked on existing annotation. Is it a way pt? type stamp?
-                if (waypt.type != "Stamp"){
+                if (waypt.type != "Stamp" && addingWayPt){
                     // clicked on current location
                     addWayPt(x: pdfViewPoint.x, y: pdfViewPoint.y, page: page, imageName: "red_pin", desc: getWayPtLabel(page: page), dateAdded: nil, location: location)
                     return
@@ -1027,6 +1075,35 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         }
     }
     
+    func markCurrentLocation(){
+        if (currentLatLong.text != "  Current location: \(latNow), \(longNow)"){
+            displayError(msg: "Current location not on map", title:"Notice")
+            return
+        }
+        guard let page = pdfView.document?.page(at: 0) else {
+            displayError(msg: "Problem reading the PDF map. Cannot add way point.", title:"Notice")
+            return
+        }
+        // get pdf point
+        var x:Double = (((longNow + 180.0) - (long1 + 180.0)) / longDiff) * pdfWidth
+        var y:Double = (((90.0 - latNow) - (90.0 - lat2)) / latDiff) * pdfHeight
+        x = x + marginLeft
+        y = (pdfHeight + marginTop)  - y
+        
+        // Move to show current location in center
+        var moveX = (1 / (pdfView.scaleFactor)) * (pdfView.frame.width / 2.0)
+        var moveY = (1 / (pdfView.scaleFactor)) * (pdfView.frame.height / 2.0)
+        if (moveX < 0){moveX = 0}
+        if (moveY < 0){moveY = 0}
+        let myPoint:CGPoint = CGPoint(x: CGFloat(x) - moveX, y: CGFloat(y) + moveY)
+        let destination = PDFDestination(page: page, at: myPoint)
+        pdfView.go(to: destination)
+        
+        // Get screen point
+        let pdfPoint = CGPoint(x: x, y: y)
+        let location:CGPoint = pdfView.convert(pdfPoint, from: page)
+        addWayPt(x: CGFloat(x), y: CGFloat(y), page: page, imageName: "red_pin", desc: getWayPtLabel(page: page), dateAdded: nil, location: location)
+    }
     func hideWayPts(){
         // Clicked on hide all way points menu item
         guard let page = pdfView.document?.page(at: 0) else {
@@ -1163,14 +1240,35 @@ extension MapViewController:UITableViewDelegate, UITableViewDataSource {
             removeMoreMenuTransparentView()
             resizePushPins()
         }
-        else if (dataSource[indexPath.row] == "Hide All Way Points"){
+        else if (dataSource[indexPath.row] == "Add Way Point"){
+            addingWayPt = true
+            pinBtn.isEnabled = false
+            let alert = UIAlertController(title: "Add Way Point", message: "", preferredStyle: .alert)
+            self.present(alert, animated: true)
+            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1.0) {
+                alert.dismiss(animated: true)
+            }
+            removeMoreMenuTransparentView()
+        }
+        else if (dataSource[indexPath.row] == "Mark Current Location"){
+            addingWayPt = true
+            let cyanPin = UIImage(named: "cyan_pin")
+            pinBtn.image = cyanPin
+            markCurrentLocation()
+            removeMoreMenuTransparentView()
+        }
+        else if (dataSource[indexPath.row] == "Hide Way Points"){
             hideWayPts()
             removeMoreMenuTransparentView()
         }
-        else if (dataSource[indexPath.row] == "Show All Way Points"){
+        else if (dataSource[indexPath.row] == "Show Way Points"){
             showWayPts()
             removeMoreMenuTransparentView()
             resizePushPins()
+        }
+        else if (dataSource[indexPath.row] == "Delete All Way Points"){
+            removeAllWayPoints()
+            removeMoreMenuTransparentView()
         }
     }
 }

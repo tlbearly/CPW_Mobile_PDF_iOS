@@ -38,7 +38,7 @@
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mj3-5M-a2g">
                                         <rect key="frame" x="3.6666666666666572" y="200.66666666666669" width="381" height="167.33333333333331"/>
                                         <viewLayoutGuide key="safeArea" id="lAT-Z4-0b5"/>
-                                        <string key="text">Take this app out in the field to display your current location on PDF maps from the HuntingAtlas, FishingAtlas, CPW Maps Library, or any geo-referenced PDF. No need for internet or data connection! Plus use this app to download PDF maps (requires data connection)</string>
+                                        <string key="text">Take this app out in the field to display your current location on PDF maps from the HuntingAtlas, FishingAtlas, CPW Maps Library, or any geo-referenced PDF. No need for internet or data connection! Plus, access a list of resources for downloading PDF maps (requires data connection)</string>
                                         <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
@@ -77,7 +77,7 @@
             <objects>
                 <tableViewController id="Rk3-2j-9u0" userLabel="Imported Maps" customClass="MapListTableViewController" customModule="PocketMaps" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="110" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" contentViewInsetsToSafeArea="NO" id="dQn-IY-pJt">
-                        <rect key="frame" x="0.0" y="0.0" width="428" height="926"/>
+                        <rect key="frame" x="0.0" y="0.0" width="428" height="872"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <viewLayoutGuide key="safeArea" id="hYQ-Dh-RFP"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -202,11 +202,11 @@
             <objects>
                 <viewController title="Add Maps" id="33z-Sm-ZcB" customClass="AddMapsViewController" customModule="PocketMaps" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="uSc-zw-HM8">
-                        <rect key="frame" x="0.0" y="0.0" width="428" height="926"/>
+                        <rect key="frame" x="0.0" y="0.0" width="428" height="872"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dFQ-K0-TJ5">
-                                <rect key="frame" x="20" y="88" width="388" height="804"/>
+                                <rect key="frame" x="20" y="56" width="388" height="782"/>
                                 <subviews>
                                     <stackView autoresizesSubviews="NO" opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="JkA-LU-4vk" userLabel="Vertical Stack View">
                                         <rect key="frame" x="0.0" y="20" width="388" height="518.66666666666663"/>
@@ -321,7 +321,7 @@
             <objects>
                 <viewController title="PDF Map" id="XwV-qs-rbI" customClass="MapViewController" customModule="PocketMaps" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="1Sn-FH-aig">
-                        <rect key="frame" x="0.0" y="0.0" width="428" height="926"/>
+                        <rect key="frame" x="0.0" y="0.0" width="428" height="872"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <viewLayoutGuide key="safeArea" id="n7v-S6-kn7"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -340,11 +340,11 @@
             <objects>
                 <viewController id="JGa-RW-tBr" customClass="EditWayPtViewController" customModule="PocketMaps" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="kf2-eL-Mw4">
-                        <rect key="frame" x="0.0" y="0.0" width="428" height="926"/>
+                        <rect key="frame" x="0.0" y="0.0" width="428" height="872"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="pEQ-4g-t6x" userLabel="Stack View 1">
-                                <rect key="frame" x="10" y="98" width="398" height="80"/>
+                                <rect key="frame" x="10" y="66" width="398" height="80"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="cyan_pin" translatesAutoresizingMaskIntoConstraints="NO" id="5Cq-Bb-gU2">
                                         <rect key="frame" x="0.0" y="0.0" width="80" height="80"/>
@@ -361,7 +361,7 @@
                                 </subviews>
                             </stackView>
                             <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="R7v-Aq-zt0" userLabel="Stack View 2">
-                                <rect key="frame" x="20" y="188" width="210.66666666666666" height="40.333333333333343"/>
+                                <rect key="frame" x="20" y="156" width="210.66666666666666" height="40.333333333333343"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Lat, Long:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BST-lx-pFV">
                                         <rect key="frame" x="0.0" y="9.9999999999999982" width="75.333333333333329" height="20.333333333333329"/>
@@ -381,7 +381,7 @@
                                 </constraints>
                             </stackView>
                             <stackView opaque="NO" contentMode="scaleToFill" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="M3S-Pw-e63" userLabel="Stack View 3">
-                                <rect key="frame" x="20" y="248.33333333333334" width="196.66666666666666" height="20.333333333333343"/>
+                                <rect key="frame" x="20" y="216.33333333333334" width="196.66666666666666" height="20.333333333333343"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Date Added:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7ri-Bw-FYN">
                                         <rect key="frame" x="0.0" y="0.0" width="94.666666666666671" height="20.333333333333332"/>
@@ -398,13 +398,13 @@
                                 </subviews>
                             </stackView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Push Pin Color:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8cK-51-1r4">
-                                <rect key="frame" x="20" y="288.66666666666669" width="116" height="20.333333333333314"/>
+                                <rect key="frame" x="20" y="256.66666666666669" width="116" height="20.333333333333314"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <stackView opaque="NO" contentMode="scaleToFill" spacing="43" translatesAutoresizingMaskIntoConstraints="NO" id="Lp3-EL-pP6" userLabel="Stack View buttons">
-                                <rect key="frame" x="40" y="329" width="182" height="30"/>
+                                <rect key="frame" x="40" y="297" width="182" height="30"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HoX-eo-ra3">
                                         <rect key="frame" x="0.0" y="0.0" width="30" height="30"/>
