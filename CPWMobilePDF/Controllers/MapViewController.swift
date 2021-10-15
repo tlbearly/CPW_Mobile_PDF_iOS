@@ -1052,6 +1052,10 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
                 aPopup.removeFromSuperview()
             }
         }
+        else if gestureRecognizer.state == .ended
+        {
+            resizePushPins()
+        }
     }
     
     @objc func pdfViewTapped2(_ gestureRecognizer: UITapGestureRecognizer) {
