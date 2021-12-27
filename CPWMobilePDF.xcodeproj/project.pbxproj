@@ -15,7 +15,6 @@
 		60955B48245255E000275EDA /* AddMapsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60955B47245255E000275EDA /* AddMapsViewController.swift */; };
 		609CA8C12440C353006C0283 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 609CA8C02440C353006C0283 /* AppDelegate.swift */; };
 		609CA8C32440C353006C0283 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 609CA8C22440C353006C0283 /* SceneDelegate.swift */; };
-		609CA8C52440C353006C0283 /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 609CA8C42440C353006C0283 /* SplashViewController.swift */; };
 		609CA8C82440C353006C0283 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 609CA8C62440C353006C0283 /* Main.storyboard */; };
 		609CA8CA2440C355006C0283 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 609CA8C92440C355006C0283 /* Assets.xcassets */; };
 		609CA8CD2440C355006C0283 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 609CA8CB2440C355006C0283 /* LaunchScreen.storyboard */; };
@@ -34,6 +33,7 @@
 		A4535D6E2469BE4D000E945B /* 63RanchSTL_geo.pdf in Resources */ = {isa = PBXBuildFile; fileRef = A4535D6D2469BE4D000E945B /* 63RanchSTL_geo.pdf */; };
 		A4535D74246F1ACE000E945B /* AppError.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4535D73246F1ACE000E945B /* AppError.swift */; };
 		A46C95F824A6B1F3004043E0 /* CobbLake.pdf in Resources */ = {isa = PBXBuildFile; fileRef = A46C95F724A6B1F3004043E0 /* CobbLake.pdf */; };
+		A474D074277A663000F55D63 /* HelpMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A474D073277A663000F55D63 /* HelpMapViewController.swift */; };
 		A475DBB2255DF42600B0B8DD /* WayPt.swift in Sources */ = {isa = PBXBuildFile; fileRef = A475DBB1255DF42600B0B8DD /* WayPt.swift */; };
 		A48DF66125D1AE4200D699FD /* CPW_HPP_NorthLarimer_geo.pdf in Resources */ = {isa = PBXBuildFile; fileRef = A48DF66025D1AE4200D699FD /* CPW_HPP_NorthLarimer_geo.pdf */; };
 		A4B3911C25FBCF8600730DED /* AppUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4B3911B25FBCF8600730DED /* AppUtility.swift */; };
@@ -68,7 +68,6 @@
 		609CA8BD2440C353006C0283 /* CPW Mobile PDF.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "CPW Mobile PDF.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		609CA8C02440C353006C0283 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		609CA8C22440C353006C0283 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		609CA8C42440C353006C0283 /* SplashViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
 		609CA8C72440C353006C0283 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		609CA8C92440C355006C0283 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		609CA8CC2440C355006C0283 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -94,6 +93,7 @@
 		A4535D6D2469BE4D000E945B /* 63RanchSTL_geo.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = 63RanchSTL_geo.pdf; sourceTree = "<group>"; };
 		A4535D73246F1ACE000E945B /* AppError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppError.swift; sourceTree = "<group>"; };
 		A46C95F724A6B1F3004043E0 /* CobbLake.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = CobbLake.pdf; sourceTree = "<group>"; };
+		A474D073277A663000F55D63 /* HelpMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpMapViewController.swift; sourceTree = "<group>"; };
 		A475DBB1255DF42600B0B8DD /* WayPt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WayPt.swift; sourceTree = "<group>"; };
 		A48DF66025D1AE4200D699FD /* CPW_HPP_NorthLarimer_geo.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = CPW_HPP_NorthLarimer_geo.pdf; sourceTree = "<group>"; };
 		A4B3911B25FBCF8600730DED /* AppUtility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppUtility.swift; sourceTree = "<group>"; };
@@ -218,13 +218,13 @@
 		609CA8F42441327B006C0283 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				609CA8C42440C353006C0283 /* SplashViewController.swift */,
 				609CA8F5244132AC006C0283 /* MapListViewController.swift */,
 				60146FFF244773BD003D3BAF /* MapListTableViewController.swift */,
 				60146FFD24477260003D3BAF /* MapListTableViewCell.swift */,
 				60DBB8CE244A539600F84F4A /* MapViewController.swift */,
 				60955B47245255E000275EDA /* AddMapsViewController.swift */,
 				A400497F2486F6000092A93A /* EditWayPtViewController.swift */,
+				A474D073277A663000F55D63 /* HelpMapViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -388,9 +388,9 @@
 				A40049802486F6000092A93A /* EditWayPtViewController.swift in Sources */,
 				60DBB8D1244A53E400F84F4A /* PDFParser.swift in Sources */,
 				60DBB8D3244A54E900F84F4A /* PushPin.swift in Sources */,
-				609CA8C52440C353006C0283 /* SplashViewController.swift in Sources */,
 				A475DBB2255DF42600B0B8DD /* WayPt.swift in Sources */,
 				60955B48245255E000275EDA /* AddMapsViewController.swift in Sources */,
+				A474D074277A663000F55D63 /* HelpMapViewController.swift in Sources */,
 				609CA8C12440C353006C0283 /* AppDelegate.swift in Sources */,
 				609CA8F124412034006C0283 /* PrimaryUIButton.swift in Sources */,
 				609CA8C32440C353006C0283 /* SceneDelegate.swift in Sources */,

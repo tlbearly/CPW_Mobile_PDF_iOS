@@ -70,6 +70,7 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
     var screenHeight:CGFloat = 0.0
     var addWayPtsFromDatabaseFlag = true
     var addingWayPt = false
+    var locationTimer:Timer = Timer()
     
     // more drop down menu
     let moreMenuTransparentView = UIView();
@@ -178,6 +179,9 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
+        // Stop calling displayLocation
+        locationTimer.invalidate()
+        
         // Don't forget to reset when view is being removed
         // use .all to return to physical device orientation
         AppUtility.lockOrientation(.portrait, andRotateTo: .portrait)
@@ -234,7 +238,7 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         }, completion: nil)
     }
     @objc func onClickMore(_ sender:Any){
-        dataSource = ["Mark current location", "Add waypoint", "Show waypoints", "Hide waypoints", "Delete all waypoints", "Lock in portrait mode", "Lock in landscape mode"]
+        dataSource = ["Mark current location", "Add waypoint", "Show waypoints", "Hide waypoints", "Delete all waypoints", "Lock in portrait mode", "Lock in landscape mode","Help"]
         addMoreMenuTransparentView(frames: self.view.frame)
     }
     @objc func onClickWayPtPin(_ sender:Any){
@@ -360,7 +364,7 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
             locationManager.startUpdatingHeading() // get azimuth
             self.displayLocation(page: page, pdfView: self.pdfView) // initial location
             // update location every 5 seconds
-            Timer.scheduledTimer(withTimeInterval: 5, repeats: true) { timer in
+            locationTimer = Timer.scheduledTimer(withTimeInterval: 5, repeats: true) { timer in
                 self.displayLocation(page: page, pdfView: self.pdfView)
             }
             
@@ -370,7 +374,7 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
             locationManager.startUpdatingHeading() // get azimuth
             self.displayLocation(page: page, pdfView: self.pdfView) // initial location
             // update location every 5 seconds
-            Timer.scheduledTimer(withTimeInterval: 5, repeats: true) { timer in
+            locationTimer = Timer.scheduledTimer(withTimeInterval: 5, repeats: true) { timer in
                 self.displayLocation(page: page, pdfView: self.pdfView)
             }
         }
@@ -782,7 +786,7 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         }
         self.displayLocation(page: page, pdfView: self.pdfView) // initial location
         // update location every 5 seconds
-        Timer.scheduledTimer(withTimeInterval: 5, repeats: true) { timer in
+        locationTimer = Timer.scheduledTimer(withTimeInterval: 5, repeats: true) { timer in
             self.displayLocation(page: page, pdfView: self.pdfView)
         }
     }
@@ -1219,18 +1223,6 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
             }
         }
     }
-    
-  /*  // try NOT WORKING, NOT CALLED
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        if let touch = touches.first {
-            let position = touch.location(in: pdfView)
-            //signingPath = UIBezierPath()
-            //signingPath.move(to: pdfView.convert(position, to: pdfView.page(for: position, nearest: true)!))
-            //annotationAdded = false
-            UIGraphicsBeginImageContext(CGSize(width: 800, height: 600))
-            //let lastPoint = pdfView.convert(position, to: pdfView.page(for: position, nearest: true)!)
-        }
-    }*/
 }
 
 
@@ -1308,6 +1300,10 @@ extension MapViewController:UITableViewDelegate, UITableViewDataSource {
         else if (dataSource[indexPath.row] == "Delete all waypoints"){
             removeAllWayPoints()
             removeMoreMenuTransparentView()
+        }
+        else if (dataSource[indexPath.row] == "Help"){
+            // show help
+            print("show help")
         }
     }
 }
