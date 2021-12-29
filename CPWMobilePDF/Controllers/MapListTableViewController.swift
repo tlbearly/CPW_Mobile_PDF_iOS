@@ -1,6 +1,6 @@
 //
 //  MapListTableViewController.swift
-//  MapViewer
+//  CPW Mobile PDF
 //
 //  Created by Tammy Bearly on 4/15/20.
 //  Copyright © 2020 Colorado Parks and Wildlife. All rights reserved.
@@ -1113,21 +1113,17 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
         
         // MapListTableView row selected
         else {
-        /*let cellIdentifier = "MapListTableViewCell"
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as? MapListTableViewCell else {
-            fatalError("The dequeued cell is not an instance of MapListTableViewCell.")
-        }*/
-        guard let cell = self.tableView.cellForRow(at: indexPath) as? MapListTableViewCell else {
-            showMap = false
-            displayError(theError: AppError.pdfMapError.cannotSelectRow)
-            return
-        }
-        if (showMap) {
-            // when user returns to list it sets showMap to false in viewDidAppear
-            tableView.deselectRow(at: indexPath, animated: true)
-            // causes error, self.tableView.reloadData()
-            performSegue(withIdentifier: "ShowMap", sender: cell)
-        }
+            guard let cell = self.tableView.cellForRow(at: indexPath) as? MapListTableViewCell else {
+                showMap = false
+                displayError(theError: AppError.pdfMapError.cannotSelectRow)
+                return
+            }
+            if (showMap) {
+                // when user returns to list it sets showMap to false in viewDidAppear
+                tableView.deselectRow(at: indexPath, animated: true)
+                // causes error, self.tableView.reloadData()
+                performSegue(withIdentifier: "ShowMap", sender: cell)
+            }
         }
     }
     
@@ -1247,8 +1243,6 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
                 fatalError("The selected cell is not being displayed by the table.")
             }
             // pass the selected map name, thumbnail, etc to MapViewController.swift
-            //let selectedMap = maps[indexPath.row]
-            //mapViewController.map = selectedMap
             mapViewController.maps = maps
             mapViewController.mapIndex = indexPath.row
         default:

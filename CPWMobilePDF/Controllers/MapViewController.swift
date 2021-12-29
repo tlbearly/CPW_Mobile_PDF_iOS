@@ -281,6 +281,14 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
             // pass the selected map name, thumbnail, etc to MapViewController.swift
             let wayPt = selectedWayPt.contents
             editWayPtVC.wayPt = wayPt ?? "description$lat, long$date added$blue_pin$0$0"
+        case "HelpMapView":
+            // pass variables to help map view
+            guard let helpMapViewController = segue.destination as? HelpMapViewController else {
+                fatalError("Unexpected destination: \(segue.destination)")
+            }
+            // pass the selected map name, thumbnail, etc to HelpMapViewController.swift
+            helpMapViewController.maps = maps
+            helpMapViewController.mapIndex = mapIndex
         default:
             fatalError("Unexpected Segue Identifier: \(String(describing: segue.identifier))")
         }
@@ -290,24 +298,26 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
     
     @IBAction func performUnwindToMapDone(_ sender: UIStoryboardSegue) {
         // MARK: WayPt Done
-        // Return from waypt edit window. Done button pressed
-        guard let editWayPtVC = sender.source as? EditWayPtViewController else {
-            fatalError("Unexpected Segue Sender: \(String(describing: sender.source))")
-        }
-        var desc = editWayPtVC.wayPtDesc.text ?? "Waypoint"
-        if (desc == "") {
-            desc = "Waypoint"
-        }
-        guard let page = pdfView.document?.page(at: 0) else {
-            displayError(msg: "Problem reading the PDF map. Can't get page 1.")
-            return
-        }
-        // update the push pin color and description
-        page.removeAnnotation(selectedWayPt)
-        removeWayPt(x: editWayPtVC.x, y: editWayPtVC.y)
-        let nilPt = CGPoint(x: 0, y: 0) // tells addPopup in addWayPt not to show popup.
-        // add padding to desc since textview doesn't use margins
-        addWayPt(x: CGFloat(editWayPtVC.x), y: CGFloat(editWayPtVC.y), page: page, imageName: editWayPtVC.pushPinImg, desc: " " + desc.trimmingCharacters(in: .whitespacesAndNewlines), dateAdded: editWayPtVC.addDate.text, location: nilPt)
+       // if (sender.identifier == "editWayPt"){
+            // Return from waypt edit window. Done button pressed
+            guard let editWayPtVC = sender.source as? EditWayPtViewController else {
+                fatalError("Unexpected Segue Sender: \(String(describing: sender.source))")
+            }
+            var desc = editWayPtVC.wayPtDesc.text ?? "Waypoint"
+            if (desc == "") {
+                desc = "Waypoint"
+            }
+            guard let page = pdfView.document?.page(at: 0) else {
+                displayError(msg: "Problem reading the PDF map. Can't get page 1.")
+                return
+            }
+            // update the push pin color and description
+            page.removeAnnotation(selectedWayPt)
+            removeWayPt(x: editWayPtVC.x, y: editWayPtVC.y)
+            let nilPt = CGPoint(x: 0, y: 0) // tells addPopup in addWayPt not to show popup.
+            // add padding to desc since textview doesn't use margins
+            addWayPt(x: CGFloat(editWayPtVC.x), y: CGFloat(editWayPtVC.y), page: page, imageName: editWayPtVC.pushPinImg, desc: " " + desc.trimmingCharacters(in: .whitespacesAndNewlines), dateAdded: editWayPtVC.addDate.text, location: nilPt)
+        //}
     }
     
     @IBAction func performUnwindToMapTrash(_ sender: UIStoryboardSegue) {
@@ -1304,6 +1314,8 @@ extension MapViewController:UITableViewDelegate, UITableViewDataSource {
         else if (dataSource[indexPath.row] == "Help"){
             // show help
             print("show help")
+            // Open HelpMapViewController
+            self.performSegue(withIdentifier: "HelpMapView", sender: nil)
         }
     }
 }

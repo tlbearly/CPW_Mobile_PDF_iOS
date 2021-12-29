@@ -34,6 +34,7 @@
 		A4535D74246F1ACE000E945B /* AppError.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4535D73246F1ACE000E945B /* AppError.swift */; };
 		A46C95F824A6B1F3004043E0 /* CobbLake.pdf in Resources */ = {isa = PBXBuildFile; fileRef = A46C95F724A6B1F3004043E0 /* CobbLake.pdf */; };
 		A474D074277A663000F55D63 /* HelpMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A474D073277A663000F55D63 /* HelpMapViewController.swift */; };
+		A474D076277CE12400F55D63 /* HelpMapNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A474D075277CE12400F55D63 /* HelpMapNavigationController.swift */; };
 		A475DBB2255DF42600B0B8DD /* WayPt.swift in Sources */ = {isa = PBXBuildFile; fileRef = A475DBB1255DF42600B0B8DD /* WayPt.swift */; };
 		A48DF66125D1AE4200D699FD /* CPW_HPP_NorthLarimer_geo.pdf in Resources */ = {isa = PBXBuildFile; fileRef = A48DF66025D1AE4200D699FD /* CPW_HPP_NorthLarimer_geo.pdf */; };
 		A4B3911C25FBCF8600730DED /* AppUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4B3911B25FBCF8600730DED /* AppUtility.swift */; };
@@ -94,6 +95,7 @@
 		A4535D73246F1ACE000E945B /* AppError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppError.swift; sourceTree = "<group>"; };
 		A46C95F724A6B1F3004043E0 /* CobbLake.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = CobbLake.pdf; sourceTree = "<group>"; };
 		A474D073277A663000F55D63 /* HelpMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpMapViewController.swift; sourceTree = "<group>"; };
+		A474D075277CE12400F55D63 /* HelpMapNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpMapNavigationController.swift; sourceTree = "<group>"; };
 		A475DBB1255DF42600B0B8DD /* WayPt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WayPt.swift; sourceTree = "<group>"; };
 		A48DF66025D1AE4200D699FD /* CPW_HPP_NorthLarimer_geo.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = CPW_HPP_NorthLarimer_geo.pdf; sourceTree = "<group>"; };
 		A4B3911B25FBCF8600730DED /* AppUtility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppUtility.swift; sourceTree = "<group>"; };
@@ -225,6 +227,7 @@
 				60955B47245255E000275EDA /* AddMapsViewController.swift */,
 				A400497F2486F6000092A93A /* EditWayPtViewController.swift */,
 				A474D073277A663000F55D63 /* HelpMapViewController.swift */,
+				A474D075277CE12400F55D63 /* HelpMapNavigationController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -384,6 +387,7 @@
 				60147002244775EC003D3BAF /* PDFMap.swift in Sources */,
 				60DBB8CF244A539600F84F4A /* MapViewController.swift in Sources */,
 				6014700424479156003D3BAF /* RoundedCorderProgressBar.swift in Sources */,
+				A474D076277CE12400F55D63 /* HelpMapNavigationController.swift in Sources */,
 				609CA8F6244132AC006C0283 /* MapListViewController.swift in Sources */,
 				A40049802486F6000092A93A /* EditWayPtViewController.swift in Sources */,
 				60DBB8D1244A53E400F84F4A /* PDFParser.swift in Sources */,
