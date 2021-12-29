@@ -298,26 +298,24 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
     
     @IBAction func performUnwindToMapDone(_ sender: UIStoryboardSegue) {
         // MARK: WayPt Done
-       // if (sender.identifier == "editWayPt"){
-            // Return from waypt edit window. Done button pressed
-            guard let editWayPtVC = sender.source as? EditWayPtViewController else {
-                fatalError("Unexpected Segue Sender: \(String(describing: sender.source))")
-            }
-            var desc = editWayPtVC.wayPtDesc.text ?? "Waypoint"
-            if (desc == "") {
-                desc = "Waypoint"
-            }
-            guard let page = pdfView.document?.page(at: 0) else {
-                displayError(msg: "Problem reading the PDF map. Can't get page 1.")
-                return
-            }
-            // update the push pin color and description
-            page.removeAnnotation(selectedWayPt)
-            removeWayPt(x: editWayPtVC.x, y: editWayPtVC.y)
-            let nilPt = CGPoint(x: 0, y: 0) // tells addPopup in addWayPt not to show popup.
-            // add padding to desc since textview doesn't use margins
-            addWayPt(x: CGFloat(editWayPtVC.x), y: CGFloat(editWayPtVC.y), page: page, imageName: editWayPtVC.pushPinImg, desc: " " + desc.trimmingCharacters(in: .whitespacesAndNewlines), dateAdded: editWayPtVC.addDate.text, location: nilPt)
-        //}
+        // Return from waypt edit window. Done button pressed
+        guard let editWayPtVC = sender.source as? EditWayPtViewController else {
+            fatalError("Unexpected Segue Sender: \(String(describing: sender.source))")
+        }
+        var desc = editWayPtVC.wayPtDesc.text ?? "Waypoint"
+        if (desc == "") {
+            desc = "Waypoint"
+        }
+        guard let page = pdfView.document?.page(at: 0) else {
+            displayError(msg: "Problem reading the PDF map. Can't get page 1.")
+            return
+        }
+        // update the push pin color and description
+        page.removeAnnotation(selectedWayPt)
+        removeWayPt(x: editWayPtVC.x, y: editWayPtVC.y)
+        let nilPt = CGPoint(x: 0, y: 0) // tells addPopup in addWayPt not to show popup.
+        // add padding to desc since textview doesn't use margins
+        addWayPt(x: CGFloat(editWayPtVC.x), y: CGFloat(editWayPtVC.y), page: page, imageName: editWayPtVC.pushPinImg, desc: " " + desc.trimmingCharacters(in: .whitespacesAndNewlines), dateAdded: editWayPtVC.addDate.text, location: nilPt)
     }
     
     @IBAction func performUnwindToMapTrash(_ sender: UIStoryboardSegue) {

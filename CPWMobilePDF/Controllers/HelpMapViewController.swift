@@ -22,17 +22,12 @@ class HelpMapViewController: UIViewController {
         // Pass the selected object to the new view controller.
         super.prepare(for: segue, sender: sender)
         
-        switch(segue.identifier ?? "") {
-            case "HelpMapView":
-                // pass variables to help map view
-                guard let mapViewController = segue.destination as? MapViewController else {
-                    fatalError("Unexpected destination: \(segue.destination)")
-                }
-                // pass the selected map name, thumbnail, etc to HelpMapViewController.swift
-                mapViewController.maps = maps
-                mapViewController.mapIndex = mapIndex
-            default:
-            fatalError("Unexpected Segue Identifier: \(String(describing: segue.identifier))")
+        // pass variables to help map view
+        guard let mapViewController = segue.destination as? MapViewController else {
+            fatalError("Unexpected destination: \(segue.destination)")
         }
+        // pass the selected map name, thumbnail, etc to HelpMapViewController.swift
+        mapViewController.maps = maps
+        mapViewController.mapIndex = mapIndex
     }
 }
