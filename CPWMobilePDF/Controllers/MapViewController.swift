@@ -294,6 +294,9 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         }
     }
     
+    @IBAction func performUnwindFromHelpDone(_ sender: UIStoryboardSegue) {
+        print("return to MapViewController")
+    }
     // MARK: Navigation
     
     @IBAction func performUnwindToMapDone(_ sender: UIStoryboardSegue) {
@@ -1311,7 +1314,7 @@ extension MapViewController:UITableViewDelegate, UITableViewDataSource {
         }
         else if (dataSource[indexPath.row] == "Help"){
             // show help
-            print("show help")
+            removeMoreMenuTransparentView()
             // Open HelpMapViewController
             self.performSegue(withIdentifier: "HelpMapView", sender: nil)
         }
