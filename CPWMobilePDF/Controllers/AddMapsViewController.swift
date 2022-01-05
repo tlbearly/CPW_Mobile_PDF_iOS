@@ -185,7 +185,7 @@ extension AddMapsViewController:UITableViewDelegate, UITableViewDataSource {
         if (dataSource[indexPath.row] == "Help"){
             removeMoreMenuTransparentView()
             // Show HelpAddMapViewController
-            self.performSegue(withIdentifier: "HelpAddMapView", sender: nil)
+            self.performSegue(withIdentifier: "HelpAddMap", sender: nil)
         }
     }
 
