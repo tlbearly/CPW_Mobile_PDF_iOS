@@ -11,7 +11,6 @@
 		60147000244773BD003D3BAF /* MapListTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60146FFF244773BD003D3BAF /* MapListTableViewController.swift */; };
 		60147002244775EC003D3BAF /* PDFMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60147001244775EC003D3BAF /* PDFMap.swift */; };
 		6014700424479156003D3BAF /* RoundedCorderProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6014700324479156003D3BAF /* RoundedCorderProgressBar.swift */; };
-		6048D42B2450D7C100A14EBA /* aWellington3.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 6048D42A2450D7C100A14EBA /* aWellington3.pdf */; };
 		60955B48245255E000275EDA /* AddMapsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60955B47245255E000275EDA /* AddMapsViewController.swift */; };
 		609CA8C12440C353006C0283 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 609CA8C02440C353006C0283 /* AppDelegate.swift */; };
 		609CA8C32440C353006C0283 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 609CA8C22440C353006C0283 /* SceneDelegate.swift */; };
@@ -22,23 +21,16 @@
 		609CA8E32440C355006C0283 /* CPWMobilePDFUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 609CA8E22440C355006C0283 /* CPWMobilePDFUITests.swift */; };
 		609CA8F124412034006C0283 /* PrimaryUIButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 609CA8F024412034006C0283 /* PrimaryUIButton.swift */; };
 		609CA8F6244132AC006C0283 /* MapListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 609CA8F5244132AC006C0283 /* MapListViewController.swift */; };
-		60B05F61244DE22B00A92950 /* Wellington3.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 60B05F60244DE22B00A92950 /* Wellington3.pdf */; };
 		60DBB8CF244A539600F84F4A /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60DBB8CE244A539600F84F4A /* MapViewController.swift */; };
 		60DBB8D1244A53E400F84F4A /* PDFParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60DBB8D0244A53E400F84F4A /* PDFParser.swift */; };
 		60DBB8D3244A54E900F84F4A /* PushPin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60DBB8D2244A54E900F84F4A /* PushPin.swift */; };
-		60DBB8E2244A605200F84F4A /* Wellington.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 60DBB8E1244A605200F84F4A /* Wellington.pdf */; };
-		60DBB8E4244A606200F84F4A /* Wellington1.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 60DBB8E3244A606200F84F4A /* Wellington1.pdf */; };
 		A40049802486F6000092A93A /* EditWayPtViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A400497F2486F6000092A93A /* EditWayPtViewController.swift */; };
 		A400498624896E4A0092A93A /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A400498524896E4A0092A93A /* CloudKit.framework */; };
-		A4535D6E2469BE4D000E945B /* 63RanchSTL_geo.pdf in Resources */ = {isa = PBXBuildFile; fileRef = A4535D6D2469BE4D000E945B /* 63RanchSTL_geo.pdf */; };
 		A4535D74246F1ACE000E945B /* AppError.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4535D73246F1ACE000E945B /* AppError.swift */; };
-		A46C95F824A6B1F3004043E0 /* CobbLake.pdf in Resources */ = {isa = PBXBuildFile; fileRef = A46C95F724A6B1F3004043E0 /* CobbLake.pdf */; };
 		A474D074277A663000F55D63 /* HelpMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A474D073277A663000F55D63 /* HelpMapViewController.swift */; };
+		A474D07A27851C8F00F55D63 /* HelpAddMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A474D07927851C8F00F55D63 /* HelpAddMapViewController.swift */; };
 		A475DBB2255DF42600B0B8DD /* WayPt.swift in Sources */ = {isa = PBXBuildFile; fileRef = A475DBB1255DF42600B0B8DD /* WayPt.swift */; };
-		A48DF66125D1AE4200D699FD /* CPW_HPP_NorthLarimer_geo.pdf in Resources */ = {isa = PBXBuildFile; fileRef = A48DF66025D1AE4200D699FD /* CPW_HPP_NorthLarimer_geo.pdf */; };
 		A4B3911C25FBCF8600730DED /* AppUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4B3911B25FBCF8600730DED /* AppUtility.swift */; };
-		A4E0085124E32E95006F2665 /* Chambers_Lake_403010545_FSTopo.pdf in Resources */ = {isa = PBXBuildFile; fileRef = A4E0085024E32E95006F2665 /* Chambers_Lake_403010545_FSTopo.pdf */; };
-		A4E711F82587C2B800D21AED /* CO_Shadow_Mountain_20110217_TM_geo.pdf in Resources */ = {isa = PBXBuildFile; fileRef = A4E711F72587C2B800D21AED /* CO_Shadow_Mountain_20110217_TM_geo.pdf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -63,7 +55,6 @@
 		60146FFF244773BD003D3BAF /* MapListTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapListTableViewController.swift; sourceTree = "<group>"; };
 		60147001244775EC003D3BAF /* PDFMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFMap.swift; sourceTree = "<group>"; };
 		6014700324479156003D3BAF /* RoundedCorderProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedCorderProgressBar.swift; sourceTree = "<group>"; };
-		6048D42A2450D7C100A14EBA /* aWellington3.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = aWellington3.pdf; sourceTree = "<group>"; };
 		60955B47245255E000275EDA /* AddMapsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddMapsViewController.swift; sourceTree = "<group>"; };
 		609CA8BD2440C353006C0283 /* CPW Mobile PDF.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "CPW Mobile PDF.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		609CA8C02440C353006C0283 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -80,25 +71,18 @@
 		609CA8E42440C355006C0283 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		609CA8F024412034006C0283 /* PrimaryUIButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimaryUIButton.swift; sourceTree = "<group>"; };
 		609CA8F5244132AC006C0283 /* MapListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapListViewController.swift; sourceTree = "<group>"; };
-		60B05F60244DE22B00A92950 /* Wellington3.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = Wellington3.pdf; sourceTree = "<group>"; };
 		60BBA1152453A53E0057A53D /* CPWMobilePDFDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CPWMobilePDFDebug.entitlements; sourceTree = "<group>"; };
 		60DBB8CE244A539600F84F4A /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		60DBB8D0244A53E400F84F4A /* PDFParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFParser.swift; sourceTree = "<group>"; };
 		60DBB8D2244A54E900F84F4A /* PushPin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushPin.swift; sourceTree = "<group>"; };
-		60DBB8E1244A605200F84F4A /* Wellington.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = Wellington.pdf; sourceTree = "<group>"; };
-		60DBB8E3244A606200F84F4A /* Wellington1.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = Wellington1.pdf; sourceTree = "<group>"; };
 		A400497F2486F6000092A93A /* EditWayPtViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditWayPtViewController.swift; sourceTree = "<group>"; };
 		A400498324896E4A0092A93A /* CPWMobilePDF.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CPWMobilePDF.entitlements; sourceTree = "<group>"; };
 		A400498524896E4A0092A93A /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
-		A4535D6D2469BE4D000E945B /* 63RanchSTL_geo.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = 63RanchSTL_geo.pdf; sourceTree = "<group>"; };
 		A4535D73246F1ACE000E945B /* AppError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppError.swift; sourceTree = "<group>"; };
-		A46C95F724A6B1F3004043E0 /* CobbLake.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = CobbLake.pdf; sourceTree = "<group>"; };
 		A474D073277A663000F55D63 /* HelpMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpMapViewController.swift; sourceTree = "<group>"; };
+		A474D07927851C8F00F55D63 /* HelpAddMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpAddMapViewController.swift; sourceTree = "<group>"; };
 		A475DBB1255DF42600B0B8DD /* WayPt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WayPt.swift; sourceTree = "<group>"; };
-		A48DF66025D1AE4200D699FD /* CPW_HPP_NorthLarimer_geo.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = CPW_HPP_NorthLarimer_geo.pdf; sourceTree = "<group>"; };
 		A4B3911B25FBCF8600730DED /* AppUtility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppUtility.swift; sourceTree = "<group>"; };
-		A4E0085024E32E95006F2665 /* Chambers_Lake_403010545_FSTopo.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = Chambers_Lake_403010545_FSTopo.pdf; sourceTree = "<group>"; };
-		A4E711F72587C2B800D21AED /* CO_Shadow_Mountain_20110217_TM_geo.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = CO_Shadow_Mountain_20110217_TM_geo.pdf; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -151,17 +135,8 @@
 		609CA8BF2440C353006C0283 /* CPWMobilePDF */ = {
 			isa = PBXGroup;
 			children = (
-				A48DF66025D1AE4200D699FD /* CPW_HPP_NorthLarimer_geo.pdf */,
-				A4E0085024E32E95006F2665 /* Chambers_Lake_403010545_FSTopo.pdf */,
-				A46C95F724A6B1F3004043E0 /* CobbLake.pdf */,
 				A400498324896E4A0092A93A /* CPWMobilePDF.entitlements */,
-				A4535D6D2469BE4D000E945B /* 63RanchSTL_geo.pdf */,
 				60BBA1152453A53E0057A53D /* CPWMobilePDFDebug.entitlements */,
-				6048D42A2450D7C100A14EBA /* aWellington3.pdf */,
-				60B05F60244DE22B00A92950 /* Wellington3.pdf */,
-				60DBB8E3244A606200F84F4A /* Wellington1.pdf */,
-				60DBB8E1244A605200F84F4A /* Wellington.pdf */,
-				A4E711F72587C2B800D21AED /* CO_Shadow_Mountain_20110217_TM_geo.pdf */,
 				609CA8F42441327B006C0283 /* Controllers */,
 				609CA8F224412E01006C0283 /* Views */,
 				609CA8F324412E0C006C0283 /* Models */,
@@ -225,6 +200,7 @@
 				60955B47245255E000275EDA /* AddMapsViewController.swift */,
 				A400497F2486F6000092A93A /* EditWayPtViewController.swift */,
 				A474D073277A663000F55D63 /* HelpMapViewController.swift */,
+				A474D07927851C8F00F55D63 /* HelpAddMapViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -341,18 +317,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A46C95F824A6B1F3004043E0 /* CobbLake.pdf in Resources */,
-				A48DF66125D1AE4200D699FD /* CPW_HPP_NorthLarimer_geo.pdf in Resources */,
 				609CA8CD2440C355006C0283 /* LaunchScreen.storyboard in Resources */,
-				A4E711F82587C2B800D21AED /* CO_Shadow_Mountain_20110217_TM_geo.pdf in Resources */,
-				60DBB8E2244A605200F84F4A /* Wellington.pdf in Resources */,
 				609CA8CA2440C355006C0283 /* Assets.xcassets in Resources */,
-				A4E0085124E32E95006F2665 /* Chambers_Lake_403010545_FSTopo.pdf in Resources */,
-				60DBB8E4244A606200F84F4A /* Wellington1.pdf in Resources */,
-				A4535D6E2469BE4D000E945B /* 63RanchSTL_geo.pdf in Resources */,
 				609CA8C82440C353006C0283 /* Main.storyboard in Resources */,
-				6048D42B2450D7C100A14EBA /* aWellington3.pdf in Resources */,
-				60B05F61244DE22B00A92950 /* Wellington3.pdf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -381,6 +348,7 @@
 				60146FFE24477260003D3BAF /* MapListTableViewCell.swift in Sources */,
 				A4B3911C25FBCF8600730DED /* AppUtility.swift in Sources */,
 				60147000244773BD003D3BAF /* MapListTableViewController.swift in Sources */,
+				A474D07A27851C8F00F55D63 /* HelpAddMapViewController.swift in Sources */,
 				60147002244775EC003D3BAF /* PDFMap.swift in Sources */,
 				60DBB8CF244A539600F84F4A /* MapViewController.swift in Sources */,
 				6014700424479156003D3BAF /* RoundedCorderProgressBar.swift in Sources */,

@@ -76,6 +76,18 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
     let moreMenuTransparentView = UIView();
     let moreMenuTableview = UITableView();
     var dataSource = [String]()
+    var moreMenuShowing = false
+    var mainMenuRowHeight = 44
+    //  Height of status bar + navigation bar (if navigation bar exist)
+    var topbarHeight: Int {
+        if #available(iOS 13.0, *) {
+            return Int((view.window?.windowScene?.statusBarManager?.statusBarFrame.height ?? 5) +
+                (self.navigationController?.navigationBar.frame.height ?? 40))
+        } else {
+            // Fallback on earlier versions
+            return Int(self.navigationController?.navigationBar.frame.size.height ?? 45)
+        }
+    }
     
     // must use lazy or the pinBtn doesn't call onClickWayPtPin after edit waypoint
     // UIBarButtonItem won't be instantiated (and the action selectors won't attempt to be resolved) until they are used inside the class. Doing it
@@ -215,7 +227,7 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         moreMenuTransparentView.frame = window?.frame ?? self.view.frame
         self.view.addSubview(moreMenuTransparentView)
         
-        moreMenuTableview.frame = CGRect(x: 0, y: 40, width: frames.width, height: 0)
+        moreMenuTableview.frame = CGRect(x: 0, y: 0, width: frames.width, height: 0)
         self.view.addSubview(moreMenuTableview)
         moreMenuTableview.layer.cornerRadius = 5
         
@@ -224,9 +236,10 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         let tapgesture = UITapGestureRecognizer(target: self, action: #selector(removeMoreMenuTransparentView))
         moreMenuTransparentView.addGestureRecognizer(tapgesture)
         moreMenuTransparentView.alpha = 0
+       
         UIView.animate(withDuration: 0.4, delay: 0.0, usingSpringWithDamping: 1.0, initialSpringVelocity: 1.0, options: .curveEaseInOut, animations: {
             self.moreMenuTransparentView.alpha = 0.5
-            self.moreMenuTableview.frame = CGRect(x: 0, y: 40+5, width: Int(frames.width), height: self.dataSource.count * 55)
+            self.moreMenuTableview.frame = CGRect(x: 0, y: self.topbarHeight, width: Int(frames.width), height: self.dataSource.count * self.mainMenuRowHeight)
         }, completion: nil)
     }
     @objc func removeMoreMenuTransparentView(){
@@ -234,12 +247,18 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         // remove more button drop down menu view
         UIView.animate(withDuration: 0.4, delay: 0.0, usingSpringWithDamping: 1.0, initialSpringVelocity: 1.0, options: .curveEaseInOut, animations: {
             self.moreMenuTransparentView.alpha = 0.0
-            self.moreMenuTableview.frame = CGRect(x: 0, y: 40, width: frames.width, height: 0)
+            self.moreMenuTableview.frame = CGRect(x: 0, y: self.topbarHeight, width: Int(frames.width), height: 0)
         }, completion: nil)
     }
     @objc func onClickMore(_ sender:Any){
         dataSource = ["Mark current location", "Add waypoint", "Show waypoints", "Hide waypoints", "Delete all waypoints", "Lock in portrait mode", "Lock in landscape mode","Help"]
-        addMoreMenuTransparentView(frames: self.view.frame)
+        if (!moreMenuShowing){
+            addMoreMenuTransparentView(frames: self.view.frame)
+            moreMenuShowing = true
+        }else{
+            removeMoreMenuTransparentView()
+            moreMenuShowing = false
+        }
     }
     @objc func onClickWayPtPin(_ sender:Any){
         showWayPts()
@@ -295,9 +314,8 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
     }
     
     @IBAction func performUnwindFromHelpDone(_ sender: UIStoryboardSegue) {
-        print("return to MapViewController")
+        //print("return to MapViewController")
     }
-    // MARK: Navigation
     
     @IBAction func performUnwindToMapDone(_ sender: UIStoryboardSegue) {
         // MARK: WayPt Done

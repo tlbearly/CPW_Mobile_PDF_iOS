@@ -19,6 +19,23 @@ class AddMapsViewController: UIViewController {
     var fileName: String? = nil
     var fileURL: URL? = nil
     
+    // more drop down menu
+    let moreMenuTransparentView = UIView();
+    let moreMenuTableview = UITableView();
+    var dataSource = ["Help"]
+    var moreMenuShowing = false
+    var mainMenuRowHeight = 44
+    //  Height of status bar + navigation bar (if navigation bar exist)
+    var topbarHeight: Int {
+        if #available(iOS 13.0, *) {
+            return Int((view.window?.windowScene?.statusBarManager?.statusBarFrame.height ?? 5) +
+                (self.navigationController?.navigationBar.frame.height ?? 40))
+        } else {
+            // Fallback on earlier versions
+            return Int(self.navigationController?.navigationBar.frame.size.height ?? 45)
+        }
+    }
+    
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
@@ -28,15 +45,14 @@ class AddMapsViewController: UIViewController {
         
         self.title = "Add Map"
         
-        // For debugging write a test file to the documents dir
-        writeDebugPDF(self, newFile: "Wellington")
-        writeDebugPDF(self, newFile: "CO_Shadow_Mountain_20110217_TM_geo")
-        writeDebugPDF(self, newFile: "Wellington1")
-        writeDebugPDF(self, newFile: "Wellington3")
-        writeDebugPDF(self, newFile: "63RanchSTL_geo")
-        writeDebugPDF(self, newFile: "CobbLake")
-        writeDebugPDF(self, newFile: "Chambers_Lake_403010545_FSTopo")
-        writeDebugPDF(self, newFile: "CPW_HPP_NorthLarimer_geo")
+        // populate more drop down menu
+        moreMenuTableview.delegate = self
+        moreMenuTableview.dataSource = self
+        moreMenuTableview.register(CellClass.self, forCellReuseIdentifier: "Cell")
+        
+        // add more drop down menu button
+        let moreBtn = UIBarButtonItem(image: (UIImage(named: "more")), style: .plain, target: self, action: #selector(onClickMore))
+        self.navigationItem.rightBarButtonItems = [moreBtn]
     }
 
     
@@ -56,41 +72,51 @@ class AddMapsViewController: UIViewController {
         }
     }
     
+    @IBAction func performUnwindToAddMapDone(_ sender: UIStoryboardSegue) {
+        //print("return to AddMapsViewController")
+    }
     
     // MARK: Private Functions
     
-    
-    func writeDebugPDF(_ sender: Any, newFile: String){
-        // For Debugging: use in simulater to write pdfs in app main directory on Mac to the Simulator's documents directory.
+    // MARK: More Menu
+    func addMoreMenuTransparentView(frames:CGRect){
+        let window = UIApplication.shared.keyWindow
+        moreMenuTransparentView.frame = window?.frame ?? self.view.frame
+        self.view.addSubview(moreMenuTransparentView)
         
-        guard let pdfFileURL = Bundle.main.url(forResource: newFile, withExtension: "pdf") else {
-            print ("Can't write file: PDF file not found: \(newFile)")
-            return
-        }
+        moreMenuTableview.frame = CGRect(x: 0, y: 0, width: frames.width, height: 0)
+        self.view.addSubview(moreMenuTableview)
+        moreMenuTableview.layer.cornerRadius = 5
         
-        // destination directory name
-        guard let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else {
-            print("Can't get documents directory.")
-            return
-        }
+        moreMenuTransparentView.backgroundColor = UIColor.black.withAlphaComponent(0.9)
+        moreMenuTableview.reloadData()
+        let tapgesture = UITapGestureRecognizer(target: self, action: #selector(removeMoreMenuTransparentView))
+        moreMenuTransparentView.addGestureRecognizer(tapgesture)
+        moreMenuTransparentView.alpha = 0
         
-        let name = newFile+".pdf"
-        let destURL = documentsURL.appendingPathComponent(name)
-        
-        let filePath = destURL.path
-        let fileManager = FileManager.default
-        if fileManager.fileExists(atPath: filePath) {
-            return
-        }
-       
-        do {
-            try FileManager.default.copyItem(at:pdfFileURL, to: destURL)
-        }
-        catch{
-            return
+        UIView.animate(withDuration: 0.4, delay: 0.0, usingSpringWithDamping: 1.0, initialSpringVelocity: 1.0, options: .curveEaseInOut, animations: {
+            self.moreMenuTransparentView.alpha = 0.5
+            self.moreMenuTableview.frame = CGRect(x: 0, y: self.topbarHeight, width: Int(frames.width), height: self.dataSource.count * self.mainMenuRowHeight)
+        }, completion: nil)
+    }
+    @objc func removeMoreMenuTransparentView(){
+        let frames = self.view.frame
+        // remove more button drop down menu view
+        UIView.animate(withDuration: 0.4, delay: 0.0, usingSpringWithDamping: 1.0, initialSpringVelocity: 1.0, options: .curveEaseInOut, animations: {
+            self.moreMenuTransparentView.alpha = 0.0
+            self.moreMenuTableview.frame = CGRect(x: 0, y: self.topbarHeight, width: Int(frames.width), height: 0)
+        }, completion: nil)
+    }
+    @objc func onClickMore(_ sender:Any){
+        //dataSource = ["Help"]
+        if (!moreMenuShowing){
+            addMoreMenuTransparentView(frames: self.view.frame)
+            moreMenuShowing = true
+        }else{
+            removeMoreMenuTransparentView()
+            moreMenuShowing = false
         }
     }
-    
     
     // MARK: File Picker functions
     
@@ -140,4 +166,27 @@ extension AddMapsViewController: UIDocumentPickerDelegate {
     func documentPickerWasCancelled(_ controller: UIDocumentPickerViewController) {
         print("Cancelled")
     }
+}
+
+// More Menu Functions
+extension AddMapsViewController:UITableViewDelegate, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return dataSource.count
+    }
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
+        cell.textLabel?.text = dataSource[indexPath.row]
+        return cell
+    }
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return tableView.rowHeight // 50
+    }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if (dataSource[indexPath.row] == "Help"){
+            removeMoreMenuTransparentView()
+            // Show HelpAddMapViewController
+            self.performSegue(withIdentifier: "HelpAddMapView", sender: nil)
+        }
+    }
+
 }

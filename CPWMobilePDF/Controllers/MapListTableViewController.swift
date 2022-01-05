@@ -72,8 +72,8 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
             // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
             self.navigationItem.leftBarButtonItem = self.editButtonItem
             
+            // Right Bar Buttons Add and More
             moreBtn = UIBarButtonItem(image: (UIImage(named: "more")), style: .plain, target: self, action: #selector(onClickMore))
-            
             self.navigationItem.rightBarButtonItems = [moreBtn, addBtn]
             
             // load maps
@@ -1149,20 +1149,6 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
         // Return false if you do not want the specified item to be editable.
         return true
     }
-    
-    /*
-    override func tableView(_ tableView: UITableView,
-                            willBeginEditingRowAt indexPath: IndexPath) {
-        super.tableView(tableView, willBeginEditingRowAt: indexPath)
-        //print ("willBeginEditingRowAt")
-    }
-    
-    override func tableView(_ tableView: UITableView, didEndEditingRowAt indexPath: IndexPath?) {
-        super.tableView(tableView, didEndEditingRowAt: indexPath)
-        // Call when user presses delete button??????????
-        print("didEndEditingRowAt")
-    }
- */
     
     // Swipe left to delete
     // Override to support editing the table view.
