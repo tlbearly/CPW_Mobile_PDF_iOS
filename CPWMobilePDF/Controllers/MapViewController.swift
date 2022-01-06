@@ -241,6 +241,7 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
             self.moreMenuTransparentView.alpha = 0.5
             self.moreMenuTableview.frame = CGRect(x: 0, y: self.topbarHeight, width: Int(frames.width), height: self.dataSource.count * self.mainMenuRowHeight)
         }, completion: nil)
+        moreMenuShowing = true
     }
     @objc func removeMoreMenuTransparentView(){
         let frames = self.view.frame
@@ -249,15 +250,14 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
             self.moreMenuTransparentView.alpha = 0.0
             self.moreMenuTableview.frame = CGRect(x: 0, y: self.topbarHeight, width: Int(frames.width), height: 0)
         }, completion: nil)
+        moreMenuShowing = false
     }
     @objc func onClickMore(_ sender:Any){
         dataSource = ["Mark current location", "Add waypoint", "Show waypoints", "Hide waypoints", "Delete all waypoints", "Lock in portrait mode", "Lock in landscape mode","Help"]
         if (!moreMenuShowing){
             addMoreMenuTransparentView(frames: self.view.frame)
-            moreMenuShowing = true
         }else{
             removeMoreMenuTransparentView()
-            moreMenuShowing = false
         }
     }
     @objc func onClickWayPtPin(_ sender:Any){

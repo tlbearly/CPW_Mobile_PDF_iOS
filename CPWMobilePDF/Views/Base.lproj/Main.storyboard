@@ -247,6 +247,8 @@
                     <navigationItem key="navigationItem" id="864-pM-HQY"/>
                     <connections>
                         <segue destination="u7s-Fc-kxb" kind="unwind" identifier="pdfFromFilePicker" unwindAction="unwindToMapsListWithSender:" id="Hug-D9-Nad"/>
+                        <segue destination="6Qa-tx-kgf" kind="show" identifier="HelpAddMap" id="vio-6N-hef"/>
+                        <segue destination="BTO-yc-q3e" kind="unwind" unwindAction="performUnwindToAddMapDone:" id="Djd-DM-9Ij"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DcZ-Q4-AIj" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -257,7 +259,7 @@
         <!--Add Map Help-->
         <scene sceneID="tHe-wY-d7I">
             <objects>
-                <viewController storyboardIdentifier="HelpAddMapViewController" id="6Qa-tx-kgf" userLabel="Add Map Help" customClass="HelpAddMapViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="HelpAddMapViewController" id="6Qa-tx-kgf" userLabel="Add Map Help" customClass="HelpAddMapViewController" customModule="CPW_Mobile_PDF" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Fvj-dT-ucA">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -265,10 +267,15 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
                     <navigationItem key="navigationItem" title="Help" id="WcT-2k-2m8">
-                        <barButtonItem key="leftBarButtonItem" title="Done" id="sub-QM-ZiQ"/>
+                        <barButtonItem key="leftBarButtonItem" title="Done" id="sub-QM-ZiQ">
+                            <connections>
+                                <segue destination="BTO-yc-q3e" kind="unwind" unwindAction="performUnwindToAddMapDone:" id="9en-Ne-ssj"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fdU-lH-R04" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <exit id="BTO-yc-q3e" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="3607" y="-1228"/>
         </scene>
@@ -294,7 +301,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wGg-Jb-i7u" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <exit id="IYL-LP-iMg" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="4563.28125" y="-1268.9604685212298"/>
+            <point key="canvasLocation" x="3645" y="166"/>
         </scene>
         <!--PDF Map-->
         <scene sceneID="HXy-Bf-9xL">
@@ -486,9 +493,12 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="OWP-kl-uM4" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2869.5999999999999" y="-1222.1674876847292"/>
+            <point key="canvasLocation" x="2914" y="-1858"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="vio-6N-hef"/>
+    </inferredMetricsTieBreakers>
     <resources>
         <image name="cyan_pin" width="170.66667175292969" height="170.66667175292969"/>
         <image name="nearme" width="147.33332824707031" height="133.33332824707031"/>
