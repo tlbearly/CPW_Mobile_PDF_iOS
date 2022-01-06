@@ -30,6 +30,7 @@
 		A474D074277A663000F55D63 /* HelpMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A474D073277A663000F55D63 /* HelpMapViewController.swift */; };
 		A474D07A27851C8F00F55D63 /* HelpAddMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A474D07927851C8F00F55D63 /* HelpAddMapViewController.swift */; };
 		A474D07C278667AA00F55D63 /* HelpScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A474D07B278667AA00F55D63 /* HelpScrollView.swift */; };
+		A474D07E27876F5100F55D63 /* HelpMapListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A474D07D27876F5100F55D63 /* HelpMapListViewController.swift */; };
 		A475DBB2255DF42600B0B8DD /* WayPt.swift in Sources */ = {isa = PBXBuildFile; fileRef = A475DBB1255DF42600B0B8DD /* WayPt.swift */; };
 		A4B3911C25FBCF8600730DED /* AppUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4B3911B25FBCF8600730DED /* AppUtility.swift */; };
 /* End PBXBuildFile section */
@@ -83,6 +84,7 @@
 		A474D073277A663000F55D63 /* HelpMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpMapViewController.swift; sourceTree = "<group>"; };
 		A474D07927851C8F00F55D63 /* HelpAddMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpAddMapViewController.swift; sourceTree = "<group>"; };
 		A474D07B278667AA00F55D63 /* HelpScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpScrollView.swift; sourceTree = "<group>"; };
+		A474D07D27876F5100F55D63 /* HelpMapListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpMapListViewController.swift; sourceTree = "<group>"; };
 		A475DBB1255DF42600B0B8DD /* WayPt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WayPt.swift; sourceTree = "<group>"; };
 		A4B3911B25FBCF8600730DED /* AppUtility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppUtility.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -204,6 +206,7 @@
 				A474D073277A663000F55D63 /* HelpMapViewController.swift */,
 				A474D07927851C8F00F55D63 /* HelpAddMapViewController.swift */,
 				A474D07B278667AA00F55D63 /* HelpScrollView.swift */,
+				A474D07D27876F5100F55D63 /* HelpMapListViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -359,6 +362,7 @@
 				609CA8F6244132AC006C0283 /* MapListViewController.swift in Sources */,
 				A40049802486F6000092A93A /* EditWayPtViewController.swift in Sources */,
 				60DBB8D1244A53E400F84F4A /* PDFParser.swift in Sources */,
+				A474D07E27876F5100F55D63 /* HelpMapListViewController.swift in Sources */,
 				60DBB8D3244A54E900F84F4A /* PushPin.swift in Sources */,
 				A475DBB2255DF42600B0B8DD /* WayPt.swift in Sources */,
 				60955B48245255E000275EDA /* AddMapsViewController.swift in Sources */,

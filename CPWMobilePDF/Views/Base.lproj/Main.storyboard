@@ -129,16 +129,35 @@
                     <connections>
                         <outlet property="addBtn" destination="uD9-GZ-GZn" id="98O-Wj-kHK"/>
                         <outlet property="msgLabel" destination="mpF-QI-wF8" id="pny-ug-5is"/>
+                        <segue destination="rvM-Tj-jam" kind="show" identifier="ShowHelpMapList" id="ozC-Io-1Sy"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mQE-xu-i6k" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1886.9565217391305" y="-544.56521739130437"/>
         </scene>
+        <!--Help-->
+        <scene sceneID="aLI-Wf-Tci">
+            <objects>
+                <viewController storyboardIdentifier="HelpMapList" id="rvM-Tj-jam" customClass="HelpMapList" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="p5i-gj-74A">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="SNC-55-Rpf"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Help" id="Qb6-H9-Jdh" customClass="HelpMapListViewController">
+                        <barButtonItem key="backBarButtonItem" title="Done" id="BRZ-Zh-fQy"/>
+                    </navigationItem>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="a9o-sd-KMV" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2449" y="150"/>
+        </scene>
         <!--Add Maps-->
         <scene sceneID="9Qi-aW-aOy">
             <objects>
-                <viewController title="Add Maps" id="33z-Sm-ZcB" customClass="AddMapsViewController" customModule="CPW_Mobile_PDF" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="Add Maps" id="33z-Sm-ZcB" customClass="AddMapsViewController" customModule="CPW_Mobile_PDF" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="uSc-zw-HM8">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -248,7 +267,7 @@
                     <connections>
                         <segue destination="u7s-Fc-kxb" kind="unwind" identifier="pdfFromFilePicker" unwindAction="unwindToMapsListWithSender:" id="Hug-D9-Nad"/>
                         <segue destination="6Qa-tx-kgf" kind="show" identifier="HelpAddMap" id="vio-6N-hef"/>
-                        <segue destination="BTO-yc-q3e" kind="unwind" unwindAction="performUnwindToAddMapDone:" id="Djd-DM-9Ij"/>
+                        <segue destination="BTO-yc-q3e" kind="unwind" identifier="HelpAddMapDone" unwindAction="performUnwindToAddMapDone:" id="Djd-DM-9Ij"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DcZ-Q4-AIj" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -277,7 +296,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fdU-lH-R04" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <exit id="BTO-yc-q3e" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="3607" y="-1228"/>
+            <point key="canvasLocation" x="3139" y="-1228"/>
         </scene>
         <!--View Map Help-->
         <scene sceneID="ZZW-3m-SW2">
@@ -477,28 +496,7 @@
             </objects>
             <point key="canvasLocation" x="976.81159420289862" y="-544.41964285714278"/>
         </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="8Yn-SL-7HY">
-            <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="82n-M6-b8N" sceneMemberID="viewController">
-                    <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="JHD-KU-bQt">
-                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="6Qa-tx-kgf" kind="relationship" relationship="rootViewController" id="s7V-T6-dec"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="OWP-kl-uM4" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="2914" y="-1858"/>
-        </scene>
     </scenes>
-    <inferredMetricsTieBreakers>
-        <segue reference="s7V-T6-dec"/>
-    </inferredMetricsTieBreakers>
     <resources>
         <image name="cyan_pin" width="170.66667175292969" height="170.66667175292969"/>
         <image name="nearme" width="147.33332824707031" height="133.33332824707031"/>
