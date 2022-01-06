@@ -33,8 +33,8 @@ class HelpScrollView: UIScrollView {
         let viewForImg = UIView()
         let imgView = UIImageView(image: UIImage(named: "icon"))
         let imgSize:CGFloat = 140.0
-        imgView.layer.borderColor = UIColor.gray.cgColor
-        imgView.layer.borderWidth = 1
+        imgView.layer.borderColor = UIColor.lightGray.cgColor
+        imgView.layer.borderWidth = 3
         viewForImg.layer.shadowColor = UIColor.gray.cgColor
         viewForImg.layer.shadowOpacity = 0.7
         viewForImg.layer.shadowOffset = .zero
@@ -61,7 +61,7 @@ class HelpScrollView: UIScrollView {
         helpTitle.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(helpTitle)
         // Set its constraint to display it on screen
-        helpTitle.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 3/4).isActive = true
+        helpTitle.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 4/5).isActive = true
         helpTitle.topAnchor.constraint(equalTo: imgView.bottomAnchor, constant: 10).isActive = true
         helpTitle.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
         
@@ -72,7 +72,7 @@ class HelpScrollView: UIScrollView {
         helpText.font = UIFont.systemFont(ofSize: 17)
         helpText.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(helpText)
-        helpText.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 3/4).isActive = true
+        helpText.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 4/5).isActive = true
         helpText.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
         helpText.topAnchor.constraint(equalTo: helpTitle.bottomAnchor, constant: 10).isActive = true
         helpText.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 10).isActive = true
