@@ -15,7 +15,20 @@ class HelpAddMapViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Add Scrolling View, Logo, Title, and Text
-        HelpScrollView(UIScrollView(), view: view, helpTitleStr: "Add Map Help", helpTextStr: "Your current latitude and longitude will be displayed at the top of the map, and it will be displayed on the map as a cyan circle outlined in white. Double tap or pinch to zoom. To add waypoints, click on the push pin icon at the top-right, then click the map at the desired location. If the waypoint label is showing, clicking on a waypoint will display its label. Clicking on a waypoint label will let you edit the label and pushpin color.")
+        let help = HelpScrollView(UIScrollView(), view: view)
+        help.addTitle(title: "Adding Maps Help")
+        help.addSubTitle(title: "Import Maps")
+        help.addText(text: "After you have downloaded PDF maps, import them by clicking on the File Picker button. Use the menu in the top-left to select from Recent, Documents, or Downloads folders. Or select the Google Drive icon if the file is located there. Click on the PDF file and it will import it and display the map. The map file is copied to the app directory so deleting the original will not affect the imported maps.")
+        help.addSubTitle(title: "Download Maps")
+        help.addText(text: "Click on the Open Browser button to download a map. Note that this requires an internet connection. It will notify you that it is starting up your browser app. Then it will load a page from the CPW website with resources to download georeferenced PDFs. Use one of the resources described below to download a map. Depending on your settings, the PDF map file will either download or be displayed. If it is displayed, click the menu button in the top-right and then click Download. Once it has downloaded, go back to this app and click the File Picker button, open the Downloads folder, and click on the map that was downloaded (hint to get back to this app: click the Recent Apps icon next to the home icon at the bottom of your phone, then select this app). From the CPW resource page, click on one of the following resources:")
+        help.addSubTitle(title: "CPW Maps Library")
+        help.addText(text: "Click on \'Maps Library page\'. Select file type, GeoPDF, and press \'Search\'. Click on a map name to download it.")
+        help.addSubTitle(title: "Hunting or Fishing Atlas")
+        help.addText(text: "Click on the \'Colorado Hunting Atlas\' or the \'Colorado Fishing Atlas\'. Select you map layers and map boundary by clicking on the menu icon in the top-left. Set your zoom level. Then press the down arrow icon. It will allow you to choose the map scale but, may change the map boundary. Setting a smaller map scale will show more detail. Increasing the map size will show a larger map area. Enter a PDF file name and press the Create PDF button. Wait for it to be created and then press Download PDF.")
+        
+        
+        
+        help.addLastElement()
     }
 
     // MARK: - Navigation

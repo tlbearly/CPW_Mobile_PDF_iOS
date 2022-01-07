@@ -15,73 +15,19 @@ class HelpMapListViewController: UIViewController {
         super.viewDidLoad()
         
         // Add Scrolling View, Logo, Title, and Text
-        let help:HelpScrollView = HelpScrollView(UIScrollView(), view: view, helpTitleStr: "CPW Mobile PDF Help", helpTextStr: "Take this app out in the field to display your current location on PDFs from the HuntingAtlas, FishingAtlas, CPW Maps Library, or any georeferenced PDF. No need for internet or data connection! Plus, access a list of resources for downloading PDF maps (requires data connection).")
-        let contentView = help.getContentView()
-        
-        help.addTitle(contentView: contentView, title: "Imported Maps", topElem: help.getFirstTextElement())
-        /*let scrollView = UIScrollView()
-        let contentView = UIView()
-        contentView.translatesAutoresizingMaskIntoConstraints = false
-        scrollView.addSubview(contentView)
-        scrollView.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(scrollView)
-        
-        scrollView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-        scrollView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        scrollView.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
-        scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
-        contentView.topAnchor.constraint(equalTo: scrollView.topAnchor).isActive = true
-        contentView.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
-        contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor).isActive = true
-        contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor).isActive = true
-        
-        // Logo
-        let viewForImg = UIView()
-        let imgView = UIImageView(image: UIImage(named: "icon"))
-        let imgSize:CGFloat = 140.0
-        imgView.layer.borderColor = UIColor.lightGray.cgColor
-        imgView.layer.borderWidth = 3
-        viewForImg.layer.shadowColor = UIColor.gray.cgColor
-        viewForImg.layer.shadowOpacity = 0.7
-        viewForImg.layer.shadowOffset = .zero
-        viewForImg.layer.shadowRadius = 5
-        viewForImg.layer.cornerRadius = imgSize / 2.0 // round
-        viewForImg.clipsToBounds = true
-        viewForImg.layer.masksToBounds = false
-        imgView.layer.cornerRadius = imgSize / 2.0
-        imgView.clipsToBounds = true
-        imgView.translatesAutoresizingMaskIntoConstraints = false
-        viewForImg.addSubview(imgView)
-        contentView.addSubview(viewForImg)
-        imgView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
-        imgView.widthAnchor.constraint(equalToConstant: imgSize).isActive = true
-        imgView.heightAnchor.constraint(equalToConstant: imgSize).isActive = true
-        imgView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20).isActive = true
-        
-        // Title
-        let helpTitle = UILabel()
-        helpTitle.text = "CPW Mobile PDF Help"
-        helpTitle.font = UIFont.systemFont(ofSize: 24)
-        helpTitle.sizeToFit()
-        helpTitle.numberOfLines = 0
-        helpTitle.translatesAutoresizingMaskIntoConstraints = false
-        contentView.addSubview(helpTitle)
-        // Set its constraint to display it on screen
-        helpTitle.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 4/5).isActive = true
-        helpTitle.topAnchor.constraint(equalTo: imgView.bottomAnchor, constant: 10).isActive = true
-        helpTitle.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
-        
-        let helpText = UILabel()
-        helpText.text = "Take this app out in the field to display your current location on PDFs from the HuntingAtlas, FishingAtlas, CPW Maps Library, or any georeferenced PDF. No need for internet or data connection! Plus, access a list of resources for downloading PDF maps (requires data connection)."
-        helpText.numberOfLines = 0
-        helpText.sizeToFit()
-        helpText.font = UIFont.systemFont(ofSize: 17)
-        helpText.translatesAutoresizingMaskIntoConstraints = false
-        contentView.addSubview(helpText)
-        helpText.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 4/5).isActive = true
-        helpText.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
-        helpText.topAnchor.constraint(equalTo: helpTitle.bottomAnchor, constant: 10).isActive = true
-        helpText.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 10).isActive = true*/
+        let help:HelpScrollView = HelpScrollView(UIScrollView(), view: view)
+        help.addTitle(title: "CPW Mobile PDF Help")
+        help.addText(text: "Go mobile with this offline PDF map viewer. Pinpoints your current location on PDF maps from the HuntingAtlas, FishingAtlas, CPW Maps Library, or any georeferenced PDF. No need for internet or cell tower connection! Plus, access a list of resources for downloading PDF maps.")
+
+        help.addSubTitle(title: "Imported Maps")
+        help.addText(text: "The Imported Maps page contains all the maps that you have downloaded and imported. These maps are copied into this app\'s data folder so that when you go mobile the map data is still available to use. For each imported map it displays the map name, file size, and current distance from the map (in miles). See Add Map, Edit Map, and View Map sections below to add, rename, delete, or view a map")
+        help.addSubTitle(title: "Add Map")
+        help.addText(text: "Click on the + button on the Imported Maps page to download or import a map.")
+        help.addSubTitle(title: "Edit Map")
+        help.addText(text: "Long press on the map name in the list of Imported Maps to change the map name, delete a map, or view it\'s file size and lat/long boundaries.")
+        help.addSubTitle(title: "View Map")
+        help.addText(text: "Click on a map in the list of Imported Maps to display the map, view current location, zoom in or out, and add waypoints.")
+        help.addLastElement()
     }
 
     // MARK: - Navigation
@@ -102,30 +48,28 @@ class HelpMapListViewController: UIViewController {
 }
 
 
-#if DEFUG
+#if DEBUG
 // show preview window Editor/Canvas
 import SwiftUI
 
-struct HelpMapVC: UIViewControllerRepresentable {
-    func updateUIViewController(_ uiViewController: UIViewController, context: Context) {
-    }
-    @available(iOS 13.0.0, *)
-    func makeUIViewController(context: Context) -> some UIViewController {
-        UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "HelpMapViewController")
-        //HelpMapViewController()
-    }
-    
-}
 @available(iOS 13.0.0, *)
-struct HelpMapViewCcontroller_Previews: PreviewProvider {
+struct HelpMapListVCPreview: PreviewProvider {
+    static var devices = ["iPhone 6", "iPhone 12 Pro Max"]
+    
     static var previews: some View {
         // The UIKit UIControllerView wrapped in a SwiftUI View
-        Group {
-            // dark mode
-            HelpMapVC().colorScheme(.dark)
-            // light mode
-            HelpMapVC.colorScheme(.light)
-        }
+        
+        // If using storyboard
+        let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "HelpMapListViewController").toPreview()
+        
+        // IF not using Storyboard
+        // let vc = HelpMapListViewController().toPreview()
+            
+        vc.colorScheme(.dark).previewDisplayName("Dark Mode")
+        vc.colorScheme(.light).previewDisplayName("Light Mode")
+       /* ForEach(devices, id: \.self) {
+            deviceName in vc.previewDevice(PreviewDevice(rawValue: deviceName)).previewDisplayName(deviceName)
+        }*/
     }
 }
 #endif

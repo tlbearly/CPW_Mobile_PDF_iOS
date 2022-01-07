@@ -15,7 +15,10 @@ class HelpMapViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Add Scrolling View, Logo, Title, and Text
-        _ = HelpScrollView(UIScrollView(), view: view, helpTitleStr: "Add Map Help", helpTextStr: "Your current latitude and longitude will be displayed at the top of the map, and it will be displayed on the map as a cyan circle outlined in white. Double tap or pinch to zoom. To add waypoints, click on the push pin icon at the top-right, then click the map at the desired location. If the waypoint label is showing, clicking on a waypoint will display its label. Clicking on a waypoint label will let you edit the label and pushpin color.")
+        let help = HelpScrollView(UIScrollView(), view: view)
+        help.addTitle(title: "Add Map Help")
+        help.addText(text: "Your current latitude and longitude will be displayed at the top of the map, and it will be displayed on the map as a cyan circle outlined in white. Double tap or pinch to zoom. To add waypoints, click on the push pin icon at the top-right, then click the map at the desired location. If the waypoint label is showing, clicking on a waypoint will display its label. Clicking on a waypoint label will let you edit the label and pushpin color.")
+        help.addLastElement()
     }
 
     // MARK: - Navigation
@@ -36,29 +39,27 @@ class HelpMapViewController: UIViewController {
 }
 
 
-#if DEFUG
+#if DEBUG
 // show preview window Editor/Canvas
 import SwiftUI
 
-struct HelpMapVC: UIViewControllerRepresentable {
-    func updateUIViewController(_ uiViewController: UIViewController, context: Context) {
-    }
-    @available(iOS 13.0.0, *)
-    func makeUIViewController(context: Context) -> some UIViewController {
-        UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "HelpMapViewController")
-        //HelpMapViewController()
-    }
-    
-}
 @available(iOS 13.0.0, *)
-struct HelpMapVC_Previews: PreviewProvider {
+struct HelpMapVCPreview: PreviewProvider {
+    static var devices = ["iPhone 6", "iPhone 12 Pro Max"]
+    
     static var previews: some View {
         // The UIKit UIControllerView wrapped in a SwiftUI View
-        Group {
-            // dark mode
-            HelpMapVC().colorScheme(.dark)
-            // light mode
-            HelpMapVC.colorScheme(.light)
+        
+        // If using storyboard
+        let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "HelpMapViewController").toPreview()
+        
+        // IF not using Storyboard
+        // let vc = HelpMapListViewController().toPreview()
+            
+        vc.colorScheme(.dark).previewDisplayName("Dark Mode")
+        vc.colorScheme(.light).previewDisplayName("Light Mode")
+        ForEach(devices, id: \.self) {
+            deviceName in vc.previewDevice(PreviewDevice(rawValue: deviceName)).previewDisplayName(deviceName)
         }
     }
 }
