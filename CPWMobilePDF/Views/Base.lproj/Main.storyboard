@@ -139,7 +139,7 @@
         <!--Help-->
         <scene sceneID="aLI-Wf-Tci">
             <objects>
-                <viewController storyboardIdentifier="HelpMapList" id="rvM-Tj-jam" customClass="HelpMapList" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="HelpMapListViewController" id="rvM-Tj-jam" customClass="HelpMapListViewController" customModule="CPW_Mobile_PDF" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="p5i-gj-74A">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

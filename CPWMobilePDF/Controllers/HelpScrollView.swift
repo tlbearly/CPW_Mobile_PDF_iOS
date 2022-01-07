@@ -12,9 +12,12 @@
 import UIKit
 
 class HelpScrollView: UIScrollView {
+    let contentView:UIView = UIView()
+    var helpText = UILabel()
+    
     init(_ scrollView: UIScrollView, view: UIView, helpTitleStr: String, helpTextStr: String) {
         super.init(frame: .zero)
-        let contentView = UIView()
+        //let contentView = UIView()
         contentView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.addSubview(contentView)
         scrollView.translatesAutoresizingMaskIntoConstraints = false
@@ -53,7 +56,8 @@ class HelpScrollView: UIScrollView {
         imgView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20).isActive = true
         
         // Title
-        let helpTitle = UILabel()
+        let helpTitle = addTitle(contentView: contentView, title: helpTitleStr, topElem: imgView)
+        /*let helpTitle = UILabel()
         helpTitle.text = helpTitleStr
         helpTitle.font = UIFont.systemFont(ofSize: 24)
         helpTitle.sizeToFit()
@@ -63,9 +67,10 @@ class HelpScrollView: UIScrollView {
         // Set its constraint to display it on screen
         helpTitle.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 4/5).isActive = true
         helpTitle.topAnchor.constraint(equalTo: imgView.bottomAnchor, constant: 10).isActive = true
-        helpTitle.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
+        helpTitle.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true*/
         
-        let helpText = UILabel()
+       helpText = addText(contentView: contentView, text: helpTextStr, topElem: helpTitle)
+        /*let helpText = UILabel()
         helpText.text = helpTextStr
         helpText.numberOfLines = 0
         helpText.sizeToFit()
@@ -76,7 +81,71 @@ class HelpScrollView: UIScrollView {
         helpText.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
         helpText.topAnchor.constraint(equalTo: helpTitle.bottomAnchor, constant: 10).isActive = true
         helpText.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 10).isActive = true
-        //helpText.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10).isActive = true
+        //helpText.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10).isActive = true*/
+    }
+    
+    public func getContentView() -> UIView {
+        return contentView
+    }
+    public func getFirstTextElement() -> UILabel {
+        return helpText
+    }
+    
+    public func addTitle(contentView: UIView, title: String, topElem: UILabel) -> UILabel{
+        let helpTitle = UILabel()
+        helpTitle.text = title
+        helpTitle.font = UIFont.systemFont(ofSize: 24)
+        helpTitle.sizeToFit()
+        helpTitle.numberOfLines = 0
+        helpTitle.translatesAutoresizingMaskIntoConstraints = false
+        contentView.addSubview(helpTitle)
+        // Set its constraint to display it on screen
+        helpTitle.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 4/5).isActive = true
+        helpTitle.topAnchor.constraint(equalTo: topElem.bottomAnchor, constant: 10).isActive = true
+        helpTitle.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
+        return helpTitle
+    }
+    
+    public func addTitle(contentView: UIView, title: String, topElem: UIImageView) -> UILabel {
+        let helpTitle = UILabel()
+        helpTitle.text = title
+        helpTitle.font = UIFont.systemFont(ofSize: 24)
+        helpTitle.sizeToFit()
+        helpTitle.numberOfLines = 0
+        helpTitle.translatesAutoresizingMaskIntoConstraints = false
+        contentView.addSubview(helpTitle)
+        // Set its constraint to display it on screen
+        helpTitle.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 4/5).isActive = true
+        helpTitle.topAnchor.constraint(equalTo: topElem.bottomAnchor, constant: 10).isActive = true
+        helpTitle.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
+        return helpTitle
+    }
+    
+    public func addText(contentView: UIView, text: String, topElem: UILabel) -> UILabel {
+        let helpText = UILabel()
+        helpText.text = text
+        helpText.numberOfLines = 0
+        helpText.sizeToFit()
+        helpText.font = UIFont.systemFont(ofSize: 17)
+        helpText.translatesAutoresizingMaskIntoConstraints = false
+        contentView.addSubview(helpText)
+        helpText.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 4/5).isActive = true
+        helpText.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
+        helpText.topAnchor.constraint(equalTo: topElem.bottomAnchor, constant: 10).isActive = true
+        helpText.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 10).isActive = true
+        return helpText
+    }
+    
+    public func addImg(contentView: UIView, img: String, topElem: UILabel, x: CGFloat, y:CGFloat){
+        let imgView = UIImageView(image: UIImage(named: img))
+        imgView.layer.borderColor = UIColor.lightGray.cgColor
+        imgView.layer.borderWidth = 3
+        imgView.translatesAutoresizingMaskIntoConstraints = false
+        contentView.addSubview(imgView)
+        imgView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
+        imgView.widthAnchor.constraint(equalToConstant: x).isActive = true
+        imgView.heightAnchor.constraint(equalToConstant: y).isActive = true
+        imgView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20).isActive = true
     }
     
     required init?(coder: NSCoder) {
