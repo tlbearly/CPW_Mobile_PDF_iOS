@@ -16,7 +16,7 @@ class HelpMapViewController: UIViewController {
         super.viewDidLoad()
         // Add Scrolling View, Logo, Title, and Text
         let help = HelpScrollView(UIScrollView(), view: view)
-        help.addTitle(title: "Add Map Help")
+        help.addTitle(title: "Map View Help")
         help.addText(text: "Your current latitude and longitude will be displayed at the top of the map, and it will be displayed on the map as a cyan circle outlined in white. Double tap or pinch to zoom. To add waypoints, click on the push pin icon at the top-right, then click the map at the desired location. If the waypoint label is showing, clicking on a waypoint will display its label. Clicking on a waypoint label will let you edit the label and pushpin color.")
         help.addLastElement()
     }
@@ -48,7 +48,7 @@ struct HelpMapVCPreview: PreviewProvider {
     static var devices = ["iPhone 6", "iPhone 12 Pro Max"]
     
     static var previews: some View {
-        // The UIKit UIControllerView wrapped in a SwiftUI View
+        // The UIKit UIControllerView wrapped in a SwiftUI View - code in UIViewcontrollerPreview.swift
         
         // If using storyboard
         let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "HelpMapViewController").toPreview()
@@ -58,9 +58,9 @@ struct HelpMapVCPreview: PreviewProvider {
             
         vc.colorScheme(.dark).previewDisplayName("Dark Mode")
         vc.colorScheme(.light).previewDisplayName("Light Mode")
-        ForEach(devices, id: \.self) {
+       /* ForEach(devices, id: \.self) {
             deviceName in vc.previewDevice(PreviewDevice(rawValue: deviceName)).previewDisplayName(deviceName)
-        }
+        }*/
     }
 }
 #endif

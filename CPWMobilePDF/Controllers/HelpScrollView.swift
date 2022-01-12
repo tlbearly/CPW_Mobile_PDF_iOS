@@ -85,21 +85,6 @@ class HelpScrollView: UIScrollView {
         //helpText.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10).isActive = true*/
     }
     
-    public func addTitle(title: String) {
-        let helpTitle = UILabel()
-        helpTitle.text = title
-        helpTitle.font = UIFont.systemFont(ofSize: 24)
-        helpTitle.sizeToFit()
-        helpTitle.numberOfLines = 0
-        helpTitle.translatesAutoresizingMaskIntoConstraints = false
-        contentView.addSubview(helpTitle)
-        // Set its constraint to display it on screen
-        helpTitle.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 4/5).isActive = true
-        helpTitle.topAnchor.constraint(equalTo: bottom_anchor, constant: 10).isActive = true
-        helpTitle.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
-        bottom_anchor = helpTitle.bottomAnchor
-    }
-    
     public func addSubTitle(title: String) {
         let helpTitle = UILabel()
         helpTitle.text = title
@@ -115,6 +100,32 @@ class HelpScrollView: UIScrollView {
         bottom_anchor = helpTitle.bottomAnchor
     }
     
+    public func addTitle(title: String,size:CGFloat=24.0,bold:Bool=false,underline:Bool=false) {
+        let helpTitle = UILabel()
+        helpTitle.text = title
+        if (bold){
+            helpTitle.font = UIFont.boldSystemFont(ofSize: size)
+        }else{
+            helpTitle.font = UIFont.systemFont(ofSize: size)
+        }
+        helpTitle.sizeToFit()
+        if (underline){
+            let textRange = NSRange(location: 0, length: title.count)
+            let attributedText = NSMutableAttributedString(string: title)
+            attributedText.addAttribute(.underlineStyle,
+                                        value: NSUnderlineStyle.single.rawValue,
+                                        range: textRange)
+            helpTitle.attributedText = attributedText
+        }
+        helpTitle.numberOfLines = 0
+        helpTitle.translatesAutoresizingMaskIntoConstraints = false
+        contentView.addSubview(helpTitle)
+        // Set its constraint to display it on screen
+        helpTitle.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 4/5).isActive = true
+        helpTitle.topAnchor.constraint(equalTo: bottom_anchor, constant: 30).isActive = true
+        helpTitle.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
+        bottom_anchor = helpTitle.bottomAnchor
+    }
     
     public func addText(text: String) {
         // text is the text block to add

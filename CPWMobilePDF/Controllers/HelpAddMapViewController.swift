@@ -10,23 +10,27 @@
 import UIKit
 
 class HelpAddMapViewController: UIViewController {
-    var maps:[PDFMap] = []
-    var mapIndex:Int = -1
     override func viewDidLoad() {
         super.viewDidLoad()
         // Add Scrolling View, Logo, Title, and Text
         let help = HelpScrollView(UIScrollView(), view: view)
         help.addTitle(title: "Adding Maps Help")
-        help.addSubTitle(title: "Import Maps")
-        help.addText(text: "After you have downloaded PDF maps, import them by clicking on the File Picker button. Use the menu in the top-left to select from Recent, Documents, or Downloads folders. Or select the Google Drive icon if the file is located there. Click on the PDF file and it will import it and display the map. The map file is copied to the app directory so deleting the original will not affect the imported maps.")
-        help.addSubTitle(title: "Download Maps")
-        help.addText(text: "Click on the Open Browser button to download a map. Note that this requires an internet connection. It will notify you that it is starting up your browser app. Then it will load a page from the CPW website with resources to download georeferenced PDFs. Use one of the resources described below to download a map. Depending on your settings, the PDF map file will either download or be displayed. If it is displayed, click the menu button in the top-right and then click Download. Once it has downloaded, go back to this app and click the File Picker button, open the Downloads folder, and click on the map that was downloaded (hint to get back to this app: click the Recent Apps icon next to the home icon at the bottom of your phone, then select this app). From the CPW resource page, click on one of the following resources:")
-        help.addSubTitle(title: "CPW Maps Library")
+        
+        help.addTitle(title: "STEP 1: Download Maps",size: 20.0, bold:false, underline: true)
+        help.addText(text: "Click on the Open Browser button to download a map. Note that this requires an internet connection. It will notify you that it is starting up your browser app. Then it will load a page from the CPW website with resources to download georeferenced PDFs. Use one of the resources described below to download a map.")
+        help.addTitle(title: "Map Resources:", size: 18, bold: true, underline: false)
+        help.addTitle(title: "CPW Maps Library",size:20.0)
         help.addText(text: "Click on \'Maps Library page\'. Select file type, GeoPDF, and press \'Search\'. Click on a map name to download it.")
-        help.addSubTitle(title: "Hunting or Fishing Atlas")
-        help.addText(text: "Click on the \'Colorado Hunting Atlas\' or the \'Colorado Fishing Atlas\'. Select you map layers and map boundary by clicking on the menu icon in the top-left. Set your zoom level. Then press the down arrow icon. It will allow you to choose the map scale but, may change the map boundary. Setting a smaller map scale will show more detail. Increasing the map size will show a larger map area. Enter a PDF file name and press the Create PDF button. Wait for it to be created and then press Download PDF.")
+        help.addTitle(title: "Hunting or Fishing Atlas",size:20.0)
+        help.addText(text:"Click on the \'Colorado Hunting Atlas\' or the \'Colorado Fishing Atlas\'. Select your map layers by clicking on the menu icon in the top-left. Set your zoom level. Then press the down arrow icon. It will allow you to change: map scale, map size, and orientation. Smaller map scales will show more detail. Larger map sizes will show larger map areas. Enter a PDF file name and press the Create PDF button. Wait for it to be created and then press Download PDF.")
+        help.addTitle(title: "Forest Service",size:20.0)
+        help.addText(text: "Click on \'Forest Service topographical maps for free\' under Hunting. Below the map that loads, click on \'here\' to open the map viewer as full screen. Search by name or use the +/- buttons to zoom in or out. When the forest service individual map boundaries are showing click on one of the rectangles. Then in the popup box, click the \'>\' icon. Lastly, click on \'Download PDF\'.")
+        help.addTitle(title: "USGS",size:20.0)
+        //help.addImg(img: <#T##String#>, x: <#T##CGFloat#>, y: <#T##CGFloat#>)
+        help.addText(text: "Click on \'U.S. Geological Survey Store\' under Hunting. Then click on \'Map Locator Tool\'. Search for a location name with the \'Map Locator\' or use the +/- buttons to zoom in or out and double tap the map at the desired location. In the popup, click \'View Products\'. Click on the \'View PDF\' button on the most recent map. Click \'OK\' on the popup that says \'you are navigating away...\' It may download immediately. If it does not download, wait for it to display, click on the menu icon, and then click on \'download\'.")
         
-        
+        help.addTitle(title: "STEP 2: Import Maps",size: 20.0, bold:false, underline: true)
+        help.addText(text: "After you have downloaded PDF maps, import them by clicking on the File Picker button. Use the menu in the top-left to select from Recent, Documents, or Downloads folders. Or select the Google Drive icon if the file is located there. Click on the PDF file and it will import it and display the map. The map file is copied to the app directory so deleting the original will not affect the imported maps.")
         
         help.addLastElement()
     }
@@ -41,23 +45,28 @@ class HelpAddMapViewController: UIViewController {
 }
 
 
-#if DEFUG
+#if DEBUG
 // show preview window Editor/Canvas
 import SwiftUI
 
-struct HelpAddMapViewController_Representable: UIViewControllerRepresentable {
-    func updateUIViewController(_ uiViewController: UIViewController, context: Context) {
-    }
-    @available(iOS 13.0.0, *)
-    func makeUIViewController(context: Context) -> some UIViewController {
-        HelpAddMapViewController()
-    }
-    
-}
 @available(iOS 13.0.0, *)
-struct HelpAddMapViewController_Previews: PreviewProvider {
+struct HelpAddMapVCPreview: PreviewProvider {
+    static var devices = ["iPhone 6", "iPhone 12 Pro Max"]
+    
     static var previews: some View {
-        HelpAddMapViewController_Representable().colorScheme(.dark) // .light or .dark
+        // The UIKit UIControllerView wrapped in a SwiftUI View - code in UIViewcontrollerPreview.swift
+        
+        // If using storyboard
+        let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "HelpAddMapViewController").toPreview()
+        
+        // IF not using Storyboard
+        // let vc = HelpAddMapViewController().toPreview()
+            
+        vc.colorScheme(.dark).previewDisplayName("Dark Mode")
+        vc.colorScheme(.light).previewDisplayName("Light Mode")
+       /* ForEach(devices, id: \.self) {
+            deviceName in vc.previewDevice(PreviewDevice(rawValue: deviceName)).previewDisplayName(deviceName)
+        }*/
     }
 }
 #endif

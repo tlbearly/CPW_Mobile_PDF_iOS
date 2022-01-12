@@ -147,10 +147,15 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
                     <navigationItem key="navigationItem" title="Help" id="Qb6-H9-Jdh" customClass="HelpMapListViewController">
-                        <barButtonItem key="backBarButtonItem" title="Done" id="BRZ-Zh-fQy"/>
+                        <barButtonItem key="leftBarButtonItem" title="Done" id="bpC-Vf-D1q">
+                            <connections>
+                                <segue destination="2tq-0H-eAl" kind="unwind" unwindAction="performUnwindFromMainHelpDone:" id="qUQ-vS-67g"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="a9o-sd-KMV" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <exit id="2tq-0H-eAl" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="2449" y="150"/>
         </scene>

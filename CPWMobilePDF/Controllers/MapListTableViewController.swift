@@ -141,10 +141,6 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
     
     // MARK: Actions
     
-    @IBAction func performUnwindFromHelpDone(_ sender: UIStoryboardSegue) {
-        print("return to MapListTableViewController")
-    }
-    
     @IBAction func unwindToMapsList(sender: UIStoryboardSegue){
         // MARK: unwindToMapsList
         // Called from AddMapsViewController when user selects a file from file picker or downloads from a website.
@@ -172,6 +168,10 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
                 displayError(theError: error)
             }
         }
+    }
+    
+    @IBAction func performUnwindFromMainHelpDone(_ sender: UIStoryboardSegue) {
+        print("return to MapListViewController")
     }
     
     // MARK: Private Methods
