@@ -162,111 +162,12 @@
         <!--Add Maps-->
         <scene sceneID="9Qi-aW-aOy">
             <objects>
-                <viewController title="Add Maps" id="33z-Sm-ZcB" customClass="AddMapsViewController" customModule="CPW_Mobile_PDF" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="AddMapsViewController" title="Add Maps" id="33z-Sm-ZcB" customClass="AddMapsViewController" customModule="CPW_Mobile_PDF" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="uSc-zw-HM8">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dFQ-K0-TJ5">
-                                <rect key="frame" x="20" y="88" width="374" height="774"/>
-                                <subviews>
-                                    <stackView autoresizesSubviews="NO" opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="JkA-LU-4vk" userLabel="Vertical Stack View">
-                                        <rect key="frame" x="0.0" y="20" width="374" height="518.66666666666663"/>
-                                        <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Import Maps" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mFv-EX-6cZ">
-                                                <rect key="frame" x="122" y="0.0" width="130" height="30"/>
-                                                <accessibility key="accessibilityConfiguration">
-                                                    <accessibilityTraits key="traits" staticText="YES" header="YES"/>
-                                                </accessibility>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="30" id="uGL-3w-7XP"/>
-                                                </constraints>
-                                                <fontDescription key="fontDescription" type="system" pointSize="24"/>
-                                                <nil key="textColor"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="Use File Picker to select PDF maps that you downloaded. They will be copied to this app." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SaC-3b-U8V">
-                                                <rect key="frame" x="18" y="40" width="338" height="60"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="60" id="Ld8-og-LHD"/>
-                                                </constraints>
-                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                <nil key="textColor"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NQ8-59-Wkm" customClass="PrimaryUIButton" customModule="CPW_Mobile_PDF" customModuleProvider="target">
-                                                <rect key="frame" x="127.66666666666666" y="110" width="119" height="39"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="39" id="hN6-2h-6Cd"/>
-                                                </constraints>
-                                                <fontDescription key="fontDescription" type="system" pointSize="22"/>
-                                                <state key="normal" title="FILE PICKER"/>
-                                                <connections>
-                                                    <action selector="filePickerClicked:" destination="33z-Sm-ZcB" eventType="touchUpInside" id="WAH-tL-5EO"/>
-                                                </connections>
-                                            </button>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=" " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WbL-2E-Mjb">
-                                                <rect key="frame" x="184.66666666666666" y="159" width="4.6666666666666572" height="21.333333333333343"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                <nil key="textColor"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="bottom" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Download Maps" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zml-oh-ZAx">
-                                                <rect key="frame" x="103.66666666666669" y="190.33333333333331" width="167" height="49.333333333333343"/>
-                                                <accessibility key="accessibilityConfiguration">
-                                                    <accessibilityTraits key="traits" staticText="YES" header="YES"/>
-                                                </accessibility>
-                                                <fontDescription key="fontDescription" type="system" pointSize="24"/>
-                                                <nil key="textColor"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mus-Ud-6zr">
-                                                <rect key="frame" x="0.0" y="249.66666666666669" width="374" height="220"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="220" id="joL-hD-nFG"/>
-                                                </constraints>
-                                                <string key="text">This will start up your browser and show a list of resources for downloading geospatial PDFs from the CPW website. When the map is displayed, click on the Share icon (the rectangle with up arrow), then scroll the icons in the footer to click on Save to Files icon, select a place to save the map, click Save or Add button. Return to this app and use File Picker button above to load maps into this app. </string>
-                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                <nil key="textColor"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Xos-Ln-Pg5" customClass="PrimaryUIButton" customModule="CPW_Mobile_PDF" customModuleProvider="target">
-                                                <rect key="frame" x="104.66666666666669" y="479.66666666666663" width="165" height="39"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="39" id="736-CP-Bjh"/>
-                                                </constraints>
-                                                <fontDescription key="fontDescription" type="system" pointSize="22"/>
-                                                <state key="normal" title="OPEN BROWSER"/>
-                                                <connections>
-                                                    <action selector="openBrowserClicked:" destination="33z-Sm-ZcB" eventType="touchUpInside" id="Ggu-Aw-E3X"/>
-                                                </connections>
-                                            </button>
-                                        </subviews>
-                                    </stackView>
-                                </subviews>
-                                <constraints>
-                                    <constraint firstItem="JkA-LU-4vk" firstAttribute="trailing" secondItem="ZOg-dp-glF" secondAttribute="trailing" id="7gO-zv-Itu"/>
-                                    <constraint firstItem="JkA-LU-4vk" firstAttribute="leading" secondItem="ZOg-dp-glF" secondAttribute="leading" id="Fm5-KT-Nq6"/>
-                                    <constraint firstItem="1GI-lZ-YOD" firstAttribute="width" secondItem="JkA-LU-4vk" secondAttribute="width" id="P84-w6-UQA"/>
-                                    <constraint firstItem="JkA-LU-4vk" firstAttribute="width" secondItem="ZOg-dp-glF" secondAttribute="width" id="SkN-VB-aJV"/>
-                                    <constraint firstItem="JkA-LU-4vk" firstAttribute="centerX" secondItem="ZOg-dp-glF" secondAttribute="centerX" id="bZK-Wz-sdV"/>
-                                    <constraint firstItem="JkA-LU-4vk" firstAttribute="top" secondItem="ZOg-dp-glF" secondAttribute="top" constant="20" id="egC-KO-ZOY"/>
-                                    <constraint firstAttribute="bottom" secondItem="JkA-LU-4vk" secondAttribute="bottom" constant="-40" id="zAL-vd-3uf"/>
-                                </constraints>
-                                <inset key="scrollIndicatorInsets" minX="20" minY="0.0" maxX="20" maxY="0.0"/>
-                                <viewLayoutGuide key="contentLayoutGuide" id="ZOg-dp-glF"/>
-                                <viewLayoutGuide key="frameLayoutGuide" id="1GI-lZ-YOD"/>
-                            </scrollView>
-                        </subviews>
                         <viewLayoutGuide key="safeArea" id="Rah-e8-mMc"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                        <constraints>
-                            <constraint firstItem="dFQ-K0-TJ5" firstAttribute="leading" secondItem="Rah-e8-mMc" secondAttribute="leading" constant="20" id="21P-KX-LaA"/>
-                            <constraint firstItem="Rah-e8-mMc" firstAttribute="bottom" secondItem="dFQ-K0-TJ5" secondAttribute="bottom" id="WBe-kh-I6X"/>
-                            <constraint firstItem="dFQ-K0-TJ5" firstAttribute="trailing" secondItem="Rah-e8-mMc" secondAttribute="trailing" constant="-20" id="ayv-yi-6Oq"/>
-                            <constraint firstItem="dFQ-K0-TJ5" firstAttribute="top" secondItem="Rah-e8-mMc" secondAttribute="top" id="kgF-gU-y8A"/>
-                            <constraint firstItem="dFQ-K0-TJ5" firstAttribute="bottom" secondItem="Rah-e8-mMc" secondAttribute="bottom" id="rBs-9x-nBb"/>
-                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="864-pM-HQY"/>
                     <connections>
@@ -460,7 +361,7 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Edit Waypoint" id="S5u-fm-qym" userLabel="Edit Waypoint">
-                        <barButtonItem key="leftBarButtonItem" systemItem="done" id="ujU-vZ-uMx">
+                        <barButtonItem key="leftBarButtonItem" systemItem="save" id="ujU-vZ-uMx">
                             <connections>
                                 <segue destination="tvz-l5-yl6" kind="unwind" unwindAction="performUnwindToMapDone:" id="jOY-3i-4d4"/>
                             </connections>

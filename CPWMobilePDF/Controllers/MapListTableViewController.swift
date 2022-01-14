@@ -312,43 +312,6 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
         }else {
             return NSKeyedUnarchiver.unarchiveObject(withFile: PDFMap.ArchiveURL.path) as? [PDFMap]
         }
-        
-        
-        
-        // old - read all pdfs in directory
-        
-        // Load all PDF files found in the local documents directory. PDFMap gets the file modification
-        // date and parses the file for thumbnail. When the map is loaded in MapViewController,
-        // it calls PDFParser to get lat/long bounds, mediabox, and viewport
-        
-        // get pdf files in app documents directory
-        /*var dirContents: [URL]? = nil
-        do {
-            dirContents = try FileManager.default.contentsOfDirectory(at: documentsURL!, includingPropertiesForKeys: nil, options: .skipsHiddenFiles)
-        }catch {
-            displayError(theError: AppError.pdfMapError.invalidDocumentDirectory)
-            return nil
-        }
-          
-        if dirContents != nil {
-            // only load pdf files
-            let pdfFiles = dirContents!.filter{ $0.pathExtension == "pdf" }
-            
-            // load pdf files into maps array
-            for pdf in pdfFiles.enumerated() {
-                do {
-                    let map = try PDFMap(fileName:
-                    pdf.element.lastPathComponent)
-                    if map != nil {
-                        maps += [map!]
-                    }
-                } catch {
-                    displayError(theError: error)
-                }
-            }
-        }
-        showMsg()
-        return maps*/
     }
     
     // MARK: Location funcs
@@ -460,13 +423,6 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
             msgLabel.isHidden = false
             self.editButtonItem.isEnabled = false
             setEditing(false, animated: true)
-            
-            /*var newFrame: CGRect = msgLabel.frame
-             newFrame.size.height = 80
-             msgLabel.frame = newFrame
-             msgLabel.isHidden = false
-             self.editButtonItem.isEnabled = false
-             setEditing(false, animated: true)*/
         }
         else {
             var newFrame: CGRect = msgLabel.frame
@@ -480,22 +436,13 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
             msgLabel.addGestureRecognizer(gestureRecognizer)
             self.editButtonItem.isEnabled = true
             setEditing(false, animated: true)
-            /*var newFrame: CGRect = msgLabel.frame
-            newFrame.size.height = 0
-            msgLabel.frame = newFrame
-            msgLabel.isHidden = true
-            self.editButtonItem.isEnabled = true
-            setEditing(false, animated: true)*/
         }
     }
-    
     
     // MARK: More Menu
     func addMoreMenuTransparentView(frames:CGRect){
         let window = UIApplication.shared.keyWindow
         let y:Int = Int(self.navigationController?.navigationBar.frame.maxY ?? 0) + Int(self.tableView.contentOffset.y)
-        
-        //let y = 70
         let x = 55
         moreMenuTransparentView.frame = window?.frame ?? self.view.frame
         moreMenuTransparentView.frame.origin.y = CGFloat(y)
@@ -1054,6 +1001,9 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
                 fatalError("The dequeued cell is not an instance of MapListTableViewCell.")
             }
         
+            // add top border
+            cell.layer.addBorder()
+            
             // Fetches the appropriate map for the data source layout.
             let map = maps[indexPath.row]
             // reset map name editing to done. Sometimes if scroll it is still in editing mode grey textbox
@@ -1372,5 +1322,15 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
         default:
             fatalError("Unexpected Segue Identifier: \(String(describing: segue.identifier))")
         }
+    }
+}
+
+extension CALayer {
+    // Add a top border to each cell. It did not have one between Sort By menu and top of list.
+    func addBorder(){
+        let border = CALayer()
+        border.frame = CGRect(x: 10, y: 0, width: self.frame.width - 20, height: 1)
+        border.backgroundColor = UIColor(red: 0.9, green: 0.9, blue: 0.9, alpha: 1.0).cgColor
+        self.addSublayer(border)
     }
 }

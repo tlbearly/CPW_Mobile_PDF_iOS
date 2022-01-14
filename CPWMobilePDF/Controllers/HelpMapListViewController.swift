@@ -14,6 +14,7 @@ class HelpMapListViewController: UIViewController {
         
         // Add Scrolling View, Logo, Title, and Text
         let help:HelpScrollView = HelpScrollView(UIScrollView(), view: view)
+        help.addLogo()
         help.addTitle(title: "CPW Mobile PDF Help")
         help.addText(text: "Go mobile with this offline PDF map viewer. Pinpoints your current location on PDF maps from the HuntingAtlas, FishingAtlas, CPW Maps Library, or any georeferenced PDF. No need for internet or cell tower connection! Plus, access a list of resources for downloading PDF maps.")
 

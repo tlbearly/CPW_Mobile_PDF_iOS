@@ -224,6 +224,7 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
     // MARK: More Menu
     func addMoreMenuTransparentView(frames:CGRect){
         let window = UIApplication.shared.keyWindow
+        let x = 55
         moreMenuTransparentView.frame = window?.frame ?? self.view.frame
         self.view.addSubview(moreMenuTransparentView)
         
@@ -239,7 +240,7 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
        
         UIView.animate(withDuration: 0.4, delay: 0.0, usingSpringWithDamping: 1.0, initialSpringVelocity: 1.0, options: .curveEaseInOut, animations: {
             self.moreMenuTransparentView.alpha = 0.5
-            self.moreMenuTableview.frame = CGRect(x: 0, y: self.topbarHeight, width: Int(frames.width), height: self.dataSource.count * self.mainMenuRowHeight)
+            self.moreMenuTableview.frame = CGRect(x: x, y: self.topbarHeight, width: Int(frames.width), height: self.dataSource.count * self.mainMenuRowHeight)
         }, completion: nil)
         moreMenuShowing = true
     }

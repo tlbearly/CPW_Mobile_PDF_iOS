@@ -14,6 +14,7 @@ class HelpAddMapViewController: UIViewController {
         super.viewDidLoad()
         // Add Scrolling View, Logo, Title, and Text
         let help = HelpScrollView(UIScrollView(), view: view)
+        help.addLogo()
         help.addTitle(title: "Adding Maps Help")
         
         help.addTitle(title: "STEP 1: Download Maps",size: 20.0, bold:false, underline: true)

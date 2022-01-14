@@ -14,7 +14,7 @@ import UIKit
 class HelpScrollView: UIScrollView {
     let contentView:UIView = UIView()
     var bottom_anchor:NSLayoutYAxisAnchor = NSLayoutYAxisAnchor()
-    var elem = UILabel()
+    var elem = UIView()
     
     init(_ scrollView: UIScrollView, view: UIView) {
         super.init(frame: .zero)
@@ -31,7 +31,10 @@ class HelpScrollView: UIScrollView {
         contentView.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
         contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor).isActive = true
         contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor).isActive = true
-        
+        bottom_anchor = contentView.topAnchor
+    }
+    
+    public func addLogo(){
         // Logo
         let viewForImg = UIView()
         let imgView = UIImageView(image: UIImage(named: "icon"))
@@ -55,49 +58,6 @@ class HelpScrollView: UIScrollView {
         imgView.heightAnchor.constraint(equalToConstant: imgSize).isActive = true
         imgView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20).isActive = true
         self.bottom_anchor = imgView.bottomAnchor
-        
-        // Title
-        //let helpTitle = addTitle(contentView: contentView, title: helpTitleStr, topElem: imgView)
-        /*let helpTitle = UILabel()
-        helpTitle.text = helpTitleStr
-        helpTitle.font = UIFont.systemFont(ofSize: 24)
-        helpTitle.sizeToFit()
-        helpTitle.numberOfLines = 0
-        helpTitle.translatesAutoresizingMaskIntoConstraints = false
-        contentView.addSubview(helpTitle)
-        // Set its constraint to display it on screen
-        helpTitle.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 4/5).isActive = true
-        helpTitle.topAnchor.constraint(equalTo: imgView.bottomAnchor, constant: 10).isActive = true
-        helpTitle.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true*/
-        
-       //helpText = addText(contentView: contentView, text: helpTextStr, topText: helpTitle)
-        /*let helpText = UILabel()
-        helpText.text = helpTextStr
-        helpText.numberOfLines = 0
-        helpText.sizeToFit()
-        helpText.font = UIFont.systemFont(ofSize: 17)
-        helpText.translatesAutoresizingMaskIntoConstraints = false
-        contentView.addSubview(helpText)
-        helpText.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 4/5).isActive = true
-        helpText.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
-        helpText.topAnchor.constraint(equalTo: helpTitle.bottomAnchor, constant: 10).isActive = true
-        helpText.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 10).isActive = true
-        //helpText.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10).isActive = true*/
-    }
-    
-    public func addSubTitle(title: String) {
-        let helpTitle = UILabel()
-        helpTitle.text = title
-        helpTitle.font = UIFont.systemFont(ofSize: 20)
-        helpTitle.sizeToFit()
-        helpTitle.numberOfLines = 0
-        helpTitle.translatesAutoresizingMaskIntoConstraints = false
-        contentView.addSubview(helpTitle)
-        // Set its constraint to display it on screen
-        helpTitle.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 4/5).isActive = true
-        helpTitle.topAnchor.constraint(equalTo: bottom_anchor, constant: 10).isActive = true
-        helpTitle.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
-        bottom_anchor = helpTitle.bottomAnchor
     }
     
     public func addTitle(title: String,size:CGFloat=24.0,bold:Bool=false,underline:Bool=false) {
@@ -121,9 +81,12 @@ class HelpScrollView: UIScrollView {
         helpTitle.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(helpTitle)
         // Set its constraint to display it on screen
-        helpTitle.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 4/5).isActive = true
+        //helpTitle.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 4/5).isActive = true
+        helpTitle.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10).isActive = true
+        helpTitle.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10).isActive = true
         helpTitle.topAnchor.constraint(equalTo: bottom_anchor, constant: 30).isActive = true
-        helpTitle.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
+        //helpTitle.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
+        elem = helpTitle
         bottom_anchor = helpTitle.bottomAnchor
     }
     
@@ -137,8 +100,8 @@ class HelpScrollView: UIScrollView {
         helpText.font = UIFont.systemFont(ofSize: 17)
         helpText.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(helpText)
-        helpText.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 4/5).isActive = true
-        helpText.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
+        helpText.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10).isActive = true
+        helpText.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10).isActive = true
         helpText.topAnchor.constraint(equalTo: bottom_anchor, constant: 10).isActive = true
         elem = helpText
         bottom_anchor = helpText.bottomAnchor
@@ -154,7 +117,21 @@ class HelpScrollView: UIScrollView {
         imgView.widthAnchor.constraint(equalToConstant: x).isActive = true
         imgView.heightAnchor.constraint(equalToConstant: y).isActive = true
         imgView.topAnchor.constraint(equalTo: bottom_anchor, constant: 20).isActive = true
+        elem = imgView
         bottom_anchor = imgView.bottomAnchor
+    }
+    
+    public func addButton(text: String) -> PrimaryUIButton {
+        let btn = PrimaryUIButton()
+        btn.setTitle(text, for: .normal)
+        btn.translatesAutoresizingMaskIntoConstraints = false
+        contentView.addSubview(btn)
+        btn.heightAnchor.constraint(equalToConstant: 39).isActive = true
+        btn.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
+        btn.topAnchor.constraint(equalTo: bottom_anchor, constant: 20).isActive = true
+        bottom_anchor = btn.bottomAnchor
+        elem = btn
+        return btn
     }
     
     public func addLastElement(){
