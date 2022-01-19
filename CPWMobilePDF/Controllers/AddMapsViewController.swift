@@ -70,8 +70,11 @@ class AddMapsViewController: UIViewController {
         self.navigationItem.rightBarButtonItems = [moreBtn]
     }
 
-    
-    
+    // preserve orientation
+    override open var shouldAutorotate: Bool {
+        // do not auto rotate
+        return false
+    }
     
     // MARK: - Navigation
 

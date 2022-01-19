@@ -14,7 +14,7 @@
         <scene sceneID="sSk-I7-8Hw">
             <objects>
                 <tableViewController id="Rk3-2j-9u0" userLabel="Imported Maps" customClass="MapListTableViewController" customModule="CPW_Mobile_PDF" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="110" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" contentViewInsetsToSafeArea="NO" id="dQn-IY-pJt">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="100" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" contentViewInsetsToSafeArea="NO" id="dQn-IY-pJt">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <viewLayoutGuide key="safeArea" id="hYQ-Dh-RFP"/>
@@ -34,74 +34,86 @@
                                     <rect key="frame" x="0.0" y="0.0" width="414" height="100"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="pdf_icon" translatesAutoresizingMaskIntoConstraints="NO" id="YrY-aO-y4i">
-                                            <rect key="frame" x="10" y="10" width="90" height="80"/>
-                                            <constraints>
-                                                <constraint firstAttribute="width" constant="90" id="c9h-tg-Vp1"/>
-                                            </constraints>
-                                        </imageView>
-                                        <stackView autoresizesSubviews="NO" opaque="NO" contentMode="scaleToFill" axis="vertical" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="iEB-gE-UEm">
-                                            <rect key="frame" x="110" y="13" width="284" height="74.333333333333329"/>
+                                        <stackView opaque="NO" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="Dvd-qU-5ex" userLabel="Horiz Stack View 1">
+                                            <rect key="frame" x="0.0" y="10" width="404" height="80"/>
                                             <subviews>
-                                                <textField opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Map Name" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="e3O-LR-362">
-                                                    <rect key="frame" x="0.0" y="0.0" width="284" height="23.333333333333332"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                                    <textInputTraits key="textInputTraits"/>
-                                                </textField>
-                                                <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Filename" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Qbs-jU-Yx4">
-                                                    <rect key="frame" x="0.0" y="27.333333333333336" width="284" height="0.0"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" translatesAutoresizingMaskIntoConstraints="NO" id="0Kz-h3-2oQ" userLabel="Horz Stack View">
-                                                    <rect key="frame" x="0.0" y="31.333333333333336" width="284" height="30"/>
-                                                    <subviews>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" layoutMarginsFollowReadableWidth="YES" text="File Size KB" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IGx-nl-nVb">
-                                                            <rect key="frame" x="0.0" y="0.0" width="74.333333333333329" height="30"/>
-                                                            <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                                            <color key="textColor" systemColor="secondaryLabelColor"/>
-                                                            <nil key="highlightedColor"/>
-                                                        </label>
-                                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" restorationIdentifier="locationIcon" image="nearme" translatesAutoresizingMaskIntoConstraints="NO" id="Dhl-xV-Inq">
-                                                            <rect key="frame" x="74.333333333333343" y="0.0" width="80" height="30"/>
-                                                            <constraints>
-                                                                <constraint firstAttribute="height" constant="30" id="5yP-vV-FVS"/>
-                                                                <constraint firstAttribute="width" constant="80" id="Apq-rl-Ly4"/>
-                                                            </constraints>
-                                                        </imageView>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Allow Location" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DlV-Yt-wPo">
-                                                            <rect key="frame" x="154.33333333333331" y="0.0" width="129.66666666666669" height="30"/>
-                                                            <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                                            <color key="textColor" systemColor="secondaryLabelColor"/>
-                                                            <nil key="highlightedColor"/>
-                                                        </label>
-                                                    </subviews>
-                                                </stackView>
-                                                <progressView opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" verticalHuggingPriority="750" restorationIdentifier="progressBar" insetsLayoutMarginsFromSafeArea="NO" progressViewStyle="bar" progress="0.29999999999999999" translatesAutoresizingMaskIntoConstraints="NO" id="S1e-e4-Ap3" customClass="RoundedCornerProgressBar" customModule="CPW_Mobile_PDF" customModuleProvider="target">
-                                                    <rect key="frame" x="0.0" y="69.333333333333329" width="284" height="6"/>
-                                                    <viewLayoutGuide key="safeArea" id="8Zc-dc-FwT"/>
-                                                    <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                    <color key="tintColor" systemColor="systemTealColor"/>
-                                                    <accessibility key="accessibilityConfiguration">
-                                                        <accessibilityTraits key="traits" notEnabled="YES" updatesFrequently="YES"/>
-                                                    </accessibility>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="pdf_icon" translatesAutoresizingMaskIntoConstraints="NO" id="YrY-aO-y4i">
+                                                    <rect key="frame" x="0.0" y="0.0" width="90" height="80"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="height" constant="5" id="1Ur-4F-ClN"/>
+                                                        <constraint firstAttribute="width" constant="90" id="c9h-tg-Vp1"/>
                                                     </constraints>
-                                                </progressView>
+                                                </imageView>
+                                                <stackView autoresizesSubviews="NO" opaque="NO" contentMode="scaleToFill" axis="vertical" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="iEB-gE-UEm">
+                                                    <rect key="frame" x="100" y="0.0" width="304" height="80"/>
+                                                    <subviews>
+                                                        <textField opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Map Name" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="e3O-LR-362">
+                                                            <rect key="frame" x="0.0" y="0.0" width="304" height="29"/>
+                                                            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                                            <textInputTraits key="textInputTraits"/>
+                                                        </textField>
+                                                        <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Filename" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Qbs-jU-Yx4">
+                                                            <rect key="frame" x="0.0" y="33" width="304" height="0.0"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                            <nil key="textColor"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                        <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" translatesAutoresizingMaskIntoConstraints="NO" id="0Kz-h3-2oQ" userLabel="Horz Stack View">
+                                                            <rect key="frame" x="0.0" y="37" width="304" height="30"/>
+                                                            <subviews>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" layoutMarginsFollowReadableWidth="YES" text="File Size KB" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IGx-nl-nVb">
+                                                                    <rect key="frame" x="0.0" y="0.0" width="79.333333333333329" height="30"/>
+                                                                    <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                                                    <color key="textColor" systemColor="secondaryLabelColor"/>
+                                                                    <nil key="highlightedColor"/>
+                                                                </label>
+                                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" restorationIdentifier="locationIcon" image="nearme" translatesAutoresizingMaskIntoConstraints="NO" id="Dhl-xV-Inq">
+                                                                    <rect key="frame" x="79.333333333333343" y="0.0" width="80" height="30"/>
+                                                                    <constraints>
+                                                                        <constraint firstAttribute="height" constant="30" id="5yP-vV-FVS"/>
+                                                                        <constraint firstAttribute="width" constant="80" id="Apq-rl-Ly4"/>
+                                                                    </constraints>
+                                                                </imageView>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Allow Location" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DlV-Yt-wPo">
+                                                                    <rect key="frame" x="159.33333333333331" y="0.0" width="144.66666666666669" height="30"/>
+                                                                    <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                                                    <color key="textColor" systemColor="secondaryLabelColor"/>
+                                                                    <nil key="highlightedColor"/>
+                                                                </label>
+                                                            </subviews>
+                                                            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                        </stackView>
+                                                        <progressView opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" verticalHuggingPriority="750" restorationIdentifier="progressBar" insetsLayoutMarginsFromSafeArea="NO" progressViewStyle="bar" progress="0.29999999999999999" translatesAutoresizingMaskIntoConstraints="NO" id="S1e-e4-Ap3" customClass="RoundedCornerProgressBar" customModule="CPW_Mobile_PDF" customModuleProvider="target">
+                                                            <rect key="frame" x="0.0" y="75" width="304" height="6"/>
+                                                            <viewLayoutGuide key="safeArea" id="8Zc-dc-FwT"/>
+                                                            <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                            <color key="tintColor" systemColor="systemTealColor"/>
+                                                            <accessibility key="accessibilityConfiguration">
+                                                                <accessibilityTraits key="traits" notEnabled="YES" updatesFrequently="YES"/>
+                                                            </accessibility>
+                                                            <constraints>
+                                                                <constraint firstAttribute="height" constant="5" id="1Ur-4F-ClN"/>
+                                                            </constraints>
+                                                        </progressView>
+                                                    </subviews>
+                                                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                </stackView>
                                             </subviews>
+                                            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                            <constraints>
+                                                <constraint firstAttribute="trailing" secondItem="iEB-gE-UEm" secondAttribute="trailing" id="nmC-P7-W9A"/>
+                                            </constraints>
                                         </stackView>
                                     </subviews>
+                                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                     <constraints>
-                                        <constraint firstAttribute="trailing" secondItem="iEB-gE-UEm" secondAttribute="trailing" constant="20" id="C29-1U-d20"/>
-                                        <constraint firstItem="iEB-gE-UEm" firstAttribute="centerY" secondItem="G3V-XX-9kL" secondAttribute="centerY" id="KJZ-I0-Qo2"/>
-                                        <constraint firstItem="YrY-aO-y4i" firstAttribute="leading" secondItem="G3V-XX-9kL" secondAttribute="leading" constant="10" id="PTH-l6-NGA"/>
-                                        <constraint firstItem="YrY-aO-y4i" firstAttribute="top" secondItem="G3V-XX-9kL" secondAttribute="top" constant="10" id="aok-rM-5hb"/>
-                                        <constraint firstItem="iEB-gE-UEm" firstAttribute="leading" secondItem="YrY-aO-y4i" secondAttribute="trailing" constant="10" id="egk-Eh-QmA"/>
-                                        <constraint firstItem="YrY-aO-y4i" firstAttribute="centerY" secondItem="G3V-XX-9kL" secondAttribute="centerY" id="v23-k5-sPf"/>
+                                        <constraint firstItem="Dvd-qU-5ex" firstAttribute="leading" secondItem="G3V-XX-9kL" secondAttribute="leading" id="8SC-Wc-vjY"/>
+                                        <constraint firstAttribute="bottom" secondItem="Dvd-qU-5ex" secondAttribute="bottom" constant="10" id="bOJ-UY-yae"/>
+                                        <constraint firstAttribute="trailing" secondItem="Dvd-qU-5ex" secondAttribute="trailing" constant="10" id="kky-zc-A0O"/>
+                                        <constraint firstItem="Dvd-qU-5ex" firstAttribute="top" secondItem="G3V-XX-9kL" secondAttribute="top" constant="10" id="tCy-PB-cQq"/>
                                     </constraints>
                                 </tableViewCellContentView>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <connections>
                                     <outlet property="distToMap" destination="DlV-Yt-wPo" id="CeM-vr-LyB"/>
                                     <outlet property="fileName" destination="Qbs-jU-Yx4" id="aYb-0w-Rsc"/>
@@ -134,7 +146,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mQE-xu-i6k" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1886.9565217391305" y="-544.56521739130437"/>
+            <point key="canvasLocation" x="1886.9565217391305" y="-545.08928571428567"/>
         </scene>
         <!--Help-->
         <scene sceneID="aLI-Wf-Tci">
@@ -268,6 +280,7 @@
                                     </imageView>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Way Pt Description" textAlignment="natural" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="kXw-jl-3Ri">
                                         <rect key="frame" x="90" y="23" width="294" height="34"/>
+                                        <color key="backgroundColor" systemColor="secondarySystemFillColor"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
@@ -409,6 +422,9 @@
         <image name="pdf_icon" width="27.333333969116211" height="37.333332061767578"/>
         <systemColor name="secondaryLabelColor">
             <color red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="secondarySystemFillColor">
+            <color red="0.47058823529411764" green="0.47058823529411764" blue="0.50196078431372548" alpha="0.16" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

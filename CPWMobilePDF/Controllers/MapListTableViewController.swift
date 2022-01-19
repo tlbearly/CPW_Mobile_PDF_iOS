@@ -775,7 +775,13 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
                 cell.mapName.delegate = self
                 cell.mapName.addTarget(self, action: #selector(self.saveCurrentMapName(_:)), for: UIControl.Event.editingDidBegin)
                 cell.mapName.addTarget(self, action: #selector(self.endEditingMapName(_:)), for: UIControl.Event.editingDidEnd)
-                cell.mapName.backgroundColor = .init(red: 0.95, green: 0.95, blue: 0.95, alpha: 1)
+                // for dark and light mode
+                if #available(iOS 13.0, *) {
+                    cell.mapName.backgroundColor = UIColor.tertiarySystemBackground
+                } else {
+                    // Fallback on earlier versions
+                    cell.mapName.backgroundColor = UIColor.init(red: 0.95, green: 0.95, blue: 0.95, alpha: 1)
+                }
                 cell.mapName.borderStyle = UITextField.BorderStyle.roundedRect
             }
         }

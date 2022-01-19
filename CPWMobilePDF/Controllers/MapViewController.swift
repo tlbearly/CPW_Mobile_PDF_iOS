@@ -38,6 +38,7 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
     var maps:[PDFMap] = []
     var mapIndex:Int = -1
     var locationManager = CLLocationManager()
+    var lockOrientation = false
     let allowBtn = PrimaryUIButton() // turn on location services button
     // make a dummy location dot because displayLocation deletes it first
     var currentLocation: PDFAnnotation = PDFAnnotation(bounds: CGRect(x:0, y:0, width:1,height:1), forType: .circle, withProperties: nil)
@@ -164,7 +165,19 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         notice.text = "Tap to add waypoint"
         view.addSubview(notice)
         notice.isHidden = true
-        notice.backgroundColor = UIColor.white
+        // for dark and light mode
+        if #available(iOS 13.0, *) {
+            notice.backgroundColor = UIColor.systemBackground
+        } else {
+            // Fallback on earlier versions
+            notice.backgroundColor = UIColor.white
+        }
+        if #available(iOS 13.0, *) {
+            notice.textColor = UIColor.label
+        } else {
+            // Fallback on earlier versions
+            notice.textColor = UIColor.black
+        }
         notice.textAlignment = .center
         notice.font = UIFont(name: "bold", size: 18.0)
         notice.translatesAutoresizingMaskIntoConstraints = false
@@ -181,7 +194,7 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
     // set default orientation from database tlb 3/12/21
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+        lockOrientation = false // preserve orientation
         // lock in landscape or portrait mode to start
         //AppUtility.lockOrientation(.landscapeRight, andRotateTo: .landscapeRight)
         // Or to rotate and lock
@@ -219,6 +232,18 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         }
         // Call location manager
         setupLocationServices()
+    }
+    
+    // preserve orientation to phone rotation
+    override open var shouldAutorotate: Bool {
+        // do not auto rotate
+        print("lockOrientation = \(lockOrientation)")
+        if (lockOrientation){
+            return true
+        }
+        else{
+            return false
+        }
     }
     
     // MARK: More Menu
@@ -274,12 +299,14 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
     }
     func lockLandscape(){
         // lock in landscape mode
+        lockOrientation = true
         AppUtility.lockOrientation(.landscapeLeft, andRotateTo: .landscapeLeft)
         //self.navigationItem.rightBarButtonItem = portBtn
     }
     
     @objc func lockPortrait(){
         // lock in portrait mode
+        lockOrientation = true
         AppUtility.lockOrientation(.portrait, andRotateTo: .portrait)
         //self.navigationItem.rightBarButtonItem = landBtn
     }
@@ -446,7 +473,13 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         pdfView.displayMode = .singlePageContinuous
         //pdfView.displaysPageBreaks = true
         pdfView.document = document
-        pdfView.backgroundColor = UIColor.lightGray // must be set after pdfView.document
+        // must be set after pdfView.document
+        if #available(iOS 13.0, *) {
+            pdfView.backgroundColor = UIColor.systemBackground
+        } else {
+            // Fallback on earlier versions
+            pdfView.backgroundColor = UIColor.lightGray
+        }
 
         // how far can we zoom in?
         pdfView.maxScaleFactor = 8.0
@@ -647,7 +680,7 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         // Remove last location dot
         page.removeAnnotation(currentLocation) // remove last location dot
         
-        var azimuth:Double = -1.0
+        //var azimuth:Double = -1.0
         // get current location
         if (CLLocationManager.authorizationStatus() == .authorizedWhenInUse ||
            CLLocationManager.authorizationStatus() == .authorizedAlways) {
@@ -663,8 +696,8 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
                 if (heading.headingAccuracy > 0.0){
                     // CLLocationManager.CLDeviceOrientation.portrait
                     // landscapeLeft, landscapeRight
-                    azimuth = heading.magneticHeading
-                    debugTxtBox.text = "orient: \(locationManager.headingOrientation) a=\(azimuth)"
+                    //azimuth = heading.magneticHeading
+                    //debugTxtBox.text = "orient: \(locationManager.headingOrientation) a=\(azimuth)"
                 }
             }
         }
@@ -855,12 +888,7 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         else if (x + popupWidth > screenWidth){
             x = screenWidth - popupWidth
         }
-        //let yMove:CGFloat = (waypt.bounds.maxY - pdfViewPoint.y) / ratioY
-        
-        //let y = location.y - (yMove + popupHeight)
-        //print("xRatio:\(ratioX) xscr:\(Int(location.x)) - xmove:\(Int(xMove)) - wd:\(Int(popupWidth/2)) = x:\(Int(x))")
-        //print("yRatio:\(ratioY) yscr:\(Int(location.y)) - ymove:\(Int(yMove)) - ht:\(Int(popupHeight)) = y:\(Int(y))")
-        
+                
         popup = UITextField(frame: CGRect(x: x, y: location.y+20, width: popupWidth, height: popupHeight))
         let rightImgView = UIImageView(frame: CGRect(x: 0.0, y: 0.0, width: 90.0, height: 90.0))
         rightImgView.image = UIImage(named: "arrow_right_circle")
@@ -880,7 +908,18 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         
         // give it a tag so we will know if this popup was clicked on
         popup.tag = 100
-        popup.backgroundColor = UIColor.white
+        if #available(iOS 13.0, *) {
+            popup.backgroundColor = UIColor.systemBackground
+        } else {
+            // Fallback on earlier versions
+            popup.backgroundColor = UIColor.white
+        }
+        if #available(iOS 13.0, *) {
+            popup.textColor = UIColor.label
+        } else {
+            // Fallback on earlier versions
+            popup.textColor = UIColor.black
+        }
         
         // add border
         let myColor : UIColor = UIColor.gray
@@ -1017,7 +1056,7 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
                 
                 // is popup showing? Did they click on the popup then allow editing
                 if let aPopup: UITextField = pdfView.viewWithTag(100) as? UITextField {
-                    // popup is showing and did not click on popup hide it.
+                    // popup is showing and did not click on popup, hide it.
                     removingPopup = true
                     aPopup.removeFromSuperview()
                 }

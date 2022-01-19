@@ -21,6 +21,11 @@ class HelpMapViewController: UIViewController {
         help.addText(text: "Your current latitude and longitude will be displayed at the top of the map, and it will be displayed on the map as a cyan circle outlined in white. Double tap or pinch to zoom. To add waypoints, click on the push pin icon at the top-right, then click the map at the desired location. If the waypoint label is showing, clicking on a waypoint will display its label. Clicking on a waypoint label will let you edit the label and pushpin color.")
         help.addLastElement()
     }
+    // preserve orientation
+    override open var shouldAutorotate: Bool {
+        // do not auto rotate
+        return false
+    }
 
     // MARK: - Navigation
     // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -39,6 +44,35 @@ class HelpMapViewController: UIViewController {
     }
 }
 
+// preserve orientation
+extension UINavigationController {
+    override open var shouldAutorotate: Bool {
+        get {
+            if let visibleVC = visibleViewController {
+                return visibleVC.shouldAutorotate
+            }
+            return super.shouldAutorotate
+        }
+    }
+    
+    override open var preferredInterfaceOrientationForPresentation: UIInterfaceOrientation{
+        get {
+            if let visibleVC = visibleViewController {
+                return visibleVC.preferredInterfaceOrientationForPresentation
+            }
+            return super.preferredInterfaceOrientationForPresentation
+        }
+    }
+    
+    override open var supportedInterfaceOrientations: UIInterfaceOrientationMask{
+        get {
+            if let visibleVC = visibleViewController {
+                return visibleVC.supportedInterfaceOrientations
+            }
+            return super.supportedInterfaceOrientations
+        }
+    }
+}
 
 #if DEBUG
 // show preview window Editor/Canvas

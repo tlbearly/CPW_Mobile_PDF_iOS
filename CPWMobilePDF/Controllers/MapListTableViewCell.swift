@@ -40,8 +40,15 @@ class MapListTableViewCell: UITableViewCell {
             mapName.backgroundColor = UIColor.lightGray
             contentView.backgroundColor = UIColor.lightGray
         } else {
-            mapName.backgroundColor = UIColor.white
-            contentView.backgroundColor = UIColor.white
+            // for dark and light mode
+            if #available(iOS 13.0, *) {
+                mapName.backgroundColor = UIColor.systemBackground
+                contentView.backgroundColor = UIColor.systemBackground
+            } else {
+                // Fallback on earlier versions
+                mapName.backgroundColor = UIColor.white
+                contentView.backgroundColor = UIColor.white
+            }
         }
     }
     
