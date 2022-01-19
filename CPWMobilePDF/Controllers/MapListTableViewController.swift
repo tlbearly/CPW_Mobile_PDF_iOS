@@ -139,6 +139,12 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
         }
     }
     
+    // preserve orientation
+    override open var shouldAutorotate: Bool {
+        // do not auto rotate
+        return false
+    }
+
     // MARK: Actions
     
     @IBAction func unwindToMapsList(sender: UIStoryboardSegue){

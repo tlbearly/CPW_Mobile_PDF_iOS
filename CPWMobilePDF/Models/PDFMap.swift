@@ -186,16 +186,16 @@ class PDFMap: NSObject, NSCoding {
             index += 1
             name = self.displayName + String(index) + ".pdf"
             destURL = PDFMap.DocumentsDirectory.appendingPathComponent(name)
+            self.fileName = name
         }
         do {
              try FileManager.default.copyItem(at:fileURL, to: destURL)
         }
-        catch{
-            print("ERROR: unable to copy file to the app documents directory")
+        catch let error{
+            print("ERROR: unable to copy file to the app documents directory. \(error)")
             throw AppError.pdfMapError.pdfFileNotFound(file: fileURL.absoluteString)
         }
         
-        self.fileName = name
         setDisplayName()
         self.fileURL = destURL
         

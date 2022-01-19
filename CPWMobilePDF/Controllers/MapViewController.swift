@@ -237,7 +237,6 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
     // preserve orientation to phone rotation
     override open var shouldAutorotate: Bool {
         // do not auto rotate
-        print("lockOrientation = \(lockOrientation)")
         if (lockOrientation){
             return true
         }
@@ -448,6 +447,7 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         }*/
         
         let url = documentsDir.appendingPathComponent(maps[mapIndex].fileName)
+        print("load url maps[\(mapIndex)].fileName = \(maps[mapIndex].fileName)")
         if !FileManager.default.fileExists(atPath:url.path){
             print("Map file not found: \(url.absoluteString)")
             throw AppError.pdfMapError.pdfFileNotFound(file: url.lastPathComponent)
@@ -845,6 +845,7 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         locationManager.startUpdatingHeading() // get azimuth
         guard let page = self.pdfView.document?.page(at: 0) else {
             print("Problem reading the PDF. Can't get page 1.")
+            displayError(msg: "Problem reading the PDF. Can't get page 1")
             return
         }
         self.displayLocation(page: page, pdfView: self.pdfView) // initial location
@@ -899,7 +900,8 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         // edit text listener
         popup.addTarget(self, action: #selector(MapViewController.wayptTextClicked(_:)), for: UIControl.Event.touchDown)
         guard let items = waypt.contents?.components(separatedBy: "$") else {
-            print("empty waypt contents!!!!")
+            print("empty waypt contents, clicked on current location???")
+            //displayError(msg: "Trying to display waypoint popup but contents are empty!")
             return
         }
         
