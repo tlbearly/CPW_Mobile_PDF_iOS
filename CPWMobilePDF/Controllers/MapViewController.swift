@@ -76,7 +76,7 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
     // more drop down menu
     let moreMenuTransparentView = UIView();
     let moreMenuTableview = UITableView();
-    var dataSource = [String]()
+    var dataSource = ["Mark current location", "Add waypoint", "Show waypoints", "Hide waypoints", "Delete all waypoints", "Lock in portrait mode", "Lock in landscape mode","Help"]
     var moreMenuShowing = false
     var mainMenuRowHeight = 44
     //  Height of status bar + navigation bar (if navigation bar exist)
@@ -100,9 +100,10 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         super.viewDidLoad()
         
         // populate more drop down menu
-        moreMenuTableview.delegate = self
-        moreMenuTableview.dataSource = self
-        moreMenuTableview.register(CellClass.self, forCellReuseIdentifier: "Cell")
+        self.moreMenuTableview.delegate = self
+        self.moreMenuTableview.dataSource = self
+        self.moreMenuTableview.register(CellClass.self, forCellReuseIdentifier: "Cell")
+        self.moreMenuTableview.reloadData()
         
         self.title = maps[mapIndex].displayName
         screenWidth = self.view.frame.size.width
@@ -251,34 +252,38 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         let x = 55
         moreMenuTransparentView.frame = window?.frame ?? self.view.frame
         self.view.addSubview(moreMenuTransparentView)
-        
-        moreMenuTableview.frame = CGRect(x: 0, y: 0, width: frames.width, height: 0)
-        self.view.addSubview(moreMenuTableview)
-        moreMenuTableview.layer.cornerRadius = 5
+        // hide the menu so it can animate dropping down
+        self.moreMenuTableview.frame = CGRect(x: 0, y: 0, width: frames.width, height: 0)
+        self.view.addSubview(self.moreMenuTableview)
+        self.moreMenuTableview.layer.cornerRadius = 5
         
         moreMenuTransparentView.backgroundColor = UIColor.black.withAlphaComponent(0.9)
-        moreMenuTableview.reloadData()
+        
         let tapgesture = UITapGestureRecognizer(target: self, action: #selector(removeMoreMenuTransparentView))
         moreMenuTransparentView.addGestureRecognizer(tapgesture)
         moreMenuTransparentView.alpha = 0
        
         UIView.animate(withDuration: 0.4, delay: 0.0, usingSpringWithDamping: 1.0, initialSpringVelocity: 1.0, options: .curveEaseInOut, animations: {
             self.moreMenuTransparentView.alpha = 0.5
-            self.moreMenuTableview.frame = CGRect(x: x, y: self.topbarHeight, width: Int(frames.width), height: self.dataSource.count * self.mainMenuRowHeight)
+            self.moreMenuTableview.frame = CGRect(x: x, y: self.topbarHeight, width: Int(frames.width - CGFloat(x)), height: self.dataSource.count * self.mainMenuRowHeight) //Int(self.moreMenuTableview.rowHeight))
         }, completion: nil)
+        //self.moreMenuTableview.autoresizingMask = UIView.AutoresizingMask.flexibleHeight
+        //self.moreMenuTableview.bounces = true
+        self.moreMenuTableview.reloadData()
         moreMenuShowing = true
     }
     @objc func removeMoreMenuTransparentView(){
         let frames = self.view.frame
+        let x = 55
         // remove more button drop down menu view
         UIView.animate(withDuration: 0.4, delay: 0.0, usingSpringWithDamping: 1.0, initialSpringVelocity: 1.0, options: .curveEaseInOut, animations: {
             self.moreMenuTransparentView.alpha = 0.0
-            self.moreMenuTableview.frame = CGRect(x: 0, y: self.topbarHeight, width: Int(frames.width), height: 0)
+            self.moreMenuTableview.frame = CGRect(x: x, y: self.topbarHeight, width: Int(frames.width - CGFloat(x)), height: 0)
         }, completion: nil)
         moreMenuShowing = false
     }
     @objc func onClickMore(_ sender:Any){
-        dataSource = ["Mark current location", "Add waypoint", "Show waypoints", "Hide waypoints", "Delete all waypoints", "Lock in portrait mode", "Lock in landscape mode","Help"]
+        //dataSource = ["Mark current location", "Add waypoint", "Show waypoints", "Hide waypoints", "Delete all waypoints", "Lock in portrait mode", "Lock in landscape mode","Help"]
         if (!moreMenuShowing){
             addMoreMenuTransparentView(frames: self.view.frame)
         }else{
@@ -1318,7 +1323,7 @@ extension MapViewController:UITableViewDelegate, UITableViewDataSource {
         return cell
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return tableView.rowHeight // 50
+        return CGFloat(mainMenuRowHeight) // tableView.rowHeight // 50
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if (dataSource[indexPath.row] == "Lock in landscape mode"){
