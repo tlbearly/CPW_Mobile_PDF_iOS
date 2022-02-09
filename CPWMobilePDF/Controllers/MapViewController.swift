@@ -27,8 +27,22 @@ import PDFKit // requires iOS 11+ iPhone 6+
 import CoreLocation // current location
 import os.log
 
-class CellClass:UITableViewCell {
+class CellClass:UITableViewCell { }
+class MoreMenuCell:UITableViewCell {
+    // mark properties
+    var label: UITextField = UITextField()
+    var checkbox: CheckBox = CheckBox()
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        self.label = UITextField(frame: CGRect(x: 60, y: 0, width: frame.width - 60, height: 52))
+        self.addSubview(self.label)
+        self.checkbox = CheckBox(frame: CGRect(x: 0, y: 0, width: 48, height: 48))
+        self.addSubview(self.checkbox)
+    }
     
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
 }
 
 class MapViewController: UIViewController, UIGestureRecognizerDelegate {
@@ -77,8 +91,11 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
     let moreMenuTransparentView = UIView();
     let moreMenuTableview = UITableView();
     var dataSource = ["Mark current location", "Add waypoint", "Show waypoints", "Hide waypoints", "Delete all waypoints", "Lock in portrait mode", "Lock in landscape mode","Help"]
+    var showWaypoints:Bool = true
+    var lockInPortrait:Bool = false
+    var lockInLandscape:Bool = false
     var moreMenuShowing = false
-    var mainMenuRowHeight = 44
+    var mainMenuRowHeight = 52 //44
     //  Height of status bar + navigation bar (if navigation bar exist)
     var topbarHeight: Int {
         if #available(iOS 13.0, *) {
@@ -102,7 +119,7 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         // populate more drop down menu
         self.moreMenuTableview.delegate = self
         self.moreMenuTableview.dataSource = self
-        self.moreMenuTableview.register(CellClass.self, forCellReuseIdentifier: "Cell")
+        self.moreMenuTableview.register(MoreMenuCell.self, forCellReuseIdentifier: "Cell")
         self.moreMenuTableview.reloadData()
         
         self.title = maps[mapIndex].displayName
@@ -302,15 +319,38 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         notice.isHidden = false
     }
     func lockLandscape(){
-        // lock in landscape mode
+        // Lock in landscape mode was checked or unchecked
+        // if unlocking landscape mode
+        if (lockInLandscape){
+            lockInLandscape = false
+            // if both unlocked orientation should not be locked
+            if (lockInPortrait == false){
+                lockOrientation = true // should auto rotate?
+            }
+            return
+        }
+        // Locking in landscape mode
         lockOrientation = true
+        lockInLandscape = true
+        lockInPortrait = false
         AppUtility.lockOrientation(.landscapeLeft, andRotateTo: .landscapeLeft)
         //self.navigationItem.rightBarButtonItem = portBtn
     }
     
     @objc func lockPortrait(){
+        // if unlocking portrait mode
+        if (lockInPortrait){
+            lockInPortrait = false
+            // if both unlocked orientation should not be locked
+            if (lockInLandscape == false){
+                lockOrientation = true // should auto rotate?
+            }
+            return
+        }
         // lock in portrait mode
         lockOrientation = true
+        lockInLandscape = false
+        lockInPortrait = true
         AppUtility.lockOrientation(.portrait, andRotateTo: .portrait)
         //self.navigationItem.rightBarButtonItem = landBtn
     }
@@ -349,9 +389,13 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         //print("return to MapViewController")
     }
     
+    @IBAction func performUnwindToMapCancel(_ sender: UIStoryboardSegue){
+        // print ("return from Edit Waypoint Cancel")
+    }
+    
     @IBAction func performUnwindToMapDone(_ sender: UIStoryboardSegue) {
-        // MARK: WayPt Done
-        // Return from waypt edit window. Done button pressed
+        // MARK: WayPt Save
+        // Return from waypt edit window. Save button pressed
         guard let editWayPtVC = sender.source as? EditWayPtViewController else {
             fatalError("Unexpected Segue Sender: \(String(describing: sender.source))")
         }
@@ -1243,7 +1287,13 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         }
         // remove all annotations
         hideWayPts()
+        // uncheck Show waypoints checkbox, hide them
+        if (showWaypoints){
+            showWaypoints = false
+            return
+        }
         // show waypoints
+        showWaypoints = true
         let nilPt = CGPoint(x: 0, y: 0) // tells addPopup in addWayPt not to show popup.
         if (maps[mapIndex].wayPtArray.count > 0){
             for i in 0...maps[mapIndex].wayPtArray.count-1 {
@@ -1318,8 +1368,19 @@ extension MapViewController:UITableViewDelegate, UITableViewDataSource {
         return dataSource.count
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
-        cell.textLabel?.text = dataSource[indexPath.row]
+        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! MoreMenuCell
+        //cell.textLabel?.text = dataSource[indexPath.row]
+        cell.label.text = dataSource[indexPath.row]
+        switch cell.label.text {
+            case "Show waypoints":
+                cell.checkbox.isChecked = showWaypoints
+            case "Lock in portrait mode":
+                cell.checkbox.isChecked = lockInPortrait
+            case "Lock in landscape mode":
+                cell.checkbox.isChecked = lockInLandscape
+            default:
+                cell.checkbox.isHidden = true
+        }
         return cell
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -1344,6 +1405,9 @@ extension MapViewController:UITableViewDelegate, UITableViewDataSource {
             if let aPopup: UITextField = pdfView.viewWithTag(100) as? UITextField {
                 aPopup.removeFromSuperview()
             }
+            // reset left anchor of notice, because it may have rotated and is not centered
+            //TODO: not working!!!!!!!
+            //notice.leftAnchor.constraint(equalTo: pdfView.leftAnchor, constant: ((pdfView.frame.width - 200) / 2)).isActive = true
             notice.isHidden = false
             removeMoreMenuTransparentView()
         }
