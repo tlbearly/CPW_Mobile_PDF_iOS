@@ -1,6 +1,6 @@
 //
 //  PDFMap.swift
-//  MapViewer
+//  CPWMobilePDF
 //
 //  Purpose: hold all the necessary info for a geo pdf map
 //     Maps are stored in local documents directory so they can be taken offline, but still get backed up.
@@ -9,6 +9,7 @@
 //  Created by Tammy Bearly on 4/15/20.
 //  Copyright © 2020 Colorado Parks and Wildlife. All rights reserved.
 //
+// Uses NSCoding to store persistent data pdfMaps and waypoints
 
 import UIKit
 import PDFKit
@@ -54,6 +55,7 @@ class PDFMap: NSObject, NSCoding {
     
     // MARK: Archiving Paths
     static let DocumentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+    // creates a maps folder in the user's documents folder (for this app) to store all the data
     static let ArchiveURL = DocumentsDirectory.appendingPathComponent("maps")
 
     

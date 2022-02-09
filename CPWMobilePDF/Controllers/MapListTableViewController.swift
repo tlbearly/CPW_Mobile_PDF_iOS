@@ -41,7 +41,7 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
     var moreBtn:UIBarButtonItem!
     let moreMenuTransparentView = UIView();
     let moreMenuTableview = UITableView();
-    var moreDataSource = ["Delete All Imported Maps","Help"]
+    var moreDataSource = ["Delete All Maps","Help"]
     var moreMenuShowing = false
     
     // sort menu drop down list
@@ -187,7 +187,7 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
          var msg:String
          switch theError {
          case AppError.pdfMapError.invalidDocumentDirectory:
-             msg = "Cannot read from or write to the app documents directory. Your imported maps are stored here."
+             msg = "Cannot read from or write to the app documents directory. This app will not work. Your imported maps are stored here."
          case AppError.pdfMapError.invalidFilename:
              msg = "Invalid Filename."
          case AppError.pdfMapError.notPDF:
@@ -228,6 +228,43 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
          self.present(alert, animated: true)
          return
      }
+    
+    private func removeAllMaps(){
+        // Remove all pdf map files and maps direction (database), clear maps array, and table
+        // 2-9-22 created
+        // delete documentDirectory/mapName
+        for map in maps {
+            // delete pdf file
+            guard let fileURL = map.fileURL else {
+                displayError(theError: AppError.pdfMapError.pdfFileNotFound(file: map.displayName), title: "Error Deleting File")
+                continue
+            }
+            do {
+                try FileManager.default.removeItem(at: fileURL)
+            } catch {
+                print ("error deleting map file: \(map.displayName)")
+                displayError(theError: AppError.pdfMapError.cannotDelete, title: "Error Deleting File")
+            }
+        }
+        
+        // remove items in array
+        maps.removeAll()
+        // refresh table
+        self.tableView.reloadData()
+        showMsg() // show message to add maps press + button
+        // TODO: delete documentDirectory/maps - database ?????????? Will this work????
+        guard let dir = documentsURL?.appendingPathComponent("maps") else {
+            print("cannot find documentDirectory/maps")
+            displayError(theError: AppError.pdfMapError.cannotDelete)
+            return
+        }
+        do{
+            try FileManager.default.removeItem(at: dir)
+        } catch {
+            print("cannot remove directory maps")
+            displayError(theError: AppError.pdfMapError.cannotDelete)
+        }
+    }
     
     private func importMap(){
         // MARK: importMap
@@ -1045,6 +1082,7 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
             // distance to map
             if latNow == 0.0 {
                 cell.distToMap.text = "Miles to map..."
+                cell.locationIcon.isHidden = true
             }
             // on map, show location icon
             else if (latNow >= map.lat1 && latNow <= map.lat2 && longNow >= map.long1 && longNow <= map.long2) {
@@ -1137,11 +1175,20 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
             }
             let label = cell.textLabel?.text
             if (label!.contains("Delete")){
-                print ("Delete all imported maps!!!!!")
+                let title = "Delete"
+                let msg = "Delete all imported maps?"
+                let alert = UIAlertController(title: title, message: msg, preferredStyle: .alert)
+                let deleteAction = UIAlertAction(title: "DELETE", style: .default) { (action) in
+                    print("delete all maps...")
+                    self.removeAllMaps()
+                }
+                alert.addAction(deleteAction)
+                alert.addAction(UIAlertAction(title: "CANCEL", style: .default, handler: nil))
+                self.present(alert, animated: true)
                 removeMoreMenuTransparentView()
             }
             else if (label!.contains("Help")){
-                print("display help")
+                //print("display help")
                 removeMoreMenuTransparentView()
                 // Open HelpMapListViewController
                 self.performSegue(withIdentifier: "ShowHelpMapList", sender: nil)
