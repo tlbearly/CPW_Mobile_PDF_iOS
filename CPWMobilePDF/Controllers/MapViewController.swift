@@ -112,6 +112,8 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
     // this way allows you to use the barButtonItems anywhere in the class (not just in the function they are declared in).
     lazy var pinBtn:UIBarButtonItem = UIBarButtonItem(image: (UIImage(named: "grey_pin")), style: .plain, target: self, action: #selector(onClickWayPtPin))
     var notice:UILabel = UILabel()
+    var cancelPinBtn = UIBarButtonItem(image: UIImage(named: "nearme"), style: .plain, target: self, action: #selector(onClickCancelWayPtPin))
+    let moreBtn = UIBarButtonItem(image: (UIImage(named: "more")), style: .plain, target: self, action: #selector(onClickMore))
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -129,7 +131,6 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         // set add waypoint button in titlebar to active
         pinBtn.isEnabled = true
         // add more drop down menu button
-        let moreBtn = UIBarButtonItem(image: (UIImage(named: "more")), style: .plain, target: self, action: #selector(onClickMore))
         self.navigationItem.rightBarButtonItems = [moreBtn, pinBtn]
         
         // set page margins
@@ -308,6 +309,8 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         }
     }
     @objc func onClickWayPtPin(_ sender:Any){
+        removeMoreMenuTransparentView()
+        showWaypoints = true
         showWayPts()
         addingWayPt = true
         // set add waypoint button in titlebar to inactive
@@ -317,6 +320,14 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
             aPopup.removeFromSuperview()
         }
         notice.isHidden = false
+        self.navigationItem.rightBarButtonItems = [moreBtn, cancelPinBtn]
+    }
+    @objc func onClickCancelWayPtPin(_ sender:Any){
+        removeMoreMenuTransparentView()
+        addingWayPt = false
+        pinBtn.isEnabled = true
+        notice.isHidden = true
+        self.navigationItem.rightBarButtonItems = [moreBtn, pinBtn]
     }
     func lockLandscape(){
         // Lock in landscape mode was checked or unchecked
@@ -520,6 +531,7 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         //pdfView.usePageViewController(true)
         pdfView.autoScales = true
         pdfView.displayMode = .singlePageContinuous
+        pdfView.enableDataDetectors = false // turn off copy menu
         //pdfView.displaysPageBreaks = true
         pdfView.document = document
         // must be set after pdfView.document
@@ -991,7 +1003,7 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
     }
     
     func addWayPt(x: CGFloat, y: CGFloat, page: PDFPage, imageName: String, desc: String, dateAdded: String?, location: CGPoint){
-        
+        self.navigationItem.rightBarButtonItems = [moreBtn, pinBtn]
         if (addingWayPt){
             pinBtn.isEnabled = true
             addingWayPt = false // flag to ignor taps unless add waypoint was selected from the menu
@@ -1047,6 +1059,7 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
                 }
             }
         }
+        // not already in database, savePDF adds it
         if (!found){
             let wayPt = WayPt(x: Float(x), y: Float(y), imageName: imageName, desc: desc, dateAdded: dateString)
             maps[mapIndex].wayPtArray.append(wayPt)
@@ -1094,6 +1107,7 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         // Check if clicked on Waypoint or add new waypoint annotation
         print("called single tap")
         let pdfView = gestureRecognizer.view as! PDFView
+        pdfView.clearSelection() // remove selected text!!!
         if gestureRecognizer.state == .ended
         {
             if let page = pdfView.currentPage
@@ -1140,14 +1154,17 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
                     }
                 }
                 
-                // clicked on existing annotation. Is it a way pt? type stamp?
+                // clicked on existing annotation. Is it a waypoint? type stamp?
                 if (waypt.type != "Stamp" && addingWayPt){
                     // clicked on current location
                     addWayPt(x: pdfViewPoint.x, y: pdfViewPoint.y, page: page, imageName: "red_pin", desc: getWayPtLabel(page: page), dateAdded: nil, location: location)
                     return
                 }
-                addPopup(waypt: waypt,pdfViewPoint: pdfViewPoint,location: location, page: page)
-                
+                // clicked on existing annotation.
+                if (waypt.type == "Stamp"){
+                    // fixed bug: -canOpenURL: failed for URL: "tel:..." by making sure it is not a link.
+                    addPopup(waypt: waypt,pdfViewPoint: pdfViewPoint,location: location, page: page)
+                }
             }
         }
     }
@@ -1251,7 +1268,7 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         addWayPt(x: CGFloat(x), y: CGFloat(y), page: page, imageName: "red_pin", desc: getWayPtLabel(page: page), dateAdded: nil, location: location)
     }
     func hideWayPts(){
-        // Clicked on hide all waypoints menu item
+        // hide all waypoints
         guard let page = pdfView.document?.page(at: 0) else {
             displayError(msg: "Problem reading the PDF map. Can't get page 1.")
             return
@@ -1279,21 +1296,27 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         
     }
     
+    func showHideWayPts(){
+        // toggle show / hide waypoints
+        if (showWaypoints){
+            showWaypoints = false
+            hideWayPts()
+        } else {
+            showWaypoints = true
+            showWayPts()
+            resizePushPins()
+        }
+    }
     func showWayPts(){
-        // Clicked on show all waypoints menu item
+        // show all waypoints menu item
         guard let page = pdfView.document?.page(at: 0) else {
             displayError(msg: "Problem reading the PDF map. Can't get page 1.")
             return
         }
         // remove all annotations
         hideWayPts()
-        // uncheck Show waypoints checkbox, hide them
-        if (showWaypoints){
-            showWaypoints = false
-            return
-        }
+    
         // show waypoints
-        showWaypoints = true
         let nilPt = CGPoint(x: 0, y: 0) // tells addPopup in addWayPt not to show popup.
         if (maps[mapIndex].wayPtArray.count > 0){
             for i in 0...maps[mapIndex].wayPtArray.count-1 {
@@ -1374,10 +1397,13 @@ extension MapViewController:UITableViewDelegate, UITableViewDataSource {
         switch cell.label.text {
             case "Show waypoints":
                 cell.checkbox.isChecked = showWaypoints
+                cell.checkbox.isHidden = false
             case "Lock in portrait mode":
                 cell.checkbox.isChecked = lockInPortrait
+                cell.checkbox.isHidden = false
             case "Lock in landscape mode":
                 cell.checkbox.isChecked = lockInLandscape
+                cell.checkbox.isHidden = false
             default:
                 cell.checkbox.isHidden = true
         }
@@ -1398,9 +1424,11 @@ extension MapViewController:UITableViewDelegate, UITableViewDataSource {
             resizePushPins()
         }
         else if (dataSource[indexPath.row] == "Add waypoint"){
+            showWaypoints = true
             showWayPts()
             addingWayPt = true
             pinBtn.isEnabled = false
+            self.navigationItem.rightBarButtonItems = [moreBtn, cancelPinBtn]
             // hide any popups
             if let aPopup: UITextField = pdfView.viewWithTag(100) as? UITextField {
                 aPopup.removeFromSuperview()
@@ -1416,6 +1444,8 @@ extension MapViewController:UITableViewDelegate, UITableViewDataSource {
             if let aPopup: UITextField = pdfView.viewWithTag(100) as? UITextField {
                 aPopup.removeFromSuperview()
             }
+            showWaypoints = true
+            showWayPts()
             addingWayPt = true
             markCurrentLocation()
             removeMoreMenuTransparentView()
@@ -1429,13 +1459,12 @@ extension MapViewController:UITableViewDelegate, UITableViewDataSource {
             removeMoreMenuTransparentView()
         }
         else if (dataSource[indexPath.row] == "Show waypoints"){
+            showHideWayPts()
             // hide any popup
             if let aPopup: UITextField = pdfView.viewWithTag(100) as? UITextField {
                 aPopup.removeFromSuperview()
             }
-            showWayPts()
             removeMoreMenuTransparentView()
-            resizePushPins()
         }
         else if (dataSource[indexPath.row] == "Delete all waypoints"){
             removeAllWayPoints()

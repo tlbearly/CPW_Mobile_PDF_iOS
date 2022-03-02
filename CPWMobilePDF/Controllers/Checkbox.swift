@@ -8,7 +8,7 @@
 
 import UIKit
 
-class CheckBox: UIButton {
+class CheckBox: UIButton{
     // Images
     let checkedImage = UIImage(named: "checkbox_checked")! as UIImage
     let uncheckedImage = UIImage(named: "checkbox_blank")! as UIImage
@@ -17,9 +17,11 @@ class CheckBox: UIButton {
     var isChecked: Bool = false {
         didSet {
             if isChecked == true {
-                self.setImage(checkedImage, for: UIControl.State.normal)
+                self.setImage(UIImage(named: "checkbox_checked")! as UIImage, for: UIControl.State.normal)
+                print("checked")
             } else {
-                self.setImage(uncheckedImage, for: UIControl.State.normal)
+                self.setImage(UIImage(named: "checkbox_blank")! as UIImage, for: UIControl.State.normal)
+                print("unchecked")
             }
         }
     }
