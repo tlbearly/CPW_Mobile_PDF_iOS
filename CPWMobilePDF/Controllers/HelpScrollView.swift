@@ -107,10 +107,10 @@ class HelpScrollView: UIScrollView {
         bottom_anchor = helpText.bottomAnchor
     }
     
-    public func addImg(img: String, x: CGFloat, y:CGFloat){
+    public func addImg(img: String, x: CGFloat, y:CGFloat, borderWidth: CGFloat = 3.0){
         let imgView = UIImageView(image: UIImage(named: img))
         imgView.layer.borderColor = UIColor.lightGray.cgColor
-        imgView.layer.borderWidth = 3
+        imgView.layer.borderWidth = borderWidth
         imgView.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(imgView)
         imgView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true

@@ -381,10 +381,24 @@ class PDFMap: NSObject, NSCoding {
            throw AppError.pdfMapError.cannotReadPDFDictionary
        }
       // print ("lat/long bounds: \(bounds)")
-       guard let viewport = pdf["viewport"] as? [Float] else{
+       guard var viewport = pdf["viewport"] as? [Float] else{
            print("Error: cannot convert viewport to float array")
            throw AppError.pdfMapError.cannotReadPDFDictionary
        }
+        // 5-12-22 Make sure viewport is in correct order
+        // viewport[0] should be < viewport[2]
+        // viewport[1] should be > viewport[3]
+        var tmp:Float
+        if (viewport[0] > viewport[2]){
+            tmp = viewport[0]
+            viewport[0] = viewport[2]
+            viewport[2] = tmp
+        }
+        if (viewport[1] < viewport[3]){
+            tmp = viewport[1]
+            viewport[1] = viewport[3]
+            viewport[3] = tmp
+        }
       // print ("viewport margins: \(viewport)")
        guard let mediabox = pdf["mediabox"] as? [Float] else {
            print("Error: cannot convert mediabox to float array")
@@ -399,13 +413,46 @@ class PDFMap: NSObject, NSCoding {
        marginRight = Double(mediabox[2] - viewport[2])
        mediaBoxWidth = Double(mediabox[2] - mediabox[0])
        mediaBoxHeight = Double(mediabox[3] - mediabox[1])
-       lat1 = bounds[0]
-       long1 = bounds[1]
-       lat2 = bounds[2]
-       long2 = bounds[5]
+        // 5-12-22 Find smallest values for lat1/long1 and largest values for lat2/long2
+        lat1 = Double(bounds[0])
+        long1 = Double(bounds[1])
+        lat2 = Double(bounds[0])
+        long2 = Double(bounds[1])
+        for latlong in bounds {
+            // handle longitude
+            if (Double(latlong) < 0){
+                if (Double(latlong) < long1) {
+                    long1 = Double(latlong)
+                }
+                if (Double(latlong) > long2){
+                    long2 = Double(latlong)
+                }
+            }
+            // handle latitude
+            else{
+                if (Double(latlong) < lat1) {
+                    lat1 = Double(latlong)
+                }
+                if (Double(latlong) > lat2){
+                    lat2 = Double(latlong)
+                }
+            }
+        }
+       //lat1 = bounds[0]
+       //long1 = bounds[1]
+       //lat2 = bounds[2]
+       //long2 = bounds[5]
+        print("bounds: \(bounds)")
+        print("lat1: \(lat1)")
+        print("lat2: \(lat2)")
+        
        latDiff = (90.0 - lat1) - (90.0 - lat2)
        longDiff = (long2 + 180.0) - (long1 + 180.0)
-       // mediaBox is page boundary
+        print("latDiff: \(latDiff)")
+        print("longDiff: \(longDiff)")
+        print("marginTop: \(marginTop)")
+        print("marginBottom: \(marginBottom)")
+        // mediaBox is page boundary
        pdfWidth = (mediaBoxWidth - (marginLeft + marginRight)) // don't need * zoom
        pdfHeight = (mediaBoxHeight - (marginTop + marginBottom))
     }

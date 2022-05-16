@@ -90,7 +90,7 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
     // more drop down menu
     let moreMenuTransparentView = UIView();
     let moreMenuTableview = UITableView();
-    var dataSource = ["Mark current location", "Add waypoint", "Show waypoints", "Hide waypoints", "Delete all waypoints", "Lock in portrait mode", "Lock in landscape mode","Help"]
+    var dataSource = ["Mark current location", "Add waypoint", "Show waypoints", "Delete all waypoints", "Lock in portrait mode", "Lock in landscape mode","Help"]
     var showWaypoints:Bool = true
     var lockInPortrait:Bool = false
     var lockInLandscape:Bool = false
@@ -107,13 +107,13 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         }
     }
     
-    // must use lazy or the pinBtn doesn't call onClickWayPtPin after edit waypoint
-    // UIBarButtonItem won't be instantiated (and the action selectors won't attempt to be resolved) until they are used inside the class. Doing it
-    // this way allows you to use the barButtonItems anywhere in the class (not just in the function they are declared in).
+    // Must use lazy or the pinBtn doesn't call onClickWayPtPin after edit waypoint
+    // UIBarButtonItem won't be instantiated and the action selectors won't attempt to be resolved until they are used inside the class. Doing it
+    // this way allows you to use the barButtonItems anywhere in the class (not just in the function they are declared in.
     lazy var pinBtn:UIBarButtonItem = UIBarButtonItem(image: (UIImage(named: "grey_pin")), style: .plain, target: self, action: #selector(onClickWayPtPin))
-    var notice:UILabel = UILabel()
-    var cancelPinBtn = UIBarButtonItem(image: UIImage(named: "nearme"), style: .plain, target: self, action: #selector(onClickCancelWayPtPin))
-    let moreBtn = UIBarButtonItem(image: (UIImage(named: "more")), style: .plain, target: self, action: #selector(onClickMore))
+    lazy var notice = UILabel()
+    lazy var cancelPinBtn = UIBarButtonItem(image: UIImage(named: "grey_pin_cancel"), style: .plain, target: self, action: #selector(onClickCancelWayPtPin))
+    lazy var moreBtn = UIBarButtonItem(image: (UIImage(named: "more")), style: .plain, target: self, action: #selector(onClickMore))
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -183,6 +183,10 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         // popup label for instructions for adding a waypoint
         notice.text = "Tap to add waypoint"
         view.addSubview(notice)
+        // on click hide notice label and turn off adding way point
+        notice.isUserInteractionEnabled = true
+        let clickGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(onClickCancelWayPtPin))
+        notice.addGestureRecognizer(clickGestureRecognizer)
         notice.isHidden = true
         // for dark and light mode
         if #available(iOS 13.0, *) {
@@ -255,6 +259,9 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
     
     // preserve orientation to phone rotation
     override open var shouldAutorotate: Bool {
+        // update screen size after rotation
+        self.screenWidth = self.view.frame.size.width
+        self.screenHeight = self.view.frame.size.height
         // do not auto rotate
         if (lockOrientation){
             return true
@@ -301,7 +308,7 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         moreMenuShowing = false
     }
     @objc func onClickMore(_ sender:Any){
-        //dataSource = ["Mark current location", "Add waypoint", "Show waypoints", "Hide waypoints", "Delete all waypoints", "Lock in portrait mode", "Lock in landscape mode","Help"]
+        //dataSource = ["Mark current location", "Add waypoint", "Show waypoints", "Delete all waypoints", "Lock in portrait mode", "Lock in landscape mode","Help"]
         if (!moreMenuShowing){
             addMoreMenuTransparentView(frames: self.view.frame)
         }else{
@@ -319,6 +326,8 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         if let aPopup: UITextField = pdfView.viewWithTag(100) as? UITextField {
             aPopup.removeFromSuperview()
         }
+        notice.translatesAutoresizingMaskIntoConstraints = false
+        notice.leftAnchor.constraint(equalTo: pdfView.leftAnchor, constant: ((pdfView.frame.width - 200) / 2)).isActive = true
         notice.isHidden = false
         self.navigationItem.rightBarButtonItems = [moreBtn, cancelPinBtn]
     }
@@ -507,9 +516,9 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         }*/
         
         let url = documentsDir.appendingPathComponent(maps[mapIndex].fileName)
-        print("load url maps[\(mapIndex)].fileName = \(maps[mapIndex].fileName)")
+        //print("load url maps[\(mapIndex)].fileName = \(maps[mapIndex].fileName)")
         if !FileManager.default.fileExists(atPath:url.path){
-            print("Map file not found: \(url.absoluteString)")
+            //print("Map file not found: \(url.absoluteString)")
             throw AppError.pdfMapError.pdfFileNotFound(file: url.lastPathComponent)
         }
         pdfView.frame = self.view.bounds
@@ -653,10 +662,18 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         let halfCirSize:Double = cirSize / 2.0
         var x:Double
         var y:Double
-        x = (((longNow + 180.0) - (long1 + 180.0)) / longDiff) * pdfWidth
-        x = x + marginLeft - halfCirSize
-        y = (((90.0 - latNow) - (90.0 - lat2)) / latDiff) * pdfHeight
-        y = (pdfHeight + marginTop - halfCirSize)  - (y)
+        
+        // Android calculations origin is top-left
+        //var toScreenCordX = pdfWidth / mediaBoxWidth
+        //var marginL = toScreenCordX * marginLeft
+        //var marginx = toScreenCordX * (marginLeft + marginRight)
+        //x = (((longNow + 180.0) - (long1 + 180.0)) / longDiff) * (pdfWidth - marginx) + marginL - halfCirSize
+        
+        // origin is bottom-left
+        // Note: pdfWidth is mediabox width with left and right margins removed in PDFMap
+        // Note: pdfHeight has top and bottom margins removed in PDFMap
+        x = ((longNow - long1) / longDiff) * pdfWidth + marginLeft - halfCirSize
+        y = (((latNow - lat1) / latDiff) * pdfHeight) + marginBottom - halfCirSize
 
         // border
         let border = PDFBorder()
@@ -678,6 +695,39 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         
         currentLocation.border = border
         page.addAnnotation(currentLocation)
+        
+        // DEBUG
+        // mediaBox
+        /*var point = PDFAnnotation(bounds: CGRect(x:0, y:0, width:10,height:10), forType: .circle, withProperties: nil)
+        point.interiorColor = UIColor.blue
+        page.addAnnotation(point)
+        point = PDFAnnotation(bounds: CGRect(x:mediaBoxWidth, y:mediaBoxHeight, width:10,height:10), forType: .circle, withProperties: nil)
+        point.interiorColor = UIColor.blue
+        page.addAnnotation(point)
+        
+        // pdfView frame width height. In the middle of the map!!!!!!
+        point = PDFAnnotation(bounds: CGRect(x:pdfView.frame.width, y:pdfView.frame.height, width:30,height:30), forType: .circle, withProperties: nil)
+        point.interiorColor = UIColor.red
+        page.addAnnotation(point)
+        
+        // margin top-right
+        point = PDFAnnotation(bounds: CGRect(x:pdfWidth + marginLeft, y:pdfHeight+marginBottom, width:25,height:25), forType: .circle, withProperties: nil)
+        point.interiorColor = UIColor.purple
+        page.addAnnotation(point)
+        //margin bottom-left
+        point = PDFAnnotation(bounds: CGRect(x:marginLeft, y:marginBottom, width:25,height:25), forType: .circle, withProperties: nil)
+        point.interiorColor = UIColor.purple
+        page.addAnnotation(point)
+        //margin top-left
+        point = PDFAnnotation(bounds: CGRect(x:marginLeft, y:pdfHeight+marginBottom, width:25,height:25), forType: .circle, withProperties: nil)
+        point.interiorColor = UIColor.purple
+        page.addAnnotation(point)
+        //margin bottom-right
+        point = PDFAnnotation(bounds: CGRect(x:pdfWidth+marginLeft, y:marginBottom, width:25,height:25), forType: .circle, withProperties: nil)
+        point.interiorColor = UIColor.purple
+        page.addAnnotation(point)
+        */
+        
     }
     // MARK: displayLocation
     func displayLocation(page: PDFPage, pdfView: PDFView){
@@ -768,7 +818,7 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         }
         // See if current location is on the map
         if (latNow >= lat1 && latNow <= lat2 && longNow >= long1 && longNow <= long2) {
-            currentLatLong.text = "  Current location: \(latNow), \(longNow)"
+            currentLatLong.text = "  Current location: " + String(format:  "%.5f",latNow) + ", " + String(format: "%.5f",longNow)
         }
         else {
             currentLatLong.text = "  Current location: Not on map"
@@ -777,61 +827,35 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         
         // draw current location dot
         addCurrentLocationDot(page:page)
-        /*let cirSize = 30.0 / Double(pdfView.scaleFactor)
-        let halfCirSize:Double = cirSize / 2.0
-
-        // Add current location dot
-        //var x:Double
-        //var y:Double
-        //var latlongAnnotation
-        x = (((longNow + 180.0) - (long1 + 180.0)) / longDiff) * pdfWidth
-        x = x + marginLeft - halfCirSize
-        y = (((90.0 - latNow) - (90.0 - lat2)) / latDiff) * pdfHeight
-        y = (pdfHeight + marginTop - halfCirSize)  - (y)
-
-        // border
-        let border = PDFBorder()
-        
-        // fill color
-        // this line crashes in iOS 11.0 PDFAnnotation.setInteriorColor
-        if #available(iOS 11.2, *) {
-            currentLocation = PDFAnnotation(bounds: CGRect(x:x, y:y, width:cirSize,height:cirSize), forType: .circle, withProperties: nil)
-            currentLocation.interiorColor = UIColor.blue
-            border.lineWidth = CGFloat(cirSize) / 6.0 // border width
-            currentLocation.color = UIColor.white // border color
-        }
-        // iOS 11.0 and 11.1 don't have interiorColor function
-        else {
-            currentLocation = PDFAnnotation(bounds: CGRect(x:x, y:y, width:cirSize,height:cirSize), forType: .circle, withProperties: nil)
-            border.lineWidth = 12.0 // border width
-            currentLocation.color = UIColor.cyan // border color
-        }
-        
-        currentLocation.border = border
-        page.addAnnotation(currentLocation)
-         */
-        
+          
+        /*
+        // DEBUG
         // Margin red dots
-        /*let marginTLAnnotation = PDFAnnotation(bounds: CGRect(x:marginLeft-10, y:mediaBoxHeight - marginTop - 10, width:20,height:20), forType: .circle, withProperties: nil)
+        var x:Double
+        var y:Double
+        var latlongAnnotation:PDFAnnotation
+        let marginTLAnnotation = PDFAnnotation(bounds: CGRect(x:marginLeft-10, y:pdfHeight + marginBottom - 10, width:20,height:20), forType: .circle, withProperties: nil)
         // color
         if #available(iOS 11.2, *) {
             marginTLAnnotation.interiorColor = UIColor.red
         }
-        
         page.addAnnotation(marginTLAnnotation)
-        let marginBRAnnotation = PDFAnnotation(bounds: CGRect(x:mediaBoxWidth - marginRight-10, y:marginBottom-10, width:20,height:20), forType: .circle, withProperties: nil)
+         
+        let marginBRAnnotation = PDFAnnotation(bounds: CGRect(x: pdfWidth+marginLeft-10, y:marginBottom-10, width:20,height:20), forType: .circle, withProperties: nil)
         // color
         if #available(iOS 11.2, *) {
             marginBRAnnotation.interiorColor = UIColor.red
         }
-        
         page.addAnnotation(marginBRAnnotation)
         
         // map lat long boundaries long1,lat1 and long2,lat2 in yellow
-        x = (((long1 + 180.0) - (long1 + 180.0)) / longDiff) * pdfWidth
-        x = x + marginLeft - 5
-        y = (((90.0 - lat1) - (90.0 - lat2)) / latDiff) * pdfHeight
-        y = y + marginBottom - 5
+         x = ((long1 - long1) / longDiff) * pdfWidth + marginLeft - 5
+         y = (((lat1 - lat1) / latDiff) * pdfHeight) + marginBottom - 5
+
+        //x = (((long1 + 180.0) - (long1 + 180.0)) / longDiff) * pdfWidth
+        //x = x + marginLeft - 5
+        //y = (((90.0 - lat1) - (90.0 - lat2)) / latDiff) * pdfHeight
+        //y = y + marginBottom - 5
         latlongAnnotation = PDFAnnotation(bounds: CGRect(x:x, y:y, width:10,height:10), forType: .circle, withProperties: nil)
         // color
         if #available(iOS 11.2, *) {
@@ -840,22 +864,24 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         page.addAnnotation(latlongAnnotation)
         
         // map lat long boundaries long2,lat2
-        x = (((long2 + 180) - (long1 + 180)) / longDiff) * pdfWidth
-        x = x + marginLeft - 5
-        y = (((90.0 - lat2) - (90.0 - lat2)) / latDiff) * pdfHeight
-        y = y + marginBottom - 5
+        //x = (((long2 + 180) - (long1 + 180)) / longDiff) * pdfWidth
+        //x = x + marginLeft - 5
+        //y = (((90.0 - lat2) - (90.0 - lat2)) / latDiff) * pdfHeight
+        //y = y + marginBottom - 5
+        x = ((long2 - long1) / longDiff) * pdfWidth + marginLeft - 5
+        y = (((lat2 - lat1) / latDiff) * pdfHeight) + marginBottom - 5
         latlongAnnotation = PDFAnnotation(bounds: CGRect(x:x, y:y, width:10,height:10), forType: .circle, withProperties: nil)
         if #available(iOS 11.2, *) {
             latlongAnnotation.interiorColor = UIColor.yellow
         }
         page.addAnnotation(latlongAnnotation)
- */
+        */
     }
     
     // On rotation make map fit, was zooming on landscape NOT WORKING??? Does nothing???
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-   /*     pdfView.frame = view.frame
+        /*pdfView.frame = view.frame
         pdfView.autoScales = true
         pdfView.scaleFactor = pdfView.scaleFactorForSizeToFit
         if UIDevice.current.orientation.isLandscape {
@@ -863,7 +889,7 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         }
         else {
             print("portrait")
-        } */
+        }*/
     }
     // fix autoscales bug on iPad on screen rotation
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
@@ -1239,7 +1265,7 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
     }
     
     func markCurrentLocation(){
-        if (currentLatLong.text != "  Current location: \(latNow), \(longNow)"){
+        if (currentLatLong.text != "  Current location: " + String(format:  "%.5f",latNow) + ", " + String(format: "%.5f",longNow)){
             displayError(msg: "Current location not on map", title:"Notice")
             return
         }
@@ -1247,11 +1273,13 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
             displayError(msg: "Problem reading the PDF map. Cannot add waypoint.", title:"Notice")
             return
         }
-        // get pdf point
-        var x:Double = (((longNow + 180.0) - (long1 + 180.0)) / longDiff) * pdfWidth
-        var y:Double = (((90.0 - latNow) - (90.0 - lat2)) / latDiff) * pdfHeight
-        x = x + marginLeft
-        y = (pdfHeight + marginTop)  - y
+        // get pdf point. Draws from the bottom-left. (Android library draws from top-left
+        //var x:Double = (((longNow + 180.0) - (long1 + 180.0)) / longDiff) * pdfWidth
+        //var y:Double = (((90.0 - latNow) - (90.0 - lat2)) / latDiff) * pdfHeight
+        //x = x + marginLeft
+        //y = (pdfHeight + marginTop)  - y
+        let x:Double = ((longNow - long1) / longDiff) * pdfWidth + marginLeft
+        let y:Double = (((latNow - lat1) / latDiff) * pdfHeight) + marginBottom
         
         // Move to show current location in center
         var moveX = (1 / (pdfView.scaleFactor)) * (pdfView.frame.width / 2.0)
@@ -1392,7 +1420,6 @@ extension MapViewController:UITableViewDelegate, UITableViewDataSource {
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! MoreMenuCell
-        //cell.textLabel?.text = dataSource[indexPath.row]
         cell.label.text = dataSource[indexPath.row]
         switch cell.label.text {
             case "Show waypoints":
@@ -1435,7 +1462,8 @@ extension MapViewController:UITableViewDelegate, UITableViewDataSource {
             }
             // reset left anchor of notice, because it may have rotated and is not centered
             //TODO: not working!!!!!!!
-            //notice.leftAnchor.constraint(equalTo: pdfView.leftAnchor, constant: ((pdfView.frame.width - 200) / 2)).isActive = true
+            notice.translatesAutoresizingMaskIntoConstraints = false
+            notice.leftAnchor.constraint(equalTo: pdfView.leftAnchor, constant: ((pdfView.frame.width - 200) / 2)).isActive = true
             notice.isHidden = false
             removeMoreMenuTransparentView()
         }
@@ -1448,14 +1476,6 @@ extension MapViewController:UITableViewDelegate, UITableViewDataSource {
             showWayPts()
             addingWayPt = true
             markCurrentLocation()
-            removeMoreMenuTransparentView()
-        }
-        else if (dataSource[indexPath.row] == "Hide waypoints"){
-            // hide any popup
-            if let aPopup: UITextField = pdfView.viewWithTag(100) as? UITextField {
-                aPopup.removeFromSuperview()
-            }
-            hideWayPts()
             removeMoreMenuTransparentView()
         }
         else if (dataSource[indexPath.row] == "Show waypoints"){

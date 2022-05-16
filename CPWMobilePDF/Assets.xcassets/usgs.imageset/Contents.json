@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "gray_pin.png",
+      "filename" : "usgs.jpg",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "gray_pin@2x.png",
+      "filename" : "usgs-1.jpg",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "gray_pin@3x.png",
+      "filename" : "usgs-2.jpg",
       "idiom" : "universal",
       "scale" : "3x"
     }

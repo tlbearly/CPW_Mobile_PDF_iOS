@@ -25,9 +25,10 @@ class HelpAddMapViewController: UIViewController {
         help.addTitle(title: "Hunting or Fishing Atlas",size:20.0)
         help.addText(text:"Click on the \'Colorado Hunting Atlas\' or the \'Colorado Fishing Atlas\'. Select your map layers by clicking on the menu icon in the top-left. Set your zoom level. Then press the down arrow icon. It will allow you to change: map scale, map size, and orientation. Smaller map scales will show more detail. Larger map sizes will show larger map areas. Enter a PDF file name and press the Create PDF button. Wait for it to be created and then press Download PDF.")
         help.addTitle(title: "Forest Service",size:20.0)
+        help.addImg(img: "fs", x: view.frame.width, y: view.frame.width)
         help.addText(text: "Click on \'Forest Service topographical maps for free\' under Hunting. Below the map that loads, click on \'here\' to open the map viewer as full screen. Search by name or use the +/- buttons to zoom in or out. When the forest service individual map boundaries are showing click on one of the rectangles. Then in the popup box, click the \'>\' icon. Lastly, click on \'Download PDF\'. It will display the map. Click the Share icon (box with up-arrow). Select \'Save to Files\', a location (iCloud or \'On My Phone\' Downloads), and then click on Save.")
         help.addTitle(title: "USGS",size:20.0)
-        //help.addImg(img: <#T##String#>, x: <#T##CGFloat#>, y: <#T##CGFloat#>)
+        help.addImg(img: "usgs", x: view.frame.width, y: view.frame.width)
         help.addText(text: "Click on \'U.S. Geological Survey Store\' under Hunting. Then click on \'Map Locator Tool\'. Search for a location name with the \'Map Locator\' or use the +/- buttons to zoom in or out and double tap the map at the desired location. In the popup, click \'View Products\'. Click on the \'View PDF\' button on the most recent map. Click \'OK\' on the popup that says \'you are navigating away...\' It will display the map. Click the Share icon (box with up-arrow). Select \'Save to Files\', a location (iCloud or \'On My Phone\' Downloads), and then click on Save.")
         
         help.addTitle(title: "STEP 2: Import Maps",size: 20.0, bold:false, underline: true)

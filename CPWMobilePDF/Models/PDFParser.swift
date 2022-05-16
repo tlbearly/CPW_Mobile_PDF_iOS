@@ -71,7 +71,7 @@ class PDFParser
             let page = document.page(at: 1)
         else
         {
-            print("Cannot open PDF.")
+            //print("Cannot open PDF.")
             return ["error": "CannotOpenPDF"]
         }
         
@@ -97,7 +97,7 @@ class PDFParser
         
         // get dictionary
         guard let dictionary = page.dictionary else {
-            print ("error getting dictionary")
+            //print ("error getting dictionary")
             return ["error": "CannotReadDictionary"]
         }
         
@@ -158,7 +158,7 @@ class PDFParser
                     }
                 }
                 else {
-                    print("error reading dictionaries in VP dictionary")
+                    //print("error reading dictionaries in VP dictionary")
                     return ["error": "CannotReadPDFDictionary"]
                 }
             }// loop to read each dictionary in VP
@@ -174,7 +174,7 @@ class PDFParser
                     CGPDFArrayGetNumber(gptsArr, i, &gptsValueRef)
                     gptsValues.append(Double (gptsValueRef)) //.description)
                 }
-                print ("bounds = \(gptsValues)")
+                //print ("bounds = \(gptsValues)")
             }
             else {
                 return ["error": "CannotReadPDFDictionary"]
@@ -487,12 +487,12 @@ class PDFParser
                             // MARK: TODO add call to utmtoll
                             let latlong1:[Double] = UTMtoLL(f: y1,f1: x1,j: Double(zone))
                             let latlong2:[Double] = UTMtoLL(f: y2,f1: x2,j: Double(zone))
-                            print ("a=\(a) H=\(H) V=\(V)")
-                            print ("x1=\(x1) y1=\(y1) x2=\(x2) y2=\(y2)")
-                            print("\(latlong1[0]), \(latlong1[1])")
-                            print("\(latlong2[0]), \(latlong2[1])")
+                            //print ("a=\(a) H=\(H) V=\(V)")
+                            //print ("x1=\(x1) y1=\(y1) x2=\(x2) y2=\(y2)")
+                            //print("\(latlong1[0]), \(latlong1[1])")
+                            //print("\(latlong2[0]), \(latlong2[1])")
                             gptsValues = [latlong2[1], latlong1[0], latlong1[1], latlong1[0], latlong1[1], latlong2[0]]
-                            print ("bounds = \(gptsValues)")
+                            //print ("bounds = \(gptsValues)")
                         }
                         else {
                             return ["error":"UnknownFormat missing CTM"]

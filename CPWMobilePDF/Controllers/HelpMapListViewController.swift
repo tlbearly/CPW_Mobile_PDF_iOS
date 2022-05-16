@@ -19,7 +19,10 @@ class HelpMapListViewController: UIViewController {
         help.addText(text: "Go mobile with this offline PDF map viewer. Pinpoints your current location on PDF maps from the HuntingAtlas, FishingAtlas, CPW Maps Library, or any georeferenced PDF. No need for internet or cell tower connection! Plus, access a list of resources for downloading PDF maps.")
 
         help.addTitle(title: "Imported Maps",size:20.0)
-        help.addText(text: "The Imported Maps page contains all the maps that you have downloaded and imported. These maps are copied into this app\'s data folder so that when you go mobile the map data is still available to use. For each imported map it displays the map name, file size, and current distance from the map (in miles). If you are on the map a location icon will be displayed. See Add Map, Edit Map, and View Map sections below to add, rename, delete, or view a map")
+        help.addText(text: "The Imported Maps page contains all the maps that you have downloaded and imported. These maps are copied into this app\'s data folder so that the map data is still available to use when you go mobile. Each imported map displays: the map name, file size, and current distance from the map in miles. See Add Map, Edit Map, and View Map sections below to add, rename, delete, or view a map.")
+        help.addTitle(title:"Current Location On The Map", size:20.0)
+        help.addImg(img: "nearme", x: 40.0, y: 40.0, borderWidth: 0.0)
+        help.addText(text: "If you are on the map, the location icon, pictured above, will be displayed.")
         help.addTitle(title: "Add Map", size:20.0)
         help.addText(text: "Click on the + button on the Imported Maps page to download or import a map.")
         help.addTitle(title: "Edit Map", size:20.0)

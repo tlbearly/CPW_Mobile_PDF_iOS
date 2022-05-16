@@ -18,10 +18,8 @@ class CheckBox: UIButton{
         didSet {
             if isChecked == true {
                 self.setImage(UIImage(named: "checkbox_checked")! as UIImage, for: UIControl.State.normal)
-                print("checked")
             } else {
                 self.setImage(UIImage(named: "checkbox_blank")! as UIImage, for: UIControl.State.normal)
-                print("unchecked")
             }
         }
     }
@@ -33,6 +31,7 @@ class CheckBox: UIButton{
     }
     
     override func awakeFromNib() {
+        // never used!!
         self.addTarget(self, action: #selector(buttonClicked), for: UIControl.Event.touchUpInside)
         self.isChecked = false
     }

@@ -18,7 +18,7 @@ class HelpMapViewController: UIViewController {
         let help = HelpScrollView(UIScrollView(), view: view)
         help.addLogo()
         help.addTitle(title: "Map View Help")
-        help.addText(text: "Your current latitude and longitude will be displayed at the top of the map, and it will be displayed on the map as a cyan circle outlined in white. Double tap or pinch to zoom. To add waypoints, click on the push pin icon at the top-right, then click the map at the desired location. If the waypoint label is showing, clicking on a waypoint will display its label. Clicking on a waypoint label will let you edit the label and pushpin color.")
+        help.addText(text: "Your current latitude and longitude will be displayed at the top of the map, and it will be displayed on the map as a cyan circle outlined in white. Double tap or pinch to zoom. To add waypoints, click on the push pin icon at the top-right, then click the map at the desired location. To cancel adding a waypoint, click on the push pin icon with an X at the top-right. If the waypoint label is showing, clicking on the map will hide it. Clicking on a waypoint will display its label. Clicking on a waypoint label will let you edit the label and pushpin color.")
         help.addLastElement()
     }
     // preserve orientation
