@@ -26,7 +26,7 @@ class HelpMapListViewController: UIViewController {
         help.addTitle(title: "Add Map", size:20.0)
         help.addText(text: "Click on the + button on the Imported Maps page to download or import a map.")
         help.addTitle(title: "Edit Map", size:20.0)
-        help.addText(text: "Press \'Edit\' to change the map name or delete a map.")
+        help.addText(text: "Press \'Edit\' to change the map name or delete a map. Also, you may slide the row to the left to delete.")
         help.addTitle(title: "View Map", size:20.0)
         help.addText(text: "Click on a map to display the map, view current location, zoom in or out, and add waypoints.")
         help.addLastElement()

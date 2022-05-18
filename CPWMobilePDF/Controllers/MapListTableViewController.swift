@@ -19,7 +19,7 @@ class MoreCellClass:UITableViewCell {
 }
 
 class MapListTableViewController: UITableViewController, UITextFieldDelegate {
-    @IBOutlet weak var msgLabel: UILabel! // contains sort by drop down and message to add maps
+    @IBOutlet weak var msgLabel: UITextView! // contains sort by drop down and message to add maps
     @IBOutlet weak var addBtn: UIBarButtonItem!
     
     //MARK: Properties
@@ -462,7 +462,7 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
             msgLabel.frame = newFrame
             msgLabel.textAlignment = .center
             msgLabel.isUserInteractionEnabled = false
-            msgLabel.text = "No maps have been imported. Use the + button to import a map."
+            msgLabel.text = "No maps have been imported.\n\nUse the + button to import a map."
             msgLabel.isHidden = false
             self.editButtonItem.isEnabled = false
             setEditing(false, animated: true)

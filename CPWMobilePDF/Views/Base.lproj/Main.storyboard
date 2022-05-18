@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="crJ-s1-QnB">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="crJ-s1-QnB">
     <device id="retina3_5" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="Stack View standard spacing" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -19,16 +19,18 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <viewLayoutGuide key="safeArea" id="hYQ-Dh-RFP"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                        <label key="tableHeaderView" hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No maps have been imported. Use the + button to import a map." textAlignment="center" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="mpF-QI-wF8" userLabel="Msg">
-                            <rect key="frame" x="0.0" y="0.0" width="320" height="80"/>
+                        <textView key="tableHeaderView" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="No maps have been imported. Use the + button to import a maps." textAlignment="center" id="Sj3-Vv-HL3" userLabel="msgLabel">
+                            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                            <nil key="textColor"/>
-                            <nil key="highlightedColor"/>
-                        </label>
+                            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            <accessibility key="accessibilityConfiguration" label="Msg"/>
+                            <color key="textColor" systemColor="labelColor"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                            <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                        </textView>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="MapListTableViewCell" rowHeight="100" id="fzz-cP-97s" customClass="MapListTableViewCell" customModule="CPW_Mobile_PDF" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="124.5" width="320" height="100"/>
+                                <rect key="frame" x="0.0" y="88.5" width="320" height="100"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="fzz-cP-97s" id="G3V-XX-9kL">
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="100"/>
@@ -140,7 +142,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="addBtn" destination="uD9-GZ-GZn" id="98O-Wj-kHK"/>
-                        <outlet property="msgLabel" destination="mpF-QI-wF8" id="pny-ug-5is"/>
+                        <outlet property="msgLabel" destination="Sj3-Vv-HL3" id="NBH-ci-U5Q"/>
                         <segue destination="rvM-Tj-jam" kind="show" identifier="ShowHelpMapList" id="ozC-Io-1Sy"/>
                     </connections>
                 </tableViewController>
@@ -410,7 +412,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="crJ-s1-QnB" customClass="MapListViewController" customModule="CPW_Mobile_PDF" customModuleProvider="target" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="Gaz-PV-ZNm">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
@@ -427,6 +429,9 @@
         <image name="cyan_pin" width="170.5" height="170.5"/>
         <image name="nearme" width="221" height="200"/>
         <image name="pdf_icon" width="27" height="37"/>
+        <systemColor name="labelColor">
+            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
         <systemColor name="secondaryLabelColor">
             <color red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>

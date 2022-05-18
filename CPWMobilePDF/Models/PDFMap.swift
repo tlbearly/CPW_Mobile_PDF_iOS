@@ -376,43 +376,47 @@ class PDFMap: NSObject, NSCoding {
                throw AppError.pdfMapError.unknownFormat
            }
        }
-       guard let bounds = pdf["bounds"] as? [Double] else {
+       guard let mediabox = pdf["mediabox"] as? [Float] else {
+            print("Error: cannot convert mediabox to float array")
+            throw AppError.pdfMapError.cannotReadPDFDictionary
+        }
+        // print ("mediabox page size: \(mediabox)")
+        
+        // Lat/Long
+        guard let bounds = pdf["bounds"] as? [Double] else {
            print("Error: cannot convert bounds to float array")
            throw AppError.pdfMapError.cannotReadPDFDictionary
-       }
-      // print ("lat/long bounds: \(bounds)")
-       guard var viewport = pdf["viewport"] as? [Float] else{
+        }
+        // print ("lat/long bounds: \(bounds)")
+        
+        // Margins
+        // viewport x1,y1 is lower-left
+        // viewport x2,y2 is upper-right in Adobe PDF documentation
+        // but the origin is user specified [25 570 768 48]
+        // or sometimes: [25 48 768 570]
+        guard let viewport = pdf["viewport"] as? [Float] else{
            print("Error: cannot convert viewport to float array")
            throw AppError.pdfMapError.cannotReadPDFDictionary
-       }
+        }
         // 5-12-22 Make sure viewport is in correct order
-        // viewport[0] should be < viewport[2]
-        // viewport[1] should be > viewport[3]
-        var tmp:Float
-        if (viewport[0] > viewport[2]){
-            tmp = viewport[0]
-            viewport[0] = viewport[2]
-            viewport[2] = tmp
+        if(viewport[1] < viewport[3]) {
+            marginTop = Double(viewport[1])
+            marginBottom = Double(mediabox[3] - viewport[3])
+        }else{
+            marginTop = Double(mediabox[3] - viewport[1])
+            marginBottom = Double(viewport[3])
         }
-        if (viewport[1] < viewport[3]){
-            tmp = viewport[1]
-            viewport[1] = viewport[3]
-            viewport[3] = tmp
+        if (viewport[0] < viewport[2]){
+            marginLeft = Double(viewport[0])
+            marginRight = Double(mediabox[2] - viewport[2])
+        }else{
+            marginLeft = Double(viewport[2])
+            marginRight = Double(mediabox[2] - viewport[0])
         }
-      // print ("viewport margins: \(viewport)")
-       guard let mediabox = pdf["mediabox"] as? [Float] else {
-           print("Error: cannot convert mediabox to float array")
-           throw AppError.pdfMapError.cannotReadPDFDictionary
-       }
-      // print ("mediabox page size: \(mediabox)")
-       marginTop = Double(mediabox[3] - viewport[1])
-       marginBottom = Double(viewport[3])
-        //wrong marginBottom = Double(mediabox[3] - viewport[1])
-        //wrong marginTop = Double(viewport[3])
-       marginLeft = Double(viewport[0])
-       marginRight = Double(mediabox[2] - viewport[2])
-       mediaBoxWidth = Double(mediabox[2] - mediabox[0])
-       mediaBoxHeight = Double(mediabox[3] - mediabox[1])
+        // print ("viewport margins: \(viewport)")
+       
+        mediaBoxWidth = Double(mediabox[2] - mediabox[0])
+        mediaBoxHeight = Double(mediabox[3] - mediabox[1])
         // 5-12-22 Find smallest values for lat1/long1 and largest values for lat2/long2
         lat1 = Double(bounds[0])
         long1 = Double(bounds[1])
@@ -438,23 +442,12 @@ class PDFMap: NSObject, NSCoding {
                 }
             }
         }
-       //lat1 = bounds[0]
-       //long1 = bounds[1]
-       //lat2 = bounds[2]
-       //long2 = bounds[5]
-        print("bounds: \(bounds)")
-        print("lat1: \(lat1)")
-        print("lat2: \(lat2)")
         
-       latDiff = (90.0 - lat1) - (90.0 - lat2)
-       longDiff = (long2 + 180.0) - (long1 + 180.0)
-        print("latDiff: \(latDiff)")
-        print("longDiff: \(longDiff)")
-        print("marginTop: \(marginTop)")
-        print("marginBottom: \(marginBottom)")
+        latDiff = lat2 - lat1
+        longDiff = long2 - long1
         // mediaBox is page boundary
-       pdfWidth = (mediaBoxWidth - (marginLeft + marginRight)) // don't need * zoom
-       pdfHeight = (mediaBoxHeight - (marginTop + marginBottom))
+        pdfWidth = (mediaBoxWidth - (marginLeft + marginRight)) // don't need * zoom
+        pdfHeight = (mediaBoxHeight - (marginTop + marginBottom))
     }
     
     
