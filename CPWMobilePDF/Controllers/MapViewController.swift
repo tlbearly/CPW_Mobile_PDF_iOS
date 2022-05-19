@@ -966,7 +966,6 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         // calculate pixels to move over to get to mid point in image
         // ratio is used to covert from pdf pt to screen pt
         let ratioX = location.x/pdfViewPoint.x
-        //let ratioY = location.y/pdfViewPoint.y
         let wayptXMiddle:CGFloat = (waypt.bounds.maxX - waypt.bounds.minX)/2 + waypt.bounds.minX
         let xMove:CGFloat = (pdfViewPoint.x - wayptXMiddle) * ratioX
         var x = location.x - xMove - popupWidth/2
@@ -976,8 +975,19 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         else if (x + popupWidth > screenWidth){
             x = screenWidth - popupWidth
         }
+        // make sure popup is not off screen at bottom or top
+        //let ratioY = location.y/pdfViewPoint.y
+        //let wayptYMiddle:CGFloat = (waypt.bounds.maxY - waypt.bounds.minY)/2 + waypt.bounds.minY
+        //let yMove:CGFloat = (pdfViewPoint.y - wayptYMiddle) * ratioY
+        var y = location.y + 20
+        if (y < 60) {
+            y = 60
+        }
+        else if (y + popupHeight + (screenHeight / 2) > screenHeight){
+            y = location.y - popupHeight - 40 // pin height 80 and 20 space
+        }
                 
-        popup = UITextField(frame: CGRect(x: x, y: location.y+20, width: popupWidth, height: popupHeight))
+        popup = UITextField(frame: CGRect(x: x, y: y, width: popupWidth, height: popupHeight))
         let rightImgView = UIImageView(frame: CGRect(x: 0.0, y: 0.0, width: 90.0, height: 90.0))
         rightImgView.image = UIImage(named: "arrow_right_circle")
         rightImgView.contentMode = .scaleAspectFit

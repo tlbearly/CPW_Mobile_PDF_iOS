@@ -400,8 +400,8 @@ class PDFMap: NSObject, NSCoding {
         }
         // 5-12-22 Make sure viewport is in correct order
         if(viewport[1] < viewport[3]) {
-            marginTop = Double(viewport[1])
-            marginBottom = Double(mediabox[3] - viewport[3])
+            marginTop = Double(mediabox[3] - viewport[3])
+            marginBottom = Double(viewport[1])
         }else{
             marginTop = Double(mediabox[3] - viewport[1])
             marginBottom = Double(viewport[3])
