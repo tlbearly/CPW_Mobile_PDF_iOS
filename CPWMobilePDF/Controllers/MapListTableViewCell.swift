@@ -8,13 +8,6 @@
 
 import UIKit
 
-//
-// MARK:  - Map List Cell Delegate Protocol
-//
-//protocol MapListTableViewCellDelegate {
-//    func cancelTapped(_ cell: MapListTableViewCell)
-//}
-
 class MapListTableViewCell: UITableViewCell {
     //
     // MARK: - IBOutlets
@@ -31,13 +24,6 @@ class MapListTableViewCell: UITableViewCell {
     // MARK: - Variables and Properties
     //
     var importing = false
-    //var delegate: MapListTableViewCellDelegate?
-    
-    // MARK: - IBActions
-    //
-   /* @IBAction func cancelTapped( _ sender: AnyObject) {
-        delegate?.cancelTapped(self)
-    }*/
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -54,8 +40,15 @@ class MapListTableViewCell: UITableViewCell {
             mapName.backgroundColor = UIColor.lightGray
             contentView.backgroundColor = UIColor.lightGray
         } else {
-            mapName.backgroundColor = UIColor.white
-            contentView.backgroundColor = UIColor.white
+            // for dark and light mode
+            if #available(iOS 13.0, *) {
+                mapName.backgroundColor = UIColor.systemBackground
+                contentView.backgroundColor = UIColor.systemBackground
+            } else {
+                // Fallback on earlier versions
+                mapName.backgroundColor = UIColor.white
+                contentView.backgroundColor = UIColor.white
+            }
         }
     }
     

@@ -1,6 +1,6 @@
 //
 //  PDFMap.swift
-//  MapViewer
+//  CPWMobilePDF
 //
 //  Purpose: hold all the necessary info for a geo pdf map
 //     Maps are stored in local documents directory so they can be taken offline, but still get backed up.
@@ -9,6 +9,7 @@
 //  Created by Tammy Bearly on 4/15/20.
 //  Copyright © 2020 Colorado Parks and Wildlife. All rights reserved.
 //
+// Uses NSCoding to store persistent data pdfMaps and waypoints
 
 import UIKit
 import PDFKit
@@ -54,6 +55,7 @@ class PDFMap: NSObject, NSCoding {
     
     // MARK: Archiving Paths
     static let DocumentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+    // creates a maps folder in the user's documents folder (for this app) to store all the data
     static let ArchiveURL = DocumentsDirectory.appendingPathComponent("maps")
 
     
@@ -186,16 +188,16 @@ class PDFMap: NSObject, NSCoding {
             index += 1
             name = self.displayName + String(index) + ".pdf"
             destURL = PDFMap.DocumentsDirectory.appendingPathComponent(name)
+            self.fileName = name
         }
         do {
              try FileManager.default.copyItem(at:fileURL, to: destURL)
         }
-        catch{
-            print("ERROR: unable to copy file to the app documents directory")
+        catch let error{
+            print("ERROR: unable to copy file to the app documents directory. \(error)")
             throw AppError.pdfMapError.pdfFileNotFound(file: fileURL.absoluteString)
         }
         
-        self.fileName = name
         setDisplayName()
         self.fileURL = destURL
         
@@ -374,38 +376,78 @@ class PDFMap: NSObject, NSCoding {
                throw AppError.pdfMapError.unknownFormat
            }
        }
-       guard let bounds = pdf["bounds"] as? [Double] else {
+       guard let mediabox = pdf["mediabox"] as? [Float] else {
+            print("Error: cannot convert mediabox to float array")
+            throw AppError.pdfMapError.cannotReadPDFDictionary
+        }
+        // print ("mediabox page size: \(mediabox)")
+        
+        // Lat/Long
+        guard let bounds = pdf["bounds"] as? [Double] else {
            print("Error: cannot convert bounds to float array")
            throw AppError.pdfMapError.cannotReadPDFDictionary
-       }
-      // print ("lat/long bounds: \(bounds)")
-       guard let viewport = pdf["viewport"] as? [Float] else{
+        }
+        // print ("lat/long bounds: \(bounds)")
+        
+        // Margins
+        // viewport x1,y1 is lower-left
+        // viewport x2,y2 is upper-right in Adobe PDF documentation
+        // but the origin is user specified [25 570 768 48]
+        // or sometimes: [25 48 768 570]
+        guard let viewport = pdf["viewport"] as? [Float] else{
            print("Error: cannot convert viewport to float array")
            throw AppError.pdfMapError.cannotReadPDFDictionary
-       }
-      // print ("viewport margins: \(viewport)")
-       guard let mediabox = pdf["mediabox"] as? [Float] else {
-           print("Error: cannot convert mediabox to float array")
-           throw AppError.pdfMapError.cannotReadPDFDictionary
-       }
-      // print ("mediabox page size: \(mediabox)")
-       marginTop = Double(mediabox[3] - viewport[1])
-       marginBottom = Double(viewport[3])
-        //wrong marginBottom = Double(mediabox[3] - viewport[1])
-        //wrong marginTop = Double(viewport[3])
-       marginLeft = Double(viewport[0])
-       marginRight = Double(mediabox[2] - viewport[2])
-       mediaBoxWidth = Double(mediabox[2] - mediabox[0])
-       mediaBoxHeight = Double(mediabox[3] - mediabox[1])
-       lat1 = bounds[0]
-       long1 = bounds[1]
-       lat2 = bounds[2]
-       long2 = bounds[5]
-       latDiff = (90.0 - lat1) - (90.0 - lat2)
-       longDiff = (long2 + 180.0) - (long1 + 180.0)
-       // mediaBox is page boundary
-       pdfWidth = (mediaBoxWidth - (marginLeft + marginRight)) // don't need * zoom
-       pdfHeight = (mediaBoxHeight - (marginTop + marginBottom))
+        }
+        // 5-12-22 Make sure viewport is in correct order
+        if(viewport[1] < viewport[3]) {
+            marginTop = Double(mediabox[3] - viewport[3])
+            marginBottom = Double(viewport[1])
+        }else{
+            marginTop = Double(mediabox[3] - viewport[1])
+            marginBottom = Double(viewport[3])
+        }
+        if (viewport[0] < viewport[2]){
+            marginLeft = Double(viewport[0])
+            marginRight = Double(mediabox[2] - viewport[2])
+        }else{
+            marginLeft = Double(viewport[2])
+            marginRight = Double(mediabox[2] - viewport[0])
+        }
+        // print ("viewport margins: \(viewport)")
+       
+        mediaBoxWidth = Double(mediabox[2] - mediabox[0])
+        mediaBoxHeight = Double(mediabox[3] - mediabox[1])
+        // 5-12-22 Find smallest values for lat1/long1 and largest values for lat2/long2
+        lat1 = Double(bounds[0])
+        long1 = Double(bounds[1])
+        lat2 = Double(bounds[0])
+        long2 = Double(bounds[1])
+        for latlong in bounds {
+            // handle longitude
+            if (Double(latlong) < 0){
+                if (Double(latlong) < long1) {
+                    long1 = Double(latlong)
+                }
+                if (Double(latlong) > long2){
+                    long2 = Double(latlong)
+                }
+            }
+            // handle latitude
+            else{
+                if (Double(latlong) < lat1) {
+                    lat1 = Double(latlong)
+                }
+                if (Double(latlong) > lat2){
+                    lat2 = Double(latlong)
+                }
+            }
+        }
+        
+        latDiff = lat2 - lat1
+        longDiff = long2 - long1
+        // mediaBox is page boundary
+        pdfWidth = (mediaBoxWidth - (marginLeft + marginRight)) // don't need * zoom
+        pdfHeight = (mediaBoxHeight - (marginTop + marginBottom))
     }
     
     

@@ -31,8 +31,11 @@ class EditWayPtViewController: UIViewController {
         y = Float(items[5]) ?? 0.0
     }
     
-
-    
+    // preserve orientation
+    override open var shouldAutorotate: Bool {
+        // do not auto rotate
+        return false
+    }
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation

@@ -15,22 +15,4 @@ class MapListViewController: UINavigationController {
     override func viewDidLoad() {
         super.viewDidLoad()
     }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        // show splash screen the first time
-        if (showSplashView == true) {
-            showSplashView = false
-            self.performSegue(withIdentifier: "goToSplash", sender: self.superclass)
-        }
-    }
-    
-    // MARK: Navigation
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?){
-        super.prepare(for: segue, sender: sender) // goToSplash
-    }
-
-
-    
-    
 }

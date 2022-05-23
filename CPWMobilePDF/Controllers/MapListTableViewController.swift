@@ -1,6 +1,6 @@
 //
 //  MapListTableViewController.swift
-//  MapViewer
+//  CPW Mobile PDF
 //
 //  Created by Tammy Bearly on 4/15/20.
 //  Copyright © 2020 Colorado Parks and Wildlife. All rights reserved.
@@ -15,8 +15,11 @@ import UIKit
 import CoreLocation // current location
 import os.log
 
+class MoreCellClass:UITableViewCell {    
+}
+
 class MapListTableViewController: UITableViewController, UITextFieldDelegate {
-    @IBOutlet weak var msgLabel: UILabel!
+    @IBOutlet weak var msgLabel: UITextView! // contains sort by drop down and message to add maps
     @IBOutlet weak var addBtn: UIBarButtonItem!
     
     //MARK: Properties
@@ -38,12 +41,20 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
     var moreBtn:UIBarButtonItem!
     let moreMenuTransparentView = UIView();
     let moreMenuTableview = UITableView();
+    var moreDataSource = ["Delete All Maps","Help"]
+    var moreMenuShowing = false
+    
+    // sort menu drop down list
+    let sortMenuTransparentView = UIView();
+    let sortMenuTableview = UITableView();
     var dataSource = [String]()
     let sortByLabels = ["Name        ","Date          ","Size           ", "Proximity  "]
     let upArrow = "\u{2E0D}\u{2E0C}"
     let downArrow = "\u{2E0C}\u{2E0D}"
     let checkMark = "\u{2713}"
+    let downBtn = "\u{25BC}"
     let mapListTitle = "Imported Maps"
+    var sortMenuShowing = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -52,9 +63,13 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
         let selectedSort = checkMark + " " + sortByLabels[0] + downArrow
         let sp = "    "
         dataSource = [selectedSort,sp + sortByLabels[1], sp + sortByLabels[2], sp + sortByLabels[3]]
+        sortMenuTableview.delegate = self
+        sortMenuTableview.dataSource = self
+        sortMenuTableview.register(CellClass.self, forCellReuseIdentifier: "Cell")
+        
         moreMenuTableview.delegate = self
         moreMenuTableview.dataSource = self
-        moreMenuTableview.register(CellClass.self, forCellReuseIdentifier: "Cell")
+        moreMenuTableview.register(MoreCellClass.self, forCellReuseIdentifier: "MoreCell")
         
         // get path to documents/app directory
         documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first
@@ -72,8 +87,8 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
             // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
             self.navigationItem.leftBarButtonItem = self.editButtonItem
             
+            // Right Bar Buttons Add and More
             moreBtn = UIBarButtonItem(image: (UIImage(named: "more")), style: .plain, target: self, action: #selector(onClickMore))
-            
             self.navigationItem.rightBarButtonItems = [moreBtn, addBtn]
             
             // load maps
@@ -116,6 +131,7 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
                 for i in 0...maps.count-1 {
                     maps[i].mapDist = getDistToMap(map: maps[i])
                     //print(maps[i].displayName)
+                    //print(maps[i].mapDist)
                 }
                 sortList(type: sortBy) // reloads the data too!
             }
@@ -123,6 +139,12 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
         }
     }
     
+    // preserve orientation
+    override open var shouldAutorotate: Bool {
+        // do not auto rotate
+        return false
+    }
+
     // MARK: Actions
     
     @IBAction func unwindToMapsList(sender: UIStoryboardSegue){
@@ -154,6 +176,10 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
         }
     }
     
+    @IBAction func performUnwindFromMainHelpDone(_ sender: UIStoryboardSegue) {
+        print("return to MapListViewController")
+    }
+    
     // MARK: Private Methods
     
     private func displayError(theError: Error, title: String="Map Import Failed") {
@@ -161,7 +187,7 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
          var msg:String
          switch theError {
          case AppError.pdfMapError.invalidDocumentDirectory:
-             msg = "Cannot read from or write to the app documents directory. Your imported maps are stored here."
+             msg = "Cannot read from or write to the app documents directory. This app will not work. Your imported maps are stored here."
          case AppError.pdfMapError.invalidFilename:
              msg = "Invalid Filename."
          case AppError.pdfMapError.notPDF:
@@ -202,6 +228,43 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
          self.present(alert, animated: true)
          return
      }
+    
+    private func removeAllMaps(){
+        // Remove all pdf map files and maps direction (database), clear maps array, and table
+        // 2-9-22 created
+        // delete documentDirectory/mapName
+        for map in maps {
+            // delete pdf file
+            guard let fileURL = map.fileURL else {
+                displayError(theError: AppError.pdfMapError.pdfFileNotFound(file: map.displayName), title: "Error Deleting File")
+                continue
+            }
+            do {
+                try FileManager.default.removeItem(at: fileURL)
+            } catch {
+                print ("error deleting map file: \(map.displayName)")
+                displayError(theError: AppError.pdfMapError.cannotDelete, title: "Error Deleting File")
+            }
+        }
+        
+        // remove items in array
+        maps.removeAll()
+        // refresh table
+        self.tableView.reloadData()
+        showMsg() // show message to add maps press + button
+        // TODO: delete documentDirectory/maps - database ?????????? Will this work????
+        guard let dir = documentsURL?.appendingPathComponent("maps") else {
+            print("cannot find documentDirectory/maps")
+            displayError(theError: AppError.pdfMapError.cannotDelete)
+            return
+        }
+        do{
+            try FileManager.default.removeItem(at: dir)
+        } catch {
+            print("cannot remove directory maps")
+            displayError(theError: AppError.pdfMapError.cannotDelete)
+        }
+    }
     
     private func importMap(){
         // MARK: importMap
@@ -292,43 +355,6 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
         }else {
             return NSKeyedUnarchiver.unarchiveObject(withFile: PDFMap.ArchiveURL.path) as? [PDFMap]
         }
-        
-        
-        
-        // old - read all pdfs in directory
-        
-        // Load all PDF files found in the local documents directory. PDFMap gets the file modification
-        // date and parses the file for thumbnail. When the map is loaded in MapViewController,
-        // it calls PDFParser to get lat/long bounds, mediabox, and viewport
-        
-        // get pdf files in app documents directory
-        /*var dirContents: [URL]? = nil
-        do {
-            dirContents = try FileManager.default.contentsOfDirectory(at: documentsURL!, includingPropertiesForKeys: nil, options: .skipsHiddenFiles)
-        }catch {
-            displayError(theError: AppError.pdfMapError.invalidDocumentDirectory)
-            return nil
-        }
-          
-        if dirContents != nil {
-            // only load pdf files
-            let pdfFiles = dirContents!.filter{ $0.pathExtension == "pdf" }
-            
-            // load pdf files into maps array
-            for pdf in pdfFiles.enumerated() {
-                do {
-                    let map = try PDFMap(fileName:
-                    pdf.element.lastPathComponent)
-                    if map != nil {
-                        maps += [map!]
-                    }
-                } catch {
-                    displayError(theError: error)
-                }
-            }
-        }
-        showMsg()
-        return maps*/
     }
     
     // MARK: Location funcs
@@ -434,33 +460,40 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
             var newFrame: CGRect = msgLabel.frame
             newFrame.size.height = 80
             msgLabel.frame = newFrame
+            msgLabel.textAlignment = .center
+            msgLabel.isUserInteractionEnabled = false
+            msgLabel.text = "No maps have been imported.\n\nUse the + button to import a map."
             msgLabel.isHidden = false
             self.editButtonItem.isEnabled = false
             setEditing(false, animated: true)
         }
         else {
             var newFrame: CGRect = msgLabel.frame
-            newFrame.size.height = 0
+            newFrame.size.height = 80
             msgLabel.frame = newFrame
-            msgLabel.isHidden = true
+            msgLabel.textAlignment = .left
+            msgLabel.text = "  Sort By:  Name     "+downBtn
+            msgLabel.isHidden = false
+            msgLabel.isUserInteractionEnabled = true
+            let gestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(onClickSort(_:)))
+            msgLabel.addGestureRecognizer(gestureRecognizer)
             self.editButtonItem.isEnabled = true
             setEditing(false, animated: true)
         }
     }
     
-    
     // MARK: More Menu
     func addMoreMenuTransparentView(frames:CGRect){
         let window = UIApplication.shared.keyWindow
         let y:Int = Int(self.navigationController?.navigationBar.frame.maxY ?? 0) + Int(self.tableView.contentOffset.y)
+        let x = 55
         moreMenuTransparentView.frame = window?.frame ?? self.view.frame
-        moreMenuTransparentView.frame.origin.y = CGFloat(y) //+= self.tableView.contentOffset.y + 60
+        moreMenuTransparentView.frame.origin.y = CGFloat(y)
+        moreMenuTableview.frame.origin.x = CGFloat(x)
         self.view.addSubview(moreMenuTransparentView)
-        
-        //moreMenuTableview.frame = CGRect(x: frames.origin.x, y: self.tableView.contentOffset.y + 60.0, width: frames.width, height: 0)
         self.view.addSubview(moreMenuTableview)
         moreMenuTableview.layer.cornerRadius = 5
-        self.title = "Sort By"
+        moreMenuTableview.layer.maskedCorners = [.layerMaxXMaxYCorner, .layerMinXMaxYCorner]
         
         moreMenuTransparentView.backgroundColor = UIColor.black.withAlphaComponent(0.9)
         moreMenuTableview.reloadData()
@@ -469,23 +502,89 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
         moreMenuTransparentView.alpha = 0
         UIView.animate(withDuration: 0.4, delay: 0.0, usingSpringWithDamping: 1.0, initialSpringVelocity: 1.0, options: .curveEaseInOut, animations: {
             self.moreMenuTransparentView.alpha = 0.5
-            self.moreMenuTableview.frame = CGRect(x: 0, y: y, width: Int(frames.width), height: self.dataSource.count * 50)
+            self.moreMenuTableview.frame = CGRect(x: x, y: y, width: Int(frames.width) - x, height: self.moreDataSource.count * 50)
         }, completion: nil)
-        moreBtn.isEnabled = false // gray out ... button
+        //moreBtn.isEnabled = false // gray out ... button
+        addBtn.isEnabled = false
+        editButtonItem.isEnabled = false
+        moreMenuShowing = true
     }
     @objc func removeMoreMenuTransparentView(){
-        self.title = mapListTitle
         let frames = self.view.frame
+        let y = Int(self.tableView.contentOffset.y) + 60
+        let x = 55
         // remove more button drop down menu view
         UIView.animate(withDuration: 0.4, delay: 0.0, usingSpringWithDamping: 1.0, initialSpringVelocity: 1.0, options: .curveEaseInOut, animations: {
             self.moreMenuTransparentView.alpha = 0.0
-            self.moreMenuTableview.frame = CGRect(x: frames.origin.x, y: self.tableView.contentOffset.y + 60, width: frames.width, height: 0)
+            self.moreMenuTableview.frame = CGRect(x: x, y: y, width: Int(frames.width) - x, height: 0)
+            //self.moreMenuTableview.frame = CGRect(x: frames.origin.x, y: self.tableView.contentOffset.y + 60, width: frames.width, height: 0)
         }, completion: nil)
-        moreBtn.isEnabled = true
+        addBtn.isEnabled = true
+        editButtonItem.isEnabled = true
+        moreMenuShowing = false
     }
 
     @objc func onClickMore(_ sender:Any){
-        addMoreMenuTransparentView(frames: self.view.frame)
+        if (!sortMenuShowing){
+            addMoreMenuTransparentView(frames: self.view.frame)
+        }
+        else {
+            removeMoreMenuTransparentView()
+        }
+    }
+    
+    // MARK: Sort Menu
+    func addSortMenuTransparentView(frames:CGRect){
+        let window = UIApplication.shared.keyWindow
+        //let y:Int = Int(self.navigationController?.navigationBar.frame.maxY ?? 0) + Int(self.tableView.contentOffset.y)
+        
+        let y = 70
+        let x = 55
+        sortMenuTransparentView.frame = window?.frame ?? self.view.frame
+        sortMenuTransparentView.frame.origin.y = CGFloat(y)
+        sortMenuTableview.frame.origin.x = CGFloat(x)
+        self.view.addSubview(sortMenuTransparentView)
+        self.view.addSubview(sortMenuTableview)
+        sortMenuTableview.layer.cornerRadius = 5
+        sortMenuTableview.layer.maskedCorners = [.layerMaxXMaxYCorner, .layerMinXMaxYCorner]
+        
+        sortMenuTransparentView.backgroundColor = UIColor.black.withAlphaComponent(0.9)
+        sortMenuTableview.reloadData()
+        let tapgesture = UITapGestureRecognizer(target: self, action: #selector(removeSortMenuTransparentView))
+        sortMenuTransparentView.addGestureRecognizer(tapgesture)
+        sortMenuTransparentView.alpha = 0
+        UIView.animate(withDuration: 0.4, delay: 0.0, usingSpringWithDamping: 1.0, initialSpringVelocity: 1.0, options: .curveEaseInOut, animations: {
+            self.sortMenuTransparentView.alpha = 0.5
+            self.sortMenuTableview.frame = CGRect(x: x, y: y, width: Int(frames.width) - 2*x, height: self.dataSource.count * 50)
+        }, completion: nil)
+        moreBtn.isEnabled = false // gray out ... button
+        addBtn.isEnabled = false
+        editButtonItem.isEnabled = false
+        sortMenuShowing = true
+    }
+    @objc func removeSortMenuTransparentView(){
+        let frames = self.view.frame
+        let y = 70
+        let x = 55
+        // remove more button drop down menu view
+        UIView.animate(withDuration: 0.4, delay: 0.0, usingSpringWithDamping: 1.0, initialSpringVelocity: 1.0, options: .curveEaseInOut, animations: {
+            self.sortMenuTransparentView.alpha = 0.0
+            self.sortMenuTableview.frame = CGRect(x: x, y: y, width: Int(frames.width) - 2*x, height: 0)
+            //self.sortMenuTableview.frame = CGRect(x: frames.origin.x, y: self.tableView.contentOffset.y + 60, width: frames.width, height: 0)
+        }, completion: nil)
+        moreBtn.isEnabled = true
+        addBtn.isEnabled = true
+        editButtonItem.isEnabled = true
+        sortMenuShowing = false
+    }
+    
+    @objc func onClickSort(_ sender:Any){
+        if (!sortMenuShowing){
+            addSortMenuTransparentView(frames: self.view.frame)
+        }
+        else {
+            removeSortMenuTransparentView()
+        }
     }
     func sortList(type: String = "name"){
         // MARK: sortList
@@ -719,7 +818,13 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
                 cell.mapName.delegate = self
                 cell.mapName.addTarget(self, action: #selector(self.saveCurrentMapName(_:)), for: UIControl.Event.editingDidBegin)
                 cell.mapName.addTarget(self, action: #selector(self.endEditingMapName(_:)), for: UIControl.Event.editingDidEnd)
-                cell.mapName.backgroundColor = .init(red: 0.95, green: 0.95, blue: 0.95, alpha: 1)
+                // for dark and light mode
+                if #available(iOS 13.0, *) {
+                    cell.mapName.backgroundColor = UIColor.tertiarySystemBackground
+                } else {
+                    // Fallback on earlier versions
+                    cell.mapName.backgroundColor = UIColor.init(red: 0.95, green: 0.95, blue: 0.95, alpha: 1)
+                }
                 cell.mapName.borderStyle = UITextField.BorderStyle.roundedRect
             }
         }
@@ -907,15 +1012,17 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // return the number of rows
-        if tableView == self.moreMenuTableview {
+        if tableView == self.sortMenuTableview {
             return dataSource.count
+        } else if tableView == self.moreMenuTableview {
+            return moreDataSource.count
         } else {
             return maps.count
         }
     }
 
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if tableView == self.moreMenuTableview {
+        if tableView == self.sortMenuTableview || tableView == self.moreMenuTableview {
             return 50
         }
         else {
@@ -926,9 +1033,14 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         // MARK: cellForRowAt
         
-        if tableView == self.moreMenuTableview {
+        if tableView == self.sortMenuTableview {
             let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
             cell.textLabel?.text = dataSource[indexPath.row]
+            return cell
+        }
+        else if tableView == self.moreMenuTableview {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "MoreCell", for: indexPath)
+            cell.textLabel?.text = moreDataSource[indexPath.row]
             return cell
         }
         else {
@@ -938,6 +1050,9 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
                 fatalError("The dequeued cell is not an instance of MapListTableViewCell.")
             }
         
+            // add top border
+            cell.layer.addBorder()
+            
             // Fetches the appropriate map for the data source layout.
             let map = maps[indexPath.row]
             // reset map name editing to done. Sometimes if scroll it is still in editing mode grey textbox
@@ -967,6 +1082,7 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
             // distance to map
             if latNow == 0.0 {
                 cell.distToMap.text = "Miles to map..."
+                cell.locationIcon.isHidden = true
             }
             // on map, show location icon
             else if (latNow >= map.lat1 && latNow <= map.lat2 && longNow >= map.long1 && longNow <= map.long2) {
@@ -1042,6 +1158,7 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
                 self.dataSource[i] = "    " + sortByLabels[i]
             }
         }
+        msgLabel.text = "    Sort By:  "+sortByLabels[index].trimmingCharacters(in: .whitespaces) + " " + arrow + "    " + downBtn
     }
     
     // Used to show the map after importing a new map
@@ -1050,8 +1167,36 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
         // MARK: didSelectRowAt
         // Cell clicked on
         
-        // Sort Table By Chosen Row
+        // More Menu
         if (tableView == self.moreMenuTableview){
+            guard let cell = tableView.cellForRow(at: indexPath) else {
+                displayError(theError: AppError.pdfMapError.cannotSelectRow)
+                return
+            }
+            let label = cell.textLabel?.text
+            if (label!.contains("Delete")){
+                let title = "Delete"
+                let msg = "Delete all imported maps?"
+                let alert = UIAlertController(title: title, message: msg, preferredStyle: .alert)
+                let deleteAction = UIAlertAction(title: "DELETE", style: .default) { (action) in
+                    print("delete all maps...")
+                    self.removeAllMaps()
+                }
+                alert.addAction(deleteAction)
+                alert.addAction(UIAlertAction(title: "CANCEL", style: .default, handler: nil))
+                self.present(alert, animated: true)
+                removeMoreMenuTransparentView()
+            }
+            else if (label!.contains("Help")){
+                //print("display help")
+                removeMoreMenuTransparentView()
+                // Open HelpMapListViewController
+                self.performSegue(withIdentifier: "ShowHelpMapList", sender: nil)
+            }
+        }
+        
+        // Sort Table By Chosen Row
+        if (tableView == self.sortMenuTableview){
             guard let cell = tableView.cellForRow(at: indexPath) else {
                 displayError(theError: AppError.pdfMapError.cannotSelectRow)
                 return
@@ -1064,7 +1209,7 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
                 sortByDataUpdate(arrow:downArrow, index:indexPath.row)
                 //dataSource[indexPath.row] = self.sortByLabels[indexPath.row] + downArrow
                 //cell.textLabel?.text = dataSource[indexPath.row]
-                self.moreMenuTableview.reloadData()
+                self.sortMenuTableview.reloadData()
             }
             else if (label!.contains(downArrow)){
                 // display Z-A, new-old, big-small
@@ -1072,7 +1217,7 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
                 sortByDataUpdate(arrow:upArrow, index:indexPath.row)
                 //dataSource[indexPath.row] = self.sortByLabels[indexPath.row] + upArrow
                 //cell.textLabel?.text = dataSource[indexPath.row]
-                self.moreMenuTableview.reloadData()
+                self.sortMenuTableview.reloadData()
             }
             else {
                 // display A-Z, old-new, small-big
@@ -1108,26 +1253,22 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
                     sortList(type: "proximity")
                 }
             }
-            removeMoreMenuTransparentView() // hide drop down menu
+            removeSortMenuTransparentView() // hide drop down menu
         }
         
         // MapListTableView row selected
         else {
-        /*let cellIdentifier = "MapListTableViewCell"
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as? MapListTableViewCell else {
-            fatalError("The dequeued cell is not an instance of MapListTableViewCell.")
-        }*/
-        guard let cell = self.tableView.cellForRow(at: indexPath) as? MapListTableViewCell else {
-            showMap = false
-            displayError(theError: AppError.pdfMapError.cannotSelectRow)
-            return
-        }
-        if (showMap) {
-            // when user returns to list it sets showMap to false in viewDidAppear
-            tableView.deselectRow(at: indexPath, animated: true)
-            // causes error, self.tableView.reloadData()
-            performSegue(withIdentifier: "ShowMap", sender: cell)
-        }
+            guard let cell = self.tableView.cellForRow(at: indexPath) as? MapListTableViewCell else {
+                showMap = false
+                displayError(theError: AppError.pdfMapError.cannotSelectRow)
+                return
+            }
+            if (showMap) {
+                // when user returns to list it sets showMap to false in viewDidAppear
+                tableView.deselectRow(at: indexPath, animated: true)
+                // causes error, self.tableView.reloadData()
+                performSegue(withIdentifier: "ShowMap", sender: cell)
+            }
         }
     }
     
@@ -1153,20 +1294,6 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
         // Return false if you do not want the specified item to be editable.
         return true
     }
-    
-    /*
-    override func tableView(_ tableView: UITableView,
-                            willBeginEditingRowAt indexPath: IndexPath) {
-        super.tableView(tableView, willBeginEditingRowAt: indexPath)
-        //print ("willBeginEditingRowAt")
-    }
-    
-    override func tableView(_ tableView: UITableView, didEndEditingRowAt indexPath: IndexPath?) {
-        super.tableView(tableView, didEndEditingRowAt: indexPath)
-        // Call when user presses delete button??????????
-        print("didEndEditingRowAt")
-    }
- */
     
     // Swipe left to delete
     // Override to support editing the table view.
@@ -1236,6 +1363,8 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
         switch(segue.identifier ?? "") {
         case "AddMap":
             print("Adding a map.")
+        case "ShowHelpMapList":
+            print("Show Help")
         case "ShowMap":
             guard let mapViewController = segue.destination as? MapViewController else {
                 fatalError("Unexpected destination: \(segue.destination)")
@@ -1247,12 +1376,20 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
                 fatalError("The selected cell is not being displayed by the table.")
             }
             // pass the selected map name, thumbnail, etc to MapViewController.swift
-            //let selectedMap = maps[indexPath.row]
-            //mapViewController.map = selectedMap
             mapViewController.maps = maps
             mapViewController.mapIndex = indexPath.row
         default:
             fatalError("Unexpected Segue Identifier: \(String(describing: segue.identifier))")
         }
+    }
+}
+
+extension CALayer {
+    // Add a top border to each cell. It did not have one between Sort By menu and top of list.
+    func addBorder(){
+        let border = CALayer()
+        border.frame = CGRect(x: 10, y: 0, width: self.frame.width - 20, height: 1)
+        border.backgroundColor = UIColor(red: 0.9, green: 0.9, blue: 0.9, alpha: 1.0).cgColor
+        self.addSublayer(border)
     }
 }
