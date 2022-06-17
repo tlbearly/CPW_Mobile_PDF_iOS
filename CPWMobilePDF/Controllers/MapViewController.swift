@@ -181,7 +181,7 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         //addDebugTextbox()
         
         // popup label for instructions for adding a waypoint
-        notice.text = "Tap to add waypoint"
+        notice.text = "Tap map to add waypoint"
         view.addSubview(notice)
         // on click hide notice label and turn off adding way point
         notice.isUserInteractionEnabled = true
@@ -217,11 +217,20 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
     // set default orientation from database tlb 3/12/21
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        lockOrientation = false // preserve orientation
+        if (lockInPortrait){
+            AppUtility.lockOrientation(.portrait, andRotateTo: .portrait)
+        }
+        else if (lockInLandscape){
+            AppUtility.lockOrientation(.landscapeRight, andRotateTo: .landscapeRight)
+        }
+        else {
+            //lockOrientation = false // auto rotate, use device orientation
+            AppUtility.lockOrientation(UIInterfaceOrientationMask.all)
+        }
         // lock in landscape or portrait mode to start
         //AppUtility.lockOrientation(.landscapeRight, andRotateTo: .landscapeRight)
         // Or to rotate and lock
-         AppUtility.lockOrientation(.portrait, andRotateTo: .portrait)
+        // AppUtility.lockOrientation(.portrait, andRotateTo: .portrait)
         
     }
     override func viewWillDisappear(_ animated: Bool) {
@@ -232,8 +241,8 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         
         // Don't forget to reset when view is being removed
         // use .all to return to physical device orientation
-        AppUtility.lockOrientation(.portrait, andRotateTo: .portrait)
-        //AppUtility.lockOrientation(UIInterfaceOrientationMask.all)
+        //AppUtility.lockOrientation(.portrait, andRotateTo: .portrait)
+        AppUtility.lockOrientation(UIInterfaceOrientationMask.all)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -258,10 +267,11 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
     }
     
     // preserve orientation to phone rotation
-    override open var shouldAutorotate: Bool {
+    /*override open var shouldAutorotate: Bool {
         // update screen size after rotation
         self.screenWidth = self.view.frame.size.width
         self.screenHeight = self.view.frame.size.height
+        print ("lockOrientation=\(lockOrientation)")
         // do not auto rotate
         if (lockOrientation){
             return true
@@ -269,7 +279,7 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         else{
             return false
         }
-    }
+    }*/
     
     // MARK: More Menu
     func addMoreMenuTransparentView(frames:CGRect){
@@ -1141,7 +1151,7 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
     @objc func pdfViewTapped(_ gestureRecognizer: UITapGestureRecognizer) {
         // MARK: pdfViewTap
         // Check if clicked on Waypoint or add new waypoint annotation
-        print("called single tap")
+        //print("called single tap")
         let pdfView = gestureRecognizer.view as! PDFView
         pdfView.clearSelection() // remove selected text!!!
         if gestureRecognizer.state == .ended

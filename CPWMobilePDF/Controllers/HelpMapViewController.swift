@@ -22,10 +22,10 @@ class HelpMapViewController: UIViewController {
         help.addLastElement()
     }
     // preserve orientation
-    override open var shouldAutorotate: Bool {
+    /*override open var shouldAutorotate: Bool {
         // do not auto rotate
         return false
-    }
+    }*/
 
     // MARK: - Navigation
     // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -45,7 +45,7 @@ class HelpMapViewController: UIViewController {
 }
 
 // preserve orientation
-extension UINavigationController {
+/*extension UINavigationController {
     override open var shouldAutorotate: Bool {
         get {
             if let visibleVC = visibleViewController {
@@ -72,7 +72,7 @@ extension UINavigationController {
             return super.supportedInterfaceOrientations
         }
     }
-}
+}*/
 
 #if DEBUG
 // show preview window Editor/Canvas
