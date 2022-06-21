@@ -139,6 +139,15 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
         }
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        // added 6-21-22
+        super.viewWillDisappear(animated)
+        
+        // Stop calling Location
+        locationManager.stopUpdatingLocation()
+        locationManager.stopUpdatingHeading()
+    }
+    
     // preserve orientation
     /*override open var shouldAutorotate: Bool {
         // do not auto rotate

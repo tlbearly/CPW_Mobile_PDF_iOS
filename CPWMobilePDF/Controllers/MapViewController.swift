@@ -238,6 +238,8 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         
         // Stop calling displayLocation
         locationTimer.invalidate()
+        locationManager.stopUpdatingLocation() // added 6/21/22
+        locationManager.stopUpdatingHeading()  // added 6/21/220
         
         // Don't forget to reset when view is being removed
         // use .all to return to physical device orientation
@@ -973,6 +975,13 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         let popupWidth:CGFloat = 150
         let popupHeight:CGFloat = 50
         
+        var width = screenWidth
+        var height = screenHeight
+        if (lockInLandscape){
+            width = screenHeight
+            height = screenWidth
+        }
+        
         // calculate pixels to move over to get to mid point in image
         // ratio is used to covert from pdf pt to screen pt
         let ratioX = location.x/pdfViewPoint.x
@@ -982,7 +991,7 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         if (x < 1) {
             x = 1
         }
-        else if (x + popupWidth > screenWidth){
+        else if (x + popupWidth > width){
             x = screenWidth - popupWidth
         }
         // make sure popup is not off screen at bottom or top
@@ -993,7 +1002,7 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         if (y < 60) {
             y = 60
         }
-        else if (y + popupHeight + (screenHeight / 2) > screenHeight){
+        else if (y + popupHeight + (screenHeight / 2) > height){
             y = location.y - popupHeight - 40 // pin height 80 and 20 space
         }
                 
