@@ -221,14 +221,14 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
             AppUtility.lockOrientation(.portrait, andRotateTo: .portrait)
         }
         else if (lockInLandscape){
-            AppUtility.lockOrientation(.landscapeRight, andRotateTo: .landscapeRight)
+            AppUtility.lockOrientation(.landscapeLeft, andRotateTo: .landscapeLeft)
         }
         else {
             //lockOrientation = false // auto rotate, use device orientation
             AppUtility.lockOrientation(UIInterfaceOrientationMask.all)
         }
         // lock in landscape or portrait mode to start
-        //AppUtility.lockOrientation(.landscapeRight, andRotateTo: .landscapeRight)
+        //AppUtility.lockOrientation(.landscapeLeft, andRotateTo: .landscapeLeft)
         // Or to rotate and lock
         // AppUtility.lockOrientation(.portrait, andRotateTo: .portrait)
         
@@ -1115,12 +1115,10 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
     
     func removeAllWayPoints(){
         // Remove all waypoints from pdf annotation and database
-        print("total way pts = \(maps[mapIndex].wayPtArray.count)")
         var i:Int
         while (maps[mapIndex].wayPtArray.count > 0){
             i = maps[mapIndex].wayPtArray.count - 1
             maps[mapIndex].wayPtArray.remove(at: i)
-            print("removing way pt \(i)")
         }
         // Remove popup
         if let aPopup: UITextField = pdfView.viewWithTag(100) as? UITextField {
