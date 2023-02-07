@@ -107,6 +107,27 @@ class HelpScrollView: UIScrollView {
         bottom_anchor = helpText.bottomAnchor
     }
     
+    public func addText2(text: String) -> UILabel{
+        // text is the text block to add
+        // text is blue and allows you to add a tap gesture
+        // returns a UILabel
+        // topText is the UILabel element just above this
+        let helpText = UILabel()
+        helpText.text = text
+        helpText.numberOfLines = 0
+        helpText.sizeToFit()
+        helpText.font = UIFont.systemFont(ofSize: 17)
+        helpText.textColor = UIColor(red: 0.0, green: 0.47, blue: 1.0, alpha: 1.0)
+        helpText.translatesAutoresizingMaskIntoConstraints = false
+        contentView.addSubview(helpText)
+        helpText.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10).isActive = true
+        helpText.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10).isActive = true
+        helpText.topAnchor.constraint(equalTo: bottom_anchor, constant: 10).isActive = true
+        elem = helpText
+        bottom_anchor = helpText.bottomAnchor
+        return helpText
+    }
+    
     public func addImg(img: String, x: CGFloat, y:CGFloat, borderWidth: CGFloat = 3.0){
         let imgView = UIImageView(image: UIImage(named: img))
         imgView.layer.borderColor = UIColor.lightGray.cgColor

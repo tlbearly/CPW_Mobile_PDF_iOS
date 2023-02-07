@@ -85,7 +85,7 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
     var screenHeight:CGFloat = 0.0
     var addWayPtsFromDatabaseFlag = true
     var addingWayPt = false
-    var locationTimer:Timer = Timer()
+    var locationTimer:Timer? = nil
     
     // more drop down menu
     let moreMenuTransparentView = UIView();
@@ -231,13 +231,14 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         //AppUtility.lockOrientation(.landscapeLeft, andRotateTo: .landscapeLeft)
         // Or to rotate and lock
         // AppUtility.lockOrientation(.portrait, andRotateTo: .portrait)
-        
     }
+    
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
         // Stop calling displayLocation
-        locationTimer.invalidate()
+        locationTimer?.invalidate()
+        locationTimer = nil
         locationManager.stopUpdatingLocation() // added 6/21/22
         locationManager.stopUpdatingHeading()  // added 6/21/220
         
@@ -249,6 +250,7 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+            
         // Add waypoints from maps array that was passed from MapListTableViewController
         if (addWayPtsFromDatabaseFlag){
             addWayPtsFromDatabaseFlag = false
@@ -890,19 +892,6 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         */
     }
     
-    // On rotation make map fit, was zooming on landscape NOT WORKING??? Does nothing???
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        /*pdfView.frame = view.frame
-        pdfView.autoScales = true
-        pdfView.scaleFactor = pdfView.scaleFactorForSizeToFit
-        if UIDevice.current.orientation.isLandscape {
-            print("landscape")
-        }
-        else {
-            print("portrait")
-        }*/
-    }
     // fix autoscales bug on iPad on screen rotation
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
       pdfView.autoScales = true
@@ -1083,6 +1072,7 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         let long = (Double(x)/pdfWidth * longDiff) + long1
         let lat = (Double(y)/pdfHeight * latDiff) + lat1
         let imageAnnotation = PushPin(image, bounds: CGRect(x: midX, y: midY, width: wayPtSize, height: wayPtSize), properties: nil)
+        imageAnnotation.backgroundColor = UIColor.clear
         
         page.addAnnotation(imageAnnotation)
         if dateAdded == nil {
@@ -1423,6 +1413,7 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
                     let minX = locX - halfSize
                     let minY = locY - (15.0  / CGFloat(pdfView.scaleFactor))
                     pt.bounds = CGRect(x: minX, y: minY, width: wayPtHeight, height: wayPtHeight)
+                    pt.backgroundColor = UIColor.clear
                 }
             }
         }

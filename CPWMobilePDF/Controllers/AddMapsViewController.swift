@@ -51,7 +51,10 @@ class AddMapsViewController: UIViewController {
         help.addText(text: "    \u{2022} Hunting Atlas or Fishing Atlas")
         help.addText(text: "    \u{2022} Forest Service topographical")
         help.addText(text: "    \u{2022} U.S. Geological Survey Store")
-        help.addText(text: "See Help for more detailed instructions.")
+        let txt = help.addText2(text: "See Help for more detailed instructions.")
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(openHelp(_:)))
+        txt.isUserInteractionEnabled = true
+        txt.addGestureRecognizer(tapGesture)
         let btn1 = help.addButton(text: "OPEN BROWSER")
         btn1.addTarget(self, action: #selector(openBrowserClicked(_:)), for: .touchUpInside)
         help.addTitle(title: "STEP 2: Import Maps", size: 22)
@@ -127,6 +130,10 @@ class AddMapsViewController: UIViewController {
             self.moreMenuTableview.frame = CGRect(x: 0, y: self.topbarHeight, width: Int(frames.width), height: 0)
         }, completion: nil)
         moreMenuShowing = false
+    }
+    
+    @objc func openHelp(_ sender:UITapGestureRecognizer){
+        self.performSegue(withIdentifier: "HelpAddMap", sender: nil)
     }
     @objc func onClickMore(_ sender:Any){
         //dataSource = ["Help"]

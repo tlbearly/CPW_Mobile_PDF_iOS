@@ -14,7 +14,6 @@
 		60955B48245255E000275EDA /* AddMapsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60955B47245255E000275EDA /* AddMapsViewController.swift */; };
 		609CA8C12440C353006C0283 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 609CA8C02440C353006C0283 /* AppDelegate.swift */; };
 		609CA8C32440C353006C0283 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 609CA8C22440C353006C0283 /* SceneDelegate.swift */; };
-		609CA8C82440C353006C0283 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 609CA8C62440C353006C0283 /* Main.storyboard */; };
 		609CA8CA2440C355006C0283 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 609CA8C92440C355006C0283 /* Assets.xcassets */; };
 		609CA8CD2440C355006C0283 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 609CA8CB2440C355006C0283 /* LaunchScreen.storyboard */; };
 		609CA8D82440C355006C0283 /* CPWMobilePDFTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 609CA8D72440C355006C0283 /* CPWMobilePDFTests.swift */; };
@@ -35,6 +34,7 @@
 		A474D0802788C50E00F55D63 /* UIViewControllerPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = A474D07F2788C50E00F55D63 /* UIViewControllerPreview.swift */; };
 		A475DBB2255DF42600B0B8DD /* WayPt.swift in Sources */ = {isa = PBXBuildFile; fileRef = A475DBB1255DF42600B0B8DD /* WayPt.swift */; };
 		A4B3911C25FBCF8600730DED /* AppUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4B3911B25FBCF8600730DED /* AppUtility.swift */; };
+		A4FDDE182915C97100084E63 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 609CA8C62440C353006C0283 /* Main.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -329,9 +329,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A4FDDE182915C97100084E63 /* Main.storyboard in Resources */,
 				609CA8CD2440C355006C0283 /* LaunchScreen.storyboard in Resources */,
 				609CA8CA2440C355006C0283 /* Assets.xcassets in Resources */,
-				609CA8C82440C353006C0283 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

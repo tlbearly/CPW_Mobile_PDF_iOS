@@ -33,6 +33,7 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
     private var longNow:Double = 0.0
     private var progress:Float = 0.0
     var locationManager = CLLocationManager()
+    private var locationTimer:Timer? = nil
     
     // MARK: - Data source
     var maps = [PDFMap]()
@@ -144,6 +145,8 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
         super.viewWillDisappear(animated)
         
         // Stop calling Location
+        locationTimer?.invalidate()
+        locationTimer = nil
         locationManager.stopUpdatingLocation()
         locationManager.stopUpdatingHeading()
     }
@@ -382,7 +385,7 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
             self.locationManager.startUpdatingLocation()
             self.updateLocation() // initial
             // update location every 2 seconds
-            Timer.scheduledTimer(withTimeInterval: 2, repeats: true) { timer in
+            locationTimer = Timer.scheduledTimer(withTimeInterval: 2, repeats: true) { timer in
                 self.updateLocation()
             }
             
@@ -396,7 +399,7 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
             locationManager.startUpdatingLocation()
             self.updateLocation() // initial
             // update location every 2 seconds
-            Timer.scheduledTimer(withTimeInterval: 2, repeats: true) { timer in
+            locationTimer = Timer.scheduledTimer(withTimeInterval: 2, repeats: true) { timer in
                 self.updateLocation()
             }
             
@@ -405,7 +408,7 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
             locationManager.startUpdatingLocation()
             self.updateLocation()
             // update location every 2 seconds
-            Timer.scheduledTimer(withTimeInterval: 2, repeats: true) { timer in
+            locationTimer = Timer.scheduledTimer(withTimeInterval: 2, repeats: true) { timer in
                 self.updateLocation()
             }
         }
@@ -969,16 +972,16 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
     // MARK: Get Distance to Map
     //
     func getDistToMap(map:PDFMap) -> String {
+        if (latNow == 0.0) {
+            return ""
+        }
         var dist:Double = 0.0
         var direction = ""
-        if latNow > map.lat1 {
-            direction = "S"
-        }
-        else if latNow  > map.lat2 {
-            direction = ""
-        }
-        else {
+        if latNow < map.lat1 {
             direction = "N"
+        }
+        else if latNow > map.lat2 {
+            direction = "S"
         }
         if longNow < map.long1 {
             direction += "E"
@@ -993,19 +996,19 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
         case "N":
             dist = distance_on_unit_sphere(lat1: latNow, long1: longNow, lat2: map.lat1, long2: longNow)
         case "E":
-            dist = distance_on_unit_sphere(lat1: latNow, long1: longNow, lat2: latNow, long2: map.long2)
-        case "W":
             dist = distance_on_unit_sphere(lat1: latNow, long1: longNow, lat2: latNow, long2: map.long1)
+        case "W":
+            dist = distance_on_unit_sphere(lat1: latNow, long1: longNow, lat2: latNow, long2: map.long2)
         case "SE":
-            dist = distance_on_unit_sphere(lat1: latNow, long1: longNow, lat2: map.lat2, long2: map.long2)
-        case "SW":
-           dist = distance_on_unit_sphere(lat1: latNow, long1: longNow, lat2: map.lat1, long2: map.long2)
-        case "NE":
             dist = distance_on_unit_sphere(lat1: latNow, long1: longNow, lat2: map.lat2, long2: map.long1)
+        case "SW":
+           dist = distance_on_unit_sphere(lat1: latNow, long1: longNow, lat2: map.lat2, long2: map.long2)
+        case "NE":
+            dist = distance_on_unit_sphere(lat1: latNow, long1: longNow, lat2: map.lat1, long2: map.long1)
         case "NW":
-            dist = distance_on_unit_sphere(lat1: latNow, long1: longNow, lat2: map.lat1, long2: map.long1)
+            dist = distance_on_unit_sphere(lat1: latNow, long1: longNow, lat2: map.lat1, long2: map.long2)
         default:
-            dist = distance_on_unit_sphere(lat1: latNow, long1: longNow, lat2: map.lat1, long2: map.long1)
+            dist = 0.0
         }
         let distStr = String(format: "%.1f", dist)
         return "\(distStr) mi. \(direction)"
@@ -1101,47 +1104,7 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
             // off map show distance to map
             else {
                 cell.locationIcon.isHidden = true
-                var dist:Double = 0.0
-                var direction = ""
-                if latNow > map.lat1 {
-                    direction = "S"
-                }
-                else if latNow  > map.lat2 {
-                    direction = ""
-                }
-                else {
-                    direction = "N"
-                }
-                if longNow < map.long1 {
-                    direction += "E"
-                }
-                else if longNow > map.long2 {
-                    direction += "W"
-                }
-
-                switch direction {
-                case "S":
-                    dist = distance_on_unit_sphere(lat1: latNow, long1: longNow, lat2: map.lat2, long2: longNow)
-                case "N":
-                    dist = distance_on_unit_sphere(lat1: latNow, long1: longNow, lat2: map.lat1, long2: longNow)
-                case "E":
-                    dist = distance_on_unit_sphere(lat1: latNow, long1: longNow, lat2: latNow, long2: map.long2)
-                case "W":
-                    dist = distance_on_unit_sphere(lat1: latNow, long1: longNow, lat2: latNow, long2: map.long1)
-                case "SE":
-                    dist = distance_on_unit_sphere(lat1: latNow, long1: longNow, lat2: map.lat2, long2: map.long2)
-                case "SW":
-                   dist = distance_on_unit_sphere(lat1: latNow, long1: longNow, lat2: map.lat1, long2: map.long2)
-                case "NE":
-                    dist = distance_on_unit_sphere(lat1: latNow, long1: longNow, lat2: map.lat2, long2: map.long1)
-                case "NW":
-                    dist = distance_on_unit_sphere(lat1: latNow, long1: longNow, lat2: map.lat1, long2: map.long1)
-                default:
-                    dist = distance_on_unit_sphere(lat1: latNow, long1: longNow, lat2: map.lat1, long2: map.long1)
-                }
-                
-                let distStr = String(format: "%.1f", dist)
-                cell.distToMap.text = "\(distStr) mi. \(direction)"
+                cell.distToMap.text = getDistToMap(map: map)
                 map.mapDist = cell.distToMap.text!
             }
             
