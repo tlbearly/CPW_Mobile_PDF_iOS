@@ -5,11 +5,14 @@
 //  Created by Tammy Bearly on 11/12/20.
 //  Copyright © 2020 Colorado Parks and Wildlife. All rights reserved.
 //
+// v1.0.6 add ns secure coding
 
 import UIKit
 import os.log
 
-class WayPt: NSObject, NSCoding {
+class WayPt: NSObject, NSSecureCoding {
+    // 8-21-23 add secure coding
+    static var supportsSecureCoding: Bool = true
     //MARK: Properties
     var x:Float = 0.0
     var y:Float = 0.0
@@ -50,7 +53,4 @@ class WayPt: NSObject, NSCoding {
         // Must call designated initializer.
         self.init(x: x, y: y, imageName: imageName, desc: desc, dateAdded: dateAdded)
     }
-    
-    
-
 }

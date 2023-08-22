@@ -356,17 +356,57 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
         
         // Read data from local storage NSCoding
         // Return array of maps or nil
-        if #available (iOS 12.0,*){
+        if #available (iOS 14.0, *){
+            // works with iOS 11.0+
+            //if //let arr = try? Data(contentsOf:PDFMap.ArchiveURL),
+             do {
+                //let archivedData = try? NSKeyedArchiver.archivedData(withRootObject: arr, requiringSecureCoding: true),
+                let archivedData = try Data(contentsOf: PDFMap.ArchiveURL)
+                do {
+                    let myObject = (try NSKeyedUnarchiver.unarchivedArrayOfObjects(ofClasses: [PDFMap.self, NSString.self, UIImage.self, WayPt.self], from: archivedData as Data)) as? [PDFMap]
+                    return myObject
+                 }
+                 catch {
+                     print("Failed to read PDFMaps archive \(String(describing: error))")
+                     return nil
+                 }
+             }
+             catch {
+                 print("Failed to open PDFMaps from URL \(error.localizedDescription)")
+                 return nil
+             }
+        }
+        else if #available(iOS 12.0, *){
+            do {
+                let archivedData = try Data(contentsOf: PDFMap.ArchiveURL)
+                do{
+                    let myObject = try NSKeyedUnarchiver.unarchivedObject(ofClasses: [PDFMap.self, NSArray.self, NSString.self, UIImage.self], from: archivedData as Data) as? [PDFMap]
+                    return myObject
+                }
+                catch {
+                    print("Failed to read PDFMaps archive \(String(describing: error))")
+                    return nil
+                }
+            }
+            catch {
+                print("Failed to open PDFMaps from URL \(error.localizedDescription)")
+                return nil
+            }
+        }
+        else { //if #available(iOS 11.0, *){
             if let archivedData = try? Data(contentsOf: PDFMap.ArchiveURL),
                let myObject = (try? NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(archivedData)) as? [PDFMap] {
                 return myObject
             }
             else {
+                print("Failed to read PDFMaps archive")
                 return nil
             }
-        }else {
-            return NSKeyedUnarchiver.unarchiveObject(withFile: PDFMap.ArchiveURL.path) as? [PDFMap]
         }
+        // deprecated iOS 12
+        //else {
+        //    return NSKeyedUnarchiver.unarchiveObject(withFile: PDFMap.ArchiveURL.path) as? [PDFMap]
+        //}
     }
     
     // MARK: Location funcs
@@ -853,15 +893,17 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
                 cell.mapName.backgroundColor = .white
                 cell.mapName.borderStyle = UITextField.BorderStyle.none
                 // search for cell where map name has changed and filenames match. Filename must be unique.
-                for i in 0...maps.count-1 {
-                    if (maps[i].fileName == cell.fileName.text &&
-                        cell.mapName.text != nil &&
-                        maps[i].displayName != cell.mapName.text){
-                        // save new display name, filename, and URL
-                        maps[i].displayName = cell.mapName.text!
-                        maps[i].fileName = cell.mapName.text! + ".pdf"
-                        cell.fileName.text = maps[i].fileName
-                        maps[i].fileURL = documentsURL!.appendingPathComponent(cell.fileName.text!)
+                if (maps.count > 0){
+                    for i in 0...maps.count-1 {
+                        if (maps[i].fileName == cell.fileName.text &&
+                            cell.mapName.text != nil &&
+                            maps[i].displayName != cell.mapName.text){
+                            // save new display name, filename, and URL
+                            maps[i].displayName = cell.mapName.text!
+                            maps[i].fileName = cell.mapName.text! + ".pdf"
+                            cell.fileName.text = maps[i].fileName
+                            maps[i].fileURL = documentsURL!.appendingPathComponent(cell.fileName.text!)
+                        }
                     }
                 }
             }

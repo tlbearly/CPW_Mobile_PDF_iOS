@@ -10,12 +10,14 @@
 //  Copyright © 2020 Colorado Parks and Wildlife. All rights reserved.
 //
 // Uses NSCoding to store persistent data pdfMaps and waypoints
+// v1.0.6 support NSSecureCoding
 
 import UIKit
 import PDFKit
 import os.log
 
-class PDFMap: NSObject, NSCoding {
+class PDFMap: NSObject, NSSecureCoding {
+    static var supportsSecureCoding: Bool = true
     //MARK: Properties
     // PDF display name, user can modify this
     var displayName: String = ""
@@ -87,8 +89,6 @@ class PDFMap: NSObject, NSCoding {
         static let longDiff = "longDiff"
         static let wayPtArray = "wayPtArray"
     }
-    
-    
     
     // MARK: init read from database
     init(displayName: String, fileName: String, fileURL: URL,thumbnail: UIImage, bounds1: Double, bounds2: Double, bounds3: Double, bounds4: Double, modDate: Double, fileSize: String, marginTop: Double, marginBottom: Double, marginLeft: Double, marginRight: Double, mediaBoxWidth:Double, mediaBoxHeight: Double, pdfWidth: Double, pdfHeight: Double, lat1: Double, lat2: Double, long1: Double, long2: Double, latDiff: Double, longDiff: Double, wayPtArray: [WayPt]){
@@ -587,7 +587,7 @@ class PDFMap: NSObject, NSCoding {
         // read persistent data (imported maps) via NSCoding
         
         // The display name is required. If we cannot decode a display name string, the initializer should fail.
-        guard let displayName = aDecoder.decodeObject(forKey: PropertyKey.displayName) as? String else { os_log("Unable to decode the display name for a PDF Map object.", log: OSLog.default, type: .debug)
+        /*guard let displayName = aDecoder.decodeObject(forKey: PropertyKey.displayName) as? String else { os_log("Unable to decode the display name for a PDF Map object.", log: OSLog.default, type: .debug)
             return nil
         }
         guard let fileName = aDecoder.decodeObject(forKey: PropertyKey.fileName) as? String else {
@@ -629,8 +629,60 @@ class PDFMap: NSObject, NSCoding {
         
         // MARK: add waypoints
         let wayPtArray = aDecoder.decodeObject(forKey: PropertyKey.wayPtArray) as? [WayPt] ?? []
+        */
         
-        // Must call designated initializer.
-        self.init(displayName: displayName, fileName: fileName, fileURL: fileURL,thumbnail: thumbnail, bounds1: bounds1, bounds2: bounds2, bounds3: bounds3, bounds4: bounds4, modDate: modDate, fileSize: fileSize, marginTop: marginTop, marginBottom: marginBottom, marginLeft: marginLeft, marginRight: marginRight, mediaBoxWidth:mediaBoxWidth, mediaBoxHeight: mediaBoxHeight, pdfWidth: pdfWidth, pdfHeight: pdfHeight, lat1: lat1, lat2: lat2, long1: long1, long2: long2, latDiff: latDiff, longDiff: longDiff, wayPtArray: wayPtArray)
+        // update to use secure coding 8/16/23
+        // The display name is required. If we cannot decode a display name string, the initializer should fail.
+        guard let displayName = aDecoder.decodeObject(forKey: PropertyKey.displayName) as? String else { os_log("Unable to decode the display name for a PDF Map object.", log: OSLog.default, type: .debug)
+            return nil
+        }
+        guard let fileName = aDecoder.decodeObject(forKey: PropertyKey.fileName) as? String else {
+            os_log("Unable to decode the file name for a PDF Map object.", log: OSLog.default, type: .debug)
+            return nil
+        }
+        guard let fileURLStr = aDecoder.decodeObject(forKey: PropertyKey.fileURL) as? String else {
+            os_log("Unable to decode the map URL for a PDF Map object.", log: OSLog.default, type: .debug)
+            return nil
+        }
+        let fileURL = URL(fileURLWithPath: fileURLStr)
+        
+        // Because thumbnail is an optional property of PDFMap, just use conditional cast.
+        guard let thumbnail = aDecoder.decodeObject(forKey: PropertyKey.thumbnail) as? UIImage else {
+            os_log("Unable to decode the thumbnail for a PDF Map object.", log: OSLog.default, type: .debug)
+            return nil
+        }
+        
+        let bounds1 = aDecoder.decodeDouble(forKey: PropertyKey.bounds1)
+        let bounds2 = aDecoder.decodeDouble(forKey: PropertyKey.bounds2)
+        let bounds3 = aDecoder.decodeDouble(forKey: PropertyKey.bounds3)
+        let bounds4 = aDecoder.decodeDouble(forKey: PropertyKey.bounds4)
+        let modDate = aDecoder.decodeDouble(forKey: PropertyKey.modDate)
+        guard let fileSize = aDecoder.decodeObject(forKey: PropertyKey.fileSize) as? String else { return nil }
+        let marginTop = aDecoder.decodeDouble(forKey: PropertyKey.marginTop)
+        let marginBottom = aDecoder.decodeDouble(forKey: PropertyKey.marginBottom)
+        let marginLeft = aDecoder.decodeDouble(forKey: PropertyKey.marginLeft)
+        let marginRight = aDecoder.decodeDouble(forKey: PropertyKey.marginRight)
+        let mediaBoxHeight = aDecoder.decodeDouble(forKey: PropertyKey.mediaBoxHeight)
+        let mediaBoxWidth = aDecoder.decodeDouble(forKey: PropertyKey.mediaBoxWidth)
+        let pdfWidth = aDecoder.decodeDouble(forKey: PropertyKey.pdfWidth)
+        let pdfHeight = aDecoder.decodeDouble(forKey: PropertyKey.pdfHeight)
+        let lat1 = aDecoder.decodeDouble(forKey: PropertyKey.lat1)
+        let lat2 = aDecoder.decodeDouble(forKey: PropertyKey.lat2)
+        let long1 = aDecoder.decodeDouble(forKey: PropertyKey.long1)
+        let long2 = aDecoder.decodeDouble(forKey: PropertyKey.long2)
+        let latDiff = aDecoder.decodeDouble(forKey: PropertyKey.latDiff)
+        let longDiff = aDecoder.decodeDouble(forKey: PropertyKey.longDiff)
+        
+        // MARK: add waypoints
+        if #available(iOS 14.0, *) {
+            let wayPtArray = aDecoder.decodeArrayOfObjects(ofClasses: [WayPt.self, NSString.self, NSNumber.self], forKey: PropertyKey.wayPtArray) as? [WayPt] ?? []
+            // Must call designated initializer.
+            self.init(displayName: displayName, fileName: fileName, fileURL: fileURL,thumbnail: thumbnail, bounds1: bounds1, bounds2: bounds2, bounds3: bounds3, bounds4: bounds4, modDate: modDate, fileSize: fileSize, marginTop: marginTop, marginBottom: marginBottom, marginLeft: marginLeft, marginRight: marginRight, mediaBoxWidth:mediaBoxWidth, mediaBoxHeight: mediaBoxHeight, pdfWidth: pdfWidth, pdfHeight: pdfHeight, lat1: lat1, lat2: lat2, long1: long1, long2: long2, latDiff: latDiff, longDiff: longDiff, wayPtArray: wayPtArray)
+        } else {
+            // Fallback on earlier versions
+            let wayPtArray = aDecoder.decodeObject(forKey: PropertyKey.wayPtArray) as? [WayPt] ?? []
+            // Must call designated initializer.
+            self.init(displayName: displayName, fileName: fileName, fileURL: fileURL,thumbnail: thumbnail, bounds1: bounds1, bounds2: bounds2, bounds3: bounds3, bounds4: bounds4, modDate: modDate, fileSize: fileSize, marginTop: marginTop, marginBottom: marginBottom, marginLeft: marginLeft, marginRight: marginRight, mediaBoxWidth:mediaBoxWidth, mediaBoxHeight: mediaBoxHeight, pdfWidth: pdfWidth, pdfHeight: pdfHeight, lat1: lat1, lat2: lat2, long1: long1, long2: long2, latDiff: latDiff, longDiff: longDiff, wayPtArray: wayPtArray)
+        }
     }
 }
