@@ -358,7 +358,6 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
         // Return array of maps or nil
         if #available (iOS 14.0, *){
             // works with iOS 11.0+
-            //if //let arr = try? Data(contentsOf:PDFMap.ArchiveURL),
              do {
                 //let archivedData = try? NSKeyedArchiver.archivedData(withRootObject: arr, requiringSecureCoding: true),
                 let archivedData = try Data(contentsOf: PDFMap.ArchiveURL)

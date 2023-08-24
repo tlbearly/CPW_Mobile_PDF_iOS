@@ -197,7 +197,7 @@
             <Locations>
                <Location
                   uuid = "7F52ED38-8A65-4C14-BF57-FD2B0835C4A3 - 3faef5b85bfe4357"
-                  shouldBeEnabled = "Yes"
+                  shouldBeEnabled = "No"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
                   symbolName = "MapVieweriOS.MapListTableViewController.prepare(for: __C.UIStoryboardSegue, sender: Swift.Optional&lt;Any&gt;) -&gt; ()"
@@ -212,7 +212,7 @@
                </Location>
                <Location
                   uuid = "7F52ED38-8A65-4C14-BF57-FD2B0835C4A3 - 3faef5b85bfe4357"
-                  shouldBeEnabled = "Yes"
+                  shouldBeEnabled = "No"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
                   symbolName = "MapVieweriOS.MapListTableViewController.prepare(for: __C.UIStoryboardSegue, sender: Swift.Optional&lt;Any&gt;) -&gt; ()"
@@ -227,7 +227,7 @@
                </Location>
                <Location
                   uuid = "7F52ED38-8A65-4C14-BF57-FD2B0835C4A3 - 3faef5b85bfe4357"
-                  shouldBeEnabled = "Yes"
+                  shouldBeEnabled = "No"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
                   symbolName = "MapVieweriOS.MapListTableViewController.prepare(for: __C.UIStoryboardSegue, sender: Swift.Optional&lt;Any&gt;) -&gt; ()"
@@ -564,7 +564,7 @@
             <Locations>
                <Location
                   uuid = "F4991FB9-9051-40AF-9E82-6FB41BCAB2CD - 92e7a307d3201f1c"
-                  shouldBeEnabled = "Yes"
+                  shouldBeEnabled = "No"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
                   symbolName = "MapVieweriOS.MapViewController.currentLocation.getter : __C.PDFAnnotation"
@@ -579,7 +579,7 @@
                </Location>
                <Location
                   uuid = "F4991FB9-9051-40AF-9E82-6FB41BCAB2CD - 38d8883fd3595310"
-                  shouldBeEnabled = "Yes"
+                  shouldBeEnabled = "No"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
                   symbolName = "MapVieweriOS.MapViewController.currentLocation.setter : __C.PDFAnnotation"
@@ -594,7 +594,7 @@
                </Location>
                <Location
                   uuid = "F4991FB9-9051-40AF-9E82-6FB41BCAB2CD - 42f17eeb3580a6e9"
-                  shouldBeEnabled = "Yes"
+                  shouldBeEnabled = "No"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
                   symbolName = "MapVieweriOS.MapViewController.currentLocation.modify : __C.PDFAnnotation"
@@ -609,7 +609,7 @@
                </Location>
                <Location
                   uuid = "F4991FB9-9051-40AF-9E82-6FB41BCAB2CD - e583474f8995aa93"
-                  shouldBeEnabled = "Yes"
+                  shouldBeEnabled = "No"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
                   symbolName = "MapVieweriOS.MapViewController.currentLocation.modify : __C.PDFAnnotation with unmangled suffix &quot;.resume.0&quot;"
@@ -624,7 +624,7 @@
                </Location>
                <Location
                   uuid = "F4991FB9-9051-40AF-9E82-6FB41BCAB2CD - e89a88926172ab8b"
-                  shouldBeEnabled = "Yes"
+                  shouldBeEnabled = "No"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
                   symbolName = "MapVieweriOS.MapViewController.init(nibName: Swift.Optional&lt;Swift.String&gt;, bundle: Swift.Optional&lt;__C.NSBundle&gt;) -&gt; MapVieweriOS.MapViewController"
@@ -639,7 +639,7 @@
                </Location>
                <Location
                   uuid = "F4991FB9-9051-40AF-9E82-6FB41BCAB2CD - 5e7573023cb89e80"
-                  shouldBeEnabled = "Yes"
+                  shouldBeEnabled = "No"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
                   symbolName = "MapVieweriOS.MapViewController.init(coder: __C.NSCoder) -&gt; Swift.Optional&lt;MapVieweriOS.MapViewController&gt;"
@@ -1200,7 +1200,7 @@
             <Locations>
                <Location
                   uuid = "5C38BCA2-2E86-4291-B651-59EDBE69C513 - 479a00139f95374b"
-                  shouldBeEnabled = "Yes"
+                  shouldBeEnabled = "No"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
                   symbolName = "MapVieweriOS.MapListTableViewController.sortList(type: Swift.String) -&gt; ()"
@@ -1215,7 +1215,7 @@
                </Location>
                <Location
                   uuid = "5C38BCA2-2E86-4291-B651-59EDBE69C513 - 479a00139f95374b"
-                  shouldBeEnabled = "Yes"
+                  shouldBeEnabled = "No"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
                   symbolName = "MapVieweriOS.MapListTableViewController.sortList(type: Swift.String) -&gt; ()"
@@ -1230,7 +1230,7 @@
                </Location>
                <Location
                   uuid = "5C38BCA2-2E86-4291-B651-59EDBE69C513 - 479a00139f95374b"
-                  shouldBeEnabled = "Yes"
+                  shouldBeEnabled = "No"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
                   symbolName = "MapVieweriOS.MapListTableViewController.sortList(type: Swift.String) -&gt; ()"
@@ -1245,7 +1245,7 @@
                </Location>
                <Location
                   uuid = "5C38BCA2-2E86-4291-B651-59EDBE69C513 - 479a00139f95374b"
-                  shouldBeEnabled = "Yes"
+                  shouldBeEnabled = "No"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
                   symbolName = "MapVieweriOS.MapListTableViewController.sortList(type: Swift.String) -&gt; ()"
@@ -1260,7 +1260,7 @@
                </Location>
                <Location
                   uuid = "5C38BCA2-2E86-4291-B651-59EDBE69C513 - 479a00139f95374b"
-                  shouldBeEnabled = "Yes"
+                  shouldBeEnabled = "No"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
                   symbolName = "MapVieweriOS.MapListTableViewController.sortList(type: Swift.String) -&gt; ()"
@@ -1275,7 +1275,7 @@
                </Location>
                <Location
                   uuid = "5C38BCA2-2E86-4291-B651-59EDBE69C513 - 479a00139f95374b"
-                  shouldBeEnabled = "Yes"
+                  shouldBeEnabled = "No"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
                   symbolName = "MapVieweriOS.MapListTableViewController.sortList(type: Swift.String) -&gt; ()"
@@ -1290,7 +1290,7 @@
                </Location>
                <Location
                   uuid = "5C38BCA2-2E86-4291-B651-59EDBE69C513 - 479a00139f95374b"
-                  shouldBeEnabled = "Yes"
+                  shouldBeEnabled = "No"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
                   symbolName = "MapVieweriOS.MapListTableViewController.sortList(type: Swift.String) -&gt; ()"
@@ -1305,7 +1305,7 @@
                </Location>
                <Location
                   uuid = "5C38BCA2-2E86-4291-B651-59EDBE69C513 - 479a00139f95374b"
-                  shouldBeEnabled = "Yes"
+                  shouldBeEnabled = "No"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
                   symbolName = "MapVieweriOS.MapListTableViewController.sortList(type: Swift.String) -&gt; ()"
@@ -1939,8 +1939,8 @@
             filePath = "CPWMobilePDF/Controllers/MapListTableViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1022"
-            endingLineNumber = "1022"
+            startingLineNumber = "1021"
+            endingLineNumber = "1021"
             landmarkName = "getDistToMap(map:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1955,8 +1955,8 @@
             filePath = "CPWMobilePDF/Controllers/MapListTableViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1142"
-            endingLineNumber = "1142"
+            startingLineNumber = "1141"
+            endingLineNumber = "1141"
             landmarkName = "tableView(_:cellForRowAt:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1971,8 +1971,8 @@
             filePath = "CPWMobilePDF/Controllers/MapListTableViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1137"
-            endingLineNumber = "1137"
+            startingLineNumber = "1136"
+            endingLineNumber = "1136"
             landmarkName = "tableView(_:cellForRowAt:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -2189,7 +2189,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "9DE58699-C3A5-45B1-8474-82F3662CEC32"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CPWMobilePDF/Controllers/Checkbox.swift"
@@ -2315,8 +2315,8 @@
             filePath = "CPWMobilePDF/Controllers/MapListTableViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "512"
-            endingLineNumber = "512"
+            startingLineNumber = "511"
+            endingLineNumber = "511"
             landmarkName = "showMsg()"
             landmarkType = "7">
          </BreakpointContent>
@@ -2357,7 +2357,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "B4BE9458-A3D6-4D6A-8E6E-B9438C5C0E3E"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CPWMobilePDF/Controllers/MapViewController.swift"
@@ -2395,8 +2395,8 @@
             filePath = "CPWMobilePDF/Controllers/HelpAddMapViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "28"
-            endingLineNumber = "28"
+            startingLineNumber = "30"
+            endingLineNumber = "30"
             landmarkName = "viewDidLoad()"
             landmarkType = "7">
          </BreakpointContent>
@@ -2427,8 +2427,8 @@
             filePath = "CPWMobilePDF/Controllers/MapListTableViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1148"
-            endingLineNumber = "1148"
+            startingLineNumber = "1147"
+            endingLineNumber = "1147"
             landmarkName = "tableView(_:cellForRowAt:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -2443,8 +2443,8 @@
             filePath = "CPWMobilePDF/Controllers/MapListTableViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1149"
-            endingLineNumber = "1149"
+            startingLineNumber = "1148"
+            endingLineNumber = "1148"
             landmarkName = "tableView(_:cellForRowAt:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -2459,8 +2459,8 @@
             filePath = "CPWMobilePDF/Controllers/MapListTableViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1090"
-            endingLineNumber = "1090"
+            startingLineNumber = "1089"
+            endingLineNumber = "1089"
             landmarkName = "tableView(_:cellForRowAt:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -2475,8 +2475,8 @@
             filePath = "CPWMobilePDF/Controllers/MapListTableViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "459"
-            endingLineNumber = "459"
+            startingLineNumber = "458"
+            endingLineNumber = "458"
             landmarkName = "updateLocation()"
             landmarkType = "7">
          </BreakpointContent>
@@ -2613,7 +2613,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "D5B27164-77AE-46CA-8CC0-B5AB97E9AE09"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CPWMobilePDF/Models/PDFMap.swift"
@@ -2626,7 +2626,7 @@
             <Locations>
                <Location
                   uuid = "D5B27164-77AE-46CA-8CC0-B5AB97E9AE09 - 20b3533f551a4a72"
-                  shouldBeEnabled = "Yes"
+                  shouldBeEnabled = "No"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
                   symbolName = "CPW_Mobile_PDF.PDFMap.init(coder: __C.NSCoder) -&gt; Swift.Optional&lt;CPW_Mobile_PDF.PDFMap&gt;"
@@ -2641,7 +2641,7 @@
                </Location>
                <Location
                   uuid = "D5B27164-77AE-46CA-8CC0-B5AB97E9AE09 - 20b3533f551a4a15"
-                  shouldBeEnabled = "Yes"
+                  shouldBeEnabled = "No"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
                   symbolName = "CPW_Mobile_PDF.PDFMap.init(coder: __C.NSCoder) -&gt; Swift.Optional&lt;CPW_Mobile_PDF.PDFMap&gt;"
@@ -2656,7 +2656,7 @@
                </Location>
                <Location
                   uuid = "D5B27164-77AE-46CA-8CC0-B5AB97E9AE09 - 20b3533f551a4027"
-                  shouldBeEnabled = "Yes"
+                  shouldBeEnabled = "No"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
                   symbolName = "CPW_Mobile_PDF.PDFMap.init(coder: __C.NSCoder) -&gt; Swift.Optional&lt;CPW_Mobile_PDF.PDFMap&gt;"
@@ -2671,7 +2671,7 @@
                </Location>
                <Location
                   uuid = "D5B27164-77AE-46CA-8CC0-B5AB97E9AE09 - 20b3533f551a4027"
-                  shouldBeEnabled = "Yes"
+                  shouldBeEnabled = "No"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
                   symbolName = "CPW_Mobile_PDF.PDFMap.init(coder: __C.NSCoder) -&gt; Swift.Optional&lt;CPW_Mobile_PDF.PDFMap&gt;"
@@ -2682,6 +2682,21 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "638"
                   endingLineNumber = "638"
+                  offsetFromSymbolStart = "589">
+               </Location>
+               <Location
+                  uuid = "D5B27164-77AE-46CA-8CC0-B5AB97E9AE09 - 20b3533f551a47e9"
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "CPW_Mobile_PDF.PDFMap.init(coder: __C.NSCoder) -&gt; Swift.Optional&lt;CPW_Mobile_PDF.PDFMap&gt;"
+                  moduleName = "CPW Mobile PDF"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/tammy/Documents/iOS%20Apps/CPW%20Mobile%20PDF/CPWMobilePDF/Models/PDFMap.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "636"
+                  endingLineNumber = "636"
                   offsetFromSymbolStart = "589">
                </Location>
             </Locations>
@@ -2697,14 +2712,14 @@
             filePath = "CPWMobilePDF/Controllers/MapListTableViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "891"
-            endingLineNumber = "891"
+            startingLineNumber = "890"
+            endingLineNumber = "890"
             landmarkName = "setEditing(_:animated:)"
             landmarkType = "7">
             <Locations>
                <Location
                   uuid = "A2892826-1D7F-4078-938E-D68E9E02CBDA - c0ccff509dabc60a"
-                  shouldBeEnabled = "Yes"
+                  shouldBeEnabled = "No"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
                   symbolName = "CPW_Mobile_PDF.MapListTableViewController.setEditing(_: Swift.Bool, animated: Swift.Bool) -&gt; ()"
@@ -2719,7 +2734,7 @@
                </Location>
                <Location
                   uuid = "A2892826-1D7F-4078-938E-D68E9E02CBDA - c0ccff509dabc7ed"
-                  shouldBeEnabled = "Yes"
+                  shouldBeEnabled = "No"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
                   symbolName = "CPW_Mobile_PDF.MapListTableViewController.setEditing(_: Swift.Bool, animated: Swift.Bool) -&gt; ()"
@@ -2745,14 +2760,14 @@
             filePath = "CPWMobilePDF/Controllers/MapListTableViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "863"
-            endingLineNumber = "863"
+            startingLineNumber = "862"
+            endingLineNumber = "862"
             landmarkName = "setEditing(_:animated:)"
             landmarkType = "7">
             <Locations>
                <Location
                   uuid = "FF00FC97-CF8F-452F-A979-F4647B45C529 - c0ccff509dabcbae"
-                  shouldBeEnabled = "Yes"
+                  shouldBeEnabled = "No"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
                   symbolName = "CPW_Mobile_PDF.MapListTableViewController.setEditing(_: Swift.Bool, animated: Swift.Bool) -&gt; ()"
@@ -2767,7 +2782,7 @@
                </Location>
                <Location
                   uuid = "FF00FC97-CF8F-452F-A979-F4647B45C529 - c0ccff509dabcb81"
-                  shouldBeEnabled = "Yes"
+                  shouldBeEnabled = "No"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
                   symbolName = "CPW_Mobile_PDF.MapListTableViewController.setEditing(_: Swift.Bool, animated: Swift.Bool) -&gt; ()"
@@ -2803,7 +2818,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "697E4C8C-D388-4D7A-A4FB-35F3DC55827A"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CPWMobilePDF/Models/WayPt.swift"

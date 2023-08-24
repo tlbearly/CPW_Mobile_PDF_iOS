@@ -18,7 +18,9 @@ class HelpAddMapViewController: UIViewController {
         help.addTitle(title: "Adding Maps Help")
         
         help.addTitle(title: "STEP 1: Download Maps",size: 20.0, bold:false, underline: true)
-        help.addText(text: "Click on the Open Browser button to download a map. Note that this requires an internet connection. It will notify you that it is starting up your browser app. Then it will load a page from the CPW website with resources to download georeferenced PDFs. Use one of the resources described below to download a map.")
+        help.addText(text: "Click on the \'Open Browser\' button to download a map. Note that this requires an internet connection. It will notify you that it is starting up your browser app. Then it will load a page from the CPW website with resources to download georeferenced PDFs. Use one of the resources described below to download a map. \n\nTip: when the map displays, click the share button: ")
+        help.addImg(img: "export-variant", x: 30, y: 30, borderWidth: 0.0)
+        help.addText(text: "then scroll down to \'Save to Files\' and click \'Save\'. This will download the file to the location you pick. When you import the map, it will be copied to the app folder. It can then be deleted from the location you downloaded it to.")
         help.addTitle(title: "Map Resources:", size: 18, bold: true, underline: false)
         help.addTitle(title: "CPW Maps Library",size:20.0)
         help.addText(text: "Click on \'Maps Library page\'. Select file type, GeoPDF, and press \'Search\'. Click on a map name. It will display the map. Click the Share icon (box with up-arrow). Select \'Save to Files\', a location (iCloud or \'On My Phone\' Downloads), and then click on Save.")
@@ -32,7 +34,7 @@ class HelpAddMapViewController: UIViewController {
         help.addText(text: "Click on \'U.S. Geological Survey Store\' under Hunting. Then click on \'Map Locator Tool\'. Search for a location name with the \'Map Locator\' or use the +/- buttons to zoom in or out and double tap the map at the desired location. In the popup, click \'View Products\'. Click on the \'View PDF\' button on the most recent map. Click \'OK\' on the popup that says \'you are navigating away...\' It will display the map. Click the Share icon (box with up-arrow). Select \'Save to Files\', a location (iCloud or \'On My Phone\' Downloads), and then click on Save.")
         
         help.addTitle(title: "STEP 2: Import Maps",size: 20.0, bold:false, underline: true)
-        help.addText(text: "After you have downloaded PDF maps, import them by clicking on the File Picker button. Use the menu in the top-left to select from Recent, Documents, or Downloads folders. Or select the Google Drive icon if the file is located there. Click on the PDF file and it will import it and display the map. The map file is copied to the app directory so deleting the original will not affect the imported maps.")
+        help.addText(text: "After you have downloaded PDF maps, import them by clicking on the \'File Picker\' button. Select the location where you put the map: On MY Phone, iCloud Drive, etc. Click on the PDF file and it will import it and display the map. The map file is copied to the app directory so deleting the original will not affect the imported maps.")
         
         help.addLastElement()
     }
