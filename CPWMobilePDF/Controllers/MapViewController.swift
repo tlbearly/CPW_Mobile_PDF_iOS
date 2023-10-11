@@ -45,30 +45,6 @@ class MoreMenuCell:UITableViewCell {
     }
 }
 
-extension PDFView {
-    override public func canPerformAction(_ action: Selector, withSender sender: Any?) -> Bool {
-        self.currentSelection = nil // remove highlighted text
-        self.highlightedSelections = nil
-        self.clearSelection()
-        return false
-    }
-    // remove default menus from appearing on long press
-    @available(iOS 13.0, *)
-    open override func buildMenu(with builder: UIMenuBuilder) {
-        builder.remove(menu: .share)
-        builder.remove(menu: .lookup)
-        builder.remove(menu: .edit)
-        super.buildMenu(with: builder)
-    }
-    open override func addGestureRecognizer(_ gestureRecognizer: UIGestureRecognizer) {
-        // disable long press. disables double tap also!!!!
-        if gestureRecognizer is UILongPressGestureRecognizer {
-            gestureRecognizer.isEnabled = false
-        }
-        super.addGestureRecognizer(gestureRecognizer)
-    }
-}
-
 class MapViewController: UIViewController, UIGestureRecognizerDelegate {
     // MARK: Variables
     var pdfView:PDFView = PDFView()
@@ -106,8 +82,6 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
     private var popup:UIView=UIView(frame: CGRect(x: 0, y: 0, width: 0, height: 0)) //popup:UITextField = UITextField(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
     private var selectedWayPt:PDFAnnotation = PDFAnnotation()
     private var selectedImg:String = ""
-    var screenWidth:CGFloat = 0.0
-    var screenHeight:CGFloat = 0.0
     var addWayPtsFromDatabaseFlag = true
     var addingWayPt = false
     var locationTimer:Timer? = nil
@@ -141,6 +115,7 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
     lazy var notice = UILabel()
     lazy var cancelPinBtn = UIBarButtonItem(image: UIImage(named: "grey_pin_cancel"), style: .plain, target: self, action: #selector(onClickCancelWayPtPin))
     lazy var moreBtn = UIBarButtonItem(image: (UIImage(named: "more")), style: .plain, target: self, action: #selector(onClickMore))
+    let menuHeight:CGFloat = 80.0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -150,10 +125,6 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         self.moreMenuTableview.dataSource = self
         self.moreMenuTableview.register(MoreMenuCell.self, forCellReuseIdentifier: "Cell")
         self.moreMenuTableview.reloadData()
-        
-        
-        screenWidth = self.view.frame.size.width
-        screenHeight = self.view.frame.size.height
         
         // set add waypoint button in titlebar to active
         pinBtn.isEnabled = true
@@ -299,6 +270,7 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         // Call location manager
         setupLocationServices()
     }
+    
     
     // preserve orientation to phone rotation
     /*override open var shouldAutorotate: Bool {
@@ -446,9 +418,8 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         let moveIcon = UIImageView(image: UIImage(named: "move_icon"))
         moveIcon.tag = 200 // tag it so we can remove it later
         var size:CGFloat
-        let menuHeight:CGFloat = 80.0
-        screenWidth = self.view.frame.size.width
-        screenHeight = self.view.frame.size.height
+        let screenWidth = self.view.frame.size.width
+        let screenHeight = self.view.frame.size.height
         if (screenWidth < screenHeight){
             size = screenWidth/10
         }
@@ -471,7 +442,7 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         moveIcon.topAnchor.constraint(equalTo: view.topAnchor, constant: screenPt.y - size/2.0 + CGFloat(topbarHeight)).isActive = true
         
         // add move here button
-        let bottomMenu = UIView(frame: CGRect(x: 0, y: screenHeight-menuHeight, width: screenWidth, height: menuHeight))
+        let bottomMenu = UIView(frame: CGRect(x: 0, y: screenHeight, width: screenWidth, height: menuHeight))
         bottomMenu.backgroundColor = UIColor.darkGray
         let moveHereView = UIView(frame: CGRect(x: screenWidth/2 - 50, y: 10, width: 100, height: 40))
         let moveHere = UITextField(frame: CGRect(x: 10, y: 0, width: 100, height: 40))
@@ -496,11 +467,21 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         bottomMenu.tag = 300 // so we can remove it later
         bottomMenu.addSubview(moveHereView)
         view.addSubview(bottomMenu)
+        UIView.animate(withDuration: 1.0){
+            bottomMenu.frame = CGRect(x: 0, y: screenHeight-self.menuHeight, width: screenWidth, height: self.menuHeight)
+        }
+        
     }
     @objc func onClickMoveDoneBtn(_ sender:Any){
         print("move button clicked")
         if let bottomMenu: UIView = view.viewWithTag(300) {
-            bottomMenu.removeFromSuperview()
+            UIView.animate(withDuration: 1.0){
+                let screenWidth = self.view.frame.size.width
+                let screenHeight = self.view.frame.size.height
+                bottomMenu.frame = CGRect(x: 0, y: screenHeight, width: screenWidth, height: self.menuHeight)
+            } completion: {_ in
+                bottomMenu.removeFromSuperview()
+            }
         }
         if (selectedImg == ""){
             return
@@ -525,7 +506,13 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
     @objc func onClickMoveCancelBtn(_ sender:Any){
         print("move cancel clicked")
         if let bottomMenu: UIView = view.viewWithTag(300) {
-            bottomMenu.removeFromSuperview()
+            let screenWidth = self.view.frame.size.width
+            let screenHeight = self.view.frame.size.height
+            UIView.animate(withDuration: 1.0){
+                bottomMenu.frame = CGRect(x: 0, y: screenHeight, width: screenWidth, height: self.menuHeight)
+            } completion: {_ in
+                bottomMenu.removeFromSuperview()
+            }
         }
         if (selectedImg == ""){
             return
@@ -734,11 +721,6 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         }
         // Must set this to false!
         pdfView.translatesAutoresizingMaskIntoConstraints = false
-        //view.addSubview(pdfView)
-        //pdfView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
-        //pdfView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
-        //pdfView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
-        //pdfView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
         pdfView.autoresizesSubviews = true
         pdfView.autoresizingMask = [.flexibleWidth, .flexibleHeight, .flexibleTopMargin, .flexibleLeftMargin]
         pdfView.displayDirection = .vertical
@@ -747,11 +729,11 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         pdfView.autoScales = true
         pdfView.displayMode = .singlePageContinuous
         pdfView.enableDataDetectors = false // turn off copy menu
-        if #available(iOS 16.0, *) {
+        /*if #available(iOS 16.0, *) {
             pdfView.isInMarkupMode = false
         } else {
             // Fallback on earlier versions
-        }
+        }*/
         
       
         //pdfView.displaysPageBreaks = true
@@ -815,7 +797,12 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
     
     // allow multiple gestures to be recognized, must add UIGestureRecognizerDelegate to class
    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
-        return true
+       // disable long press
+       if (gestureRecognizer is UITapGestureRecognizer && otherGestureRecognizer is UILongPressGestureRecognizer){
+           otherGestureRecognizer.isEnabled = false
+           return false
+       }
+       return true
     }
     
     // MARK: displayError
@@ -1161,17 +1148,12 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         selectedWayPt = waypt
         
         let popupWidth:CGFloat = 150
-        let popupHeight:CGFloat = 85
-        
-        var width = screenWidth
-        var height = screenHeight
-        if (lockInLandscape){
-            width = screenHeight
-            height = screenWidth
-        }
+        let popupHeight:CGFloat = 84
         
         // calculate pixels to move over to get to mid point in image
         // ratio is used to covert from pdf pt to screen pt
+        let screenWidth = self.view.frame.size.width
+        let screenHeight = self.view.frame.size.height
         let ratioX = location.x/pdfViewPoint.x
         let wayptXMiddle:CGFloat = (waypt.bounds.maxX - waypt.bounds.minX)/2 + waypt.bounds.minX
         let xMove:CGFloat = (pdfViewPoint.x - wayptXMiddle) * ratioX
@@ -1179,27 +1161,34 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         if (x < 1) {
             x = 1
         }
-        else if (x + popupWidth > width){
+        else if (x + popupWidth > screenWidth){
             x = screenWidth - popupWidth
         }
         // make sure popup is not off screen at bottom or top
         //let ratioY = location.y/pdfViewPoint.y
         //let wayptYMiddle:CGFloat = (waypt.bounds.maxY - waypt.bounds.minY)/2 + waypt.bounds.minY
         //let yMove:CGFloat = (pdfViewPoint.y - wayptYMiddle) * ratioY
-        var y = location.y + 20
-        if (y < 70) {
-            y = 70
-        }
-        else if (y + popupHeight + (screenHeight / 2) > height){
-            y = location.y - popupHeight - 40 // pin height 80 and 20 space
-        }
-            
+        
         guard let items = waypt.contents?.components(separatedBy: "$") else {
             print("empty waypt contents, clicked on current location???")
             //displayError(msg: "Trying to display waypoint popup but contents are empty!")
             return
         }
-        // test
+        // Get the actual xy location in PDF coordinates from the waypt contents
+        var x1:CGFloat = CGFloat(Float(items[4])!)
+        var y1:CGFloat = CGFloat(Float(items[5])!)
+        let pdfPoint = CGPoint(x: x1, y: y1)
+        var screen = pdfView.convert(pdfPoint, from: pdfView.currentPage!)
+        var y:CGFloat
+        // show popup below
+        if (screen.y < screenHeight / 2) {
+            y = screen.y + 20
+        }
+        else {
+            y = screen.y - (60 + popupHeight)
+        }
+        
+        // popup
         popup = UIView(frame: CGRect(x: x, y: y, width: popupWidth, height: popupHeight))
         let label = UITextField(frame: CGRect(x: 5, y: 5, width: popupWidth, height: popupHeight/2))
         label.text = items[0]
@@ -1211,36 +1200,32 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         }
         popup.addSubview(label)
         let menuView = UIView(frame: CGRect(x: 0, y: 40, width: popupWidth, height: popupHeight/2))
-        let editBtn = UIButton(frame: CGRect(x: 10, y: 0, width: 25, height: 25))
+        let iconSize = 40.0
+        let margin = 5.0
+        let editBtn = UIButton(frame: CGRect(x: 10, y: 0, width: iconSize, height: iconSize))
         editBtn.setBackgroundImage(UIImage(named: "edit_icon"), for: .normal)
+        editBtn.accessibilityHint = "Edit waypoint name and color."
+        editBtn.layer.borderColor = UIColor.white.cgColor
+        editBtn.layer.borderWidth = 5
         editBtn.addTarget(self, action: #selector(self.onClickEditBtn(_:)), for: UIControl.Event.touchDown)
         menuView.addSubview(editBtn)
-        let deleteBtn = UIButton(frame: CGRect(x: 60, y: 0, width: 25, height: 25))
+        
+        let deleteBtn = UIButton(frame: CGRect(x: 55, y: 0, width: iconSize, height: iconSize))
         deleteBtn.setBackgroundImage(UIImage(named: "trash_icon"), for: .normal)
         deleteBtn.addTarget(self, action: #selector(self.onClickDeleteBtn(_:)), for: UIControl.Event.touchDown)
+        deleteBtn.layer.borderColor = UIColor.white.cgColor
+        deleteBtn.layer.borderWidth = 5
+        deleteBtn.accessibilityHint = "Delete this waypoint"
         menuView.addSubview(deleteBtn)
-        let moveBtn = UIButton(frame: CGRect(x: 110, y: 0, width: 25, height: 25))
+        
+        let moveBtn = UIButton(frame: CGRect(x: 100, y: 0, width: iconSize, height: iconSize))
         moveBtn.setBackgroundImage(UIImage(named: "move_icon"), for: .normal)
         moveBtn.addTarget(self, action: #selector(self.onClickMoveBtn(_:)), for: UIControl.Event.touchDown)
+        moveBtn.layer.borderColor = UIColor.white.cgColor
+        moveBtn.layer.borderWidth = 5
+        moveBtn.accessibilityHint = "Move this waypoint by panning or zooming the map"
         menuView.addSubview(moveBtn)
         popup.addSubview(menuView)
-        // end test
-        // test replaces
-        /*
-        popup = UITextField(frame: CGRect(x: x, y: y, width: popupWidth, height: popupHeight))
-         let rightImgView = UIImageView(frame: CGRect(x: 0.0, y: 0.0, width: 30.0, height: 90.0))
-        rightImgView.image = UIImage(named: "edit_icon")
-        rightImgView.contentMode = .scaleAspectFit
-        popup.rightView = rightImgView
-        popup.rightViewMode = .always
-        
-        // edit text listener
-        popup.addTarget(self, action: #selector(MapViewController.wayptTextClicked(_:)), for: UIControl.Event.touchDown)
-        
-        
-        // add padding
-        popup.text = " " + items[0]
-         */
         
         // give it a tag so we will know if this popup was clicked on
         popup.tag = 100
@@ -1390,7 +1375,7 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
     }
     
     // MARK: Gestures
-    @objc func pdfViewLongPressed(_ gestureRecognizer: UILongPressGestureRecognizer){
+    /*@objc func pdfViewLongPressed(_ gestureRecognizer: UILongPressGestureRecognizer){
         // if long press on existing waypoint, display waypoint edit/move menu
         print("pdfView long press")
         removeMoveIcon()
@@ -1490,7 +1475,7 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
                 }
             }
         }
-    }
+    }*/
     @objc func pdfViewTapped(_ gestureRecognizer: UITapGestureRecognizer) {
         // MARK: pdfViewTap
         // Check if clicked on Waypoint or add new waypoint annotation
