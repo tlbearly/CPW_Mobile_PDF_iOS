@@ -49,8 +49,8 @@ class AddMapsViewController: UIViewController {
         help.addText(text: "Show a list of map resources from the CPW website. The following resources will work with this app:")
         help.addText(text: "    \u{2022} Maps Library (use GeoPDF file type)")
         help.addText(text: "    \u{2022} Hunting Atlas or Fishing Atlas")
-        help.addText(text: "    \u{2022} Forest Service topographical")
-        help.addText(text: "    \u{2022} U.S. Geological Survey Store")
+        help.addText(text: "    \u{2022} U.S. Forest Service")
+        help.addText(text: "    \u{2022} U.S. Geological Survey")
         let txt = help.addText2(text: "See Help for more detailed instructions.")
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(openHelp(_:)))
         txt.isUserInteractionEnabled = true
