@@ -64,7 +64,6 @@ extension PDFView {
         // disable long press. disables double tap also!!!!
         if gestureRecognizer is UILongPressGestureRecognizer {
             gestureRecognizer.isEnabled = false
-            print (gestureRecognizer)
         }
         super.addGestureRecognizer(gestureRecognizer)
     }
@@ -447,7 +446,7 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         let moveIcon = UIImageView(image: UIImage(named: "move_icon"))
         moveIcon.tag = 200 // tag it so we can remove it later
         var size:CGFloat
-        var menuHeight:CGFloat = 80.0
+        let menuHeight:CGFloat = 80.0
         screenWidth = self.view.frame.size.width
         screenHeight = self.view.frame.size.height
         if (screenWidth < screenHeight){
