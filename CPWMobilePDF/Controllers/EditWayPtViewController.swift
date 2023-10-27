@@ -7,9 +7,13 @@
 //
 
 import UIKit
+import PDFKit
 
 class EditWayPtViewController: UIViewController {
     var wayPt:String = ""
+    var mapIndex:Int = -1
+    var maps:[PDFMap] = []
+    var selectedWayPt:PDFAnnotation = PDFAnnotation()
     @IBOutlet weak var wayPtDesc: UITextField!
     @IBOutlet weak var latLong: UILabel!
     @IBOutlet weak var addDate: UILabel!
@@ -42,7 +46,44 @@ class EditWayPtViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destination.
         // Pass the selected object to the new view controller.
-       
+        super.prepare(for: segue, sender: sender)
+    }
+    @IBAction func delBtn(_ sender: UIBarButtonItem) {
+        let alert = UIAlertController(
+            title: "Delete",
+            message: "Delete this waypoint?",
+            preferredStyle: .actionSheet
+        )
+        alert.addAction(UIAlertAction(
+            title: "Delete",
+            style: .destructive,
+            handler: { _ in
+                // return to MapViewController
+                guard let mainvc = self.storyboard?.instantiateViewController(withIdentifier: "MapListTableViewController") as? MapListTableViewController else {
+                    print ("error: MapListTableViewController id not found in storyboard")
+                    return
+                }
+                guard let vc = self.storyboard?.instantiateViewController(withIdentifier: "MapViewController") as? MapViewController else {
+                    print ("error: MapViewController id not found in storyboard")
+                    return
+                }
+                vc.deleting = true
+                vc.maps = self.maps
+                vc.mapIndex = self.mapIndex
+                vc.selectedWayPt = self.selectedWayPt
+                // return to MapViewController, maintain the stack by passing the array
+                self.navigationController?.setViewControllers([mainvc,vc], animated: true)
+        }))
+        alert.addAction(UIAlertAction(
+            title: "Cancel",
+            style: .cancel,
+            handler: { _ in
+            // cancel action
+        }))
+        present(alert,
+                animated: true,
+                completion: nil
+        )
     }
     
     @IBAction func redBtnClicked(_ sender: Any) {
