@@ -19,7 +19,8 @@ class MapListTableViewCell: UITableViewCell {
     @IBOutlet weak var loadingProgress: UIProgressView!
     @IBOutlet weak var fileName: UILabel! // pdf file name
     @IBOutlet weak var locationIcon: UIImageView!
-    
+    @IBOutlet weak var mapBounds1: UILabel!
+    @IBOutlet weak var mapBounds2: UILabel!
     //
     // MARK: - Variables and Properties
     //

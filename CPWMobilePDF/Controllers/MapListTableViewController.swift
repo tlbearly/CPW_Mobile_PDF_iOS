@@ -1156,6 +1156,8 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
             cell.fileName.text = map.fileName
             cell.mapName.placeholder = "Map Name"
             cell.pdfImage.image = map.thumbnail
+            cell.mapBounds1.text = String(format:  "%.5f",map.lat1)+", "+String(format:  "%.5f",map.long1)
+            cell.mapBounds2.text = String(format:  "%.5f",map.lat2)+", "+String(format:  "%.5f",map.long2)
            //print("\(map.displayName) \(map.modDate)")
             
             return cell

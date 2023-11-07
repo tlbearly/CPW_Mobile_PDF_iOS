@@ -14,7 +14,7 @@
         <scene sceneID="sSk-I7-8Hw">
             <objects>
                 <tableViewController storyboardIdentifier="MapListTableViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Rk3-2j-9u0" userLabel="Imported Maps" customClass="MapListTableViewController" customModule="CPW_Mobile_PDF" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="100" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" contentViewInsetsToSafeArea="NO" id="dQn-IY-pJt">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="160" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" contentViewInsetsToSafeArea="NO" id="dQn-IY-pJt">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <viewLayoutGuide key="safeArea" id="hYQ-Dh-RFP"/>
@@ -29,39 +29,39 @@
                             <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                         </textView>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="MapListTableViewCell" rowHeight="100" id="fzz-cP-97s" customClass="MapListTableViewCell" customModule="CPW_Mobile_PDF" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="94" width="393" height="100"/>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="MapListTableViewCell" id="fzz-cP-97s" customClass="MapListTableViewCell" customModule="CPW_Mobile_PDF" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="94" width="393" height="160"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="fzz-cP-97s" id="G3V-XX-9kL">
-                                    <rect key="frame" x="0.0" y="0.0" width="393" height="100"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="393" height="160"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <stackView opaque="NO" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="Dvd-qU-5ex" userLabel="Horiz Stack View 1">
-                                            <rect key="frame" x="0.0" y="10" width="383" height="80"/>
+                                            <rect key="frame" x="0.0" y="10" width="383" height="140"/>
                                             <subviews>
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="pdf_icon" translatesAutoresizingMaskIntoConstraints="NO" id="YrY-aO-y4i">
-                                                    <rect key="frame" x="0.0" y="0.0" width="90" height="80"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="90" height="140"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="90" id="c9h-tg-Vp1"/>
                                                     </constraints>
                                                 </imageView>
                                                 <stackView autoresizesSubviews="NO" opaque="NO" contentMode="scaleToFill" axis="vertical" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="iEB-gE-UEm">
-                                                    <rect key="frame" x="100" y="0.0" width="283" height="80"/>
+                                                    <rect key="frame" x="100" y="0.0" width="283" height="140"/>
                                                     <subviews>
                                                         <textField opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Map Name" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="e3O-LR-362">
-                                                            <rect key="frame" x="0.0" y="0.0" width="283" height="29"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="283" height="21"/>
                                                             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                                             <textInputTraits key="textInputTraits"/>
                                                         </textField>
                                                         <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Filename" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Qbs-jU-Yx4">
-                                                            <rect key="frame" x="0.0" y="33" width="283" height="0.0"/>
+                                                            <rect key="frame" x="0.0" y="25" width="283" height="0.0"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" translatesAutoresizingMaskIntoConstraints="NO" id="0Kz-h3-2oQ" userLabel="Horz Stack View">
-                                                            <rect key="frame" x="0.0" y="37" width="283" height="30"/>
+                                                            <rect key="frame" x="0.0" y="29" width="283" height="30"/>
                                                             <subviews>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" layoutMarginsFollowReadableWidth="YES" text="File Size KB" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IGx-nl-nVb">
                                                                     <rect key="frame" x="0.0" y="0.0" width="74" height="30"/>
@@ -89,7 +89,7 @@
                                                             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                         </stackView>
                                                         <progressView opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" verticalHuggingPriority="750" restorationIdentifier="progressBar" insetsLayoutMarginsFromSafeArea="NO" progressViewStyle="bar" progress="0.29999999999999999" translatesAutoresizingMaskIntoConstraints="NO" id="S1e-e4-Ap3" customClass="RoundedCornerProgressBar" customModule="CPW_Mobile_PDF" customModuleProvider="target">
-                                                            <rect key="frame" x="0.0" y="75" width="283" height="6"/>
+                                                            <rect key="frame" x="0.0" y="67" width="283" height="6"/>
                                                             <viewLayoutGuide key="safeArea" id="8Zc-dc-FwT"/>
                                                             <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                             <color key="tintColor" systemColor="systemTealColor"/>
@@ -100,6 +100,38 @@
                                                                 <constraint firstAttribute="height" constant="5" id="1Ur-4F-ClN"/>
                                                             </constraints>
                                                         </progressView>
+                                                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" translatesAutoresizingMaskIntoConstraints="NO" id="Pey-aA-ILz">
+                                                            <rect key="frame" x="0.0" y="80" width="283" height="60"/>
+                                                            <subviews>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Lat/Long Bounds:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="H3w-BT-gEZ">
+                                                                    <rect key="frame" x="0.0" y="0.0" width="283" height="20"/>
+                                                                    <constraints>
+                                                                        <constraint firstAttribute="height" constant="20" id="SOb-OS-FMJ"/>
+                                                                    </constraints>
+                                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                                    <color key="textColor" systemColor="secondaryLabelColor"/>
+                                                                    <nil key="highlightedColor"/>
+                                                                </label>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" preservesSuperviewLayoutMargins="YES" text="lat1, long1" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lb9-Rj-HXk" userLabel="Map Bounds1">
+                                                                    <rect key="frame" x="0.0" y="20" width="283" height="20"/>
+                                                                    <constraints>
+                                                                        <constraint firstAttribute="height" constant="20" id="wvV-aM-THL"/>
+                                                                    </constraints>
+                                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                                    <color key="textColor" systemColor="secondaryLabelColor"/>
+                                                                    <nil key="highlightedColor"/>
+                                                                </label>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="lat2, long2" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Di0-yH-HEK" userLabel="Map Bounds2">
+                                                                    <rect key="frame" x="0.0" y="40" width="283" height="20"/>
+                                                                    <constraints>
+                                                                        <constraint firstAttribute="height" constant="20" id="Swk-Xt-u6s"/>
+                                                                    </constraints>
+                                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                                    <color key="textColor" systemColor="secondaryLabelColor"/>
+                                                                    <nil key="highlightedColor"/>
+                                                                </label>
+                                                            </subviews>
+                                                        </stackView>
                                                     </subviews>
                                                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                 </stackView>
@@ -125,6 +157,8 @@
                                     <outlet property="fileSize" destination="IGx-nl-nVb" id="zay-9G-8fU"/>
                                     <outlet property="loadingProgress" destination="S1e-e4-Ap3" id="QEl-9C-e7c"/>
                                     <outlet property="locationIcon" destination="Dhl-xV-Inq" id="2A8-cW-eSa"/>
+                                    <outlet property="mapBounds1" destination="lb9-Rj-HXk" id="bsj-z4-lTt"/>
+                                    <outlet property="mapBounds2" destination="Di0-yH-HEK" id="p9Z-aZ-qhc"/>
                                     <outlet property="mapName" destination="e3O-LR-362" id="qkG-ry-ALL"/>
                                     <outlet property="pdfImage" destination="YrY-aO-y4i" id="1WS-0e-qtI"/>
                                     <segue destination="XwV-qs-rbI" kind="show" identifier="ShowMap" id="pG9-G0-hre"/>
