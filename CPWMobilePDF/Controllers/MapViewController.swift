@@ -103,7 +103,8 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
     var debugTxtBox:UITextField = UITextField()
     private var popup:UIView=UIView(frame: CGRect(x: 0, y: 0, width: 0, height: 0)) //popup:UITextField = UITextField(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
     var selectedWayPt:PDFAnnotation = PDFAnnotation()
-    private var selectedImg:String = ""
+    private var selectedImg:String = "" // save selected waypoint image color so we can reset if after moving
+    var cancel:UITextField = UITextField() // move here button text, needed to be global so that we can reset the move functions if leaving view
     var addWayPtsFromDatabaseFlag = true
     var addingWayPt = false
     var locationTimer:Timer? = nil
@@ -268,6 +269,11 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         locationManager.stopUpdatingLocation() // added 6/21/22
         locationManager.stopUpdatingHeading()  // added 6/21/220
         
+        // Reset waypoint if was moving the waypoint. Calls onClickMoveCancelBtn
+        if (selectedImg != ""){
+            cancel.sendActions(for: .touchDown)
+        }
+        
         // Don't forget to reset when view is being removed
         // use .all to return to physical device orientation
         //AppUtility.lockOrientation(.portrait, andRotateTo: .portrait)
@@ -298,7 +304,6 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         // Call location manager
         setupLocationServices()
     }
-    
     
     // preserve orientation to phone rotation
     /*override open var shouldAutorotate: Bool {
@@ -450,73 +455,20 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         }
         screenPt = pdfView.convert(pt, from: page) // location of move icon in screen coordinates (rifle scope icon)
         
-        // change location pin to grey for reference
+        // change waypoint pin to grey for reference
         page.removeAnnotation(selectedWayPt)
         removeWayPt(x: Float(pdfX), y: Float(pdfY))
         let nilPt = CGPoint(x: 0, y: 0) // tells addPopup in addWayPt not to show popup.
         addWayPt(x: pdfX, y: pdfY, page: page, imageName: "grey_pin", desc: items[0], dateAdded: items[2], location: nilPt)
         selectedWayPt = page.annotations[page.annotations.count-1]
         
-        guard let page = pdfView.document?.page(at: 0) else {
-            displayError(msg: "Problem reading the PDF map. Can't get current page.")
-            return
-        }
         let screenWidth = self.view.frame.size.width
         let screenHeight = self.view.frame.size.height
         
-        // 10-12-23 TODO ***********************************************
-        // move point to center of screen
-        /*UIView.animate(withDuration: 1.0){
-            let rect = self.pdfView.bounds
-            print("pdfX=\(Int(pt.x)) pdfY=\(Int(pt.y))")
-            print("scrX=\(Int(self.screenPt.x)) scrY=\(Int(self.screenPt.y))")
-            print("width=\(rect.width) height=\(rect.height)")
-            print("newX=\(Int(pt.x + ((rect.width/self.pdfView.scaleFactor/2) - pt.x))) newY=\(Int(pt.y - ((rect.height/self.pdfView.scaleFactor)/2 - pt.y)))")
-            print("w=\(Int((rect.width/self.pdfView.scaleFactor)/2)) h=\(Int(rect.height/self.pdfView.scaleFactor)/2)")
-            
-            // debug try to figure out where the point is located in the rectangle
-            self.pdfView.go(to: CGRect(x: 0, y: rect.height/self.pdfView.scaleFactor, width: (rect.width/self.pdfView.scaleFactor)/2, height: (rect.height/self.pdfView.scaleFactor)/2 ), on: page)
-            // x: pt.x + (rect.width/2 - pt.x)
-            // screenPt.y origin is top left, but pdfView origin is bottom left so subtract height
-            // bottom half of screen
-            if (self.screenPt.y > rect.height/2){
-                
-                // right side
-                if (self.screenPt.x > rect.width/2){
-                    print("bottom right")
-                   // self.pdfView.go(to: CGRect(x: pt.x, y: pt.y - (rect.height/self.pdfView.scaleFactor)/2, width: (rect.width/self.pdfView.scaleFactor)/2, height: (rect.height/self.pdfView.scaleFactor)/2 ), on: page)
-                }
-                // left side
-                else {
-                    var width = rect.width/2 - self.screenPt.x
-                    var height = rect.height/2 - (rect.height - self.screenPt.y)
-                    var x1 = self.screenPt.x - width
-                    if (x1 < 0){
-                        width = x1 + width
-                        x1 = 0
-                    }
-                    var y1 = self.screenPt.y + height
-                    if (y1 < 0){
-                        height = height - y1
-                        y1 = 0
-                    }
-                    let newScreenPt = CGPoint(x: x1,y: y1)
-                    let pagePt = self.pdfView.convert(newScreenPt, to: page)
-                    let newWH = self.pdfView.convert(CGPoint(x: width, y: height), to: page)
-                    //self.pdfView.go(to: CGRect(x: pagePt.x, y: pagePt.y, width: newWH.x, height: newWH.y ), on: page)
-                    print("scrn w=\(width) h=\(height) x1=\(Int(x1)) y1=\(Int(y1))")
-                    print("page w=\(newWH.x) h=\(newWH.y) x1=\(Int(pagePt.x)) y1=\(Int(pagePt.y))")
-                }
-            }
-            // top half of screen
-            else {
-                print("top half of screen")
-                //self.pdfView.go(to: CGRect(x: pt.x, y: pt.y - ((rect.height/self.pdfView.scaleFactor)/2 - pt.y), width: (rect.width/self.pdfView.scaleFactor)/2, height: (rect.height/self.pdfView.scaleFactor)/2 ), on: page)
-            }
-        }*/
-        // Display target icon
+        // Display move icon at the bottom of the selected waypoint. The map and grey waypoint pin move, but the move icon does not. It marks spot the user wishes move the waypoint to.
         let moveIcon = UIImageView(image: UIImage(named: "move_icon"))
         moveIcon.tag = 200 // tag it so we can remove it later
+        // size the move icon to 1/10 of the shortest screen dimension
         var size:CGFloat
         if (screenWidth < screenHeight){
             size = screenWidth/10
@@ -535,17 +487,17 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         moveIcon.topAnchor.constraint(equalTo: view.topAnchor, constant: screenPt.y - size/2.0 + CGFloat(topbarHeight)).isActive = true
         
         let topMenu = UIView()
-
         topMenu.backgroundColor = UIColor.darkGray
         let moveInstructions = UILabel()
         moveInstructions.text = "Pan and Zoom the map to move waypoint."
         moveInstructions.textColor = UIColor.white
         topMenu.addSubview(moveInstructions)
         
-        let moveHereView = UIView(frame: CGRect(x: screenWidth/2 - 110, y: 30, width: 100, height: 40))
+        // Move Here and Cancel Buttons
+        let moveHereBtn = UIView(frame: CGRect(x: screenWidth/2 - 110, y: 30, width: 100, height: 40))
         let moveHere = UITextField(frame: CGRect(x: 10, y: 0, width: 100, height: 40))
         let cancelBtn = UIButton(frame: CGRect(x: screenWidth/2 + 10, y: 30, width: 100, height: 40))
-        let cancel = UITextField(frame: CGRect(x: 20, y: 0, width: 100, height: 40))
+        cancel = UITextField(frame: CGRect(x: 20, y: 0, width: 100, height: 40))
         cancel.text = "Cancel"
         cancelBtn.addSubview(cancel)
         cancelBtn.backgroundColor = UIColor.lightGray
@@ -556,14 +508,14 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         topMenu.addSubview(cancelBtn)
         
         moveHere.text = "Move Here"
-        moveHereView.backgroundColor = UIColor.lightGray
-        moveHereView.layer.borderColor = UIColor.black.cgColor
-        moveHereView.layer.borderWidth = 1
-        moveHereView.layer.cornerRadius = 10
+        moveHereBtn.backgroundColor = UIColor.lightGray
+        moveHereBtn.layer.borderColor = UIColor.black.cgColor
+        moveHereBtn.layer.borderWidth = 1
+        moveHereBtn.layer.cornerRadius = 10
         moveHere.addTarget(self, action: #selector(self.onClickMoveDoneBtn(_:)), for: UIControl.Event.touchDown)
-        moveHereView.addSubview(moveHere)
+        moveHereBtn.addSubview(moveHere)
         topMenu.tag = 300 // so we can remove it later
-        topMenu.addSubview(moveHereView)
+        topMenu.addSubview(moveHereBtn)
         view.addSubview(topMenu)
         topMenu.translatesAutoresizingMaskIntoConstraints = false
         topMenu.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
@@ -600,8 +552,6 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
     }
     @objc func onClickMoveCancelBtn(_ sender:Any){
         if let topMenu: UIView = view.viewWithTag(300) {
-            let screenWidth = self.view.frame.size.width
-            let screenHeight = self.view.frame.size.height
             topMenu.removeFromSuperview()
         }
         if (selectedImg == ""){
@@ -1156,9 +1106,11 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         */
     }
     
-    // fix autoscales bug on iPad on screen rotation
+    // Called when rotate phone
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-      pdfView.autoScales = true
+        super.viewWillTransition(to: size, with: coordinator)
+        pdfView.autoScales = true // fix autoscales bug on iPad on screen rotation
+        resizePushPins()
     }
     
     
