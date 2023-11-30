@@ -467,7 +467,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="crJ-s1-QnB" customClass="MapListViewController" customModule="CPW_Mobile_PDF" customModuleProvider="target" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" id="Gaz-PV-ZNm">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Gaz-PV-ZNm">
                         <rect key="frame" x="0.0" y="20" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>

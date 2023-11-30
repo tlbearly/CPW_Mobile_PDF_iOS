@@ -65,7 +65,6 @@ class MyPDFView: PDFView {
         builder.remove(menu: .edit)
         super.buildMenu(with: builder)
     }
-
 }
 
 class MapViewController: UIViewController, UIGestureRecognizerDelegate {
@@ -105,6 +104,7 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
     var selectedWayPt:PDFAnnotation = PDFAnnotation()
     private var selectedImg:String = "" // save selected waypoint image color so we can reset if after moving
     var cancel:UITextField = UITextField() // move here button text, needed to be global so that we can reset the move functions if leaving view
+    var moveBtn:UIButton = UIButton() // Reset the position of Move Here and Cancel buttons on rotation
     var addWayPtsFromDatabaseFlag = true
     var addingWayPt = false
     var locationTimer:Timer? = nil
@@ -434,7 +434,9 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
             print("Waypoint is missing content info. Cannot move pin.")
             return
         }
-        selectedImg = items[3]
+        if (selectedImg == "" || items[3] != "grey_pin"){
+            selectedImg = items[3]
+        }
         // zoom in and show move icon
         //let scale = 2.5
         // get waypoint xy
@@ -494,10 +496,11 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         topMenu.addSubview(moveInstructions)
         
         // Move Here and Cancel Buttons
-        let moveHereBtn = UIView(frame: CGRect(x: screenWidth/2 - 110, y: 30, width: 100, height: 40))
+        let moveHereBtn = UIButton(frame: CGRect(x: screenWidth/2 - 110, y: 30, width: 100, height: 40))
         let moveHere = UITextField(frame: CGRect(x: 10, y: 0, width: 100, height: 40))
         let cancelBtn = UIButton(frame: CGRect(x: screenWidth/2 + 10, y: 30, width: 100, height: 40))
-        cancel = UITextField(frame: CGRect(x: 20, y: 0, width: 100, height: 40))
+        //cancel = UITextField(frame: CGRect(x: 20, y: 0, width: 100, height: 40))
+        cancel.frame = CGRect(x: 20, y: 0, width: 100, height: 40)
         cancel.text = "Cancel"
         cancelBtn.addSubview(cancel)
         cancelBtn.backgroundColor = UIColor.lightGray
@@ -1110,7 +1113,25 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
         pdfView.autoScales = true // fix autoscales bug on iPad on screen rotation
-        resizePushPins()
+        // Wait for pdfView to resize then call resize push pins. seconds(int)
+        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1), execute: {
+            self.resizePushPins()
+            // adjust location of move menu buttons
+            if (self.selectedImg != ""){
+                let savedImg = self.selectedImg
+                let selected = self.selectedWayPt
+                self.cancel.sendActions(for: .touchDown)
+                self.selectedImg = savedImg
+                self.selectedWayPt = selected
+                self.moveBtn.sendActions(for: .touchDown)
+                //self.cancelBtn.frame = CGRect(x: CGFloat(self.view.frame.size.width/2 + 10),y: 30, width: 100, height: 40)
+                //self.moveHereBtn.frame = CGRect(x: self.view.frame.size.width/2 - 110, y: 30, width: 100, height: 40)
+            }
+        })
+        // adjust move here and cancel buttons to middle on rotate
+        
+        
+        
     }
     
     
@@ -1242,7 +1263,7 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         editBtn.addTarget(self, action: #selector(self.onClickEditBtn(_:)), for: UIControl.Event.touchDown)
         menuView.addSubview(editBtn)
         
-        let moveBtn = UIButton(frame: CGRect(x: 55, y: 0, width: iconSize, height: iconSize))
+        moveBtn.frame = CGRect(x: 55, y: 0, width: 40, height: 40)
         moveBtn.setBackgroundImage(UIImage(named: "move_icon"), for: .normal)
         moveBtn.addTarget(self, action: #selector(self.onClickMoveBtn(_:)), for: UIControl.Event.touchDown)
         moveBtn.layer.borderColor = UIColor.white.cgColor
