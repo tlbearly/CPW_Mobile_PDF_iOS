@@ -104,6 +104,8 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
     var selectedWayPt:PDFAnnotation = PDFAnnotation()
     private var selectedImg:String = "" // save selected waypoint image color so we can reset if after moving
     var cancel:UITextField = UITextField() // move here button text, needed to be global so that we can reset the move functions if leaving view
+    var adjacentMapsBtn:UIButton = UIButton(frame: CGRect(x: 0, y: 60, width: 100, height: 40))
+    
     var moveBtn:UIButton = UIButton() // Reset the position of Move Here and Cancel buttons on rotation
     var addWayPtsFromDatabaseFlag = true
     var addingWayPt = false
@@ -201,6 +203,24 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         
         // Debug text box
         //addDebugTextbox()
+        
+        // Load Adjacent Maps button
+        adjacentMapsBtn.setTitle("Load Adjacent Maps",for: .normal)
+        let clickAdjacentMaps = UITapGestureRecognizer(target: self, action: #selector(onClickAdjacentMaps))
+        view.addSubview(adjacentMapsBtn)
+        adjacentMapsBtn.addGestureRecognizer(clickAdjacentMaps)
+        adjacentMapsBtn.translatesAutoresizingMaskIntoConstraints = false
+        adjacentMapsBtn.topAnchor.constraint(equalTo: pdfView.topAnchor, constant: 51).isActive = true
+        adjacentMapsBtn.bottomAnchor.constraint(equalTo: pdfView.topAnchor, constant: 91).isActive = true
+        adjacentMapsBtn.widthAnchor.constraint(equalToConstant: 250).isActive = true
+        adjacentMapsBtn.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        adjacentMapsBtn.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        adjacentMapsBtn.layer.cornerRadius = 25
+        adjacentMapsBtn.backgroundColor = UIColor.darkGray.withAlphaComponent(0.5)
+        adjacentMapsBtn.layer.borderColor = UIColor.gray.cgColor
+        adjacentMapsBtn.layer.borderWidth = 1
+        adjacentMapsBtn.clipsToBounds = true
+        adjacentMapsBtn.isHidden = true
         
         // popup label for instructions for adding a waypoint
         notice.text = "Tap map to add waypoint"
@@ -390,6 +410,10 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         // Open EditWayPtViewController
         self.performSegue(withIdentifier: "editWayPt", sender: nil)
     }
+    @objc func onClickAdjacentMaps(){
+        print("click load adjacent maps")
+    }
+    
     func deleteSelectedWayPt(){
         // delete selectedWayPt and savePDF
         guard let page = pdfView.document?.page(at: 0) else {
@@ -1058,6 +1082,42 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         
         // draw current location dot
         addCurrentLocationDot(page:page)
+        
+        //show Load Adjacent Maps button
+        let percentX:Double = 0.13
+        let percentY:Double = 0.10
+        if (latNow < (lat1 + latDiff * percentX) || latNow > (lat2 - latDiff * percentX) || longNow < (long1 + longDiff * percentY) || longNow > (long2 + longDiff * percentY)){
+            var mapIds:[Int] = []
+            for i in 0...maps.count-1 {
+                var map:PDFMap = maps[i]
+                if (map.displayName == self.title) {
+                    continue
+                }
+                var mylat1 = map.lat1  // smallest lat
+                var mylong1 = map.long1 // smallest longitude
+                var mylat2 = map.lat2  // largest lat
+                var mylong2 = map.long2
+                if (map.lat1 > map.lat2){
+                    mylat1 = lat2
+                    mylat2 = lat1
+                }
+                if (map.long1 > map.long2){
+                    mylong1 = long2
+                    mylong2 = long1
+                }
+                // is current location on this map? Add iot to mapIds (array of maps that contain the current location)
+                if (latNow >= mylat1 && latNow <= mylat2 && longNow >= mylong1 && longNow <= mylong2){
+                    mapIds.append(i)
+                }
+                    
+            }
+            if (mapIds.count > 0){
+                adjacentMapsBtn.isHidden = false
+            }
+        }
+        else {
+            adjacentMapsBtn.isHidden = true
+        }
           
         /*
         // DEBUG

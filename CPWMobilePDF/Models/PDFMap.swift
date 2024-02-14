@@ -24,7 +24,7 @@ class PDFMap: NSObject, NSSecureCoding {
     var fileName: String = "" // PDF filename
     var fileURL: URL? // PDF filename and URL in app documents dir
     var thumbnail: UIImage?
-    private var bounds:[Double] = [0.0, 0.0, 0.0, 0.0]
+    var bounds:[Double] = [0.0, 0.0, 0.0, 0.0]
     var modDate:Double = 0.0 // modification date
     var fileSize:String = "" // PDF file size
     var mapDist:String = "" // show distance to map (10 mi) or if on map, only show location icon
