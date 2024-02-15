@@ -27,6 +27,18 @@ import PDFKit // requires iOS 11+ iPhone 6+
 import CoreLocation // current location
 import os.log
 
+class AdjMapsCellClass:UITableViewCell {
+    var label: UITextField = UITextField()
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        self.label = UITextField(frame: CGRect(x: 10, y: 0, width: frame.width, height: 52))
+        self.addSubview(self.label)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
+}
 class CellClass:UITableViewCell { }
 class MoreMenuCell:UITableViewCell {
     // mark properties
@@ -117,6 +129,10 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
     let moreMenuTransparentView = UIView();
     let moreMenuTableview = UITableView();
     var dataSource = ["Mark current location", "Add waypoint", "Show waypoints", "Delete all waypoints", "Lock in portrait mode", "Lock in landscape mode","Help"]
+    let adjacentMapsMenuTransparentView = UIView()
+    let adjacentMapsMenuTableview = UITableView()
+    var adjMapsDataSource = [String]()
+    var adjacentMapsMenuShowing:Bool = false
     var showWaypoints:Bool = true
     var lockInPortrait:Bool = false
     var lockInLandscape:Bool = false
@@ -156,28 +172,6 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         pinBtn.isEnabled = true
         // add more drop down menu button
         //self.navigationItem.rightBarButtonItems = [moreBtn, pinBtn]// move to view will appear
-        
-        // set page margins
-        marginTop = maps[mapIndex].marginTop
-        marginBottom = maps[mapIndex].marginBottom
-        marginLeft = maps[mapIndex].marginLeft
-        marginRight = maps[mapIndex].marginRight
-        
-        // set page boundary with margins
-        mediaBoxWidth = maps[mapIndex].mediaBoxWidth
-        mediaBoxHeight = maps[mapIndex].mediaBoxHeight
-        
-        // set lat/long boundary in decimal degrees
-        lat1 = maps[mapIndex].lat1
-        long1 = maps[mapIndex].long1
-        lat2 = maps[mapIndex].lat2
-        long2 = maps[mapIndex].long2
-        latDiff = maps[mapIndex].latDiff
-        longDiff = maps[mapIndex].longDiff
-        
-        // set pdf boundary without margins
-        pdfWidth = maps[mapIndex].pdfWidth
-        pdfHeight = maps[mapIndex].pdfHeight
         
         //
         // OPEN PDF & Add pdfView
@@ -221,6 +215,11 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         adjacentMapsBtn.layer.borderWidth = 1
         adjacentMapsBtn.clipsToBounds = true
         adjacentMapsBtn.isHidden = true
+        // populate adjacent maps drop down menu
+        self.adjacentMapsMenuTableview.delegate = self
+        self.adjacentMapsMenuTableview.dataSource = self
+        self.adjacentMapsMenuTableview.register(AdjMapsCellClass.self, forCellReuseIdentifier: "AdjMapsCell")
+        self.adjacentMapsMenuTableview.reloadData()
         
         // popup label for instructions for adding a waypoint
         notice.text = "Tap map to add waypoint"
@@ -306,21 +305,7 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         if (deleting){
             deleteSelectedWayPt()
         }
-        // Add waypoints from maps array that was passed from MapListTableViewController
-        if (addWayPtsFromDatabaseFlag){
-            addWayPtsFromDatabaseFlag = false
-            let nilPt = CGPoint(x: 0, y: 0) // tells addPopup in addWayPt not to show popup.
-            guard let page = pdfView.document?.page(at: 0) else {
-                displayError(msg: "Problem reading the PDF map. Can't get page 1.")
-                return
-            }
-            if (maps[mapIndex].wayPtArray.count > 0){
-                for i in 0...maps[mapIndex].wayPtArray.count-1 {
-                    // add padding to desc since textview doesn't use margins
-                    addWayPt(x: CGFloat(maps[mapIndex].wayPtArray[i].x), y: CGFloat(maps[mapIndex].wayPtArray[i].y), page: page, imageName: maps[mapIndex].wayPtArray[i].imageName, desc: maps[mapIndex].wayPtArray[i].desc, dateAdded: maps[mapIndex].wayPtArray[i].dateAdded, location: nilPt)
-                }
-            }
-        }
+        addWayPts()
         // Call location manager
         setupLocationServices()
     }
@@ -339,6 +324,58 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
             return false
         }
     }*/
+    
+    func addWayPts(){
+        // Add waypoints from maps array that was passed from MapListTableViewController
+        if (addWayPtsFromDatabaseFlag){
+            addWayPtsFromDatabaseFlag = false
+            let nilPt = CGPoint(x: 0, y: 0) // tells addPopup in addWayPt not to show popup.
+            guard let page = pdfView.document?.page(at: 0) else {
+                displayError(msg: "Problem reading the PDF map. Can't get page 1.")
+                return
+            }
+            if (maps[mapIndex].wayPtArray.count > 0){
+                for i in 0...maps[mapIndex].wayPtArray.count-1 {
+                    // add padding to desc since textview doesn't use margins
+                    addWayPt(x: CGFloat(maps[mapIndex].wayPtArray[i].x), y: CGFloat(maps[mapIndex].wayPtArray[i].y), page: page, imageName: maps[mapIndex].wayPtArray[i].imageName, desc: maps[mapIndex].wayPtArray[i].desc, dateAdded: maps[mapIndex].wayPtArray[i].dateAdded, location: nilPt)
+                }
+            }
+        }
+    }
+    // MARK: Adjacent Maps Menu
+    func addAdjacentMapsMenuTransparentView(frames:CGRect){
+        let window = UIApplication.shared.keyWindow
+        let x:Int = 0
+        adjacentMapsMenuTransparentView.frame = window?.frame ?? self.view.frame
+        self.view.addSubview(adjacentMapsMenuTransparentView)
+        // hide the menu so it can animate dropping down
+        self.adjacentMapsMenuTableview.frame = CGRect(x: 0, y: 0, width: frames.width, height: 0)
+        self.view.addSubview(self.adjacentMapsMenuTableview)
+        self.adjacentMapsMenuTableview.layer.cornerRadius = 5
+        
+        adjacentMapsMenuTransparentView.backgroundColor = UIColor.black.withAlphaComponent(0.9)
+        
+        let tapgesture = UITapGestureRecognizer(target: self, action: #selector(removeAdjacentMapsMenuTransparentView))
+        adjacentMapsMenuTransparentView.addGestureRecognizer(tapgesture)
+        adjacentMapsMenuTransparentView.alpha = 0
+       
+        UIView.animate(withDuration: 0.4, delay: 0.0, usingSpringWithDamping: 1.0, initialSpringVelocity: 1.0, options: .curveEaseInOut, animations: {
+            self.adjacentMapsMenuTransparentView.alpha = 0.5
+            self.adjacentMapsMenuTableview.frame = CGRect(x: x, y: self.topbarHeight+90, width: Int(frames.width), height: self.adjMapsDataSource.count * self.mainMenuRowHeight)
+        }, completion: nil)
+        self.adjacentMapsMenuTableview.reloadData()
+        adjacentMapsMenuShowing = true
+    }
+    @objc func removeAdjacentMapsMenuTransparentView(){
+        let frames = self.view.frame
+        let x:Int = 55
+        // remove adjacent maps button drop down menu view
+        UIView.animate(withDuration: 0.4, delay: 0.0, usingSpringWithDamping: 1.0, initialSpringVelocity: 1.0, options: .curveEaseInOut, animations: {
+            self.adjacentMapsMenuTransparentView.alpha = 0.0
+            self.adjacentMapsMenuTableview.frame = CGRect(x: x, y: self.topbarHeight+90, width: Int(frames.width), height: 0)
+        }, completion: nil)
+        adjacentMapsMenuShowing = false
+    }
     
     // MARK: More Menu
     func addMoreMenuTransparentView(frames:CGRect){
@@ -376,6 +413,7 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         }, completion: nil)
         moreMenuShowing = false
     }
+    // MARK: Events
     @objc func onClickMore(_ sender:Any){
         //dataSource = ["Mark current location", "Add waypoint", "Show waypoints", "Delete all waypoints", "Lock in portrait mode", "Lock in landscape mode","Help"]
         if (!moreMenuShowing){
@@ -411,9 +449,9 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         self.performSegue(withIdentifier: "editWayPt", sender: nil)
     }
     @objc func onClickAdjacentMaps(){
-        print("click load adjacent maps")
+        addAdjacentMapsMenuTransparentView(frames:  self.view.frame)
     }
-    
+    // MARK: deleteSelectedWayPt
     func deleteSelectedWayPt(){
         // delete selectedWayPt and savePDF
         guard let page = pdfView.document?.page(at: 0) else {
@@ -427,6 +465,7 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         }
         removeWayPt(x: Float(arr[4])!, y: Float(arr[5])!)
     }
+    // MARK: onClickDeleteBtn
     @objc func onClickDeleteBtn(_ sender:Any){
         hidePopup()
         let alert = UIAlertController(
@@ -452,6 +491,7 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
                 completion: nil
         )
     }
+    // MARK: onClickMoveBtn
     @objc func onClickMoveBtn(_ sender:Any){
         hidePopup()
         guard let items = selectedWayPt.contents?.components(separatedBy: "$") else {
@@ -553,6 +593,7 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         moveInstructions.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         moveInstructions.topAnchor.constraint(equalTo: pdfView.topAnchor, constant: 5).isActive = true
     }
+    // MARK: onClickMoveDoneBtn
     @objc func onClickMoveDoneBtn(_ sender:Any){
         if let topMenu: UIView = view.viewWithTag(300) {
             topMenu.removeFromSuperview()
@@ -577,6 +618,7 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         selectedImg = ""
         removeMoveIcon()
     }
+    // MARK: onClickMoveCancelBtn
     @objc func onClickMoveCancelBtn(_ sender:Any){
         if let topMenu: UIView = view.viewWithTag(300) {
             topMenu.removeFromSuperview()
@@ -600,6 +642,7 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         selectedImg = ""
         removeMoveIcon()
     }
+    // MARK: landscape/portrait
     func lockLandscape(){
         // Lock in landscape mode was checked or unchecked
         // if unlocking landscape mode
@@ -757,6 +800,28 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         // MARK: sertupPDFView
         // Loads the url into a PDFVIew
         
+        // set page margins
+        marginTop = maps[mapIndex].marginTop
+        marginBottom = maps[mapIndex].marginBottom
+        marginLeft = maps[mapIndex].marginLeft
+        marginRight = maps[mapIndex].marginRight
+        
+        // set page boundary with margins
+        mediaBoxWidth = maps[mapIndex].mediaBoxWidth
+        mediaBoxHeight = maps[mapIndex].mediaBoxHeight
+        
+        // set lat/long boundary in decimal degrees
+        lat1 = maps[mapIndex].lat1
+        long1 = maps[mapIndex].long1
+        lat2 = maps[mapIndex].lat2
+        long2 = maps[mapIndex].long2
+        latDiff = maps[mapIndex].latDiff
+        longDiff = maps[mapIndex].longDiff
+        
+        // set pdf boundary without margins
+        pdfWidth = maps[mapIndex].pdfWidth
+        pdfHeight = maps[mapIndex].pdfHeight
+        
         // check if file exists
         let documentsDir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
         /*if map == nil {
@@ -850,6 +915,7 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         pdfView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
     }
     
+    // MARK: gesutureRecognizer
     // allow multiple gestures to be recognized, must add UIGestureRecognizerDelegate to class
    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
        // disable long press
@@ -1039,8 +1105,6 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         page.addAnnotation(latlongAnnotation)
         */
         
-        
-        
         // Update current location
         
         // Remove last location dot
@@ -1051,7 +1115,7 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         if (CLLocationManager.authorizationStatus() == .authorizedWhenInUse ||
            CLLocationManager.authorizationStatus() == .authorizedAlways) {
             guard let currentLoc = locationManager.location else {
-                currentLatLong.text = " Current location: Not available"
+                currentLatLong.text = " Current location: Acquiring..." //Not available"
                 return
             }
             latNow = currentLoc.coordinate.latitude
@@ -1083,13 +1147,14 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         // draw current location dot
         addCurrentLocationDot(page:page)
         
+        // MARK: load adjacent maps?
         //show Load Adjacent Maps button
         let percentX:Double = 0.13
         let percentY:Double = 0.10
         if (latNow < (lat1 + latDiff * percentX) || latNow > (lat2 - latDiff * percentX) || longNow < (long1 + longDiff * percentY) || longNow > (long2 + longDiff * percentY)){
-            var mapIds:[Int] = []
+            adjMapsDataSource = []
             for i in 0...maps.count-1 {
-                var map:PDFMap = maps[i]
+                let map:PDFMap = maps[i]
                 if (map.displayName == self.title) {
                     continue
                 }
@@ -1107,12 +1172,14 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
                 }
                 // is current location on this map? Add iot to mapIds (array of maps that contain the current location)
                 if (latNow >= mylat1 && latNow <= mylat2 && longNow >= mylong1 && longNow <= mylong2){
-                    mapIds.append(i)
+                    adjMapsDataSource.append(map.displayName)
                 }
                     
             }
-            if (mapIds.count > 0){
+            // show load adjacent maps button
+            if (adjMapsDataSource.count > 0){
                 adjacentMapsBtn.isHidden = false
+                // clicking Load Adjacent Maps button calls onClickAdjacentMaps()
             }
         }
         else {
@@ -1169,6 +1236,7 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         */
     }
     
+    // MARK: viewWillTranslate
     // Called when rotate phone
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
@@ -1188,13 +1256,9 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
                 //self.moveHereBtn.frame = CGRect(x: self.view.frame.size.width/2 - 110, y: 30, width: 100, height: 40)
             }
         })
-        // adjust move here and cancel buttons to middle on rotate
-        
-        
-        
     }
     
-    
+    // MARK: savePDF
     // save the pdf with annotations in app directory
     func savePDF(){
         // Save waypoints to database
@@ -1220,7 +1284,7 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
             }
         }
     }
-    
+    // MARK: permissions allow btn
     @objc func allowBtnPressed(){
         // User pressed allowBtn display permissions dialog
         // hide button
@@ -1239,7 +1303,8 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
             self.displayLocation(page: page, pdfView: self.pdfView)
         }
     }
-    
+    // MARK getWayPtLabel
+    // MARK: TODO find unique name
     func getWayPtLabel(page: PDFPage) -> String {
         var count:Int = 1
         if (page.annotations.count > 0){
@@ -1252,7 +1317,7 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         let desc = " Waypoint \(count)"
         return desc
     }
-    
+    // MARK: addPopup
     func addPopup(waypt: PDFAnnotation, pdfViewPoint: CGPoint, location: CGPoint, page: PDFPage) {
         // MARK: addPopup
         // Display popup bubble
@@ -1393,14 +1458,14 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         }
 
     }
-        
+    // MARK: wayptTextClicked
     @objc func wayptTextClicked(_ textField: UITextField){
         // clicked on popup open edit way pt segue
         hidePopup()
         // Open EditWayPtViewController
         self.performSegue(withIdentifier: "editWayPt", sender: nil)
     }
-    
+    // MARK: addWayPt
     func addWayPt(x: CGFloat, y: CGFloat, page: PDFPage, imageName: String, desc: String, dateAdded: String?, location: CGPoint){
         if (addingWayPt){
             pinBtn.isEnabled = true
@@ -1459,7 +1524,7 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
             savePDF()
         }
     }
-    
+    // MARK: remove all way pts
     func removeAllWayPoints(){
         // Remove all waypoints from pdf annotation and database
         var i:Int
@@ -1473,7 +1538,7 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         savePDF()
         hideWayPts() // update pdf annotations
     }
-    
+    // MARK: remove way pt
     func removeWayPt(x:Float, y:Float){
         // Updated waypoint remove it so can update and add it again
         if (maps[mapIndex].wayPtArray.count > 0){
@@ -1488,14 +1553,16 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         // save these changes in the database
         savePDF()
     }
-    
+    // MARK: removeMoveIcon
     func removeMoveIcon(){
         if let aMoveIcon: UIImageView = view.viewWithTag(200) as? UIImageView {
             aMoveIcon.removeFromSuperview()
         }
     }
+    
+    // MARK: resetSelectedPinColor
     func resetSelectedPinColor(){
-        // reset the pin color for the selected waypoint. When long press it changes color to grey
+        // reset the pin color for the selected waypoint. When move it changes color to grey
         guard let page = pdfView.document?.page(at: 0) else {
             displayError(msg: "Problem reading the PDF map. Can't get current page.")
             return
@@ -1511,8 +1578,10 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         selectedImg = ""
     }
     
+    //--------------------
     // MARK: Gestures
-    
+    //--------------------
+    // MARK: Tap
     @objc func pdfViewTapped(_ gestureRecognizer: UITapGestureRecognizer) {
         // MARK: pdfViewTap
         // Check if clicked on Waypoint or add new waypoint annotation
@@ -1590,7 +1659,7 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
             }
         }
     }
-
+    // MARK: Pinch
     @objc func pdfViewPinched(_ gestureRecognizer: UIPinchGestureRecognizer){
         //print ("pinch")
         if gestureRecognizer.state == .began {
@@ -1603,6 +1672,7 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         }
     }
     
+    // MARK: Pan
     @objc func pdfViewPanned(_ gestureRecognizer: UIPanGestureRecognizer){
         //print ("panning")
         if gestureRecognizer.state == .began {
@@ -1615,6 +1685,7 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         }
     }
     
+    // MARK: Tap 2
     @objc func pdfViewTapped2(_ gestureRecognizer: UITapGestureRecognizer) {
         // double tap
         //print("double tap")
@@ -1650,6 +1721,7 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         }
     }
     
+    // MARK: hide popup
     func hidePopup(){
         // is popup showing? Hide it
         if let aPopup: UIView = pdfView.viewWithTag(100) {
@@ -1661,6 +1733,7 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         }
     }
     
+    // MARK: mark current location
     func markCurrentLocation(){
         if (currentLatLong.text != "  Current location: " + String(format:  "%.5f",latNow) + ", " + String(format: "%.5f",longNow)){
             displayError(msg: "Current location not on map", title:"Notice")
@@ -1692,6 +1765,8 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         let location:CGPoint = pdfView.convert(pdfPoint, from: page)
         addWayPt(x: CGFloat(x), y: CGFloat(y), page: page, imageName: "red_pin", desc: getWayPtLabel(page: page), dateAdded: nil, location: location)
     }
+    
+    // MARK: hide all way pts
     func hideWayPts(){
         // hide all waypoints
         guard let page = pdfView.document?.page(at: 0) else {
@@ -1721,6 +1796,7 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         
     }
     
+    // MARK: show/hide way pts
     func showHideWayPts(){
         // toggle show / hide waypoints
         if (showWaypoints){
@@ -1732,6 +1808,9 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
             resizePushPins()
         }
     }
+    
+    // MARK: show way pts
+    
     func showWayPts(){
         // show all waypoints menu item
         guard let page = pdfView.document?.page(at: 0) else {
@@ -1750,6 +1829,8 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
             }
         }
     }
+    
+    // MARK: resize pins
     func resizePushPins() {
         // When zoom in or out resize push pins and current location marker
         let wayPtHeight:CGFloat = 80.0 / CGFloat(pdfView.scaleFactor) // square
@@ -1800,14 +1881,26 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
     }
 }
 
+// MARK: Tables
 extension MapViewController:UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return dataSource.count
+        if tableView == self.adjacentMapsMenuTableview {
+            return adjMapsDataSource.count
+        }
+        else {
+            return dataSource.count
+        }
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! MoreMenuCell
-        cell.label.text = dataSource[indexPath.row]
-        switch cell.label.text {
+        if tableView == self.adjacentMapsMenuTableview {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "AdjMapsCell", for: indexPath) as! AdjMapsCellClass
+            cell.label.text = adjMapsDataSource[indexPath.row]
+            return cell
+        }
+        else {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! MoreMenuCell
+            cell.label.text = dataSource[indexPath.row]
+            switch cell.label.text {
             case "Show waypoints":
                 cell.checkbox.isChecked = showWaypoints
                 cell.checkbox.isHidden = false
@@ -1819,81 +1912,108 @@ extension MapViewController:UITableViewDelegate, UITableViewDataSource {
                 cell.checkbox.isHidden = false
             default:
                 cell.checkbox.isHidden = true
+            }
+            return cell
         }
-        return cell
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return CGFloat(mainMenuRowHeight) // tableView.rowHeight // 50
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if (dataSource[indexPath.row] == "Lock in landscape mode"){
-            lockLandscape()
-            removeMoreMenuTransparentView()
-            resizePushPins()
+        if tableView == self.adjacentMapsMenuTableview {
+            // adjacent map selected, load it
+            removeAdjacentMapsMenuTransparentView()
+            // find maps index to selected map
+            for i:Int in 0...maps.count-1{
+                if (maps[i].displayName == adjMapsDataSource[indexPath.row]){
+                    mapIndex = i
+                    break;
+                }
+            }
+            self.title = maps[mapIndex].displayName
+            do {
+                try setupPDFView()
+                addWayPtsFromDatabaseFlag = true
+                addWayPts()
+            }
+            catch AppError.pdfMapError.pdfFileNotFound (let file){
+                displayError(msg: "Map file not found.\n\n\(file)")
+                return
+            } catch {
+                displayError(msg: "Unknow error occured.")
+                return
+            }
         }
-        else if (dataSource[indexPath.row] == "Lock in portrait mode"){
-            lockPortrait()
-            removeMoreMenuTransparentView()
-            resizePushPins()
-        }
-        else if (dataSource[indexPath.row] == "Add waypoint"){
-            showWaypoints = true
-            showWayPts()
-            addingWayPt = true
-            pinBtn.isEnabled = false
-            self.navigationItem.rightBarButtonItems = [moreBtn, cancelPinBtn]
-            // hide any popups
-            hidePopup()
-            notice.isHidden = false
-            removeMoreMenuTransparentView()
-        }
-        else if (dataSource[indexPath.row] == "Mark current location"){
-            // hide any popup
-            hidePopup()
-            showWaypoints = true
-            showWayPts()
-            addingWayPt = true
-            markCurrentLocation()
-            removeMoreMenuTransparentView()
-        }
-        else if (dataSource[indexPath.row] == "Show waypoints"){
-            showHideWayPts()
-            // hide any popup
-            hidePopup()
-            removeMoreMenuTransparentView()
-        }
-        else if (dataSource[indexPath.row] == "Delete all waypoints"){
-            let alert = UIAlertController(
-                title: "Delete All",
-                message: "Delete all waypoints?",
-                preferredStyle: .actionSheet
-            )
-            alert.addAction(UIAlertAction(
-                title: "Delete All",
-                style: .destructive,
-                handler: { _ in
-                    // delete all waypoints and savePDF
-                    self.removeAllWayPoints()
-                    self.removeMoreMenuTransparentView()
-            }))
-            alert.addAction(UIAlertAction(
-                title: "Cancel",
-                style: .cancel,
-                handler: { _ in
-                    // cancel action
-                    self.removeMoreMenuTransparentView()
-            }))
-            present(alert,
-                    animated: true,
-                    completion: nil
-            )
-            
-        }
-        else if (dataSource[indexPath.row] == "Help"){
-            // show help
-            removeMoreMenuTransparentView()
-            // Open HelpMapViewController
-            self.performSegue(withIdentifier: "HelpMapView", sender: nil)
+        else {
+            if (dataSource[indexPath.row] == "Lock in landscape mode"){
+                lockLandscape()
+                removeMoreMenuTransparentView()
+                resizePushPins()
+            }
+            else if (dataSource[indexPath.row] == "Lock in portrait mode"){
+                lockPortrait()
+                removeMoreMenuTransparentView()
+                resizePushPins()
+            }
+            else if (dataSource[indexPath.row] == "Add waypoint"){
+                showWaypoints = true
+                showWayPts()
+                addingWayPt = true
+                pinBtn.isEnabled = false
+                self.navigationItem.rightBarButtonItems = [moreBtn, cancelPinBtn]
+                // hide any popups
+                hidePopup()
+                notice.isHidden = false
+                removeMoreMenuTransparentView()
+            }
+            else if (dataSource[indexPath.row] == "Mark current location"){
+                // hide any popup
+                hidePopup()
+                showWaypoints = true
+                showWayPts()
+                addingWayPt = true
+                markCurrentLocation()
+                removeMoreMenuTransparentView()
+            }
+            else if (dataSource[indexPath.row] == "Show waypoints"){
+                showHideWayPts()
+                // hide any popup
+                hidePopup()
+                removeMoreMenuTransparentView()
+            }
+            else if (dataSource[indexPath.row] == "Delete all waypoints"){
+                let alert = UIAlertController(
+                    title: "Delete All",
+                    message: "Delete all waypoints?",
+                    preferredStyle: .actionSheet
+                )
+                alert.addAction(UIAlertAction(
+                    title: "Delete All",
+                    style: .destructive,
+                    handler: { _ in
+                        // delete all waypoints and savePDF
+                        self.removeAllWayPoints()
+                        self.removeMoreMenuTransparentView()
+                    }))
+                alert.addAction(UIAlertAction(
+                    title: "Cancel",
+                    style: .cancel,
+                    handler: { _ in
+                        // cancel action
+                        self.removeMoreMenuTransparentView()
+                    }))
+                present(alert,
+                        animated: true,
+                        completion: nil
+                )
+                
+            }
+            else if (dataSource[indexPath.row] == "Help"){
+                // show help
+                removeMoreMenuTransparentView()
+                // Open HelpMapViewController
+                self.performSegue(withIdentifier: "HelpMapView", sender: nil)
+            }
         }
     }
 }
