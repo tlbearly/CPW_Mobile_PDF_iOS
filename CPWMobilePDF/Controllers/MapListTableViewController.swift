@@ -535,7 +535,7 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
     
     // MARK: More Menu
     func addMoreMenuTransparentView(frames:CGRect){
-        let window = UIApplication.shared.keyWindow
+        let window = self.view.window
         let y:Int = Int(self.navigationController?.navigationBar.frame.maxY ?? 0) + Int(self.tableView.contentOffset.y)
         let x = 55
         moreMenuTransparentView.frame = window?.frame ?? self.view.frame
@@ -586,7 +586,7 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
     
     // MARK: Sort Menu
     func addSortMenuTransparentView(frames:CGRect){
-        let window = UIApplication.shared.keyWindow
+        let window = self.view.window
         //let y:Int = Int(self.navigationController?.navigationBar.frame.maxY ?? 0) + Int(self.tableView.contentOffset.y)
         
         let y = 70

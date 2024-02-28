@@ -128,11 +128,12 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
     // more drop down menu
     let moreMenuTransparentView = UIView();
     let moreMenuTableview = UITableView();
-    var dataSource = ["Mark current location", "Add waypoint", "Show waypoints", "Delete all waypoints", "Lock in portrait mode", "Lock in landscape mode","Help"]
+    var dataSource = ["Mark current location", "Add waypoint", "Add waypoint by lat/long", "Show waypoints", "Delete all waypoints", "Load adjacent maps", "Lock in portrait mode", "Lock in landscape mode","Help"]
     let adjacentMapsMenuTransparentView = UIView()
     let adjacentMapsMenuTableview = UITableView()
     var adjMapsDataSource = [String]()
     var adjacentMapsMenuShowing:Bool = false
+    var shouldLoadAdjacentMaps:Bool = true
     var showWaypoints:Bool = true
     var lockInPortrait:Bool = false
     var lockInLandscape:Bool = false
@@ -344,7 +345,7 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
     }
     // MARK: Adjacent Maps Menu
     func addAdjacentMapsMenuTransparentView(frames:CGRect){
-        let window = UIApplication.shared.keyWindow
+        let window = self.view.window
         let x:Int = 0
         adjacentMapsMenuTransparentView.frame = window?.frame ?? self.view.frame
         self.view.addSubview(adjacentMapsMenuTransparentView)
@@ -379,7 +380,7 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
     
     // MARK: More Menu
     func addMoreMenuTransparentView(frames:CGRect){
-        let window = UIApplication.shared.keyWindow
+        let window = self.view.window
         let x = 55
         moreMenuTransparentView.frame = window?.frame ?? self.view.frame
         self.view.addSubview(moreMenuTransparentView)
@@ -466,11 +467,12 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         removeWayPt(x: Float(arr[4])!, y: Float(arr[5])!)
     }
     // MARK: onClickDeleteBtn
-    @objc func onClickDeleteBtn(_ sender:Any){
+    @objc func onClickDeleteBtn(_ sender:UIButton){
         hidePopup()
+        // put message in accessitility hint so we can add the waypoint desc
         let alert = UIAlertController(
             title: "Delete",
-            message: "Delete this waypoint?",
+            message: sender.accessibilityHint,
             preferredStyle: .actionSheet
         )
         alert.addAction(UIAlertAction(
@@ -998,22 +1000,13 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
 
         // border
         let border = PDFBorder()
-        
+        // Remove last location dot
+        page.removeAnnotation(currentLocation) // remove last location dot
         // fill color
-        // this line crashes in iOS 11.0 PDFAnnotation.setInteriorColor
-        if #available(iOS 11.2, *) {
-            currentLocation = PDFAnnotation(bounds: CGRect(x:x, y:y, width:cirSize,height:cirSize), forType: .circle, withProperties: nil)
-            currentLocation.interiorColor = UIColor.cyan
-            border.lineWidth = CGFloat(cirSize) / 6.0 // border width
-            currentLocation.color = UIColor.white // border color
-        }
-        // iOS 11.0 and 11.1 don't have interiorColor function
-        else {
-            currentLocation = PDFAnnotation(bounds: CGRect(x:x, y:y, width:cirSize,height:cirSize), forType: .circle, withProperties: nil)
-            border.lineWidth = 12.0 // border width
-            currentLocation.color = UIColor.cyan // border color
-        }
-        
+        currentLocation = PDFAnnotation(bounds: CGRect(x:x, y:y, width:cirSize,height:cirSize), forType: .circle, withProperties: nil)
+        currentLocation.interiorColor = UIColor.cyan
+        border.lineWidth = CGFloat(cirSize) / 6.0 // border width
+        currentLocation.color = UIColor.white // border color
         currentLocation.border = border
         page.addAnnotation(currentLocation)
         
@@ -1107,9 +1100,6 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         
         // Update current location
         
-        // Remove last location dot
-        page.removeAnnotation(currentLocation) // remove last location dot
-        
         //var azimuth:Double = -1.0
         // get current location
         if (CLLocationManager.authorizationStatus() == .authorizedWhenInUse ||
@@ -1144,14 +1134,20 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
             return
         }
         
+        // Remove last location dot
+        //page.removeAnnotation(currentLocation) // remove last location dot
         // draw current location dot
         addCurrentLocationDot(page:page)
         
         // MARK: load adjacent maps?
-        //show Load Adjacent Maps button
+        //show Load Adjacent Maps button if near the edge
         let percentX:Double = 0.13
         let percentY:Double = 0.10
-        if (latNow < (lat1 + latDiff * percentX) || latNow > (lat2 - latDiff * percentX) || longNow < (long1 + longDiff * percentY) || longNow > (long2 + longDiff * percentY)){
+        if (shouldLoadAdjacentMaps &&
+            (latNow < (lat1 + latDiff * percentX) ||
+             latNow > (lat2 - latDiff * percentX) ||
+             longNow < (long1 + longDiff * percentY) ||
+             longNow > (long2 + longDiff * percentY))){
             adjMapsDataSource = []
             for i in 0...maps.count-1 {
                 let map:PDFMap = maps[i]
@@ -1170,11 +1166,11 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
                     mylong1 = long2
                     mylong2 = long1
                 }
-                // is current location on this map? Add iot to mapIds (array of maps that contain the current location)
+                // is current location on this map? Add it to mapIds (array of maps that contain the current location)
                 if (latNow >= mylat1 && latNow <= mylat2 && longNow >= mylong1 && longNow <= mylong2){
                     adjMapsDataSource.append(map.displayName)
                 }
-                    
+                
             }
             // show load adjacent maps button
             if (adjMapsDataSource.count > 0){
@@ -1304,13 +1300,27 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         }
     }
     // MARK getWayPtLabel
-    // MARK: TODO find unique name
     func getWayPtLabel(page: PDFPage) -> String {
+        // create a unique name: Waypoint 1
         var count:Int = 1
+        var unique:Bool = true
+        var done:Bool = false
         if (page.annotations.count > 0){
-            for i in 0...page.annotations.count-1 {
-                if page.annotations[i].type == "Stamp" {
-                    count+=1
+            while (!done) {
+                for i in 0...page.annotations.count-1 {
+                    if (page.annotations[i].contents != nil){
+                        if (page.annotations[i].contents!.contains("Waypoint \(count)") ){
+                            unique = false
+                            count = count + 1
+                            break
+                        }
+                    }
+                }
+                if (unique){
+                    done = true
+                }
+                else {
+                    unique = true // reset for next try
                 }
             }
         }
@@ -1383,25 +1393,19 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         let editBtn = UIButton(frame: CGRect(x: 10, y: 0, width: iconSize, height: iconSize))
         editBtn.setBackgroundImage(UIImage(named: "edit_icon"), for: .normal)
         editBtn.accessibilityHint = "Edit waypoint name and color."
-        editBtn.layer.borderColor = UIColor.white.cgColor
-        editBtn.layer.borderWidth = 5
         editBtn.addTarget(self, action: #selector(self.onClickEditBtn(_:)), for: UIControl.Event.touchDown)
         menuView.addSubview(editBtn)
         
         moveBtn.frame = CGRect(x: 55, y: 0, width: 40, height: 40)
-        moveBtn.setBackgroundImage(UIImage(named: "move_icon"), for: .normal)
+        moveBtn.setBackgroundImage(UIImage(named: "move_pin"), for: .normal)
         moveBtn.addTarget(self, action: #selector(self.onClickMoveBtn(_:)), for: UIControl.Event.touchDown)
-        moveBtn.layer.borderColor = UIColor.white.cgColor
-        moveBtn.layer.borderWidth = 5
         moveBtn.accessibilityHint = "Move this waypoint by panning or zooming the map"
         menuView.addSubview(moveBtn)
         
         let deleteBtn = UIButton(frame: CGRect(x: 100, y: 0, width: iconSize, height: iconSize))
         deleteBtn.setBackgroundImage(UIImage(named: "trash_icon"), for: .normal)
         deleteBtn.addTarget(self, action: #selector(self.onClickDeleteBtn(_:)), for: UIControl.Event.touchDown)
-        deleteBtn.layer.borderColor = UIColor.white.cgColor
-        deleteBtn.layer.borderWidth = 5
-        deleteBtn.accessibilityHint = "Delete this waypoint"
+        deleteBtn.accessibilityHint = "Delete waypoint labeled: "+items[0]+"?"
         menuView.addSubview(deleteBtn)
         popup.addSubview(menuView)
                 
@@ -1842,7 +1846,7 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         }
 
         // Remove last location dot
-        page.removeAnnotation(currentLocation)
+        //page.removeAnnotation(currentLocation)
         // resize current location dot
         addCurrentLocationDot(page:page)
         
@@ -1910,6 +1914,9 @@ extension MapViewController:UITableViewDelegate, UITableViewDataSource {
             case "Lock in landscape mode":
                 cell.checkbox.isChecked = lockInLandscape
                 cell.checkbox.isHidden = false
+            case "Load adjacent maps":
+                cell.checkbox.isChecked = shouldLoadAdjacentMaps
+                cell.checkbox.isHidden = false
             default:
                 cell.checkbox.isHidden = true
             }
@@ -1944,8 +1951,19 @@ extension MapViewController:UITableViewDelegate, UITableViewDataSource {
                 return
             }
         }
+        // More Menu
         else {
-            if (dataSource[indexPath.row] == "Lock in landscape mode"){
+            if (dataSource[indexPath.row] == "Load adjacent maps"){
+                // MARK: TODO checkbox adjmaps
+                if (shouldLoadAdjacentMaps){
+                    shouldLoadAdjacentMaps = false
+                }
+                else {
+                    shouldLoadAdjacentMaps = true
+                }
+                removeMoreMenuTransparentView()
+            }
+            else if (dataSource[indexPath.row] == "Lock in landscape mode"){
                 lockLandscape()
                 removeMoreMenuTransparentView()
                 resizePushPins()
@@ -1965,6 +1983,23 @@ extension MapViewController:UITableViewDelegate, UITableViewDataSource {
                 hidePopup()
                 notice.isHidden = false
                 removeMoreMenuTransparentView()
+            }
+            else if (dataSource[indexPath.row] == "Add waypoint by lat/long"){
+                showWaypoints = true
+                showWayPts()
+                addingWayPt = true
+                //pinBtn.isEnabled = false
+                //self.navigationItem.rightBarButtonItems = [moreBtn, cancelPinBtn]
+                // hide any popups
+                hidePopup()
+                notice.isHidden = false
+                removeMoreMenuTransparentView()
+                // show dialog to enter lat, long point
+                // MARK: TODO add waypt lat/long
+                
+                
+                
+                
             }
             else if (dataSource[indexPath.row] == "Mark current location"){
                 // hide any popup

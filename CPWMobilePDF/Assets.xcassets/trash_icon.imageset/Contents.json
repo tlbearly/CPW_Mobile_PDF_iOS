@@ -2,18 +2,27 @@
   "images" : [
     {
       "filename" : "trash-can-outline.svg",
-      "idiom" : "universal",
-      "scale" : "1x"
+      "idiom" : "universal"
     },
     {
+      "appearances" : [
+        {
+          "appearance" : "luminosity",
+          "value" : "light"
+        }
+      ],
       "filename" : "trash-can-outline 1.svg",
-      "idiom" : "universal",
-      "scale" : "2x"
+      "idiom" : "universal"
     },
     {
-      "filename" : "trash-can-outline 2.svg",
-      "idiom" : "universal",
-      "scale" : "3x"
+      "appearances" : [
+        {
+          "appearance" : "luminosity",
+          "value" : "dark"
+        }
+      ],
+      "filename" : "trash-can-dark.svg",
+      "idiom" : "universal"
     }
   ],
   "info" : {

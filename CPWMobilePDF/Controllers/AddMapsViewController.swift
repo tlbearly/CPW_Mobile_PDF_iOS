@@ -101,7 +101,7 @@ class AddMapsViewController: UIViewController {
     
     // MARK: More Menu
     func addMoreMenuTransparentView(frames:CGRect){
-        let window = UIApplication.shared.keyWindow
+        let window = self.view.window
         let x = 55
         moreMenuTransparentView.frame = window?.frame ?? self.view.frame
         self.view.addSubview(moreMenuTransparentView)

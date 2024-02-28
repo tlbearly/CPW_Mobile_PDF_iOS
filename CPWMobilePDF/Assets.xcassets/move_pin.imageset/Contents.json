@@ -1,7 +1,7 @@
 {
   "images" : [
     {
-      "filename" : "pencil.svg",
+      "filename" : "move_pin 1.svg",
       "idiom" : "universal"
     },
     {
@@ -11,7 +11,7 @@
           "value" : "light"
         }
       ],
-      "filename" : "pencil 4.svg",
+      "filename" : "move_pin 2.svg",
       "idiom" : "universal"
     },
     {
@@ -21,7 +21,7 @@
           "value" : "dark"
         }
       ],
-      "filename" : "pencil_dark.svg",
+      "filename" : "move_pin_dark.svg",
       "idiom" : "universal"
     }
   ],
