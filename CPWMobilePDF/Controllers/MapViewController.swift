@@ -200,28 +200,8 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         //addDebugTextbox()
         
         // Load Adjacent Maps button
-        adjacentMapsBtn.setTitle("Load Adjacent Maps",for: .normal)
-        let clickAdjacentMaps = UITapGestureRecognizer(target: self, action: #selector(onClickAdjacentMaps))
-        view.addSubview(adjacentMapsBtn)
-        adjacentMapsBtn.addGestureRecognizer(clickAdjacentMaps)
-        adjacentMapsBtn.translatesAutoresizingMaskIntoConstraints = false
-        adjacentMapsBtn.topAnchor.constraint(equalTo: pdfView.topAnchor, constant: 51).isActive = true
-        adjacentMapsBtn.bottomAnchor.constraint(equalTo: pdfView.topAnchor, constant: 91).isActive = true
-        adjacentMapsBtn.widthAnchor.constraint(equalToConstant: 250).isActive = true
-        adjacentMapsBtn.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        adjacentMapsBtn.heightAnchor.constraint(equalToConstant: 40).isActive = true
-        adjacentMapsBtn.layer.cornerRadius = 25
-        adjacentMapsBtn.backgroundColor = UIColor.darkGray.withAlphaComponent(0.5)
-        adjacentMapsBtn.layer.borderColor = UIColor.gray.cgColor
-        adjacentMapsBtn.layer.borderWidth = 1
-        adjacentMapsBtn.clipsToBounds = true
-        adjacentMapsBtn.isHidden = true
-        // populate adjacent maps drop down menu
-        self.adjacentMapsMenuTableview.delegate = self
-        self.adjacentMapsMenuTableview.dataSource = self
-        self.adjacentMapsMenuTableview.register(AdjMapsCellClass.self, forCellReuseIdentifier: "AdjMapsCell")
-        self.adjacentMapsMenuTableview.reloadData()
-        
+        addLoadAdjacentMapsBtn()
+                
         // popup label for instructions for adding a waypoint
         notice.text = "Tap map to add waypoint"
         view.addSubview(notice)
@@ -747,10 +727,10 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         // MARK: setupLocationServices
         // Check for location permission. Display button is permission is needed. Start updating
         // user location.
-        guard let page = pdfView.document?.page(at: 0) else {
+        /*guard let page = pdfView.document?.page(at: 0) else {
             displayError(msg: "Problem reading the PDF map. Can't get page 1.")
             return
-        }
+        }*/
         locationManager.desiredAccuracy=kCLLocationAccuracyBest
         let status = CLLocationManager.authorizationStatus()
         switch status {
@@ -780,20 +760,20 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         case .authorizedAlways, .authorizedWhenInUse:
             locationManager.startUpdatingLocation()
             locationManager.startUpdatingHeading() // get azimuth
-            self.displayLocation(page: page, pdfView: self.pdfView) // initial location
-            // update location every 5 seconds
-            locationTimer = Timer.scheduledTimer(withTimeInterval: 5, repeats: true) { timer in
-                self.displayLocation(page: page, pdfView: self.pdfView)
+            self.displayLocation()//page: page, pdfView: self.pdfView) // initial location
+            // update location every 1 seconds
+            locationTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { timer in
+                self.displayLocation()//page: page, pdfView: self.pdfView)
             }
             
         default:
             locationManager.requestWhenInUseAuthorization()
             locationManager.startUpdatingLocation()
             locationManager.startUpdatingHeading() // get azimuth
-            self.displayLocation(page: page, pdfView: self.pdfView) // initial location
-            // update location every 5 seconds
-            locationTimer = Timer.scheduledTimer(withTimeInterval: 5, repeats: true) { timer in
-                self.displayLocation(page: page, pdfView: self.pdfView)
+            self.displayLocation()//page: page, pdfView: self.pdfView) // initial location
+            // update location every 1 seconds
+            locationTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { timer in
+                self.displayLocation()//page: page, pdfView: self.pdfView)
             }
         }
     }
@@ -959,6 +939,30 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         currentLatLong.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 50).isActive = true
     }
     
+    func addLoadAdjacentMapsBtn(){
+        adjacentMapsBtn.setTitle("Load Adjacent Maps",for: .normal)
+        let clickAdjacentMaps = UITapGestureRecognizer(target: self, action: #selector(onClickAdjacentMaps))
+        view.addSubview(adjacentMapsBtn)
+        adjacentMapsBtn.addGestureRecognizer(clickAdjacentMaps)
+        adjacentMapsBtn.translatesAutoresizingMaskIntoConstraints = false
+        adjacentMapsBtn.topAnchor.constraint(equalTo: pdfView.topAnchor, constant: 51).isActive = true
+        adjacentMapsBtn.bottomAnchor.constraint(equalTo: pdfView.topAnchor, constant: 91).isActive = true
+        adjacentMapsBtn.widthAnchor.constraint(equalToConstant: 250).isActive = true
+        adjacentMapsBtn.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        adjacentMapsBtn.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        adjacentMapsBtn.layer.cornerRadius = 25
+        adjacentMapsBtn.backgroundColor = UIColor.darkGray.withAlphaComponent(0.5)
+        adjacentMapsBtn.layer.borderColor = UIColor.gray.cgColor
+        adjacentMapsBtn.layer.borderWidth = 1
+        adjacentMapsBtn.clipsToBounds = true
+        adjacentMapsBtn.isHidden = true
+        // populate adjacent maps drop down menu
+        self.adjacentMapsMenuTableview.delegate = self
+        self.adjacentMapsMenuTableview.dataSource = self
+        self.adjacentMapsMenuTableview.register(AdjMapsCellClass.self, forCellReuseIdentifier: "AdjMapsCell")
+        self.adjacentMapsMenuTableview.reloadData()
+    }
+    
     // MARK: addDebugTextbox
     func addDebugTextbox() {
         // Add text box for current location display
@@ -1001,7 +1005,7 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         // border
         let border = PDFBorder()
         // Remove last location dot
-        page.removeAnnotation(currentLocation) // remove last location dot
+        //page.removeAnnotation(currentLocation) // remove last location dot
         // fill color
         currentLocation = PDFAnnotation(bounds: CGRect(x:x, y:y, width:cirSize,height:cirSize), forType: .circle, withProperties: nil)
         currentLocation.interiorColor = UIColor.cyan
@@ -1044,7 +1048,11 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         
     }
     // MARK: displayLocation
-    func displayLocation(page: PDFPage, pdfView: PDFView){
+    func displayLocation(){//page: PDFPage, pdfView: PDFView){
+        guard let page = pdfView.document?.page(at: 0) else {
+            displayError(msg: "Problem reading the PDF map. Can't get page 1.")
+            return
+        }
         // DEBUG add lat long boundary dots
         // DEBUG remove margin and lat long circles
         /*if (page.annotations.count > 0){
@@ -1128,16 +1136,18 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         // See if current location is on the map
         if (latNow >= lat1 && latNow <= lat2 && longNow >= long1 && longNow <= long2) {
             currentLatLong.text = "  Current location: " + String(format:  "%.5f",latNow) + ", " + String(format: "%.5f",longNow)
+            // Remove last location dot
+            page.removeAnnotation(currentLocation) // remove last location dot
+            // draw current location dot
+            addCurrentLocationDot(page:page)
         }
         else {
             currentLatLong.text = "  Current location: Not on map"
-            return
+            page.removeAnnotation(currentLocation)
+            //return
         }
         
-        // Remove last location dot
-        //page.removeAnnotation(currentLocation) // remove last location dot
-        // draw current location dot
-        addCurrentLocationDot(page:page)
+        
         
         // MARK: load adjacent maps?
         //show Load Adjacent Maps button if near the edge
@@ -1147,7 +1157,7 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
             (latNow < (lat1 + latDiff * percentX) ||
              latNow > (lat2 - latDiff * percentX) ||
              longNow < (long1 + longDiff * percentY) ||
-             longNow > (long2 + longDiff * percentY))){
+             longNow > (long2 - longDiff * percentY))){
             adjMapsDataSource = []
             for i in 0...maps.count-1 {
                 let map:PDFMap = maps[i]
@@ -1293,10 +1303,10 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
             displayError(msg: "Problem reading the PDF. Can't get page 1")
             return
         }
-        self.displayLocation(page: page, pdfView: self.pdfView) // initial location
+        self.displayLocation()//page: page, pdfView: self.pdfView) // initial location
         // update location every 5 seconds
-        locationTimer = Timer.scheduledTimer(withTimeInterval: 5, repeats: true) { timer in
-            self.displayLocation(page: page, pdfView: self.pdfView)
+        locationTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { timer in
+            self.displayLocation()//page: page, pdfView: self.pdfView)
         }
     }
     // MARK getWayPtLabel
@@ -1623,7 +1633,7 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
                     
                     // ADD A WAYPOINT
                     // make sure it is on the map
-                    if (pdfViewPoint.x>CGFloat(marginLeft) && pdfViewPoint.y>CGFloat(marginBottom) &&
+                    if (pdfView.document?.index(for: page) == 0 && pdfViewPoint.x>CGFloat(marginLeft) && pdfViewPoint.y>CGFloat(marginBottom) &&
                         pdfViewPoint.x<CGFloat(mediaBoxWidth - marginRight) &&
                         pdfViewPoint.y<CGFloat(mediaBoxHeight - marginTop) && addingWayPt){
                         // turn off adding a waypoint 10-24-23
@@ -1940,6 +1950,8 @@ extension MapViewController:UITableViewDelegate, UITableViewDataSource {
             self.title = maps[mapIndex].displayName
             do {
                 try setupPDFView()
+                addCurrentLatLongTextbox()
+                addLoadAdjacentMapsBtn()
                 addWayPtsFromDatabaseFlag = true
                 addWayPts()
             }

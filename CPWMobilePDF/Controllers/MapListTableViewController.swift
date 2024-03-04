@@ -105,7 +105,7 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
             sortList(type: sortBy)
             
             // start location services to calc. distance to map or on map
-            setupLocationServices()
+            //setupLocationServices()
         }
     }
     
@@ -119,12 +119,16 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
         // if done importing and returned from displaying the map, now show the list
         else if showMap {
             showMap = false
+            // start location services to calc. distance to map or on map
+            setupLocationServices()
             // sort table by user preference
             sortList(type: sortBy) // reloads the data too!
             scrollToCurrentMapName()
         }
         // returned from displaying map
         else {
+            // start location services to calc. distance to map or on map
+            setupLocationServices()
             // waypoints could have changed. Reload maps database
             maps = loadMaps() ?? []
             // calculate distance to each map
@@ -402,10 +406,6 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
                 return nil
             }
         }
-        // deprecated iOS 12
-        //else {
-        //    return NSKeyedUnarchiver.unarchiveObject(withFile: PDFMap.ArchiveURL.path) as? [PDFMap]
-        //}
     }
     
     // MARK: Location funcs
@@ -463,12 +463,13 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
                 return
             }
             var needRefresh:Bool = false
-            if (latNow == 0.0) {
+            if (latNow == 0.0 || latNow != currentLoc.coordinate.latitude || longNow != currentLoc.coordinate.longitude) {
                 needRefresh = true
             }
             latNow = currentLoc.coordinate.latitude
             longNow = currentLoc.coordinate.longitude
             if needRefresh {
+                
                 self.tableView.reloadData()
             }
         }
