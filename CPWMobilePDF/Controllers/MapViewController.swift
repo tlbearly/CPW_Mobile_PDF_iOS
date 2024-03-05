@@ -1150,14 +1150,20 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         
         
         // MARK: load adjacent maps?
-        //show Load Adjacent Maps button if near the edge
-        let percentX:Double = 0.13
-        let percentY:Double = 0.10
+        //show Load Adjacent Maps button if on the map or up to a 1/4 of a mile off map
+        //let percentX:Double = 0.13
+        //let percentY:Double = 0.10
+        let quarterMileInDegrees = 0.00458 // 1 degree = 54.6 miles
+        /*if (shouldLoadAdjacentMaps &&
+            ((latNow < (lat1 + latDiff * percentX) && latNow > (lat1 - latDiff * percentX)) ||
+             (latNow > (lat2 - latDiff * percentX) && latNow < (lat2 + latDiff * percentX)) ||
+             (longNow < (long1 + longDiff * percentY) && longNow > (long1 - longDiff * percentY)) ||
+             (longNow > (long2 - longDiff * percentY) && longNow < (long2 + longDiff * percentY)))){*/
         if (shouldLoadAdjacentMaps &&
-            (latNow < (lat1 + latDiff * percentX) ||
-             latNow > (lat2 - latDiff * percentX) ||
-             longNow < (long1 + longDiff * percentY) ||
-             longNow > (long2 - longDiff * percentY))){
+            latNow > (lat1 - quarterMileInDegrees) &&
+            latNow < (lat2 + quarterMileInDegrees) &&
+            longNow > (long1 - quarterMileInDegrees) &&
+            longNow < (long2 + quarterMileInDegrees)){
             adjMapsDataSource = []
             for i in 0...maps.count-1 {
                 let map:PDFMap = maps[i]
@@ -1292,17 +1298,17 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
     }
     // MARK: permissions allow btn
     @objc func allowBtnPressed(){
-        // User pressed allowBtn display permissions dialog
+        // User pressed allowBtn in location permissions dialog
         // hide button
         allowBtn.isHidden = true;
         locationManager.requestWhenInUseAuthorization()
         locationManager.startUpdatingLocation()
         locationManager.startUpdatingHeading() // get azimuth
-        guard let page = self.pdfView.document?.page(at: 0) else {
+        /*guard let page = self.pdfView.document?.page(at: 0) else {
             //print("Problem reading the PDF. Can't get page 1.")
             displayError(msg: "Problem reading the PDF. Can't get page 1")
             return
-        }
+        }*/
         self.displayLocation()//page: page, pdfView: self.pdfView) // initial location
         // update location every 5 seconds
         locationTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { timer in
@@ -1609,7 +1615,7 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         pdfView.clearSelection() // remove selected text!!!
         if gestureRecognizer.state == .ended
         {
-            if let page = pdfView.currentPage
+            if let page = pdfView.document?.page(at: 0)
             {
                 let location:CGPoint = gestureRecognizer.location(in: pdfView) // location on screen
                 let pdfViewPoint = pdfView.convert(location, to: page) // location on pdf
@@ -1633,7 +1639,7 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
                     
                     // ADD A WAYPOINT
                     // make sure it is on the map
-                    if (pdfView.document?.index(for: page) == 0 && pdfViewPoint.x>CGFloat(marginLeft) && pdfViewPoint.y>CGFloat(marginBottom) &&
+                    if (pdfViewPoint.x>CGFloat(marginLeft) && pdfViewPoint.y>CGFloat(marginBottom) &&
                         pdfViewPoint.x<CGFloat(mediaBoxWidth - marginRight) &&
                         pdfViewPoint.y<CGFloat(mediaBoxHeight - marginTop) && addingWayPt){
                         // turn off adding a waypoint 10-24-23
@@ -1706,7 +1712,7 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         let pdfView = gestureRecognizer.view as! PDFView
         if gestureRecognizer.state == .ended
         {
-            if let currentPage = pdfView.currentPage
+            if let currentPage = pdfView.document?.page(at: 0)
             {
                 // is popup showing? Did they click on the popup then allow editing
                 hidePopup()
@@ -1856,7 +1862,7 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         }
 
         // Remove last location dot
-        //page.removeAnnotation(currentLocation)
+        page.removeAnnotation(currentLocation)
         // resize current location dot
         addCurrentLocationDot(page:page)
         
@@ -1949,7 +1955,11 @@ extension MapViewController:UITableViewDelegate, UITableViewDataSource {
             }
             self.title = maps[mapIndex].displayName
             do {
-                try setupPDFView()
+                adjacentMapsBtn.removeFromSuperview()
+                currentLatLong.removeFromSuperview()
+                pdfView.gestureRecognizers?.removeAll()
+                try
+                setupPDFView()
                 addCurrentLatLongTextbox()
                 addLoadAdjacentMapsBtn()
                 addWayPtsFromDatabaseFlag = true

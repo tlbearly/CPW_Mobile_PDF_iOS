@@ -423,8 +423,8 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
             self.locationManager.requestWhenInUseAuthorization()
             self.locationManager.startUpdatingLocation()
             self.updateLocation() // initial
-            // update location every 2 seconds
-            locationTimer = Timer.scheduledTimer(withTimeInterval: 2, repeats: true) { timer in
+            // update location every 1 seconds
+            locationTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { timer in
                 self.updateLocation()
             }
             
@@ -437,8 +437,8 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
         case .authorizedAlways, .authorizedWhenInUse:
             locationManager.startUpdatingLocation()
             self.updateLocation() // initial
-            // update location every 2 seconds
-            locationTimer = Timer.scheduledTimer(withTimeInterval: 2, repeats: true) { timer in
+            // update location every 1 seconds
+            locationTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { timer in
                 self.updateLocation()
             }
             
@@ -446,8 +446,8 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
             locationManager.requestWhenInUseAuthorization()
             locationManager.startUpdatingLocation()
             self.updateLocation()
-            // update location every 2 seconds
-            locationTimer = Timer.scheduledTimer(withTimeInterval: 2, repeats: true) { timer in
+            // update location every 1 seconds
+            locationTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { timer in
                 self.updateLocation()
             }
         }
