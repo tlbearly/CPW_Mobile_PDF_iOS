@@ -469,7 +469,6 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
             latNow = currentLoc.coordinate.latitude
             longNow = currentLoc.coordinate.longitude
             if needRefresh {
-                
                 self.tableView.reloadData()
             }
         }
@@ -1185,6 +1184,14 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
         
         // More Menu
         if (tableView == self.moreMenuTableview){
+            if (maps.count == 0){
+                removeMoreMenuTransparentView()
+                let notice = UIAlertController(title: "Notice", message: "No maps to delete.", preferredStyle: .alert)
+                notice.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .default, handler: { _ in
+                }))
+                self.present(notice, animated: true, completion: nil)
+                return
+            }
             guard let cell = tableView.cellForRow(at: indexPath) else {
                 displayError(theError: AppError.pdfMapError.cannotSelectRow)
                 return

@@ -194,53 +194,6 @@
             endingLineNumber = "1242"
             landmarkName = "prepare(for:sender:)"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "7F52ED38-8A65-4C14-BF57-FD2B0835C4A3 - 3faef5b85bfe4357"
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "MapVieweriOS.MapListTableViewController.prepare(for: __C.UIStoryboardSegue, sender: Swift.Optional&lt;Any&gt;) -&gt; ()"
-                  moduleName = "MapVieweriOS"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/tammy/Documents/iOS%20Apps/MapVieweriOS/MapVieweriOS/Controllers/MapListTableViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "758"
-                  endingLineNumber = "758"
-                  offsetFromSymbolStart = "253">
-               </Location>
-               <Location
-                  uuid = "7F52ED38-8A65-4C14-BF57-FD2B0835C4A3 - 3faef5b85bfe4357"
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "MapVieweriOS.MapListTableViewController.prepare(for: __C.UIStoryboardSegue, sender: Swift.Optional&lt;Any&gt;) -&gt; ()"
-                  moduleName = "MapVieweriOS"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/tammy/Documents/iOS%20Apps/MapVieweriOS/MapVieweriOS/Controllers/MapListTableViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "758"
-                  endingLineNumber = "758"
-                  offsetFromSymbolStart = "588">
-               </Location>
-               <Location
-                  uuid = "7F52ED38-8A65-4C14-BF57-FD2B0835C4A3 - 3faef5b85bfe4357"
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "MapVieweriOS.MapListTableViewController.prepare(for: __C.UIStoryboardSegue, sender: Swift.Optional&lt;Any&gt;) -&gt; ()"
-                  moduleName = "MapVieweriOS"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/tammy/Documents/iOS%20Apps/MapVieweriOS/MapVieweriOS/Controllers/MapListTableViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "758"
-                  endingLineNumber = "758"
-                  offsetFromSymbolStart = "1005">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -561,98 +514,6 @@
             endingLineNumber = "43"
             landmarkName = "MapViewController"
             landmarkType = "3">
-            <Locations>
-               <Location
-                  uuid = "F4991FB9-9051-40AF-9E82-6FB41BCAB2CD - 92e7a307d3201f1c"
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "MapVieweriOS.MapViewController.currentLocation.getter : __C.PDFAnnotation"
-                  moduleName = "MapVieweriOS"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/tammy/Documents/iOS%20Apps/MapVieweriOS/MapVieweriOS/Controllers/MapViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "40"
-                  endingLineNumber = "40"
-                  offsetFromSymbolStart = "126">
-               </Location>
-               <Location
-                  uuid = "F4991FB9-9051-40AF-9E82-6FB41BCAB2CD - 38d8883fd3595310"
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "MapVieweriOS.MapViewController.currentLocation.setter : __C.PDFAnnotation"
-                  moduleName = "MapVieweriOS"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/tammy/Documents/iOS%20Apps/MapVieweriOS/MapVieweriOS/Controllers/MapViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "40"
-                  endingLineNumber = "40"
-                  offsetFromSymbolStart = "164">
-               </Location>
-               <Location
-                  uuid = "F4991FB9-9051-40AF-9E82-6FB41BCAB2CD - 42f17eeb3580a6e9"
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "MapVieweriOS.MapViewController.currentLocation.modify : __C.PDFAnnotation"
-                  moduleName = "MapVieweriOS"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/tammy/Documents/iOS%20Apps/MapVieweriOS/MapVieweriOS/Controllers/MapViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "0"
-                  endingLineNumber = "0"
-                  offsetFromSymbolStart = "18">
-               </Location>
-               <Location
-                  uuid = "F4991FB9-9051-40AF-9E82-6FB41BCAB2CD - e583474f8995aa93"
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "MapVieweriOS.MapViewController.currentLocation.modify : __C.PDFAnnotation with unmangled suffix &quot;.resume.0&quot;"
-                  moduleName = "MapVieweriOS"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/tammy/Documents/iOS%20Apps/MapVieweriOS/MapVieweriOS/Controllers/MapViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "40"
-                  endingLineNumber = "40"
-                  offsetFromSymbolStart = "4">
-               </Location>
-               <Location
-                  uuid = "F4991FB9-9051-40AF-9E82-6FB41BCAB2CD - e89a88926172ab8b"
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "MapVieweriOS.MapViewController.init(nibName: Swift.Optional&lt;Swift.String&gt;, bundle: Swift.Optional&lt;__C.NSBundle&gt;) -&gt; MapVieweriOS.MapViewController"
-                  moduleName = "MapVieweriOS"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/tammy/Documents/iOS%20Apps/MapVieweriOS/MapVieweriOS/Controllers/MapViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "40"
-                  endingLineNumber = "40"
-                  offsetFromSymbolStart = "1381">
-               </Location>
-               <Location
-                  uuid = "F4991FB9-9051-40AF-9E82-6FB41BCAB2CD - 5e7573023cb89e80"
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "MapVieweriOS.MapViewController.init(coder: __C.NSCoder) -&gt; Swift.Optional&lt;MapVieweriOS.MapViewController&gt;"
-                  moduleName = "MapVieweriOS"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/tammy/Documents/iOS%20Apps/MapVieweriOS/MapVieweriOS/Controllers/MapViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "40"
-                  endingLineNumber = "40"
-                  offsetFromSymbolStart = "1316">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1197,128 +1058,6 @@
             endingLineNumber = "490"
             landmarkName = "sortList(type:)"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "5C38BCA2-2E86-4291-B651-59EDBE69C513 - 479a00139f95374b"
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "MapVieweriOS.MapListTableViewController.sortList(type: Swift.String) -&gt; ()"
-                  moduleName = "MapVieweriOS"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/tammy/Documents/iOS%20Apps/MapVieweriOS/MapVieweriOS/Controllers/MapListTableViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "512"
-                  endingLineNumber = "512"
-                  offsetFromSymbolStart = "634">
-               </Location>
-               <Location
-                  uuid = "5C38BCA2-2E86-4291-B651-59EDBE69C513 - 479a00139f95374b"
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "MapVieweriOS.MapListTableViewController.sortList(type: Swift.String) -&gt; ()"
-                  moduleName = "MapVieweriOS"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/tammy/Documents/iOS%20Apps/MapVieweriOS/MapVieweriOS/Controllers/MapListTableViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "512"
-                  endingLineNumber = "512"
-                  offsetFromSymbolStart = "1119">
-               </Location>
-               <Location
-                  uuid = "5C38BCA2-2E86-4291-B651-59EDBE69C513 - 479a00139f95374b"
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "MapVieweriOS.MapListTableViewController.sortList(type: Swift.String) -&gt; ()"
-                  moduleName = "MapVieweriOS"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/tammy/Documents/iOS%20Apps/MapVieweriOS/MapVieweriOS/Controllers/MapListTableViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "512"
-                  endingLineNumber = "512"
-                  offsetFromSymbolStart = "1604">
-               </Location>
-               <Location
-                  uuid = "5C38BCA2-2E86-4291-B651-59EDBE69C513 - 479a00139f95374b"
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "MapVieweriOS.MapListTableViewController.sortList(type: Swift.String) -&gt; ()"
-                  moduleName = "MapVieweriOS"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/tammy/Documents/iOS%20Apps/MapVieweriOS/MapVieweriOS/Controllers/MapListTableViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "512"
-                  endingLineNumber = "512"
-                  offsetFromSymbolStart = "2089">
-               </Location>
-               <Location
-                  uuid = "5C38BCA2-2E86-4291-B651-59EDBE69C513 - 479a00139f95374b"
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "MapVieweriOS.MapListTableViewController.sortList(type: Swift.String) -&gt; ()"
-                  moduleName = "MapVieweriOS"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/tammy/Documents/iOS%20Apps/MapVieweriOS/MapVieweriOS/Controllers/MapListTableViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "512"
-                  endingLineNumber = "512"
-                  offsetFromSymbolStart = "2586">
-               </Location>
-               <Location
-                  uuid = "5C38BCA2-2E86-4291-B651-59EDBE69C513 - 479a00139f95374b"
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "MapVieweriOS.MapListTableViewController.sortList(type: Swift.String) -&gt; ()"
-                  moduleName = "MapVieweriOS"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/tammy/Documents/iOS%20Apps/MapVieweriOS/MapVieweriOS/Controllers/MapListTableViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "512"
-                  endingLineNumber = "512"
-                  offsetFromSymbolStart = "3083">
-               </Location>
-               <Location
-                  uuid = "5C38BCA2-2E86-4291-B651-59EDBE69C513 - 479a00139f95374b"
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "MapVieweriOS.MapListTableViewController.sortList(type: Swift.String) -&gt; ()"
-                  moduleName = "MapVieweriOS"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/tammy/Documents/iOS%20Apps/MapVieweriOS/MapVieweriOS/Controllers/MapListTableViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "512"
-                  endingLineNumber = "512"
-                  offsetFromSymbolStart = "3580">
-               </Location>
-               <Location
-                  uuid = "5C38BCA2-2E86-4291-B651-59EDBE69C513 - 479a00139f95374b"
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "MapVieweriOS.MapListTableViewController.sortList(type: Swift.String) -&gt; ()"
-                  moduleName = "MapVieweriOS"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/tammy/Documents/iOS%20Apps/MapVieweriOS/MapVieweriOS/Controllers/MapListTableViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "512"
-                  endingLineNumber = "512"
-                  offsetFromSymbolStart = "4077">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1891,8 +1630,8 @@
             filePath = "CPWMobilePDF/Controllers/MapListTableViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1022"
-            endingLineNumber = "1022"
+            startingLineNumber = "1021"
+            endingLineNumber = "1021"
             landmarkName = "getDistToMap(map:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1907,8 +1646,8 @@
             filePath = "CPWMobilePDF/Controllers/MapListTableViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1142"
-            endingLineNumber = "1142"
+            startingLineNumber = "1141"
+            endingLineNumber = "1141"
             landmarkName = "tableView(_:cellForRowAt:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1923,8 +1662,8 @@
             filePath = "CPWMobilePDF/Controllers/MapListTableViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1137"
-            endingLineNumber = "1137"
+            startingLineNumber = "1136"
+            endingLineNumber = "1136"
             landmarkName = "tableView(_:cellForRowAt:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1987,8 +1726,8 @@
             filePath = "CPWMobilePDF/Controllers/MapViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1822"
-            endingLineNumber = "1822"
+            startingLineNumber = "1816"
+            endingLineNumber = "1816"
             landmarkName = "showHideWayPts()"
             landmarkType = "7">
          </BreakpointContent>
@@ -2099,8 +1838,8 @@
             filePath = "CPWMobilePDF/Controllers/MapListTableViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "512"
-            endingLineNumber = "512"
+            startingLineNumber = "511"
+            endingLineNumber = "511"
             landmarkName = "showMsg()"
             landmarkType = "7">
          </BreakpointContent>
@@ -2131,8 +1870,8 @@
             filePath = "CPWMobilePDF/Controllers/MapListTableViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1148"
-            endingLineNumber = "1148"
+            startingLineNumber = "1147"
+            endingLineNumber = "1147"
             landmarkName = "tableView(_:cellForRowAt:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -2147,8 +1886,8 @@
             filePath = "CPWMobilePDF/Controllers/MapListTableViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1149"
-            endingLineNumber = "1149"
+            startingLineNumber = "1148"
+            endingLineNumber = "1148"
             landmarkName = "tableView(_:cellForRowAt:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -2163,8 +1902,8 @@
             filePath = "CPWMobilePDF/Controllers/MapListTableViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1090"
-            endingLineNumber = "1090"
+            startingLineNumber = "1089"
+            endingLineNumber = "1089"
             landmarkName = "tableView(_:cellForRowAt:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -2195,8 +1934,8 @@
             filePath = "CPWMobilePDF/Controllers/MapViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1896"
-            endingLineNumber = "1896"
+            startingLineNumber = "1890"
+            endingLineNumber = "1890"
             landmarkName = "resizePushPins()"
             landmarkType = "7">
          </BreakpointContent>
@@ -2211,8 +1950,8 @@
             filePath = "CPWMobilePDF/Controllers/MapViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1897"
-            endingLineNumber = "1897"
+            startingLineNumber = "1891"
+            endingLineNumber = "1891"
             landmarkName = "resizePushPins()"
             landmarkType = "7">
          </BreakpointContent>
@@ -2279,83 +2018,6 @@
             endingLineNumber = "590"
             landmarkName = "init?(coder:)"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "D5B27164-77AE-46CA-8CC0-B5AB97E9AE09 - 20b3533f551a4a72"
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "CPW_Mobile_PDF.PDFMap.init(coder: __C.NSCoder) -&gt; Swift.Optional&lt;CPW_Mobile_PDF.PDFMap&gt;"
-                  moduleName = "CPW Mobile PDF"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/tammy/Documents/iOS%20Apps/CPW%20Mobile%20PDF/CPWMobilePDF/Models/PDFMap.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "593"
-                  endingLineNumber = "593"
-                  offsetFromSymbolStart = "936">
-               </Location>
-               <Location
-                  uuid = "D5B27164-77AE-46CA-8CC0-B5AB97E9AE09 - 20b3533f551a4a15"
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "CPW_Mobile_PDF.PDFMap.init(coder: __C.NSCoder) -&gt; Swift.Optional&lt;CPW_Mobile_PDF.PDFMap&gt;"
-                  moduleName = "CPW Mobile PDF"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/tammy/Documents/iOS%20Apps/CPW%20Mobile%20PDF/CPWMobilePDF/Models/PDFMap.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "592"
-                  endingLineNumber = "592"
-                  offsetFromSymbolStart = "407">
-               </Location>
-               <Location
-                  uuid = "D5B27164-77AE-46CA-8CC0-B5AB97E9AE09 - 20b3533f551a4027"
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "CPW_Mobile_PDF.PDFMap.init(coder: __C.NSCoder) -&gt; Swift.Optional&lt;CPW_Mobile_PDF.PDFMap&gt;"
-                  moduleName = "CPW Mobile PDF"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/tammy/Documents/iOS%20Apps/CPW%20Mobile%20PDF/CPWMobilePDF/Models/PDFMap.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "638"
-                  endingLineNumber = "638"
-                  offsetFromSymbolStart = "407">
-               </Location>
-               <Location
-                  uuid = "D5B27164-77AE-46CA-8CC0-B5AB97E9AE09 - 20b3533f551a4027"
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "CPW_Mobile_PDF.PDFMap.init(coder: __C.NSCoder) -&gt; Swift.Optional&lt;CPW_Mobile_PDF.PDFMap&gt;"
-                  moduleName = "CPW Mobile PDF"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/tammy/Documents/iOS%20Apps/CPW%20Mobile%20PDF/CPWMobilePDF/Models/PDFMap.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "638"
-                  endingLineNumber = "638"
-                  offsetFromSymbolStart = "589">
-               </Location>
-               <Location
-                  uuid = "D5B27164-77AE-46CA-8CC0-B5AB97E9AE09 - 20b3533f551a47e9"
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "CPW_Mobile_PDF.PDFMap.init(coder: __C.NSCoder) -&gt; Swift.Optional&lt;CPW_Mobile_PDF.PDFMap&gt;"
-                  moduleName = "CPW Mobile PDF"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/tammy/Documents/iOS%20Apps/CPW%20Mobile%20PDF/CPWMobilePDF/Models/PDFMap.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "636"
-                  endingLineNumber = "636"
-                  offsetFromSymbolStart = "589">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -2368,42 +2030,10 @@
             filePath = "CPWMobilePDF/Controllers/MapListTableViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "891"
-            endingLineNumber = "891"
+            startingLineNumber = "890"
+            endingLineNumber = "890"
             landmarkName = "setEditing(_:animated:)"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "A2892826-1D7F-4078-938E-D68E9E02CBDA - c0ccff509dabc60a"
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "CPW_Mobile_PDF.MapListTableViewController.setEditing(_: Swift.Bool, animated: Swift.Bool) -&gt; ()"
-                  moduleName = "CPW Mobile PDF"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/tammy/Documents/iOS%20Apps/CPW%20Mobile%20PDF/CPWMobilePDF/Controllers/MapListTableViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "886"
-                  endingLineNumber = "886"
-                  offsetFromSymbolStart = "5239">
-               </Location>
-               <Location
-                  uuid = "A2892826-1D7F-4078-938E-D68E9E02CBDA - c0ccff509dabc7ed"
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "CPW_Mobile_PDF.MapListTableViewController.setEditing(_: Swift.Bool, animated: Swift.Bool) -&gt; ()"
-                  moduleName = "CPW Mobile PDF"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/tammy/Documents/iOS%20Apps/CPW%20Mobile%20PDF/CPWMobilePDF/Controllers/MapListTableViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "887"
-                  endingLineNumber = "887"
-                  offsetFromSymbolStart = "3914">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -2416,42 +2046,10 @@
             filePath = "CPWMobilePDF/Controllers/MapListTableViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "863"
-            endingLineNumber = "863"
+            startingLineNumber = "862"
+            endingLineNumber = "862"
             landmarkName = "setEditing(_:animated:)"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "FF00FC97-CF8F-452F-A979-F4647B45C529 - c0ccff509dabcbae"
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "CPW_Mobile_PDF.MapListTableViewController.setEditing(_: Swift.Bool, animated: Swift.Bool) -&gt; ()"
-                  moduleName = "CPW Mobile PDF"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/tammy/Documents/iOS%20Apps/CPW%20Mobile%20PDF/CPWMobilePDF/Controllers/MapListTableViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "858"
-                  endingLineNumber = "858"
-                  offsetFromSymbolStart = "1528">
-               </Location>
-               <Location
-                  uuid = "FF00FC97-CF8F-452F-A979-F4647B45C529 - c0ccff509dabcb81"
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "CPW_Mobile_PDF.MapListTableViewController.setEditing(_: Swift.Bool, animated: Swift.Bool) -&gt; ()"
-                  moduleName = "CPW Mobile PDF"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/tammy/Documents/iOS%20Apps/CPW%20Mobile%20PDF/CPWMobilePDF/Controllers/MapListTableViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "859"
-                  endingLineNumber = "859"
-                  offsetFromSymbolStart = "695">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -2480,8 +2078,8 @@
             filePath = "CPWMobilePDF/Controllers/MapViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1805"
-            endingLineNumber = "1805"
+            startingLineNumber = "1799"
+            endingLineNumber = "1799"
             landmarkName = "hideWayPts()"
             landmarkType = "7">
          </BreakpointContent>
@@ -2496,8 +2094,8 @@
             filePath = "CPWMobilePDF/Controllers/MapViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1804"
-            endingLineNumber = "1804"
+            startingLineNumber = "1798"
+            endingLineNumber = "1798"
             landmarkName = "hideWayPts()"
             landmarkType = "7">
          </BreakpointContent>
@@ -2512,8 +2110,8 @@
             filePath = "CPWMobilePDF/Controllers/MapViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "891"
-            endingLineNumber = "891"
+            startingLineNumber = "890"
+            endingLineNumber = "890"
             landmarkName = "setupPDFView()"
             landmarkType = "7">
          </BreakpointContent>
@@ -2528,8 +2126,8 @@
             filePath = "CPWMobilePDF/Controllers/MapViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "857"
-            endingLineNumber = "857"
+            startingLineNumber = "856"
+            endingLineNumber = "856"
             landmarkName = "setupPDFView()"
             landmarkType = "7">
          </BreakpointContent>
@@ -2548,53 +2146,6 @@
             endingLineNumber = "48"
             landmarkName = "prepare(for:sender:)"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "DABCB0D1-EF23-4D65-A6B8-77A1ED5E13A6 - 508d28168347a091"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "CPW_Mobile_PDF.EditWayPtViewController.prepare(for: __C.UIStoryboardSegue, sender: Swift.Optional&lt;Any&gt;) -&gt; ()"
-                  moduleName = "CPW Mobile PDF"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/tammy/Documents/iOS%20Apps/CPW%20Mobile%20PDF/CPWMobilePDF/Controllers/EditWayPtViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "46"
-                  endingLineNumber = "46"
-                  offsetFromSymbolStart = "40">
-               </Location>
-               <Location
-                  uuid = "DABCB0D1-EF23-4D65-A6B8-77A1ED5E13A6 - 508d28168347af70"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "CPW_Mobile_PDF.EditWayPtViewController.prepare(for: __C.UIStoryboardSegue, sender: Swift.Optional&lt;Any&gt;) -&gt; ()"
-                  moduleName = "CPW Mobile PDF"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/tammy/Documents/iOS%20Apps/CPW%20Mobile%20PDF/CPWMobilePDF/Controllers/EditWayPtViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "45"
-                  endingLineNumber = "45"
-                  offsetFromSymbolStart = "120">
-               </Location>
-               <Location
-                  uuid = "DABCB0D1-EF23-4D65-A6B8-77A1ED5E13A6 - 508d28168347af70"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "CPW_Mobile_PDF.EditWayPtViewController.prepare(for: __C.UIStoryboardSegue, sender: Swift.Optional&lt;Any&gt;) -&gt; ()"
-                  moduleName = "CPW Mobile PDF"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/tammy/Documents/iOS%20Apps/CPW%20Mobile%20PDF/CPWMobilePDF/Controllers/EditWayPtViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "45"
-                  endingLineNumber = "45"
-                  offsetFromSymbolStart = "40">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -2607,8 +2158,8 @@
             filePath = "CPWMobilePDF/Controllers/MapListTableViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1379"
-            endingLineNumber = "1379"
+            startingLineNumber = "1386"
+            endingLineNumber = "1386"
             landmarkName = "prepare(for:sender:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -2627,38 +2178,6 @@
             endingLineNumber = "49"
             landmarkName = "prepare(for:sender:)"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "18AB5C8A-FAF1-4F31-85A3-4024B55B9983 - 8c6d0c2d7d3ec9a8"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "CPW_Mobile_PDF.EditWayPtViewController.delBtn(__C.UIBarButtonItem) -&gt; ()"
-                  moduleName = "CPW Mobile PDF"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/tammy/Documents/iOS%20Apps/CPW%20Mobile%20PDF/CPWMobilePDF/Controllers/EditWayPtViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "50"
-                  endingLineNumber = "50"
-                  offsetFromSymbolStart = "57">
-               </Location>
-               <Location
-                  uuid = "18AB5C8A-FAF1-4F31-85A3-4024B55B9983 - 508d28168347a0fc"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "CPW_Mobile_PDF.EditWayPtViewController.prepare(for: __C.UIStoryboardSegue, sender: Swift.Optional&lt;Any&gt;) -&gt; ()"
-                  moduleName = "CPW Mobile PDF"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/tammy/Documents/iOS%20Apps/CPW%20Mobile%20PDF/CPWMobilePDF/Controllers/EditWayPtViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "49"
-                  endingLineNumber = "49"
-                  offsetFromSymbolStart = "95">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -2675,68 +2194,6 @@
             endingLineNumber = "70"
             landmarkName = "delBtn(_:)"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "365D2EF6-FBDF-4AE0-BDFB-B480DE325776 - b5c4ca60a1f81850"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (__C.UIAlertAction) -&gt; () in CPW_Mobile_PDF.EditWayPtViewController.delBtn(__C.UIBarButtonItem) -&gt; ()"
-                  moduleName = "CPW Mobile PDF"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/tammy/Documents/iOS%20Apps/CPW%20Mobile%20PDF/CPWMobilePDF/Controllers/EditWayPtViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "66"
-                  endingLineNumber = "66"
-                  offsetFromSymbolStart = "763">
-               </Location>
-               <Location
-                  uuid = "365D2EF6-FBDF-4AE0-BDFB-B480DE325776 - b5c4ca60a1f81850"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (__C.UIAlertAction) -&gt; () in CPW_Mobile_PDF.EditWayPtViewController.delBtn(__C.UIBarButtonItem) -&gt; ()"
-                  moduleName = "CPW Mobile PDF"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/tammy/Documents/iOS%20Apps/CPW%20Mobile%20PDF/CPWMobilePDF/Controllers/EditWayPtViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "66"
-                  endingLineNumber = "66"
-                  offsetFromSymbolStart = "680">
-               </Location>
-               <Location
-                  uuid = "365D2EF6-FBDF-4AE0-BDFB-B480DE325776 - b5c4ca60a1f81850"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (__C.UIAlertAction) -&gt; () in CPW_Mobile_PDF.EditWayPtViewController.delBtn(__C.UIBarButtonItem) -&gt; ()"
-                  moduleName = "CPW Mobile PDF"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/tammy/Documents/iOS%20Apps/CPW%20Mobile%20PDF/CPWMobilePDF/Controllers/EditWayPtViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "66"
-                  endingLineNumber = "66"
-                  offsetFromSymbolStart = "707">
-               </Location>
-               <Location
-                  uuid = "365D2EF6-FBDF-4AE0-BDFB-B480DE325776 - b5c4ca60a1f819d4"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (__C.UIAlertAction) -&gt; () in CPW_Mobile_PDF.EditWayPtViewController.delBtn(__C.UIBarButtonItem) -&gt; ()"
-                  moduleName = "CPW Mobile PDF"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/tammy/Documents/iOS%20Apps/CPW%20Mobile%20PDF/CPWMobilePDF/Controllers/EditWayPtViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "70"
-                  endingLineNumber = "70"
-                  offsetFromSymbolStart = "1395">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -2749,8 +2206,8 @@
             filePath = "CPWMobilePDF/Controllers/MapListTableViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1083"
-            endingLineNumber = "1083"
+            startingLineNumber = "1082"
+            endingLineNumber = "1082"
             landmarkName = "tableView(_:heightForRowAt:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -2785,38 +2242,6 @@
             endingLineNumber = "314"
             landmarkName = "importMap()"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "B22964B5-6F17-4FDE-A388-D69F11CBBC9D - 86ed2f14c8c07a95"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "CPW_Mobile_PDF.MapListTableViewController.importMap() -&gt; ()"
-                  moduleName = "CPW Mobile PDF"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/tammy/Documents/iOS%20Apps/CPW%20Mobile%20PDF/CPWMobilePDF/Controllers/MapListTableViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "314"
-                  endingLineNumber = "314"
-                  offsetFromSymbolStart = "2026">
-               </Location>
-               <Location
-                  uuid = "B22964B5-6F17-4FDE-A388-D69F11CBBC9D - 86ed2f14c8c07a95"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "CPW_Mobile_PDF.MapListTableViewController.importMap() -&gt; ()"
-                  moduleName = "CPW Mobile PDF"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/tammy/Documents/iOS%20Apps/CPW%20Mobile%20PDF/CPWMobilePDF/Controllers/MapListTableViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "314"
-                  endingLineNumber = "314"
-                  offsetFromSymbolStart = "1778">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -2829,8 +2254,8 @@
             filePath = "CPWMobilePDF/Controllers/MapViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1858"
-            endingLineNumber = "1858"
+            startingLineNumber = "1852"
+            endingLineNumber = "1852"
             landmarkName = "resizePushPins()"
             landmarkType = "7">
          </BreakpointContent>
@@ -2845,8 +2270,8 @@
             filePath = "CPWMobilePDF/Controllers/MapViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1113"
-            endingLineNumber = "1113"
+            startingLineNumber = "1112"
+            endingLineNumber = "1112"
             landmarkName = "displayLocation()"
             landmarkType = "7">
          </BreakpointContent>
@@ -2861,8 +2286,8 @@
             filePath = "CPWMobilePDF/Controllers/MapViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1116"
-            endingLineNumber = "1116"
+            startingLineNumber = "1115"
+            endingLineNumber = "1115"
             landmarkName = "displayLocation()"
             landmarkType = "7">
          </BreakpointContent>
@@ -2877,42 +2302,10 @@
             filePath = "CPWMobilePDF/Controllers/MapViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "988"
-            endingLineNumber = "988"
+            startingLineNumber = "987"
+            endingLineNumber = "987"
             landmarkName = "addCurrentLocationDot(page:)"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "3DFD58AA-19DD-459F-AB00-C2659E5F6565 - aa29340d6b143585"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "CPW_Mobile_PDF.MapViewController.addCurrentLocationDot(page: __C.PDFPage) -&gt; ()"
-                  moduleName = "CPW Mobile PDF"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/tammy/Documents/iOS%20Apps/CPW%20Mobile%20PDF/CPWMobilePDF/Controllers/MapViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "984"
-                  endingLineNumber = "984"
-                  offsetFromSymbolStart = "85">
-               </Location>
-               <Location
-                  uuid = "3DFD58AA-19DD-459F-AB00-C2659E5F6565 - aa29340d6b143585"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "CPW_Mobile_PDF.MapViewController.addCurrentLocationDot(page: __C.PDFPage) -&gt; ()"
-                  moduleName = "CPW Mobile PDF"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/tammy/Documents/iOS%20Apps/CPW%20Mobile%20PDF/CPWMobilePDF/Controllers/MapViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "984"
-                  endingLineNumber = "984"
-                  offsetFromSymbolStart = "189">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -2925,8 +2318,8 @@
             filePath = "CPWMobilePDF/Controllers/MapViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1010"
-            endingLineNumber = "1010"
+            startingLineNumber = "1009"
+            endingLineNumber = "1009"
             landmarkName = "addCurrentLocationDot(page:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -2941,42 +2334,10 @@
             filePath = "CPWMobilePDF/Controllers/MapViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1802"
-            endingLineNumber = "1802"
+            startingLineNumber = "1796"
+            endingLineNumber = "1796"
             landmarkName = "hideWayPts()"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "69F4847E-9FF2-4971-A6F5-BD50731EDCC1 - 807728846166926"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "CPW_Mobile_PDF.MapViewController.hideWayPts() -&gt; ()"
-                  moduleName = "CPW Mobile PDF"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/tammy/Documents/iOS%20Apps/CPW%20Mobile%20PDF/CPWMobilePDF/Controllers/MapViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "1786"
-                  endingLineNumber = "1786"
-                  offsetFromSymbolStart = "1677">
-               </Location>
-               <Location
-                  uuid = "69F4847E-9FF2-4971-A6F5-BD50731EDCC1 - 807728846166926"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "CPW_Mobile_PDF.MapViewController.hideWayPts() -&gt; ()"
-                  moduleName = "CPW Mobile PDF"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/tammy/Documents/iOS%20Apps/CPW%20Mobile%20PDF/CPWMobilePDF/Controllers/MapViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "1786"
-                  endingLineNumber = "1786"
-                  offsetFromSymbolStart = "1540">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -2989,8 +2350,8 @@
             filePath = "CPWMobilePDF/Controllers/MapViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1797"
-            endingLineNumber = "1797"
+            startingLineNumber = "1791"
+            endingLineNumber = "1791"
             landmarkName = "hideWayPts()"
             landmarkType = "7">
          </BreakpointContent>
@@ -3021,42 +2382,10 @@
             filePath = "CPWMobilePDF/Controllers/MapListTableViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "473"
-            endingLineNumber = "473"
+            startingLineNumber = "472"
+            endingLineNumber = "472"
             landmarkName = "updateLocation()"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "66685804-328B-44CD-84DE-B032D69A4EE5 - eadcbf1ef2202b0c"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "CPW_Mobile_PDF.MapListTableViewController.updateLocation() -&gt; ()"
-                  moduleName = "CPW Mobile PDF"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/tammy/Documents/iOS%20Apps/CPW%20Mobile%20PDF/CPWMobilePDF/Controllers/MapListTableViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "473"
-                  endingLineNumber = "473"
-                  offsetFromSymbolStart = "667">
-               </Location>
-               <Location
-                  uuid = "66685804-328B-44CD-84DE-B032D69A4EE5 - eadcbf1ef2202b0c"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "CPW_Mobile_PDF.MapListTableViewController.updateLocation() -&gt; ()"
-                  moduleName = "CPW Mobile PDF"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/tammy/Documents/iOS%20Apps/CPW%20Mobile%20PDF/CPWMobilePDF/Controllers/MapListTableViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "473"
-                  endingLineNumber = "473"
-                  offsetFromSymbolStart = "797">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -3089,38 +2418,6 @@
             endingLineNumber = "448"
             landmarkName = "setupLocationServices()"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "3016D334-F08C-4757-B128-E431DDD39284 - 61194d0e6f65777f"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "CPW_Mobile_PDF.MapListTableViewController.setupLocationServices() -&gt; ()"
-                  moduleName = "CPW Mobile PDF"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/tammy/Documents/iOS%20Apps/CPW%20Mobile%20PDF/CPWMobilePDF/Controllers/MapListTableViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "447"
-                  endingLineNumber = "447"
-                  offsetFromSymbolStart = "1300">
-               </Location>
-               <Location
-                  uuid = "3016D334-F08C-4757-B128-E431DDD39284 - 61194d0e6f65775e"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "CPW_Mobile_PDF.MapListTableViewController.setupLocationServices() -&gt; ()"
-                  moduleName = "CPW Mobile PDF"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/tammy/Documents/iOS%20Apps/CPW%20Mobile%20PDF/CPWMobilePDF/Controllers/MapListTableViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "448"
-                  endingLineNumber = "448"
-                  offsetFromSymbolStart = "1362">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -3137,38 +2434,6 @@
             endingLineNumber = "427"
             landmarkName = "setupLocationServices()"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "CE6F4A24-FCE1-453F-96A7-72F8C53BE457 - 61194d0e6f650a8b"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "CPW_Mobile_PDF.MapListTableViewController.setupLocationServices() -&gt; ()"
-                  moduleName = "CPW Mobile PDF"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/tammy/Documents/iOS%20Apps/CPW%20Mobile%20PDF/CPWMobilePDF/Controllers/MapListTableViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "427"
-                  endingLineNumber = "427"
-                  offsetFromSymbolStart = "362">
-               </Location>
-               <Location
-                  uuid = "CE6F4A24-FCE1-453F-96A7-72F8C53BE457 - 4b369d37351973da"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 @Sendable (__C.NSTimer) -&gt; () in CPW_Mobile_PDF.MapListTableViewController.setupLocationServices() -&gt; ()"
-                  moduleName = "CPW Mobile PDF"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/tammy/Documents/iOS%20Apps/CPW%20Mobile%20PDF/CPWMobilePDF/Controllers/MapListTableViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "428"
-                  endingLineNumber = "428"
-                  offsetFromSymbolStart = "37">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -3222,22 +2487,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "408E0C53-C013-4567-A7D0-B90538EB38AC"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "CPWMobilePDF/Controllers/MapViewController.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1145"
-            endingLineNumber = "1145"
-            landmarkName = "displayLocation()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "48FCEE03-B85F-4682-98B9-5C2897AB2731"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
@@ -3249,53 +2498,6 @@
             endingLineNumber = "196"
             landmarkName = "performUnwindFromMainHelpDone(_:)"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "48FCEE03-B85F-4682-98B9-5C2897AB2731 - ae23b0910d57566b"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "default argument 1 of CPW_Mobile_PDF.MapListTableViewController.displayError(theError: Swift.Error, title: Swift.String) -&gt; ()"
-                  moduleName = "CPW Mobile PDF"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/tammy/Documents/iOS%20Apps/CPW%20Mobile%20PDF/CPWMobilePDF/Controllers/MapListTableViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "197"
-                  endingLineNumber = "197"
-                  offsetFromSymbolStart = "4">
-               </Location>
-               <Location
-                  uuid = "48FCEE03-B85F-4682-98B9-5C2897AB2731 - e5a162ef2f9fef5c"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "CPW_Mobile_PDF.MapListTableViewController.displayError(theError: Swift.Error, title: Swift.String) -&gt; ()"
-                  moduleName = "CPW Mobile PDF"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/tammy/Documents/iOS%20Apps/CPW%20Mobile%20PDF/CPWMobilePDF/Controllers/MapListTableViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "201"
-                  endingLineNumber = "201"
-                  offsetFromSymbolStart = "398">
-               </Location>
-               <Location
-                  uuid = "48FCEE03-B85F-4682-98B9-5C2897AB2731 - 27f47e78186e1785"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "CPW_Mobile_PDF.MapListTableViewController.performUnwindFromMainHelpDone(__C.UIStoryboardSegue) -&gt; ()"
-                  moduleName = "CPW Mobile PDF"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/tammy/Documents/iOS%20Apps/CPW%20Mobile%20PDF/CPWMobilePDF/Controllers/MapListTableViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "196"
-                  endingLineNumber = "196"
-                  offsetFromSymbolStart = "65">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -3324,8 +2526,8 @@
             filePath = "CPWMobilePDF/Controllers/MapViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "730"
-            endingLineNumber = "730"
+            startingLineNumber = "729"
+            endingLineNumber = "729"
             landmarkName = "setupLocationServices()"
             landmarkType = "7">
          </BreakpointContent>
@@ -3340,42 +2542,10 @@
             filePath = "CPWMobilePDF/Controllers/MapViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "765"
-            endingLineNumber = "765"
+            startingLineNumber = "764"
+            endingLineNumber = "764"
             landmarkName = "setupLocationServices()"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "63ADB4BD-5DC9-46D2-AD42-5417F3AC8B20 - fc2ed40a5a9652f6"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "CPW_Mobile_PDF.MapViewController.setupLocationServices() -&gt; ()"
-                  moduleName = "CPW Mobile PDF"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/tammy/Documents/iOS%20Apps/CPW%20Mobile%20PDF/CPWMobilePDF/Controllers/MapViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "785"
-                  endingLineNumber = "785"
-                  offsetFromSymbolStart = "4068">
-               </Location>
-               <Location
-                  uuid = "63ADB4BD-5DC9-46D2-AD42-5417F3AC8B20 - 59cb6079bcaa35f2"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 @Sendable (__C.NSTimer) -&gt; () in CPW_Mobile_PDF.MapViewController.setupLocationServices() -&gt; ()"
-                  moduleName = "CPW Mobile PDF"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/tammy/Documents/iOS%20Apps/CPW%20Mobile%20PDF/CPWMobilePDF/Controllers/MapViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "786"
-                  endingLineNumber = "786"
-                  offsetFromSymbolStart = "57">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -3388,25 +2558,9 @@
             filePath = "CPWMobilePDF/Controllers/MapViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "761"
-            endingLineNumber = "761"
+            startingLineNumber = "760"
+            endingLineNumber = "760"
             landmarkName = "setupLocationServices()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "56A089BF-F82E-4435-A72D-F686A6149C12"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "CPWMobilePDF/Controllers/MapViewController.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1154"
-            endingLineNumber = "1154"
-            landmarkName = "displayLocation()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -3420,74 +2574,10 @@
             filePath = "CPWMobilePDF/Controllers/MapViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1168"
-            endingLineNumber = "1168"
+            startingLineNumber = "1162"
+            endingLineNumber = "1162"
             landmarkName = "displayLocation()"
             landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "C6B0CC20-463C-4527-BC73-A1D3CA742E3F"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "CPWMobilePDF/Controllers/MapViewController.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1137"
-            endingLineNumber = "1137"
-            landmarkName = "displayLocation()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "DF2F5445-89AE-4351-8026-D50A05DBFF69"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "CPWMobilePDF/Controllers/MapViewController.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1133"
-            endingLineNumber = "1133"
-            landmarkName = "displayLocation()"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "DF2F5445-89AE-4351-8026-D50A05DBFF69 - c632d450ceff5d01"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "CPW_Mobile_PDF.MapViewController.displayLocation() -&gt; ()"
-                  moduleName = "CPW Mobile PDF"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/tammy/Documents/iOS%20Apps/CPW%20Mobile%20PDF/CPWMobilePDF/Controllers/MapViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "1133"
-                  endingLineNumber = "1133"
-                  offsetFromSymbolStart = "1446">
-               </Location>
-               <Location
-                  uuid = "DF2F5445-89AE-4351-8026-D50A05DBFF69 - c632d450ceff5d01"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "CPW_Mobile_PDF.MapViewController.displayLocation() -&gt; ()"
-                  moduleName = "CPW Mobile PDF"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/tammy/Documents/iOS%20Apps/CPW%20Mobile%20PDF/CPWMobilePDF/Controllers/MapViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "1133"
-                  endingLineNumber = "1133"
-                  offsetFromSymbolStart = "1270">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -3500,42 +2590,10 @@
             filePath = "CPWMobilePDF/Controllers/MapViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "934"
-            endingLineNumber = "934"
+            startingLineNumber = "933"
+            endingLineNumber = "933"
             landmarkName = "addCurrentLatLongTextbox()"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "1D592EAC-4CE7-41F0-B9EF-4A54CF642EAD - 6228a2823699f656"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "CPW_Mobile_PDF.MapViewController.displayError(msg: Swift.String) -&gt; ()"
-                  moduleName = "CPW Mobile PDF"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/tammy/Documents/iOS%20Apps/CPW%20Mobile%20PDF/CPWMobilePDF/Controllers/MapViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "934"
-                  endingLineNumber = "934"
-                  offsetFromSymbolStart = "154">
-               </Location>
-               <Location
-                  uuid = "1D592EAC-4CE7-41F0-B9EF-4A54CF642EAD - c31e7a1a08b9a48b"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "CPW_Mobile_PDF.MapViewController.addCurrentLatLongTextbox() -&gt; ()"
-                  moduleName = "CPW Mobile PDF"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/tammy/Documents/iOS%20Apps/CPW%20Mobile%20PDF/CPWMobilePDF/Controllers/MapViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "934"
-                  endingLineNumber = "934"
-                  offsetFromSymbolStart = "423">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -3548,8 +2606,8 @@
             filePath = "CPWMobilePDF/Controllers/MapViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "963"
-            endingLineNumber = "963"
+            startingLineNumber = "962"
+            endingLineNumber = "962"
             landmarkName = "addLoadAdjacentMapsBtn()"
             landmarkType = "7">
          </BreakpointContent>
@@ -3564,8 +2622,8 @@
             filePath = "CPWMobilePDF/Controllers/MapViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1758"
-            endingLineNumber = "1758"
+            startingLineNumber = "1752"
+            endingLineNumber = "1752"
             landmarkName = "markCurrentLocation()"
             landmarkType = "7">
          </BreakpointContent>
@@ -3573,16 +2631,240 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "48127A5A-1362-4A26-8210-40444362FC61"
+            uuid = "A069ADC5-194C-4254-BD07-E9B3A79B6A98"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CPWMobilePDF/Controllers/MapViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1140"
-            endingLineNumber = "1140"
+            startingLineNumber = "1051"
+            endingLineNumber = "1051"
             landmarkName = "displayLocation()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "07CC26B3-058A-4B17-8D1E-62BF155E6FE5"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CPWMobilePDF/Controllers/MapViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "2036"
+            endingLineNumber = "2036"
+            landmarkName = "tableView(_:cellForRowAt:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "397C0B3E-6D69-4BA6-9A07-6137FE480BB1"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CPWMobilePDF/Controllers/MapListTableViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "114"
+            endingLineNumber = "114"
+            landmarkName = "viewDidAppear(_:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "636DF571-9A00-48F9-9F87-F314AF06B6B2"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CPWMobilePDF/Controllers/MapListTableViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1137"
+            endingLineNumber = "1137"
+            landmarkName = "tableView(_:cellForRowAt:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "59DDF740-6400-494D-9939-9071E8964C56"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CPWMobilePDF/Controllers/MapViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "167"
+            endingLineNumber = "167"
+            landmarkName = "viewDidLoad()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "E1EB6005-C795-4FBD-B170-9832220376CC"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CPWMobilePDF/Controllers/MapViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1948"
+            endingLineNumber = "1948"
+            landmarkName = "addWayPtByLatLongDialog()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "ED045420-1389-4205-89D5-EDDAFF35D3D0"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CPWMobilePDF/Controllers/MapViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1943"
+            endingLineNumber = "1943"
+            landmarkName = "addWayPtByLatLongDialog()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "D666B2DA-C81F-41D0-8C94-D907073F7AC2"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CPWMobilePDF/Controllers/MapViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1933"
+            endingLineNumber = "1933"
+            landmarkName = "addWayPtByLatLongDialog()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "64AAAC51-16C4-4470-A1ED-99A941448B4D"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CPWMobilePDF/Controllers/MapViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1976"
+            endingLineNumber = "1976"
+            landmarkName = "addWayPtByLatLongDialog()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "C7F7331B-FDAD-4EB1-87DD-EC0CBF37E20B"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CPWMobilePDF/Controllers/MapViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1983"
+            endingLineNumber = "1983"
+            landmarkName = "addWayPtByLatLongDialog()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "ACA22C2A-E08A-4DF2-AA31-7642E0AF31FB"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CPWMobilePDF/Controllers/MapViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1921"
+            endingLineNumber = "1921"
+            landmarkName = "addWayPtByLatLongDialog()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "B1C455F4-FF3D-4F8B-A253-F91FAA1942AA"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CPWMobilePDF/Controllers/MapViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "2006"
+            endingLineNumber = "2006"
+            landmarkName = "addWayPtByLatLongDialog()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "0908C2B8-9DFF-4EC7-8E02-98E9EBDFC782"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CPWMobilePDF/Controllers/MapViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1956"
+            endingLineNumber = "1956"
+            landmarkName = "addWayPtByLatLongDialog()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "AA5ED0C5-CEED-4526-8A31-546B2E60FF17"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CPWMobilePDF/Controllers/MapViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "321"
+            endingLineNumber = "321"
+            landmarkName = "addWayPts()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "72CD2648-AA43-404E-B089-B5FFEDDD24E0"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CPWMobilePDF/Controllers/MapViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1614"
+            endingLineNumber = "1614"
+            landmarkName = "pdfViewTapped(_:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

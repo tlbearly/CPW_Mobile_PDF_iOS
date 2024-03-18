@@ -128,7 +128,7 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
     // more drop down menu
     let moreMenuTransparentView = UIView();
     let moreMenuTableview = UITableView();
-    var dataSource = ["Mark current location", "Add waypoint", "Add waypoint by lat/long", "Show waypoints", "Delete all waypoints", "Load adjacent maps", "Lock in portrait mode", "Lock in landscape mode","Help"]
+    var dataSource = ["Mark current location", "Add waypoint", "Add waypoint by lat/long", "Delete all waypoints", "APP SETTINGS:", "Show waypoints", "Load adjacent maps", "MAP SETTINGS:", "Lock in portrait mode", "Lock in landscape mode","Help"]
     let adjacentMapsMenuTransparentView = UIView()
     let adjacentMapsMenuTableview = UITableView()
     var adjMapsDataSource = [String]()
@@ -296,7 +296,7 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         // update screen size after rotation
         self.screenWidth = self.view.frame.size.width
         self.screenHeight = self.view.frame.size.height
-        print ("lockOrientation=\(lockOrientation)")
+        //print ("lockOrientation=\(lockOrientation)")
         // do not auto rotate
         if (lockOrientation){
             return true
@@ -326,11 +326,11 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
     // MARK: Adjacent Maps Menu
     func addAdjacentMapsMenuTransparentView(frames:CGRect){
         let window = self.view.window
-        let x:Int = 0
+        let x:Int = 55
         adjacentMapsMenuTransparentView.frame = window?.frame ?? self.view.frame
         self.view.addSubview(adjacentMapsMenuTransparentView)
         // hide the menu so it can animate dropping down
-        self.adjacentMapsMenuTableview.frame = CGRect(x: 0, y: 0, width: frames.width, height: 0)
+        self.adjacentMapsMenuTableview.frame = CGRect(x: x, y: 0, width: Int(frames.width - CGFloat(2*x)), height: 0)
         self.view.addSubview(self.adjacentMapsMenuTableview)
         self.adjacentMapsMenuTableview.layer.cornerRadius = 5
         
@@ -342,7 +342,7 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
        
         UIView.animate(withDuration: 0.4, delay: 0.0, usingSpringWithDamping: 1.0, initialSpringVelocity: 1.0, options: .curveEaseInOut, animations: {
             self.adjacentMapsMenuTransparentView.alpha = 0.5
-            self.adjacentMapsMenuTableview.frame = CGRect(x: x, y: self.topbarHeight+90, width: Int(frames.width), height: self.adjMapsDataSource.count * self.mainMenuRowHeight)
+            self.adjacentMapsMenuTableview.frame = CGRect(x: x, y: self.topbarHeight+90, width: Int(frames.width - CGFloat(2*x)), height: self.adjMapsDataSource.count * self.mainMenuRowHeight)
         }, completion: nil)
         self.adjacentMapsMenuTableview.reloadData()
         adjacentMapsMenuShowing = true
@@ -353,7 +353,7 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         // remove adjacent maps button drop down menu view
         UIView.animate(withDuration: 0.4, delay: 0.0, usingSpringWithDamping: 1.0, initialSpringVelocity: 1.0, options: .curveEaseInOut, animations: {
             self.adjacentMapsMenuTransparentView.alpha = 0.0
-            self.adjacentMapsMenuTableview.frame = CGRect(x: x, y: self.topbarHeight+90, width: Int(frames.width), height: 0)
+            self.adjacentMapsMenuTableview.frame = CGRect(x: x, y: self.topbarHeight+90, width: Int(frames.width - CGFloat(2*x)), height: 0)
         }, completion: nil)
         adjacentMapsMenuShowing = false
     }
@@ -396,7 +396,6 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
     }
     // MARK: Events
     @objc func onClickMore(_ sender:Any){
-        //dataSource = ["Mark current location", "Add waypoint", "Show waypoints", "Delete all waypoints", "Lock in portrait mode", "Lock in landscape mode","Help"]
         if (!moreMenuShowing){
             addMoreMenuTransparentView(frames: self.view.frame)
         }else{
@@ -1005,7 +1004,7 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         // border
         let border = PDFBorder()
         // Remove last location dot
-        //page.removeAnnotation(currentLocation) // remove last location dot
+        page.removeAnnotation(currentLocation) // remove last location dot
         // fill color
         currentLocation = PDFAnnotation(bounds: CGRect(x:x, y:y, width:cirSize,height:cirSize), forType: .circle, withProperties: nil)
         currentLocation.interiorColor = UIColor.cyan
@@ -1136,18 +1135,13 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         // See if current location is on the map
         if (latNow >= lat1 && latNow <= lat2 && longNow >= long1 && longNow <= long2) {
             currentLatLong.text = "  Current location: " + String(format:  "%.5f",latNow) + ", " + String(format: "%.5f",longNow)
-            // Remove last location dot
-            page.removeAnnotation(currentLocation) // remove last location dot
-            // draw current location dot
+            // draw current location dot & remove old one
             addCurrentLocationDot(page:page)
         }
         else {
             currentLatLong.text = "  Current location: Not on map"
             page.removeAnnotation(currentLocation)
-            //return
         }
-        
-        
         
         // MARK: load adjacent maps?
         //show Load Adjacent Maps button if on the map or up to a 1/4 of a mile off map
@@ -1502,8 +1496,8 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         let midX = x - halfSize
         let midY = y - (15.0  / CGFloat(pdfView.scaleFactor))
         
-        let long = (Double(x)/pdfWidth * longDiff) + long1
-        let lat = (Double(y)/pdfHeight * latDiff) + lat1
+        let long = (Double(x - marginLeft)/pdfWidth * longDiff) + long1
+        let lat = (Double(y - marginBottom)/pdfHeight * latDiff) + lat1
         let imageAnnotation = PushPin(image, bounds: CGRect(x: midX, y: midY, width: wayPtSize, height: wayPtSize), properties: nil)
         imageAnnotation.backgroundColor = UIColor.clear
         
@@ -1882,12 +1876,12 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
                         displayError(msg: "Problem reading longitude of waypoint.")
                         return
                     }
-                    let locX = CGFloat(((long - long1) / longDiff) * pdfWidth)
+                    let locX = CGFloat(((long - long1) / longDiff) * pdfWidth) + marginLeft
                     guard let lat:Double = Double(latStr) else {
                         displayError(msg: "Problem reading latitude of waypoint.")
                         return
                     }
-                    let locY = CGFloat(((lat - lat1) / latDiff) * pdfHeight)
+                    let locY = CGFloat(((lat - lat1) / latDiff) * pdfHeight) + marginBottom
                     
                     // the locX, locY is the point at the base of the push pin
                     // now calculate the x,y at the bottom left of the image rectangle
@@ -1898,6 +1892,132 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
                 }
             }
         }
+    }
+    // MARK: addWayPtFromLatLong
+    var latLongDialogErrorMsg = ""
+    var newLat = ""
+    var newLong = ""
+    func addWayPtFromLatLong(dLat: Double, dLong: Double){
+        guard let page = pdfView.document?.page(at: 0) else {
+            displayError(msg: "Problem reading the PDF map. Can't get page 1.")
+            return
+        }
+        let x:Double = ((dLong - long1) / longDiff) * pdfWidth + marginLeft
+        let y:Double = ((dLat - lat1) / latDiff) * pdfHeight + marginBottom
+        // Move to show newly added waypoint in center
+        var moveX = (1 / (pdfView.scaleFactor)) * (pdfView.frame.width / 2.0)
+        var moveY = (1 / (pdfView.scaleFactor)) * (pdfView.frame.height / 2.0)
+        if (moveX < 0){moveX = 0}
+        if (moveY < 0){moveY = 0}
+        let myPoint:CGPoint = CGPoint(x: CGFloat(x) - moveX, y: CGFloat(y) + moveY)
+        let destination = PDFDestination(page: page, at: myPoint)
+        pdfView.go(to: destination)
+        let nilPt = CGPoint(x: 0, y: 0) // tells addPopup in addWayPt not to show popup.
+        addWayPt(x: CGFloat(x), y: CGFloat(y), page: page, imageName: "blue_pin", desc: getWayPtLabel(page: page), dateAdded: nil, location: nilPt)
+    }
+    // MARK: addWayPtByLatLongDialog
+    func addWayPtByLatLongDialog(){
+        let middleLat = lat1 + ((lat2 - lat1) / 2.0)
+        let middleLong = long1 + ((long2 - long1) / 2.0)
+        let latLongDialogMsg:String = "Enter a latitude between " + String(format:  "%.5f",lat1) + " and " + String(format: "%.5f",lat2) + " and a longitude between " + String(format:  "%.5f",long1) + " and " + String(format:  "%.5f",long2) + ".\n\nExample: " + String(format:  "%.5f",middleLat) + "," + String(format:  "%.5f",middleLong)
+        let alert = UIAlertController(
+            title: "Add Waypoint by Lat/Long",
+            message: latLongDialogMsg + self.latLongDialogErrorMsg,
+            preferredStyle: .alert
+        )
+        if (newLat == ""){
+            alert.addTextField{ field in
+                field.placeholder = "latitude:"
+                field.returnKeyType = .next}
+        }else {
+            alert.addTextField{ field in
+                field.placeholder = "latitude:"
+                field.returnKeyType = .next
+                field.text = self.newLat}
+        }
+        if (newLong == ""){
+            alert.addTextField{ field in
+                field.placeholder = "longitude:"
+                field.returnKeyType = .continue}
+        }else {
+            alert.addTextField{ field in
+                field.placeholder = "longitude:"
+                field.returnKeyType = .continue
+                field.text = self.newLong}
+        }
+
+
+        alert.addAction(UIAlertAction(
+            title: "Add",
+            style: .destructive,
+            handler: { _ in
+                // add action
+                // entered 2 values?
+                guard let latlong = alert.textFields, latlong.count == 2 else {
+                    self.newLat = ""
+                    self.newLong = ""
+                    self.latLongDialogErrorMsg = "\n\nInvalid lat/long!"
+                    self.addWayPtByLatLongDialog()
+                    return
+                }
+                let latField = latlong[0]
+                let longField = latlong[1]
+                // Not empty?
+                guard let myLat = latField.text, !myLat.isEmpty,
+                    let myLong = longField.text, !myLong.isEmpty else {
+                    self.newLat = ""
+                    self.newLong = ""
+                    self.latLongDialogErrorMsg = "\n\nInvalid lat/long!"
+                    self.addWayPtByLatLongDialog()
+                    return
+                }
+                // A number?
+                guard let dLat = Double(myLat) else {
+                    self.newLat = ""
+                    self.newLong = myLong
+                    self.latLongDialogErrorMsg = "\n\nInvalid latitude! Must be a number in decimal degrees."
+                    self.addWayPtByLatLongDialog()
+                    return
+                }
+                guard var dLong = Double(myLong) else {
+                    self.newLat = myLat
+                    self.newLong = ""
+                    self.latLongDialogErrorMsg = "\n\nInvalid longitude! Must be a number in decimal degrees."
+                    self.addWayPtByLatLongDialog()
+                    return
+                }
+                if (dLat < self.lat1 || dLat > self.lat2){
+                    self.newLat = myLat
+                    self.newLong = myLong
+                    self.latLongDialogErrorMsg = "\n\nInvalid latitude!"
+                    self.addWayPtByLatLongDialog()
+                    return
+                }
+                if (dLong > 0){
+                    dLong = -1 * dLong
+                }
+                if (dLong < self.long1 || dLong > self.long2){
+                    self.newLat = myLat
+                    self.newLong = myLong
+                    self.latLongDialogErrorMsg = "\n\nInvalid longitude!"
+                    self.addWayPtByLatLongDialog()
+                    return
+                }
+                self.newLat = ""
+                self.newLong = ""
+                self.latLongDialogErrorMsg = ""
+                self.addWayPtFromLatLong(dLat:dLat, dLong:dLong)
+            }))
+        alert.addAction(UIAlertAction(
+            title: "Cancel",
+            style: .cancel,
+            handler: { _ in
+                // cancel action
+            }))
+        present(alert,
+                animated: true,
+                completion: nil
+        )
     }
 }
 
@@ -1942,6 +2062,15 @@ extension MapViewController:UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return CGFloat(mainMenuRowHeight) // tableView.rowHeight // 50
     }
+    // add a table header, removes one row!!!!!!
+    /*func tableView(_ tableView: UITableView, titleForHeaderInSection section:Int) -> String? {
+        if tableView == self.adjacentMapsMenuTableview {
+            return "Adjacent Maps:"
+        }else {
+            return nil
+        }
+    }*/
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if tableView == self.adjacentMapsMenuTableview {
             // adjacent map selected, load it
@@ -2010,18 +2139,12 @@ extension MapViewController:UITableViewDelegate, UITableViewDataSource {
                 showWaypoints = true
                 showWayPts()
                 addingWayPt = true
-                //pinBtn.isEnabled = false
-                //self.navigationItem.rightBarButtonItems = [moreBtn, cancelPinBtn]
                 // hide any popups
                 hidePopup()
-                notice.isHidden = false
+                notice.isHidden = true
                 removeMoreMenuTransparentView()
                 // show dialog to enter lat, long point
-                // MARK: TODO add waypt lat/long
-                
-                
-                
-                
+                addWayPtByLatLongDialog()
             }
             else if (dataSource[indexPath.row] == "Mark current location"){
                 // hide any popup
