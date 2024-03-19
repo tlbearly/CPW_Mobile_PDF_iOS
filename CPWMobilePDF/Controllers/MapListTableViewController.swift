@@ -246,7 +246,7 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
      }
     
     private func removeAllMaps(){
-        // Remove all pdf map files and maps direction (database), clear maps array, and table
+        // Remove all pdf map files and maps directory (database), clear maps array, and table
         // 2-9-22 created
         // delete documentDirectory/mapName
         for map in maps {
@@ -268,7 +268,6 @@ class MapListTableViewController: UITableViewController, UITextFieldDelegate {
         // refresh table
         self.tableView.reloadData()
         showMsg() // show message to add maps press + button
-        // TODO: delete documentDirectory/maps - database ?????????? Will this work????
         guard let dir = documentsURL?.appendingPathComponent("maps") else {
             print("cannot find documentDirectory/maps")
             displayError(theError: AppError.pdfMapError.cannotDelete)

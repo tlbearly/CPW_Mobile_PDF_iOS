@@ -1,6 +1,6 @@
 //
 //  MapListViewController.swift
-//  MapViewer
+//  CPWMobilePDF
 //
 //  Created by Tammy Bearly on 4/10/20.
 //  Copyright © 2020 Colorado Parks and Wildlife. All rights reserved.

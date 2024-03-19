@@ -199,6 +199,9 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         // Debug text box
         //addDebugTextbox()
         
+        // load user app preferences
+        loadSettings()
+        
         // Load Adjacent Maps button
         addLoadAdjacentMapsBtn()
                 
@@ -235,7 +238,6 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         notice.layer.borderColor = UIColor.gray.cgColor
         notice.layer.borderWidth = 1
         notice.clipsToBounds = true
-        
     }
     
     // set default orientation from database tlb 3/12/21
@@ -286,7 +288,9 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         if (deleting){
             deleteSelectedWayPt()
         }
-        addWayPts()
+        if (showWaypoints){
+            addWayPts()
+        }
         // Call location manager
         setupLocationServices()
     }
@@ -1592,6 +1596,84 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         selectedImg = ""
     }
     
+    // MARK: Settings Database
+    private func loadSettings() {
+        // MARK: loadSettings
+        
+        // Read data from local storage NSCoding
+        // Return array of maps or nil
+        if #available (iOS 14.0, *){
+            // works with iOS 11.0+
+             do {
+                //let archivedData = try? NSKeyedArchiver.archivedData(withRootObject: arr, requiringSecureCoding: true),
+                let archivedData = try Data(contentsOf: AppSettings.ArchiveURL)
+                do {
+                    let myObject = (try NSKeyedUnarchiver.unarchivedObject(ofClass: AppSettings.self, from: archivedData as Data))
+                    showWaypoints = myObject?.showWaypoints ?? true
+                    shouldLoadAdjacentMaps = myObject?.loadAdjMaps ?? true
+                 }
+                 catch {
+                     print("Failed to read user preferences archive \(String(describing: error))")
+                 }
+             }
+             catch {
+                 // won't exist if user has not selected a user preference which calls saveSettings()
+                 print("Failed to open user preferences from URL \(error.localizedDescription)")
+             }
+        }
+        else if #available(iOS 12.0, *){
+            do {
+                let archivedData = try Data(contentsOf: AppSettings.ArchiveURL)
+                do{
+                    let myObject = try NSKeyedUnarchiver.unarchivedObject(ofClass: AppSettings.self, from: archivedData as Data)
+                    showWaypoints = myObject?.showWaypoints ?? true
+                    shouldLoadAdjacentMaps = myObject?.loadAdjMaps ?? true                }
+                catch {
+                    print("Failed to read user preferences archive \(String(describing: error))")
+                }
+            }
+            catch {
+                // won't exist if user has not selected a user preference which calls saveSettings()
+                print("Failed to open user preferences from URL \(error.localizedDescription)")
+            }
+        }
+        else { //if #available(iOS 11.0, *){
+            if let archivedData = try? Data(contentsOf: AppSettings.ArchiveURL),
+               let myObject = (try? NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(archivedData)) as? AppSettings {
+                showWaypoints = myObject.showWaypoints
+                shouldLoadAdjacentMaps = myObject.loadAdjMaps
+            }
+            else {
+                print("Failed to read user preferences archive")
+            }
+        }
+    }
+    private func saveSettings(){
+        let settings = AppSettings(showWaypoints: showWaypoints, loadAdjMaps: shouldLoadAdjacentMaps)
+
+        // Archive the maps array
+        if #available (iOS 12.0,*){
+            //'archiveRootObject(_:toFile:)' was deprecated in iOS 12.0: Use +archivedDataWithRootObject:requiringSecureCoding:error: and -writeToURL:options:error: instead
+            do {
+                let dataToBeArchived = try NSKeyedArchiver.archivedData(withRootObject: settings, requiringSecureCoding: false)
+                try dataToBeArchived.write(to: AppSettings.ArchiveURL)
+                //os_log("Settings successfully saved.", log: OSLog.default, type: .debug)
+            } catch {
+                displayError(msg: "Cannot read user preferences. \(error)")
+            }
+        }
+        else{
+            let isSuccessfullSave = NSKeyedArchiver.archiveRootObject(settings, toFile: AppSettings.ArchiveURL.path)
+            if isSuccessfullSave {
+                //os_log("Settings successfully saved.", log: OSLog.default, type: .debug)
+            }
+            else {
+                os_log("Failed to save user preferences.", log: OSLog.default, type: .error)
+                displayError(msg: "Cannot save user preferences.")
+            }
+        }
+    }
+    
     //--------------------
     // MARK: Gestures
     //--------------------
@@ -1807,7 +1889,6 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         if (page.annotations.count == 1 && page.annotations[0].type == "Stamp"){
             page.removeAnnotation(page.annotations[0])
         }
-        
     }
     
     // MARK: show/hide way pts
@@ -1821,6 +1902,7 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
             showWayPts()
             resizePushPins()
         }
+        saveSettings()
     }
     
     // MARK: show way pts
@@ -2092,7 +2174,9 @@ extension MapViewController:UITableViewDelegate, UITableViewDataSource {
                 addCurrentLatLongTextbox()
                 addLoadAdjacentMapsBtn()
                 addWayPtsFromDatabaseFlag = true
-                addWayPts()
+                if (showWaypoints){
+                    addWayPts()
+                }
             }
             catch AppError.pdfMapError.pdfFileNotFound (let file){
                 displayError(msg: "Map file not found.\n\n\(file)")
@@ -2112,6 +2196,7 @@ extension MapViewController:UITableViewDelegate, UITableViewDataSource {
                 else {
                     shouldLoadAdjacentMaps = true
                 }
+                saveSettings()
                 removeMoreMenuTransparentView()
             }
             else if (dataSource[indexPath.row] == "Lock in landscape mode"){

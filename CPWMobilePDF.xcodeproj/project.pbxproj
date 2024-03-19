@@ -25,6 +25,7 @@
 		60DBB8D3244A54E900F84F4A /* PushPin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60DBB8D2244A54E900F84F4A /* PushPin.swift */; };
 		A40049802486F6000092A93A /* EditWayPtViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A400497F2486F6000092A93A /* EditWayPtViewController.swift */; };
 		A400498624896E4A0092A93A /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A400498524896E4A0092A93A /* CloudKit.framework */; };
+		A42F35C32BA91E5000B630BE /* AppSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = A42F35C22BA91E5000B630BE /* AppSettings.swift */; };
 		A452B3D9279F1BCF0068D094 /* Checkbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = A452B3D8279F1BCF0068D094 /* Checkbox.swift */; };
 		A4535D74246F1ACE000E945B /* AppError.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4535D73246F1ACE000E945B /* AppError.swift */; };
 		A474D074277A663000F55D63 /* HelpMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A474D073277A663000F55D63 /* HelpMapViewController.swift */; };
@@ -82,6 +83,7 @@
 		A400497F2486F6000092A93A /* EditWayPtViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditWayPtViewController.swift; sourceTree = "<group>"; };
 		A400498324896E4A0092A93A /* CPWMobilePDF.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CPWMobilePDF.entitlements; sourceTree = "<group>"; };
 		A400498524896E4A0092A93A /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
+		A42F35C22BA91E5000B630BE /* AppSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettings.swift; sourceTree = "<group>"; };
 		A452B3D8279F1BCF0068D094 /* Checkbox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Checkbox.swift; sourceTree = "<group>"; };
 		A4535D73246F1ACE000E945B /* AppError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppError.swift; sourceTree = "<group>"; };
 		A474D073277A663000F55D63 /* HelpMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpMapViewController.swift; sourceTree = "<group>"; };
@@ -186,6 +188,7 @@
 		609CA8F324412E0C006C0283 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				A42F35C22BA91E5000B630BE /* AppSettings.swift */,
 				609CA8F024412034006C0283 /* PrimaryUIButton.swift */,
 				60147001244775EC003D3BAF /* PDFMap.swift */,
 				6014700324479156003D3BAF /* RoundedCorderProgressBar.swift */,
@@ -368,6 +371,7 @@
 				60DBB8CF244A539600F84F4A /* MapViewController.swift in Sources */,
 				6014700424479156003D3BAF /* RoundedCorderProgressBar.swift in Sources */,
 				609CA8F6244132AC006C0283 /* MapListViewController.swift in Sources */,
+				A42F35C32BA91E5000B630BE /* AppSettings.swift in Sources */,
 				A474D0802788C50E00F55D63 /* UIViewControllerPreview.swift in Sources */,
 				A40049802486F6000092A93A /* EditWayPtViewController.swift in Sources */,
 				60DBB8D1244A53E400F84F4A /* PDFParser.swift in Sources */,

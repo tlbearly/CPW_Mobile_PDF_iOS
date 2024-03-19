@@ -194,7 +194,7 @@ class PDFMap: NSObject, NSSecureCoding {
              try FileManager.default.copyItem(at:fileURL, to: destURL)
         }
         catch let error{
-            print("ERROR: unable to copy file to the app documents directory. \(error)")
+            print("ERROR: unable to copy file to the app documents directory. \(error.localizedDescription)")
             throw AppError.pdfMapError.pdfFileNotFound(file: fileURL.absoluteString)
         }
         
@@ -219,7 +219,7 @@ class PDFMap: NSObject, NSSecureCoding {
         }
         
         // Location: on map or distance to map in miles
-        mapDist = distanceToMap()
+        mapDist = "Miles to map..."
         showLocationIcon = true
     }
     
@@ -268,7 +268,7 @@ class PDFMap: NSObject, NSSecureCoding {
         }
         
         // Location: on map or distance to map in miles
-        mapDist = distanceToMap()
+        mapDist = "Miles to map..."
         showLocationIcon = false
     }
     
@@ -512,16 +512,6 @@ class PDFMap: NSObject, NSSecureCoding {
         }
     }
     
-    func distanceToMap() -> String {
-        // MARK: distanceToMap
-        // read current location, check if it is within the bounds of this map
-        return "Dist. to Map"
-    }
-    
-    /*func pathForDocumentDirectoryAsURL() -> URL? {
-        FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first
-    }*/
-    
     func pathForDocumentDirectoryAsString() -> [String]? {
         NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
     }
@@ -585,51 +575,6 @@ class PDFMap: NSObject, NSSecureCoding {
     
     required convenience init?(coder aDecoder: NSCoder) {
         // read persistent data (imported maps) via NSCoding
-        
-        // The display name is required. If we cannot decode a display name string, the initializer should fail.
-        /*guard let displayName = aDecoder.decodeObject(forKey: PropertyKey.displayName) as? String else { os_log("Unable to decode the display name for a PDF Map object.", log: OSLog.default, type: .debug)
-            return nil
-        }
-        guard let fileName = aDecoder.decodeObject(forKey: PropertyKey.fileName) as? String else {
-            os_log("Unable to decode the file name for a PDF Map object.", log: OSLog.default, type: .debug)
-            return nil
-        }
-        guard let fileURLStr = aDecoder.decodeObject(forKey: PropertyKey.fileURL) as? String else {
-            os_log("Unable to decode the map URL for a PDF Map object.", log: OSLog.default, type: .debug)
-            return nil
-        }
-        let fileURL = URL(fileURLWithPath: fileURLStr)
-        
-        // Because thumbnail is an optional property of PDFMap, just use conditional cast.
-        guard let thumbnail = aDecoder.decodeObject(forKey: PropertyKey.thumbnail) as? UIImage else {
-            os_log("Unable to decode the thumbnail for a PDF Map object.", log: OSLog.default, type: .debug)
-            return nil
-        }
-        
-        let bounds1 = aDecoder.decodeDouble(forKey: PropertyKey.bounds1)
-        let bounds2 = aDecoder.decodeDouble(forKey: PropertyKey.bounds2)
-        let bounds3 = aDecoder.decodeDouble(forKey: PropertyKey.bounds3)
-        let bounds4 = aDecoder.decodeDouble(forKey: PropertyKey.bounds4)
-        let modDate = aDecoder.decodeDouble(forKey: PropertyKey.modDate)
-        guard let fileSize = aDecoder.decodeObject(forKey: PropertyKey.fileSize) as? String else { return nil }
-        let marginTop = aDecoder.decodeDouble(forKey: PropertyKey.marginTop)
-        let marginBottom = aDecoder.decodeDouble(forKey: PropertyKey.marginBottom)
-        let marginLeft = aDecoder.decodeDouble(forKey: PropertyKey.marginLeft)
-        let marginRight = aDecoder.decodeDouble(forKey: PropertyKey.marginRight)
-        let mediaBoxHeight = aDecoder.decodeDouble(forKey: PropertyKey.mediaBoxHeight)
-        let mediaBoxWidth = aDecoder.decodeDouble(forKey: PropertyKey.mediaBoxWidth)
-        let pdfWidth = aDecoder.decodeDouble(forKey: PropertyKey.pdfWidth)
-        let pdfHeight = aDecoder.decodeDouble(forKey: PropertyKey.pdfHeight)
-        let lat1 = aDecoder.decodeDouble(forKey: PropertyKey.lat1)
-        let lat2 = aDecoder.decodeDouble(forKey: PropertyKey.lat2)
-        let long1 = aDecoder.decodeDouble(forKey: PropertyKey.long1)
-        let long2 = aDecoder.decodeDouble(forKey: PropertyKey.long2)
-        let latDiff = aDecoder.decodeDouble(forKey: PropertyKey.latDiff)
-        let longDiff = aDecoder.decodeDouble(forKey: PropertyKey.longDiff)
-        
-        // MARK: add waypoints
-        let wayPtArray = aDecoder.decodeObject(forKey: PropertyKey.wayPtArray) as? [WayPt] ?? []
-        */
         
         // update to use secure coding 8/16/23
         // The display name is required. If we cannot decode a display name string, the initializer should fail.

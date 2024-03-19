@@ -1,6 +1,6 @@
 //
 //  AppError.swift
-//  MapVieweriOS
+//  CPWMobilePDF
 //
 //  Created by Tammy Bearly on 5/15/20.
 //  Copyright © 2020 Colorado Parks and Wildlife. All rights reserved.
@@ -10,7 +10,7 @@ class AppError {
     enum pdfMapError: Error {
         // nil or empty filename
         case invalidFilename
-        // apps documents directory not found or excessable
+        // apps documents directory not found or inexcessable
         case invalidDocumentDirectory
         // file does not have .pdf extension
         case notPDF
@@ -42,5 +42,6 @@ class AppError {
         case mapSaveFail
         // cannot parse pdf dictionary
         case unknownFormat
+        case savingUserPreferences(error: String)
     }
 }
